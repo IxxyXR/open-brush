@@ -43,6 +43,10 @@ public class BaseTool : MonoBehaviour {
     PinTool,
     EmptyTool,
     CameraPathTool,
+    
+    //custom
+    FlyTool,
+    FooTool,
   }
   public ToolType m_Type;
 
