@@ -95,7 +95,9 @@ public class BasePanel : MonoBehaviour {
     LabsMobile,
     ReferenceMobile,
     CameraPath,
-    BrushLab
+    BrushLab,
+
+    Polyhydra
   }
 
   private enum FixedTransitionState {

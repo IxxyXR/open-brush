@@ -31,7 +31,6 @@ public class VrUi : MonoBehaviour
     public Transform ValueButtonPrefab;
     public Transform ImagePanelPrefab;
   
-    private List<PolyPreset> Presets;
     private List<VrUiPoly.ConwayOperator> _Stack;
     private List<List<Transform>> Widgets;
     private List<List<ButtonType>> ButtonTypeMapping;
@@ -727,42 +726,5 @@ public class VrUi : MonoBehaviour
             Mathf.Floor(Mathf.InverseLerp(minVal, maxVal, rawVal) * 100f),
             Mathf.Floor(Mathf.InverseLerp(minVal2, maxVal2, rawVal2) * 100f)
         );
-    }
-}
-
-
-public struct RemotePreset
-{
-    public string thumbnail;
-    public PolyPreset preset;
-}
-
-public class PolyPreset
-{
-    public void CreateFromPoly(string p0, VrUiPoly poly)
-    {
-        throw new NotImplementedException();
-    }
-    
-    public struct Op {
-        public Ops OpType;
-        public FaceSelections FaceSelections;
-        public float Amount;
-        public float Amount2;
-        public bool Randomize;
-        public bool Disabled;
-    }
-
-    public string Name { get; set; }
-    public Op[] Ops;
-
-    public string ToJson()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void ApplyToPoly(VrUiPoly poly)
-    {
-        throw new NotImplementedException();
     }
 }

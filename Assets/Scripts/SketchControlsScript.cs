@@ -138,6 +138,8 @@ public class SketchControlsScript : MonoBehaviour {
     LoadWaitOnDownload,
     SignOutConfirm,
     ReadOnlyNotice,
+    
+    PolyhydraCommand1,
   }
 
   public enum ControlsType {
@@ -4129,6 +4131,9 @@ public class SketchControlsScript : MonoBehaviour {
       }
       CameraPathCaptureRig.RecordPath();
       EatGazeObjectInput();
+      break;
+    case GlobalCommands.PolyhydraCommand1:
+      Debug.Log($"PolyhydraCommand1: iParam1={iParam1} iParam2={iParam2}");
       break;
     case GlobalCommands.Null: break; // Intentionally blank.
     default:
