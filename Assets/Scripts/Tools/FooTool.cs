@@ -71,7 +71,10 @@ namespace TiltBrush.AndyB
             if (InputManager.m_Instance.GetCommandDown(InputManager.SketchCommands.Activate))
             {
 
-                var poly = GetComponentInChildren<VrUiPoly>()._conwayPoly;
+                // var poly = GetComponentInChildren<VrUiPoly>()._conwayPoly;
+                // TODO
+                var uiPoly = FindObjectOfType<VrUiPoly>();
+                var poly = uiPoly._conwayPoly;
 
                 var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
                 uint time = 0;
@@ -112,7 +115,7 @@ namespace TiltBrush.AndyB
                         m_BrushGuid = brush.m_Guid,
                         m_BrushScale = 1f,
                         m_BrushSize = PointerManager.m_Instance.MainPointer.BrushSizeAbsolute,
-                        m_Color = GetComponentInChildren<VrUiPoly>().GetFaceColor(faceIndex),
+                        m_Color = uiPoly.GetFaceColor(faceIndex),
                         m_Seed = 0,
                         m_ControlPoints = controlPoints.ToArray(),
                     };
