@@ -20,20 +20,19 @@ namespace TiltBrush {
 
 public class PolyhydraPopUpWindowOtherPolyTypes : PolyhydraPopUpWindowBase {
 
-  protected override Array GetButtonList()
+  protected override string[] GetButtonList()
   {
-    return Enum.GetValues(typeof(PolyHydraEnums.OtherPolyTypes));
+    return Enum.GetNames(typeof(PolyHydraEnums.OtherPolyTypes)).ToArray();
   }
 
-  protected override string GetButtonTexture(int i)
+  protected override string GetButtonTexturePath(int i)
   {
-    return $"ShapeButtons/{(VrUi.ShapeCategories) i}";
+    return $"ShapeButtons/poly_other_{(PolyHydraEnums.OtherPolyTypes) i}";
   }
 
-  public void PolyhydraThingButtonPressed(int buttonIndex)
+  public override void HandleButtonPress(int buttonIndex)
   {
     ParentPanel.PolyhydraModel.OtherPolyType = (PolyHydraEnums.OtherPolyTypes)buttonIndex;
-    base.PolyhydraThingButtonPressed(buttonIndex);
   }
 
 }

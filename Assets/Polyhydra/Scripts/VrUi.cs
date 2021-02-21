@@ -44,9 +44,9 @@ public class VrUi : MonoBehaviour
         Platonic,
         Prisms,
         Archimedean,
-        UniformConvex,
         KeplerPoinsot,
-        UniformStar,
+        // UniformConvex,
+        // UniformStar,
         Johnson,
         Waterman,
         Grids,
@@ -347,18 +347,18 @@ public class VrUi : MonoBehaviour
                         _Poly.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
                         _Poly.UniformPolyType = (PolyTypes)Uniform.Archimedean[0].Index - 1;
                         break;
-                    case ShapeCategories.UniformConvex:
-                        _Poly.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
-                        _Poly.UniformPolyType = (PolyTypes)Uniform.Convex[0].Index - 1;
-                        break;
+                    // case ShapeCategories.UniformConvex:
+                    //     _Poly.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+                    //     _Poly.UniformPolyType = (PolyTypes)Uniform.Convex[0].Index - 1;
+                    //     break;
                     case ShapeCategories.KeplerPoinsot:
                         _Poly.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
                         _Poly.UniformPolyType = (PolyTypes)Uniform.KeplerPoinsot[0].Index - 1;
                         break;
-                    case ShapeCategories.UniformStar:
-                        _Poly.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
-                        _Poly.UniformPolyType = (PolyTypes)Uniform.Star[0].Index - 1;
-                        break;
+                    // case ShapeCategories.UniformStar:
+                    //     _Poly.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+                    //     _Poly.UniformPolyType = (PolyTypes)Uniform.Star[0].Index - 1;
+                    //     break;
                     case ShapeCategories.Johnson:
                         _Poly.ShapeType = PolyHydraEnums.ShapeTypes.Johnson;
                         break;
@@ -393,21 +393,21 @@ public class VrUi : MonoBehaviour
                         _ShapeIndex = Mathf.Clamp(_ShapeIndex, 0, Uniform.Archimedean.Length - 1);
                         _Poly.UniformPolyType = (PolyTypes)Uniform.Archimedean[_ShapeIndex].Index - 1;
                         break;
-                    case ShapeCategories.UniformConvex:
-                        _ShapeIndex += direction;
-                        _ShapeIndex = Mathf.Clamp(_ShapeIndex, 0, Uniform.Convex.Length - 1);
-                        _Poly.UniformPolyType = (PolyTypes)Uniform.Convex[_ShapeIndex].Index - 1;
-                        break;
+                    // case ShapeCategories.UniformConvex:
+                    //     _ShapeIndex += direction;
+                    //     _ShapeIndex = Mathf.Clamp(_ShapeIndex, 0, Uniform.Convex.Length - 1);
+                    //     _Poly.UniformPolyType = (PolyTypes)Uniform.Convex[_ShapeIndex].Index - 1;
+                    //     break;
                     case ShapeCategories.KeplerPoinsot:
                         _ShapeIndex += direction;
                         _ShapeIndex = Mathf.Clamp(_ShapeIndex, 0, Uniform.KeplerPoinsot.Length - 1);
                         _Poly.UniformPolyType = (PolyTypes)Uniform.KeplerPoinsot[_ShapeIndex].Index - 1;
                         break;
-                    case ShapeCategories.UniformStar:
-                        _ShapeIndex += direction;
-                        _ShapeIndex = Mathf.Clamp(_ShapeIndex, 0, Uniform.Star.Length - 1);
-                        _Poly.UniformPolyType = (PolyTypes)Uniform.Star[_ShapeIndex].Index - 1;
-                        break;
+                    // case ShapeCategories.UniformStar:
+                    //     _ShapeIndex += direction;
+                    //     _ShapeIndex = Mathf.Clamp(_ShapeIndex, 0, Uniform.Star.Length - 1);
+                    //     _Poly.UniformPolyType = (PolyTypes)Uniform.Star[_ShapeIndex].Index - 1;
+                    //     break;
                     case ShapeCategories.Johnson:
                         _ShapeIndex += direction;
                         _ShapeIndex = Mathf.Clamp(_ShapeIndex, 0, Enum.GetNames(typeof(PolyHydraEnums.JohnsonPolyTypes)).Length - 1);

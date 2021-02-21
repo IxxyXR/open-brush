@@ -18,41 +18,141 @@ using UnityEngine;
 namespace TiltBrush
 {
 
-    public class PolyhydraPanel : BasePanel
+public class PolyhydraPanel : BasePanel
+{
+    
+    [NonSerialized] public VrUiPoly PolyhydraModel;
+    [NonSerialized] public VrUi.ShapeCategories CurrentShapeCategory;
+
+    override public void InitPanel()
     {
-        
-        [NonSerialized] public VrUiPoly PolyhydraModel;
-        
-        override public void InitPanel()
-        {
-            base.InitPanel();
-            PolyhydraModel = gameObject.GetComponentInChildren<VrUiPoly>(true);
-        }
+        base.InitPanel();
+        PolyhydraModel = gameObject.GetComponentInChildren<VrUiPoly>(true);
+    }
 
-        void Update()
-        {
-            BaseUpdate();
-            PolyhydraModel.transform.parent.Rotate(1, 1, 1);
-        }
+    void Update()
+    {
+        BaseUpdate();
+        PolyhydraModel.transform.parent.Rotate(1, 1, 1);
+    }
 
-        override public void ForceUpdatePanelVisuals()
-        {
-            base.ForceUpdatePanelVisuals();
-        }
 
-        public void ButtonPressed()
-        {
-            // TODO
-            var command = SketchControlsScript.GlobalCommands.About;
-            CreatePopUp(command, -1, -1, $"ButtonPressed", MakeOnPopUpClose());
-            m_ActivePopUp.transform.localPosition += new Vector3(0, .2f, 0);
-            m_EatInput = true;
-        }
+    public void SetPanelButtonVisibility(VrUi.ShapeCategories shapeCategory)
+    {
+        var buttons = gameObject.GetComponentsInChildren<PolyhydraOptionButton>(true);
 
-        Action MakeOnPopUpClose()
+        switch (shapeCategory)
         {
-            return delegate { };
-        }
+            // All the shapeCategories that use the Uniform popup
+            case VrUi.ShapeCategories.Archimedean:
+            case VrUi.ShapeCategories.Platonic:
+            case VrUi.ShapeCategories.Prisms:
+            case VrUi.ShapeCategories.KeplerPoinsot:
+                foreach (var button in buttons)
+                {
+                    switch (button.m_Command)
+                    {
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenUniformsPopup:
+                            button.gameObject.SetActive(true);
+                            break;
+
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridShapesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraJohnsonTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraOtherTypesPopup:
+                            button.gameObject.SetActive(false);
+                            break;
+                    }
+                }
+                break;
+
+            case VrUi.ShapeCategories.Grids:
+                foreach (var button in buttons)
+                {
+                    switch (button.m_Command)
+                    {
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridShapesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridTypesPopup:
+                            button.gameObject.SetActive(true);
+                            break;
+
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenUniformsPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraJohnsonTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraOtherTypesPopup:
+                            button.gameObject.SetActive(false);
+                            break;
+                    }
+                }
+                break;
+            
+            case VrUi.ShapeCategories.Other:
+                foreach (var button in buttons)
+                {
+                    switch (button.m_Command)
+                    {
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraOtherTypesPopup:
+                            button.gameObject.SetActive(true);
+                            break;
+
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenUniformsPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraJohnsonTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridShapesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridTypesPopup:
+                            button.gameObject.SetActive(false);
+                            break;
+                    }
+                }
+                break;
+            
+            case VrUi.ShapeCategories.Johnson:
+                foreach (var button in buttons)
+                {
+                    switch (button.m_Command)
+                    {
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraJohnsonTypesPopup:
+                            button.gameObject.SetActive(true);
+                            break;
+
+                        case SketchControlsScript.GlobalCommands.PolyhydraOtherTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenUniformsPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridShapesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridTypesPopup:
+                            button.gameObject.SetActive(false);
+                            break;
+                    }
+                }
+                break;
+            
+            case VrUi.ShapeCategories.Waterman:
+                foreach (var button in buttons)
+                {
+                    switch (button.m_Command)
+                    {
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                            button.gameObject.SetActive(true);
+                            break;
+
+                        case SketchControlsScript.GlobalCommands.PolyhydraJohnsonTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraOtherTypesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraOpenUniformsPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridShapesPopup:
+                        case SketchControlsScript.GlobalCommands.PolyhydraGridTypesPopup:
+                            button.gameObject.SetActive(false);
+                            break;
+                    }
+                }
+                break;
         
     }
+    }
+}
 } // namespace TiltBrush

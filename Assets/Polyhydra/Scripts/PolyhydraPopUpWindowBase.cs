@@ -56,7 +56,7 @@ namespace TiltBrush
             CreateButtons();
         }
 
-        protected abstract Array GetButtonList();
+        protected abstract string[] GetButtonList();
 
         private void CreateButtons()
         {
@@ -66,17 +66,12 @@ namespace TiltBrush
 
             Vector3 vTransformedBase = transform.TransformPoint(m_BaseButtonOffset);
 
-            var buttonEnumArray = GetButtonList();
-            List<string> buttonLabels = new List<string>();
-            foreach (var item in buttonEnumArray)
-            {
-                buttonLabels.Add(item.ToString());
-            }
-            
-            for(int i = 0; i < buttonLabels.Count; i++)
+            string[] buttonLabels = GetButtonList();
+
+            for(int i = 0; i < buttonLabels.Length; i++)
             {
       
-                GameObject rButton = (GameObject)Instantiate(ButtonPrefab);
+                GameObject rButton = Instantiate(ButtonPrefab);
 
                 Vector3 vOffset = transform.right;
                 vOffset *= (totalWindowWidth * -0.5f) + baseButtonLeftBuffer + ((m_ButtonWidth + buttonSpacing) * (i % 3f));
@@ -93,7 +88,7 @@ namespace TiltBrush
                 rButton.transform.parent = transform;
 
                 Renderer rButtonRenderer = rButton.GetComponent<Renderer>();
-                rButtonRenderer.material.mainTexture = Resources.Load<Texture2D>(GetButtonTexture(i));
+                rButtonRenderer.material.mainTexture = Resources.Load<Texture2D>(GetButtonTexturePath(i));
 
                 PolyhydraThingButton rButtonScript = rButton.GetComponent<PolyhydraThingButton>();
                 rButtonScript.ButtonIndex = i;
@@ -103,7 +98,7 @@ namespace TiltBrush
             }
         }
 
-        protected abstract string GetButtonTexture(int i);
+        protected abstract string GetButtonTexturePath(int i);
         override public void UpdateUIComponents(Ray rCastRay, bool inputValid, Collider parentCollider) {
             if (m_IsLongPressPopUp) {
                 // Don't bother updating the popup if we're a long press and we're closing.
@@ -119,8 +114,11 @@ namespace TiltBrush
             base.UpdateUIComponents(rCastRay, inputValid, parentCollider);
         }
 
-        public virtual void PolyhydraThingButtonPressed(int ButtonIndex)
+        public abstract void HandleButtonPress(int ButtonIndex);
+
+        public void PolyhydraThingButtonPressed(int ButtonIndex)
         {
+            HandleButtonPress(ButtonIndex);
             ParentPanel.PolyhydraModel.Validate();
             ParentPanel.PolyhydraModel.MakePolyhedron();
         }

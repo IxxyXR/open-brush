@@ -14,68 +14,71 @@
 
 using System;
 using System.Linq;
-using UnityEngine;
 using Wythoff;
 
 
 namespace TiltBrush {
 
-public class PolyhydraPopUpWindowShapeTypes : PolyhydraPopUpWindowBase {
+public class PolyhydraPopUpWindowShapeTypes : PolyhydraPopUpWindowBase
+{
 
-    protected override Array GetButtonList()
+    protected override string[] GetButtonList()
     {
-        return Enum.GetValues(typeof(VrUi.ShapeCategories));
+        return Enum.GetNames(typeof(VrUi.ShapeCategories)).ToArray();
     }
 
-  protected override string GetButtonTexture(int i)
+  protected override string GetButtonTexturePath(int i)
   {
-      return $"ShapeButtons/{(VrUi.ShapeCategories) i}";
+      return $"ShapeTypeButtons/{(VrUi.ShapeCategories) i}";
   }
 
-  public override void PolyhydraThingButtonPressed(int buttonIndex)
+  public override void HandleButtonPress(int buttonIndex)
   {
-      var shapeCategory = (VrUi.ShapeCategories) buttonIndex;
+      
+    var shapeCategory = (VrUi.ShapeCategories) buttonIndex;
+    ParentPanel.CurrentShapeCategory = shapeCategory;
+    switch (shapeCategory)
+    {
+        case VrUi.ShapeCategories.Platonic:
+            ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+            ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Platonic[0].Index - 1;
+            break;
+        case VrUi.ShapeCategories.Prisms:
+            ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+            ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Prismatic[0].Index - 1;
+            break;
+        case VrUi.ShapeCategories.Archimedean:
+            ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+            ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Archimedean[0].Index - 1;
+            break;
+        // case VrUi.ShapeCategories.UniformConvex:
+        //     ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+        //     ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Convex[0].Index - 1;
+        //     break;
+        case VrUi.ShapeCategories.KeplerPoinsot:
+            ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+            ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.KeplerPoinsot[0].Index - 1;
+            break;
+        // case VrUi.ShapeCategories.UniformStar:
+        //     ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+        //     ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Star[0].Index - 1;
+        //     break;
+        case VrUi.ShapeCategories.Johnson:
+            ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Johnson;
+            break;
+        case VrUi.ShapeCategories.Waterman:
+            ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Waterman;
+            break;
+        case VrUi.ShapeCategories.Grids:
+            ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Grid;
+            break;
+        case VrUi.ShapeCategories.Other:
+            ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Other;
+            break;
+    }
 
-            switch (shapeCategory)
-            {
-                case VrUi.ShapeCategories.Platonic:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
-                    ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Platonic[0].Index - 1;
-                    break;
-                case VrUi.ShapeCategories.Prisms:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
-                    ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Prismatic[0].Index - 1;
-                    break;
-                case VrUi.ShapeCategories.Archimedean:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
-                    ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Archimedean[0].Index - 1;
-                    break;
-                case VrUi.ShapeCategories.UniformConvex:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
-                    ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Convex[0].Index - 1;
-                    break;
-                case VrUi.ShapeCategories.KeplerPoinsot:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
-                    ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.KeplerPoinsot[0].Index - 1;
-                    break;
-                case VrUi.ShapeCategories.UniformStar:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
-                    ParentPanel.PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Star[0].Index - 1;
-                    break;
-                case VrUi.ShapeCategories.Johnson:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Johnson;
-                    break;
-                case VrUi.ShapeCategories.Waterman:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Waterman;
-                    break;
-                case VrUi.ShapeCategories.Grids:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Grid;
-                    break;
-                case VrUi.ShapeCategories.Other:
-                    ParentPanel.PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Other;
-                    break;
-            }
-            base.PolyhydraThingButtonPressed(buttonIndex);
+    ParentPanel.SetPanelButtonVisibility(shapeCategory);
+
   }
 
 }

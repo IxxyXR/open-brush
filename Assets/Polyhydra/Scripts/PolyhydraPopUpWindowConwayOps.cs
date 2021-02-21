@@ -13,8 +13,10 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Conway;
+using UnityEngine;
 
 
 namespace TiltBrush {
@@ -24,23 +26,24 @@ public class PolyhydraPopUpWindowConwayOps : PolyhydraPopUpWindowBase {
     [NonSerialized] protected int OpIndex;
 
 
-    protected override Array GetButtonList()
+    protected override string[] GetButtonList()
     {
-      return Enum.GetValues(typeof(Ops));
+      return Enum.GetNames(typeof(Ops)).ToArray();
     }
 
-    protected override string GetButtonTexture(int i)
+    protected override string GetButtonTexturePath(int i)
     {
       return $"IconButtons/{(Ops) i}";
     }
 
-    public void PolyhydraThingButtonPressed(int buttonIndex)
+    public override void HandleButtonPress(int buttonIndex)
     {
       var op = ParentPanel.PolyhydraModel.ConwayOperators[OpIndex];
       op.opType = (Ops)buttonIndex;
       ParentPanel.PolyhydraModel.ConwayOperators[OpIndex] = op;
-      base.PolyhydraThingButtonPressed(buttonIndex);
     }
+
+
 
 }
 }  // namespace TiltBrush

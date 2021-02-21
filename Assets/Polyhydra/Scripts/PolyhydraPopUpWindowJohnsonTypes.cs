@@ -20,20 +20,20 @@ namespace TiltBrush {
 
 public class PolyhydraPopUpWindowJohnsonTypes : PolyhydraPopUpWindowBase {
 
-  protected override Array GetButtonList()
+  protected override string[] GetButtonList()
   {
-    return Enum.GetValues(typeof(PolyHydraEnums.JohnsonPolyTypes));
+    return Enum.GetNames(typeof(PolyHydraEnums.JohnsonPolyTypes)).ToArray();
   }
 
-  protected override string GetButtonTexture(int i)
+  protected override string GetButtonTexturePath(int i)
   {
-    return $"ShapeButtons/{(VrUi.ShapeCategories) i}";
+    return $"ShapeButtons/poly_johnson_{(PolyHydraEnums.JohnsonPolyTypes) i}";
+
   }
 
-  public void PolyhydraThingButtonPressed(int buttonIndex)
+  public override void HandleButtonPress(int buttonIndex)
   {
     ParentPanel.PolyhydraModel.JohnsonPolyType = (PolyHydraEnums.JohnsonPolyTypes)buttonIndex;
-    base.PolyhydraThingButtonPressed(buttonIndex);
   }
 
 }
