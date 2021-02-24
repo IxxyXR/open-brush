@@ -53,7 +53,7 @@ public class PolyhydraPanel : BasePanel
                     switch (button.m_Command)
                     {
                         case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
-                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                        // case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
                         case SketchControlsScript.GlobalCommands.PolyhydraOpenUniformsPopup:
                             button.gameObject.SetActive(true);
                             break;
@@ -74,7 +74,7 @@ public class PolyhydraPanel : BasePanel
                     switch (button.m_Command)
                     {
                         case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
-                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                        // case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
                         case SketchControlsScript.GlobalCommands.PolyhydraGridShapesPopup:
                         case SketchControlsScript.GlobalCommands.PolyhydraGridTypesPopup:
                             button.gameObject.SetActive(true);
@@ -95,7 +95,7 @@ public class PolyhydraPanel : BasePanel
                     switch (button.m_Command)
                     {
                         case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
-                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                        // case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
                         case SketchControlsScript.GlobalCommands.PolyhydraOtherTypesPopup:
                             button.gameObject.SetActive(true);
                             break;
@@ -116,7 +116,7 @@ public class PolyhydraPanel : BasePanel
                     switch (button.m_Command)
                     {
                         case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
-                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                        // case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
                         case SketchControlsScript.GlobalCommands.PolyhydraJohnsonTypesPopup:
                             button.gameObject.SetActive(true);
                             break;
@@ -137,7 +137,7 @@ public class PolyhydraPanel : BasePanel
                     switch (button.m_Command)
                     {
                         case SketchControlsScript.GlobalCommands.PolyhydraOpenShapeTypesPopup:
-                        case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
+                        // case SketchControlsScript.GlobalCommands.PolyhydraConwayOpTypesPopup:
                             button.gameObject.SetActive(true);
                             break;
 
