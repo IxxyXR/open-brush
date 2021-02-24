@@ -52,7 +52,7 @@ public class ToolAndPanelButton : BaseButton {
   {
     if (m_ToggleActive)
     {
-      PanelManager.m_Instance.DismissNonCorePanel(m_Type);
+      //PanelManager.m_Instance.DismissNonCorePanel(m_Type);
       SketchSurfacePanel.m_Instance.DisableSpecificTool(m_Tool);
     }
     else
@@ -62,7 +62,10 @@ public class ToolAndPanelButton : BaseButton {
         SketchControlsScript.m_Instance.EatGazeObjectInput();
       }
 
-      SketchControlsScript.m_Instance.OpenPanelOfType(m_Type, TrTransform.FromTransform(transform));
+      // if (panel || !panel.enabled)
+      // {
+      //   SketchControlsScript.m_Instance.OpenPanelOfType(m_Type, TrTransform.FromTransform(transform));
+      // }
       SketchSurfacePanel.m_Instance.RequestHideActiveTool(true);
       SketchSurfacePanel.m_Instance.EnableSpecificTool(m_Tool);
     }
