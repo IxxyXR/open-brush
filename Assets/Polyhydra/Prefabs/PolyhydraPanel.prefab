@@ -189,8 +189,8 @@ MonoBehaviour:
   m_PopUpGazeDuration: 0.2
   m_PromoBorders:
   - {fileID: 23000011669290354}
-  SliderP: {fileID: 5675040316739433193}
-  SliderQ: {fileID: 4473396472685352055}
+  SliderP: {fileID: 5920698688458542457}
+  SliderQ: {fileID: 2522004157252119527}
 --- !u!114 &11411968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2162,6 +2162,11 @@ PrefabInstance:
       propertyPath: m_textInfo.characterCount
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: m_DescriptionText
+      value: Q Slider
+      objectReference: {fileID: 0}
     - target: {fileID: 3133302571967004040, guid: 73f56870960b5564e8849fe39bdfd7c2,
         type: 3}
       propertyPath: m_Mesh
@@ -2295,9 +2300,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7559455421571945}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4473396472685352055 stripped
+--- !u!114 &2522004157252119527 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4471627121264719646, guid: 73f56870960b5564e8849fe39bdfd7c2,
+  m_CorrespondingSourceObject: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
     type: 3}
   m_PrefabInstance: {fileID: 7559455421571945}
   m_PrefabAsset: {fileID: 0}
@@ -2619,6 +2624,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: m_DescriptionText
+      value: P Slider
+      objectReference: {fileID: 0}
     - target: {fileID: 3133302571967004040, guid: 73f56870960b5564e8849fe39bdfd7c2,
         type: 3}
       propertyPath: m_Mesh
@@ -2696,9 +2706,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73f56870960b5564e8849fe39bdfd7c2, type: 3}
---- !u!114 &5675040316739433193 stripped
+--- !u!114 &5920698688458542457 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4471627121264719646, guid: 73f56870960b5564e8849fe39bdfd7c2,
+  m_CorrespondingSourceObject: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
     type: 3}
   m_PrefabInstance: {fileID: 8128894202684261879}
   m_PrefabAsset: {fileID: 0}
