@@ -2167,6 +2167,36 @@ PrefabInstance:
       propertyPath: m_DescriptionText
       value: Q Slider
       objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 114000011608528800}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleSliderQ
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3133302571967004040, guid: 73f56870960b5564e8849fe39bdfd7c2,
         type: 3}
       propertyPath: m_Mesh
@@ -2190,7 +2220,7 @@ PrefabInstance:
     - target: {fileID: 4471627121253688460, guid: 73f56870960b5564e8849fe39bdfd7c2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -0.915
       objectReference: {fileID: 0}
     - target: {fileID: 4471627121253688460, guid: 73f56870960b5564e8849fe39bdfd7c2,
         type: 3}
@@ -2629,6 +2659,36 @@ PrefabInstance:
       propertyPath: m_DescriptionText
       value: P Slider
       objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 114000011608528800}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HandleSliderP
+      objectReference: {fileID: 0}
+    - target: {fileID: 2514466698640951438, guid: 73f56870960b5564e8849fe39bdfd7c2,
+        type: 3}
+      propertyPath: onUpdateValue.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3133302571967004040, guid: 73f56870960b5564e8849fe39bdfd7c2,
         type: 3}
       propertyPath: m_Mesh
@@ -2652,7 +2712,7 @@ PrefabInstance:
     - target: {fileID: 4471627121253688460, guid: 73f56870960b5564e8849fe39bdfd7c2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.65
+      value: -0.531
       objectReference: {fileID: 0}
     - target: {fileID: 4471627121253688460, guid: 73f56870960b5564e8849fe39bdfd7c2,
         type: 3}

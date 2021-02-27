@@ -34,6 +34,7 @@ public class PolyhydraPopUpWindowJohnsonTypes : PolyhydraPopUpWindowBase {
   public override void HandleButtonPress(int buttonIndex)
   {
     ParentPanel.PolyhydraModel.JohnsonPolyType = (PolyHydraEnums.JohnsonPolyTypes)buttonIndex;
+    ParentPanel.SetSliderConfiguration();
   }
 
 }

@@ -60,40 +60,29 @@ namespace TiltBrush
 
         private void CreateButtons()
         {
-            float buttonSpacing = m_ButtonWidth * 0.25f;
-            float baseButtonLeftBuffer = m_ButtonWidth + buttonSpacing;
-            float totalWindowWidth = transform.localScale.x;
-
-            Vector3 vTransformedBase = transform.TransformPoint(m_BaseButtonOffset);
-
-            string[] buttonLabels = GetButtonList();
-
-            for(int i = 0; i < buttonLabels.Length; i++)
+          string[] buttonLabels = GetButtonList();
+          int columns = 4;
+          for(int buttonIndex = 0; buttonIndex < buttonLabels.Length; buttonIndex++)
             {
       
                 GameObject rButton = Instantiate(ButtonPrefab);
-
-                Vector3 vOffset = transform.right;
-                vOffset *= (totalWindowWidth * -0.5f) + baseButtonLeftBuffer + ((m_ButtonWidth + buttonSpacing) * (i % 3f));
-                vOffset.y += -0.15f * Mathf.FloorToInt(i / 3f);
-
-                Vector3 vButtonPos = vTransformedBase + vOffset;
-                rButton.transform.position = vButtonPos;
-
-                Vector3 vButtonScale = rButton.transform.localScale;
-                vButtonScale.Set(m_ButtonWidth, m_ButtonWidth, m_ButtonWidth);
-                rButton.transform.localScale = vButtonScale;
-
-                rButton.transform.rotation = transform.rotation;
                 rButton.transform.parent = transform;
+                rButton.transform.localRotation = Quaternion.identity;
 
+                float xOffset =  buttonIndex % columns;
+                float yOffset = Mathf.FloorToInt(buttonIndex / (float)columns);
+                Vector3 position = new Vector3(xOffset, -yOffset, 0);
+                rButton.transform.localPosition = new Vector3(-0.52f, 0.15f, -0.08f) + (position * .35f);
+
+                rButton.transform.localScale = Vector3.one * .3f;
+                
                 Renderer rButtonRenderer = rButton.GetComponent<Renderer>();
-                rButtonRenderer.material.mainTexture = Resources.Load<Texture2D>(GetButtonTexturePath(i));
+                rButtonRenderer.material.mainTexture = Resources.Load<Texture2D>(GetButtonTexturePath(buttonIndex));
 
                 PolyhydraThingButton rButtonScript = rButton.GetComponent<PolyhydraThingButton>();
-                rButtonScript.ButtonIndex = i;
+                rButtonScript.ButtonIndex = buttonIndex;
                 rButtonScript.parentPopup = this;
-                rButtonScript.SetDescriptionText(buttonLabels[i].ToString());
+                rButtonScript.SetDescriptionText(buttonLabels[buttonIndex]);
                 rButtonScript.RegisterComponent();
             }
         }

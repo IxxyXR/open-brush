@@ -23,7 +23,14 @@ public class PolyhydraPopUpWindowShapeTypes : PolyhydraPopUpWindowBase
 
     protected override string[] GetButtonList()
     {
-        return Enum.GetNames(typeof(VrUi.ShapeCategories)).ToArray();
+        var names = Enum.GetNames(typeof(VrUi.ShapeCategories)).ToArray();
+        for (var i = 0; i < names.Length; i++)
+        {
+          // Not really Johnson Polyhedra, are they?
+          names[i] = names[i]=="Johnson" ? "Radial" : names[i];
+        }
+
+        return names;
     }
 
   protected override string GetButtonTexturePath(int i)
@@ -35,8 +42,9 @@ public class PolyhydraPopUpWindowShapeTypes : PolyhydraPopUpWindowBase
   {
     var shapeCategory = (VrUi.ShapeCategories) buttonIndex;
     ParentPanel.CurrentShapeCategory = shapeCategory;
-    ParentPanel.SetSliderConfiguration();
     ParentPanel.SetPanelButtonVisibility();
+    ParentPanel.ConfigureGeometry();
+    ParentPanel.SetSliderConfiguration();
   }
 
 }

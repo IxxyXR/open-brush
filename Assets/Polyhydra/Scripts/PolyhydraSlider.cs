@@ -18,20 +18,48 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
+
 namespace TiltBrush {
+
+    [Serializable] public class myFloatEvent : UnityEvent<float>{}
   
-  [Serializable] public class myFloatEvent : UnityEvent<float>{}
+    [Serializable]
+    public enum SliderTypes
+    {
+      Int,
+      Float
+    }
+  
     public class PolyhydraSlider : BaseSlider
     {
+      private float min;
+      private float max;
+      public float Max
+      {
+        get => max;
+        set
+        {
+          maxText.text = FormatValue(value);
+          max = value;
+        }
+      }
+      public float Min
+      {
+        get => min;
+        set
+        {
+          minText.text = FormatValue(value);
+          min = value;
+        }
+      }
 
-        public float min;
-        public float max;
-        public TextMeshPro minText;
-        public TextMeshPro maxText;
-        public TextMeshPro valueText;
-        public Type SliderType;
+        [SerializeField] private TextMeshPro minText;
+        [SerializeField] private TextMeshPro maxText;
+        [SerializeField] private TextMeshPro valueText;
+        public SliderTypes SliderType;
         
         [SerializeField] public myFloatEvent onUpdateValue;
+
 
         float remap(float s, float a1, float a2, float b1, float b2)
         {
@@ -43,32 +71,32 @@ namespace TiltBrush {
             m_CurrentValue = 0.5f;
             SetSliderPositionToReflectValue();
             minText.text = FormatValue(min);
-            maxText.text = FormatValue(max);
+            maxText.text = FormatValue(Max);
             valueText.text = FormatValue(m_CurrentValue);
         }
 
         private string FormatValue(float val)
         {
-          if (SliderType == typeof(int))
+          if (SliderType == SliderTypes.Int)
           {
             return Mathf.FloorToInt(val).ToString();
           }
-          else
+          else if (SliderType == SliderTypes.Float)
           {
             return (Mathf.Round(val*10)/10).ToString();
           }
+
+          return "";
         }
 
         override public void UpdateValue(float fValue) {
-            //PointerManager.m_Instance.FreePaintPointerAngle = fValue * 90.0f;
-            var val = remap(fValue, 0, 1, min, max);
+            var val = remap(fValue, 0, 1, min, Max);
             valueText.text = FormatValue(val);
             onUpdateValue.Invoke(val);
         }
 
         public override void ResetState() {
             base.ResetState();
-            //SetAvailable(!App.VrSdk.VrControls.LogitechPenIsPresent());
         }
     }
 }  // namespace TiltBrush

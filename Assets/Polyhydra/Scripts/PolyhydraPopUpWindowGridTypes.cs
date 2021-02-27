@@ -34,6 +34,7 @@ public class PolyhydraPopUpWindowGridTypes : PolyhydraPopUpWindowBase {
     public override void HandleButtonPress(int buttonIndex)
   {
     ParentPanel.PolyhydraModel.GridType = (PolyHydraEnums.GridTypes)buttonIndex;
+    ParentPanel.SetSliderConfiguration();
   }
 
 }
