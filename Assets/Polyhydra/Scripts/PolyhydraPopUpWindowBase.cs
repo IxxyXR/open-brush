@@ -119,8 +119,7 @@ namespace TiltBrush
         public void PolyhydraThingButtonPressed(int ButtonIndex)
         {
             HandleButtonPress(ButtonIndex);
-            ParentPanel.PolyhydraModel.Validate();
-            ParentPanel.PolyhydraModel.MakePolyhedron();
+            ParentPanel.RebuildPoly();
         }
     }
 }

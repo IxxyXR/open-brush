@@ -133,7 +133,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   WythoffSymbol: 
   Rescale: 1
-  PreviewColorMethod: 0
+  PreviewColorMethod: 1
   vertexGizmos: 0
   faceGizmos: 0
   edgeGizmos: 0

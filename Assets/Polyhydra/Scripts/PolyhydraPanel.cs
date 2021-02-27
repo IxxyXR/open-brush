@@ -14,6 +14,7 @@
 
 using System;
 using UnityEngine;
+using Wythoff;
 
 namespace TiltBrush
 {
@@ -24,12 +25,40 @@ public class PolyhydraPanel : BasePanel
     [NonSerialized] public VrUiPoly PolyhydraModel;
     [NonSerialized] public VrUi.ShapeCategories CurrentShapeCategory;
 
+    public PolyhydraSlider SliderP;
+    public PolyhydraSlider SliderQ;
+
+
     override public void InitPanel()
     {
         base.InitPanel();
         PolyhydraModel = gameObject.GetComponentInChildren<VrUiPoly>(true);
+        SetSliderConfiguration();
+        SetPanelButtonVisibility();
     }
 
+    public void HandleSliderP(float value)
+    {
+      Debug.Log($"HandleSliderP: {value}");
+      PolyhydraModel.PrismP = Mathf.FloorToInt(value);
+      RebuildPoly();
+    }
+
+    public void HandleSliderQ(float value)
+    {
+      Debug.Log($"HandleSliderQ: {value}");
+      PolyhydraModel.PrismQ = Mathf.FloorToInt(value);
+      RebuildPoly();
+    }
+
+    public void RebuildPoly()
+    {
+      Debug.Log($"RebuildPoly. P: {PolyhydraModel.PrismP} Q: {PolyhydraModel.PrismQ}");
+      PolyhydraModel.Validate();
+      Debug.Log($"Validated. P: {PolyhydraModel.PrismP} Q: {PolyhydraModel.PrismQ}");
+      PolyhydraModel.MakePolyhedron();
+    }
+    
     void Update()
     {
         BaseUpdate();
@@ -37,11 +66,11 @@ public class PolyhydraPanel : BasePanel
     }
 
 
-    public void SetPanelButtonVisibility(VrUi.ShapeCategories shapeCategory)
+    public void SetPanelButtonVisibility()
     {
         var buttons = gameObject.GetComponentsInChildren<PolyhydraOptionButton>(true);
 
-        switch (shapeCategory)
+        switch (CurrentShapeCategory)
         {
             // All the shapeCategories that use the Uniform popup
             case VrUi.ShapeCategories.Archimedean:
@@ -153,6 +182,95 @@ public class PolyhydraPanel : BasePanel
                 break;
         
     }
+    }
+
+    public void SetSliderConfiguration()
+    {
+        switch (CurrentShapeCategory)
+        {
+            case VrUi.ShapeCategories.Platonic:
+                PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+                PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Platonic[0].Index - 1;
+                SliderP.gameObject.SetActive(false);
+                SliderQ.gameObject.SetActive(false);
+                break;
+            case VrUi.ShapeCategories.Prisms:
+                PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+                PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Prismatic[0].Index - 1;
+                SliderP.gameObject.SetActive(true);
+                SliderQ.gameObject.SetActive(true);
+                SliderP.min = 3;
+                SliderP.max = 12;
+                SliderQ.min = 3;
+                SliderQ.max = 12;
+                SliderP.SliderType = typeof(int);
+                SliderQ.SliderType = typeof(int);
+                break;
+            case VrUi.ShapeCategories.Archimedean:
+                PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+                PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Archimedean[0].Index - 1;
+                SliderP.gameObject.SetActive(false);
+                SliderQ.gameObject.SetActive(false);
+                SliderP.SliderType = typeof(int);
+                SliderQ.SliderType = typeof(int);
+                break;
+            // case VrUi.ShapeCategories.UniformConvex:
+            //     PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+            //     PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Convex[0].Index - 1;
+            //     break;
+            case VrUi.ShapeCategories.KeplerPoinsot:
+                PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+                PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.KeplerPoinsot[0].Index - 1;
+                SliderP.gameObject.SetActive(false);
+                SliderQ.gameObject.SetActive(false);
+                SliderP.SliderType = typeof(int);
+                SliderQ.SliderType = typeof(int);
+                break;
+            // case VrUi.ShapeCategories.UniformStar:
+            //     PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Uniform;
+            //     PolyhydraModel.UniformPolyType = (PolyTypes) Uniform.Star[0].Index - 1;
+            //     break;
+            case VrUi.ShapeCategories.Johnson:
+                PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Johnson;
+                SliderP.gameObject.SetActive(true);
+                SliderQ.gameObject.SetActive(false);
+                SliderP.min = 3;
+                SliderP.max = 12;
+                SliderP.SliderType = typeof(int);
+                SliderQ.SliderType = typeof(int);
+                break;
+            case VrUi.ShapeCategories.Waterman:
+                PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Waterman;
+                SliderP.gameObject.SetActive(true);
+                SliderQ.gameObject.SetActive(true);
+                SliderP.min = 3;
+                SliderP.max = 12;
+                SliderQ.min = 3;
+                SliderQ.max = 12;
+                SliderP.SliderType = typeof(int);
+                SliderQ.SliderType = typeof(int);
+                break;
+            case VrUi.ShapeCategories.Grids:
+                PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Grid;
+                SliderP.gameObject.SetActive(true);
+                SliderQ.gameObject.SetActive(true);
+                SliderP.min = 3;
+                SliderP.max = 12;
+                SliderQ.min = 3;
+                SliderQ.max = 12;
+                SliderP.SliderType = typeof(int);
+                SliderQ.SliderType = typeof(int);
+                break;
+            case VrUi.ShapeCategories.Other:
+                PolyhydraModel.ShapeType = PolyHydraEnums.ShapeTypes.Other;
+                SliderP.gameObject.SetActive(true);
+                SliderQ.gameObject.SetActive(false);
+                SliderP.min = 3;
+                SliderP.max = 12;
+                SliderP.SliderType = typeof(int);
+                SliderQ.SliderType = typeof(int);
+                break;
+        }
     }
 }
 } // namespace TiltBrush

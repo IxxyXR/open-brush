@@ -64,7 +64,7 @@ public class ToolAndPanelButton : BaseButton {
 
       // if (panel || !panel.enabled)
       // {
-      //   SketchControlsScript.m_Instance.OpenPanelOfType(m_Type, TrTransform.FromTransform(transform));
+         SketchControlsScript.m_Instance.OpenPanelOfType(m_Type, TrTransform.FromTransform(transform));
       // }
       SketchSurfacePanel.m_Instance.RequestHideActiveTool(true);
       SketchSurfacePanel.m_Instance.EnableSpecificTool(m_Tool);
