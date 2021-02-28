@@ -62,10 +62,10 @@ public class ToolAndPanelButton : BaseButton {
         SketchControlsScript.m_Instance.EatGazeObjectInput();
       }
 
-      // if (panel || !panel.enabled)
-      // {
+      if (!PanelManager.m_Instance.IsPanelOpen(m_Type))
+      {
          SketchControlsScript.m_Instance.OpenPanelOfType(m_Type, TrTransform.FromTransform(transform));
-      // }
+      }
       SketchSurfacePanel.m_Instance.RequestHideActiveTool(true);
       SketchSurfacePanel.m_Instance.EnableSpecificTool(m_Tool);
     }
