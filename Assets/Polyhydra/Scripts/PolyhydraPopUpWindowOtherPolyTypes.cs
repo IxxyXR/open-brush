@@ -33,6 +33,7 @@ public class PolyhydraPopUpWindowOtherPolyTypes : PolyhydraPopUpWindowBase {
   public override void HandleButtonPress(int buttonIndex)
   {
     ParentPanel.PolyhydraModel.OtherPolyType = (PolyHydraEnums.OtherPolyTypes)buttonIndex;
+    ParentPanel.ButtonOtherPolyType.SetButtonTexture(GetButtonTexture(buttonIndex));
     ParentPanel.SetSliderConfiguration();
   }
 }

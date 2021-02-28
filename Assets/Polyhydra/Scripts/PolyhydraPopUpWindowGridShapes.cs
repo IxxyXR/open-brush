@@ -33,6 +33,7 @@ public class PolyhydraPopUpWindowGridShapes : PolyhydraPopUpWindowBase {
     public override void HandleButtonPress(int buttonIndex)
   {
     ParentPanel.PolyhydraModel.GridShape = (PolyHydraEnums.GridShapes)buttonIndex;
+    ParentPanel.ButtonGridShape.SetButtonTexture(GetButtonTexture(buttonIndex));
   }
 
 }

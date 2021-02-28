@@ -62,6 +62,7 @@ public class PolyhydraPopUpWindowUniforms : PolyhydraPopUpWindowBase
     enumName = enumName.Replace(" ", "_");
     PolyTypes polyType = (PolyTypes)Enum.Parse(typeof(PolyTypes), enumName);
     ParentPanel.PolyhydraModel.UniformPolyType = polyType;
+    ParentPanel.ButtonUniformType.SetButtonTexture(GetButtonTexture(buttonIndex));
     ParentPanel.SetSliderConfiguration();
   }
 

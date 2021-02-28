@@ -14,6 +14,7 @@
 
 using System;
 using System.Linq;
+using UnityEngine;
 
 
 namespace TiltBrush {
@@ -42,10 +43,11 @@ public class PolyhydraPopUpWindowShapeTypes : PolyhydraPopUpWindowBase
   {
     var shapeCategory = (VrUi.ShapeCategories) buttonIndex;
     ParentPanel.CurrentShapeCategory = shapeCategory;
+    ParentPanel.ButtonShapeType.SetButtonTexture(GetButtonTexture(buttonIndex));
     ParentPanel.SetPanelButtonVisibility();
     ParentPanel.ConfigureGeometry();
     ParentPanel.SetSliderConfiguration();
   }
-
+  
 }
 }  // namespace TiltBrush

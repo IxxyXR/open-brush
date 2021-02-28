@@ -32766,7 +32766,7 @@ PrefabInstance:
     - target: {fileID: 5613725442812470859, guid: 7a27a11733f068248b6137d124e53cb5,
         type: 3}
       propertyPath: m_Name
-      value: PolyTool
+      value: PolyhydraTool
       objectReference: {fileID: 0}
     - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
         type: 3}

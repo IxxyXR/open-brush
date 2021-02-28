@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 461372}
   - component: {fileID: 6590698}
   - component: {fileID: 114242525141314656}
-  - component: {fileID: 5793952351042167491}
+  - component: {fileID: 4171937641795141156}
   m_Layer: 0
   m_Name: PopUpWindow_PolyhydraGridShapes
   m_TagString: Untagged
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_ColorTransitionDuration: 0
   ButtonPrefab: {fileID: 7630606763700834929, guid: 56c1524891cb7c44fb711233648ba9ff,
     type: 3}
---- !u!114 &5793952351042167491
+--- !u!114 &4171937641795141156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -434,33 +434,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 197348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da8ba5a0eb6ea33498b9459e509a70a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 739d5b1996234d64992a2ae60c3723e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Background: {fileID: 161948, guid: 26667b296adb05b43910a15be55b0f01, type: 3}
-  m_TopBorder: {fileID: 163728, guid: 26667b296adb05b43910a15be55b0f01, type: 3}
-  m_BottomBorder: {fileID: 186270, guid: 26667b296adb05b43910a15be55b0f01, type: 3}
-  m_WindowText: {fileID: 10281232, guid: 26667b296adb05b43910a15be55b0f01, type: 3}
-  m_WindowSubText: {fileID: 0}
-  m_CharacterWidth: 0.175
-  m_SubtitleCharacterWidth: 0.05625
-  m_ButtonWidth: 0.1
-  m_BaseButtonOffset: {x: -0.4, y: 0, z: 0}
-  m_ReticleBounds: {x: 2.5, y: 2.5, z: -0.35}
-  m_PopUpForwardOffset: -0.25
-  m_AutoPlaceButtons: []
-  m_TransitionDuration: 0.1
-  m_OpenDelay: 0
-  m_Persistent: 0
-  m_AudioOnOpen: 1
-  m_BlockUndoRedo: 0
-  m_IsLongPressPopUp: 0
-  m_OrderedPageButtons: []
-  m_PrevButton: {fileID: 0}
-  m_NextButton: {fileID: 0}
-  m_ColorTransitionDuration: 0
-  ButtonPrefab: {fileID: 7630606763700834929, guid: 56c1524891cb7c44fb711233648ba9ff,
-    type: 3}
 --- !u!1001 &323598151668042412
 PrefabInstance:
   m_ObjectHideFlags: 0

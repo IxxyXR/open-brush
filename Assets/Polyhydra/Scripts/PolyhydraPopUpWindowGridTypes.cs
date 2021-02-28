@@ -28,12 +28,12 @@ public class PolyhydraPopUpWindowGridTypes : PolyhydraPopUpWindowBase {
     protected override string GetButtonTexturePath(int i)
     {
       return $"ShapeButtons/poly_grid_{(PolyHydraEnums.GridTypes) i}";
-
     }
 
     public override void HandleButtonPress(int buttonIndex)
   {
     ParentPanel.PolyhydraModel.GridType = (PolyHydraEnums.GridTypes)buttonIndex;
+    ParentPanel.ButtonGridType.SetButtonTexture(GetButtonTexture(buttonIndex));
     ParentPanel.SetSliderConfiguration();
   }
 

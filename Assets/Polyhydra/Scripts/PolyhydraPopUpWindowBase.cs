@@ -110,5 +110,10 @@ namespace TiltBrush
             HandleButtonPress(ButtonIndex);
             ParentPanel.RebuildPoly();
         }
+        
+        protected Texture2D GetButtonTexture(int buttonIndex)
+        {
+          return Resources.Load<Texture2D>(GetButtonTexturePath(buttonIndex));
+        }
     }
 }

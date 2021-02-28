@@ -25,6 +25,13 @@ public class PolyhydraPanel : BasePanel
     [NonSerialized] public VrUiPoly PolyhydraModel;
     [NonSerialized] public VrUi.ShapeCategories CurrentShapeCategory;
 
+    public PolyhydraOptionButton ButtonShapeType;
+    public PolyhydraOptionButton ButtonUniformType;
+    public PolyhydraOptionButton ButtonJohnsonType;
+    public PolyhydraOptionButton ButtonGridType;
+    public PolyhydraOptionButton ButtonOtherPolyType;
+    public PolyhydraOptionButton ButtonGridShape;
+    
     public PolyhydraSlider SliderP;
     public PolyhydraSlider SliderQ;
 
@@ -63,7 +70,6 @@ public class PolyhydraPanel : BasePanel
         BaseUpdate();
         PolyhydraModel.transform.parent.Rotate(1, 1, 1);
     }
-
 
     public void SetPanelButtonVisibility()
     {
