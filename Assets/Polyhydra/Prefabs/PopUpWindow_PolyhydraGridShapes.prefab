@@ -401,10 +401,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25f9c184db204cdca0b063039f5cc220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Background: {fileID: 0}
-  m_TopBorder: {fileID: 0}
-  m_BottomBorder: {fileID: 0}
-  m_WindowText: {fileID: 0}
+  m_Background: {fileID: 161948}
+  m_TopBorder: {fileID: 163728}
+  m_BottomBorder: {fileID: 186270}
+  m_WindowText: {fileID: 10281232}
   m_WindowSubText: {fileID: 0}
   m_CharacterWidth: 0.175
   m_SubtitleCharacterWidth: 0.05625
@@ -423,7 +423,8 @@ MonoBehaviour:
   m_PrevButton: {fileID: 0}
   m_NextButton: {fileID: 0}
   m_ColorTransitionDuration: 0
-  ButtonPrefab: {fileID: 0}
+  ButtonPrefab: {fileID: 7630606763700834929, guid: 56c1524891cb7c44fb711233648ba9ff,
+    type: 3}
 --- !u!114 &5793952351042167491
 MonoBehaviour:
   m_ObjectHideFlags: 0

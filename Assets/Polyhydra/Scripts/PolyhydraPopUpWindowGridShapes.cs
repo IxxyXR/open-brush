@@ -27,7 +27,7 @@ public class PolyhydraPopUpWindowGridShapes : PolyhydraPopUpWindowBase {
 
     protected override string GetButtonTexturePath(int i)
     {
-      return $"ShapeButtons/poly_grid_{(PolyHydraEnums.GridShapes) i}";
+      return $"ShapeButtons/poly_gridshape_{(PolyHydraEnums.GridShapes) i}";
     }
 
     public override void HandleButtonPress(int buttonIndex)
