@@ -38,6 +38,14 @@ public class RepaintStrokeCommand : BaseCommand {
     m_TargetStroke.m_Color = ColorPickerUtils.ClampLuminance(
         color, BrushCatalog.m_Instance.GetBrush(brushGuid).m_ColorLuminanceMin);
     m_TargetStroke.m_BrushGuid = brushGuid;
+    m_TargetStroke.m_BrushSize *= 2;
+    // for (var index = 0; index < m_TargetStroke.m_ControlPoints.Length; index++)
+    // {
+    //   var p = m_TargetStroke.m_ControlPoints[index];
+    //   p.m_Pressure *= 2;
+    //   m_TargetStroke.m_ControlPoints[index] = p;
+    // }
+
     m_TargetStroke.InvalidateCopy();
     m_TargetStroke.Uncreate();
     m_TargetStroke.Recreate();

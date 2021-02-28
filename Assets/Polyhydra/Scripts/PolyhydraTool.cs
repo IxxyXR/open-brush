@@ -8,7 +8,7 @@ using Random = System.Random;
 
 namespace TiltBrush.AndyB
 {
-    public class FooTool : BaseTool
+    public class PolyhydraTool : BaseTool
     {
         //the parent of all of our tool's visual indicator objects
         private GameObject m_toolDirectionIndicator;
@@ -161,7 +161,7 @@ namespace TiltBrush.AndyB
                 //
                 // AudioManager.m_Instance.PlayGroupedSound(InputManager.m_Instance.GetControllerPosition(InputManager.ControllerName.Brush));
                 // SketchSurfacePanel.m_Instance.RequestHideActiveTool(true);
-                // SketchSurfacePanel.m_Instance.EnableSpecificTool(ToolType.FooTool);
+                // SketchSurfacePanel.m_Instance.EnableSpecificTool(ToolType.PolyhydraTool);
             }
         }
 

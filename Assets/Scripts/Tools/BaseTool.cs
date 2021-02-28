@@ -46,7 +46,6 @@ public class BaseTool : MonoBehaviour {
     
     //custom
     FlyTool,
-    FooTool,
     PolyhydraTool
   }
   public ToolType m_Type;
