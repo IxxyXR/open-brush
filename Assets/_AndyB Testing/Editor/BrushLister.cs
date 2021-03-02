@@ -44,7 +44,8 @@ public class BrushLister : MonoBehaviour
         var brushScripts = sniffBrushScript(brush);
         string prefabName = brush.m_BrushPrefab!= null ? brush.m_BrushPrefab.name : "";
         string materialName = brush.Material != null ? brush.Material.name : "";
-        return $"{brush.m_Description}\t{brush.m_AudioReactive}\t{prefabName}\t{materialName}\t{brushScripts}\t{experimental}\t{brush.m_SupersededBy}";
+        string shaderName = brush.Material != null ? brush.Material.shader.name : "";
+        return $"{brush.m_Description}\t{brush.m_AudioReactive}\t{prefabName}\t{materialName}\t{shaderName}\t{brushScripts}\t{experimental}\t{brush.m_SupersededBy}";
     }
 
     public static string sniffBrushScript(BrushDescriptor brush)
