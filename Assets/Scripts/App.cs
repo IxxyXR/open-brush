@@ -305,7 +305,7 @@ public class App : MonoBehaviour {
   private DriveAccess m_DriveAccess;
   private DriveSync m_DriveSync;
   private GoogleUserSettings m_GoogleUserSettings;
-  private string m_strokeText;
+  private Queue m_RequestedCommandQueue = Queue.Synchronized(new Queue());
 
   // ------------------------------------------------------------
   // Properties
@@ -548,7 +548,9 @@ public class App : MonoBehaviour {
     m_HttpServer = GetComponentInChildren<HttpServer>();
     if (!Config.IsMobileHardware) {
       HttpServer.AddHttpHandler("/load", HttpLoadSketchCallback);
-      HttpServer.AddHttpHandler("/draw", DrawStrokeCallback);
+      HttpServer.AddHttpHandler("/api/v1/draw", ApiCommandCallback);
+      HttpServer.AddHttpHandler("/api/v1/brush", ApiCommandCallback);
+      HttpServer.AddHttpHandler("/api/v1/text", ApiCommandCallback);
     }
 
     m_AutosaveRestoreFileExists = File.Exists(AutosaveRestoreFilePath());
@@ -586,15 +588,38 @@ public class App : MonoBehaviour {
     return "";
   }
   
-  string DrawStrokeCallback(HttpListenerRequest request) {
-    var urlPath = request.Url.LocalPath;
-    var query = Uri.UnescapeDataString(request.Url.Query);
-    if (urlPath == "/draw" && query.Length > 1)
-    {
-      m_strokeText = query.Substring(1);
+  string ApiCommandCallback(HttpListenerRequest request)
+  {
+    
+    string[] urlParts = request.Url.Segments;
+    if (urlParts.Length!=4 || urlParts[1] != "api/" || urlParts[2] != "v1/") {
+      return null; // TODO Status codes
     }
 
-    return "";
+    KeyValuePair<string, string> command;
+    string paramString = null;
+    
+    if (request.HasEntityBody) {
+      using (Stream body = request.InputStream) {
+        using (var reader = new StreamReader(body, request.ContentEncoding))
+        {
+          paramString = reader.ReadToEnd();
+        }
+      }
+    }
+
+    if (string.IsNullOrEmpty(paramString)) {
+      if (request.Url.Query.Length > 1) {
+        paramString = Uri.UnescapeDataString(request.Url.Query.Substring(1));
+      }
+    }
+    
+    if (!string.IsNullOrEmpty(paramString)) {
+      command = new KeyValuePair<string, string>(urlParts[3].TrimEnd('/'), paramString);
+      m_RequestedCommandQueue.Enqueue(command);
+      return "OK";
+    }
+    return null;  // TODO Status codes
   }
 
   void Start() {
@@ -1028,7 +1053,7 @@ public class App : MonoBehaviour {
       // This should happen after SMS.ContinueDrawingFromMemory, so we're not loading and
       // continuing in one frame.
       HandleExternalTiltOpenRequest();
-      HandleExternalStrokeRequest();
+      HandleExternalCommand();
       break;
     case AppState.Reset:
       SketchControlsScript.m_Instance.UpdateControls();
@@ -1322,76 +1347,102 @@ public class App : MonoBehaviour {
     }
   }
 
-  private void HandleExternalStrokeRequest()
-  {
-    if (string.IsNullOrEmpty(m_strokeText)) return;
-    var paths = JsonConvert.DeserializeObject<List<List<List<float>>>>(m_strokeText);
-    //var pose = App.Scene.ActiveCanvas.Pose;
-    //Vector3 pos = pose.translation;
-    Vector3 pos = Vector3.zero;
-    var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
-    uint time = 0;
-    float minPressure = PointerManager.m_Instance.MainPointer.CurrentBrush.PressureSizeMin(false);
-    float pressure = Mathf.Lerp(minPressure, 1f, 0.5f);
-              
-    var strokes = new List<Stroke>();
-              
-    foreach (var path in paths)
-    {
-      float lineLength = 0;
-      var controlPoints = new List<PointerManager.ControlPoint>();
-      path.Add(path[0]);
-      for (var vertexIndex = 0; vertexIndex < path.Count; vertexIndex++)
-      {
-        var coordList0 = path[vertexIndex];
-        var vert = new Vector3(coordList0[0], coordList0[1], coordList0[2]);
-        var coordList1 = path[(vertexIndex + 1) % path.Count];
-        var nextVert = new Vector3(coordList1[0], coordList1[1], coordList1[2]);
-        for (float step = 0; step < 1f; step += .25f)
-        {
-            controlPoints.Add(new PointerManager.ControlPoint
-            {
-                m_Pos = pos + vert + ((nextVert - vert) * step),
-                m_Orient = Quaternion.identity, //.LookRotation(face.Normal, Vector3.up),
-                m_Pressure = pressure,
-                m_TimestampMs = time++
-            });
-        }
-        lineLength += (nextVert - vert).magnitude; // TODO Does this need scaling? Should be in Canvas space
-      }
+  private void HandleExternalCommand() {
 
-      var stroke = new Stroke
-      {
-        m_Type = Stroke.Type.NotCreated,
-        m_IntendedCanvas = App.Scene.ActiveCanvas,
-        m_BrushGuid = brush.m_Guid,
-        m_BrushScale = 1f,
-        m_BrushSize = PointerManager.m_Instance.MainPointer.BrushSizeAbsolute,
-        m_Color = Color.magenta,
-        m_Seed = 0,
-        m_ControlPoints = controlPoints.ToArray(),
-      };
-      stroke.m_ControlPointsToDrop = Enumerable.Repeat(false, stroke.m_ControlPoints.Length).ToArray();
-      stroke.Uncreate();
-      stroke.Recreate(null, App.Scene.ActiveCanvas);
-
-      SketchMemoryScript.m_Instance.MemorizeBatchedBrushStroke(
-        stroke.m_BatchSubset,
-        stroke.m_Color,
-        stroke.m_BrushGuid,
-        stroke.m_BrushSize,
-        stroke.m_BrushScale,
-        stroke.m_ControlPoints.ToList(),
-        stroke.m_Flags,
-        WidgetManager.m_Instance.ActiveStencil,
-        lineLength,
-        123
-      );
-      
-      strokes.Add(stroke);
+    KeyValuePair<string, string> command;
+    try {
+      command = (KeyValuePair<string, string>)m_RequestedCommandQueue.Dequeue();
+    } catch (InvalidOperationException) {
+      return;
     }
 
-    m_strokeText = "";
+    List<List<List<float>>> paths = null;
+    
+    switch (command.Key)
+    {
+      case "draw":
+        if (string.IsNullOrEmpty(command.Value)) return;
+        paths = JsonConvert.DeserializeObject<List<List<List<float>>>>(command.Value);
+        break;
+      case "text":
+        var font = Resources.Load<CHRFont>("arcade");
+        var textToStroke = new TextToStrokes(font);
+        paths = textToStroke.Build(command.Value);
+        break;
+      case "brush":
+        break;
+    }
+
+    if (paths != null)
+    {
+
+      //var pose = App.Scene.ActiveCanvas.Pose;
+      //Vector3 pos = pose.translation;
+    
+      Vector3 pos = Vector3.zero;
+      var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
+      uint time = 0;
+      float minPressure = PointerManager.m_Instance.MainPointer.CurrentBrush.PressureSizeMin(false);
+      float pressure = Mathf.Lerp(minPressure, 1f, 0.5f);
+      
+      var strokes = new List<Stroke>();
+
+      foreach (var path in paths)
+      {
+        if (path.Count<2) continue;
+        float lineLength = 0;
+        var controlPoints = new List<PointerManager.ControlPoint>();
+        for (var vertexIndex = 0; vertexIndex < path.Count - 1; vertexIndex++)
+        {
+          var coordList0 = path[vertexIndex];
+          var vert = new Vector3(coordList0[0], coordList0[1], coordList0[2]);
+          var coordList1 = path[(vertexIndex + 1) % path.Count];
+          var nextVert = new Vector3(coordList1[0], coordList1[1], coordList1[2]);
+          for (float step = 0; step <= 1f; step += .25f)
+          {
+            controlPoints.Add(new PointerManager.ControlPoint
+            {
+              m_Pos = pos + vert + ((nextVert - vert) * step),
+              m_Orient = Quaternion.identity, //.LookRotation(face.Normal, Vector3.up),
+              m_Pressure = pressure,
+              m_TimestampMs = time++
+            });
+          }
+
+          lineLength += (nextVert - vert).magnitude; // TODO Does this need scaling? Should be in Canvas space
+        }
+
+        var stroke = new Stroke
+        {
+          m_Type = Stroke.Type.NotCreated,
+          m_IntendedCanvas = App.Scene.ActiveCanvas,
+          m_BrushGuid = brush.m_Guid,
+          m_BrushScale = 1f,
+          m_BrushSize = PointerManager.m_Instance.MainPointer.BrushSizeAbsolute,
+          m_Color = Color.magenta,
+          m_Seed = 0,
+          m_ControlPoints = controlPoints.ToArray(),
+        };
+        stroke.m_ControlPointsToDrop = Enumerable.Repeat(false, stroke.m_ControlPoints.Length).ToArray();
+        stroke.Uncreate();
+        stroke.Recreate(null, App.Scene.ActiveCanvas);
+
+        SketchMemoryScript.m_Instance.MemorizeBatchedBrushStroke(
+          stroke.m_BatchSubset,
+          stroke.m_Color,
+          stroke.m_BrushGuid,
+          stroke.m_BrushSize,
+          stroke.m_BrushScale,
+          stroke.m_ControlPoints.ToList(),
+          stroke.m_Flags,
+          WidgetManager.m_Instance.ActiveStencil,
+          lineLength,
+          123
+        );
+
+        strokes.Add(stroke);
+      }
+    }
   }
 
   /// Load one requested sketch, if any, returning true if pending request was processed.
