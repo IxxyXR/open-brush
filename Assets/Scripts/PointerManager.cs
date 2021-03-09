@@ -37,6 +37,7 @@ public class PointerManager : MonoBehaviour {
     None,
     SinglePlane,
     FourAroundY,
+    SixAroundY,
     DebugMultiple,
   }
 
@@ -384,6 +385,9 @@ public class PointerManager : MonoBehaviour {
         } else if (m_CurrentSymmetryMode == SymmetryMode.FourAroundY) {
           m_SymmetryWidget.position = SketchSurfacePanel.m_Instance.transform.position;
           m_SymmetryWidget.rotation = SketchSurfacePanel.m_Instance.transform.rotation;
+        } else if (m_CurrentSymmetryMode == SymmetryMode.SixAroundY) {
+          m_SymmetryWidget.position = SketchSurfacePanel.m_Instance.transform.position;
+          m_SymmetryWidget.rotation = SketchSurfacePanel.m_Instance.transform.rotation;
         }
       }
     }
@@ -575,6 +579,7 @@ public class PointerManager : MonoBehaviour {
     case SymmetryMode.None: active = 1; break;
     case SymmetryMode.SinglePlane: active = 2; break;
     case SymmetryMode.FourAroundY: active = 4; break;
+    case SymmetryMode.SixAroundY: active = 6; break;
     case SymmetryMode.DebugMultiple: active = DEBUG_MULTIPLE_NUM_POINTERS; break;
     }
     int maxUserPointers = m_Pointers.Length;
@@ -641,6 +646,18 @@ public class PointerManager : MonoBehaviour {
       }
       return aboutY * xfMain;
     }
+    
+    case SymmetryMode.SixAroundY: {
+      // aboutY is an operator that rotates worldspace objects N degrees around the widget's Y
+      TrTransform aboutY; {
+        var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
+        float angle = (360f * child) / m_NumActivePointers;
+        aboutY = TrTransform.TR(Vector3.zero, Quaternion.AngleAxis(angle, Vector3.up));
+        // convert from widget-local coords to world coords
+        aboutY = aboutY.TransformBy(xfWidget);
+      }
+      return aboutY * xfMain;
+    }
 
     case SymmetryMode.DebugMultiple: {
       var xfLift = TrTransform.T(m_SymmetryDebugMultipleOffset * child);
@@ -672,6 +689,26 @@ public class PointerManager : MonoBehaviour {
     }
 
     case SymmetryMode.FourAroundY: {
+      TrTransform pointer0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
+      // aboutY is an operator that rotates worldspace objects N degrees around the widget's Y
+      TrTransform aboutY; {
+        var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
+        float angle = 360f / m_NumActivePointers;
+        aboutY = TrTransform.TR(Vector3.zero, Quaternion.AngleAxis(angle, Vector3.up));
+        // convert from widget-local coords to world coords
+        aboutY = xfWidget * aboutY * xfWidget.inverse;
+      }
+
+      TrTransform cur = TrTransform.identity;
+      for (int i = 1; i < m_NumActivePointers; ++i) {
+        cur = aboutY * cur;   // stack another rotation on top
+        var tmp = (cur * pointer0); // Work around 2018.3.x Mono parse bug
+        tmp.ToTransform(m_Pointers[i].m_Script.transform);
+      }
+      break;
+    }
+    
+    case SymmetryMode.SixAroundY: {
       TrTransform pointer0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
       // aboutY is an operator that rotates worldspace objects N degrees around the widget's Y
       TrTransform aboutY; {
