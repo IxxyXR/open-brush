@@ -231,6 +231,8 @@ public static class ImportGltf {
         return gltf1Root;
       }
       case GltfSchemaVersion.GLTF2:
+        // var jsonSerializerSettings = new JsonSerializerSettings();
+        // jsonSerializerSettings.MissingMemberHandling = MissingMemberHandling.Ignore;
         var gltf2Root = kSerializer.Deserialize<Gltf2Root>(reader);
         if (gltf2Root == null || gltf2Root.nodes == null) {
           throw new Exception("Failed to parse GLTF2. File is empty or in the wrong format.");

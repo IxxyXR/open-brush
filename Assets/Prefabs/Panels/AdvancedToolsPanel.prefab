@@ -56,6 +56,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -67,6 +68,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -148,6 +150,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -159,6 +162,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -210,6 +214,7 @@ MonoBehaviour:
   m_ZAdjustHover: -0.02
   m_ZAdjustClick: 0.05
   m_HoverScale: 1.1
+  m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
   m_Tool: 19
   m_EatGazeInputOnPress: 1
@@ -269,6 +274,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -280,6 +286,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -331,6 +338,7 @@ MonoBehaviour:
   m_ZAdjustHover: -0.02
   m_ZAdjustClick: 0.05
   m_HoverScale: 1.1
+  m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
   m_Tool: 17
   m_EatGazeInputOnPress: 1
@@ -361,7 +369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232310111846144}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.017, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4067220476156272}
@@ -389,6 +397,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -400,6 +409,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -497,7 +507,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240186350611758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.211, y: -0.422, z: 0.05}
+  m_LocalPosition: {x: 0.002, y: -0.422, z: 0.05}
   m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_Children: []
   m_Father: {fileID: 4067220476156272}
@@ -525,6 +535,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -536,6 +547,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -587,6 +599,7 @@ MonoBehaviour:
   m_ZAdjustHover: -0.02
   m_ZAdjustClick: 0.02
   m_HoverScale: 1.1
+  m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
   m_Command: 5
   m_CommandParam: -1
@@ -687,7 +700,7 @@ MonoBehaviour:
   m_UseGazeRotation: 1
   m_MaxGazeRotation: 20
   m_GazeActivateSpeed: 8
-  m_InitialSpawnPos: {x: 4.61, y: 12, z: 5.34}
+  m_InitialSpawnPos: {x: 4.61, y: 14, z: 5.34}
   m_InitialSpawnRotEulers: {x: 37.18, y: 63.12, z: 0}
   m_WandAttachAngle: 240
   m_WandAttachYOffset: 0.75
@@ -802,6 +815,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -813,6 +827,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -864,6 +879,7 @@ MonoBehaviour:
   m_ZAdjustHover: -0.02
   m_ZAdjustClick: 0.05
   m_HoverScale: 1.1
+  m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
   m_Tool: 21
   m_EatGazeInputOnPress: 0
@@ -931,7 +947,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520650123276768}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.232, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4067220476156272}
@@ -948,7 +964,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.4, y: 1.5, z: 0.02}
+  m_Size: {x: 1.4, y: 1.85, z: 0.02}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1590484100299390
 GameObject:
@@ -983,7 +999,7 @@ Transform:
   m_Children:
   - {fileID: 4099180057378294}
   m_Father: {fileID: 4067220476156272}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33827995805926138
 MeshFilter:
@@ -1007,6 +1023,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1018,6 +1035,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1069,6 +1087,7 @@ MonoBehaviour:
   m_ZAdjustHover: 0
   m_ZAdjustClick: 0.05
   m_HoverScale: 1.2
+  m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
   m_Command: 39
   m_CommandParam: -1
@@ -1119,6 +1138,7 @@ Transform:
   - {fileID: 4487744745540934}
   - {fileID: 4913046734195790}
   - {fileID: 4084186664612276}
+  - {fileID: 7342947973735353189}
   - {fileID: 4961560007330260}
   m_Father: {fileID: 4661729169517730}
   m_RootOrder: 2
@@ -1179,6 +1199,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1190,6 +1211,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1241,6 +1263,7 @@ MonoBehaviour:
   m_ZAdjustHover: -0.02
   m_ZAdjustClick: 0.02
   m_HoverScale: 1.1
+  m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
   m_Tool: 16
   m_EatGazeInputOnPress: 1
@@ -1272,7 +1295,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684631367195094}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.211, y: -0.422, z: 0.05}
+  m_LocalPosition: {x: -0.42000058, y: -0.422, z: 0.05}
   m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_Children: []
   m_Father: {fileID: 4067220476156272}
@@ -1300,6 +1323,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1311,6 +1335,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1362,6 +1387,7 @@ MonoBehaviour:
   m_ZAdjustHover: -0.02
   m_ZAdjustClick: 0.05
   m_HoverScale: 1.1
+  m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
   m_Command: 14
   m_CommandParam: -1
@@ -1431,6 +1457,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1442,6 +1469,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1493,6 +1521,7 @@ MonoBehaviour:
   m_ZAdjustHover: -0.02
   m_ZAdjustClick: 0.02
   m_HoverScale: 1.1
+  m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
   m_Tool: 13
   m_EatGazeInputOnPress: 1
@@ -1552,6 +1581,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1563,6 +1593,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1614,6 +1645,7 @@ MonoBehaviour:
   m_ZAdjustHover: -0.02
   m_ZAdjustClick: 0.02
   m_HoverScale: 1.1
+  m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
   m_Tool: 11
   m_EatGazeInputOnPress: 1
@@ -1671,6 +1703,7 @@ MeshRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1682,6 +1715,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1748,6 +1782,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1759,6 +1794,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1787,12 +1823,12 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4073457010706892, guid: 9b674e23f212f5a40b5d981d3ba5f4e2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4073457010706892, guid: 9b674e23f212f5a40b5d981d3ba5f4e2, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4073457010706892, guid: 9b674e23f212f5a40b5d981d3ba5f4e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b674e23f212f5a40b5d981d3ba5f4e2, type: 3}
@@ -1801,4 +1837,84 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4073457010706892, guid: 9b674e23f212f5a40b5d981d3ba5f4e2,
     type: 3}
   m_PrefabInstance: {fileID: 5277953009267508124}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5579042663342834969
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4067220476156272}
+    m_Modifications:
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.42199993
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.41900003
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.049999237
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528323124350178624, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_DescriptionText
+      value: Polyhydra
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770946463766476050, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_Name
+      value: Button_PolyhydraMode
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 64be8f5b74cba87488af4b3facd888d8, type: 3}
+--- !u!4 &7342947973735353189 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2921668448056970876, guid: 64be8f5b74cba87488af4b3facd888d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 5579042663342834969}
   m_PrefabAsset: {fileID: 0}
