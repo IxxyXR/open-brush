@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 
 using Newtonsoft.Json;
+using SVGMeshUnity;
 using JsonSerializationException = Newtonsoft.Json.JsonSerializationException;
 #if USD_SUPPORTED
 using Unity.Formats.USD;
@@ -549,6 +550,7 @@ public class App : MonoBehaviour {
     if (!Config.IsMobileHardware) {
       HttpServer.AddHttpHandler("/load", HttpLoadSketchCallback);
       HttpServer.AddHttpHandler("/api/v1/draw", ApiCommandCallback);
+      HttpServer.AddHttpHandler("/api/v1/svgpath", ApiCommandCallback);
       HttpServer.AddHttpHandler("/api/v1/brush", ApiCommandCallback);
       HttpServer.AddHttpHandler("/api/v1/text", ApiCommandCallback);
     }
@@ -603,7 +605,8 @@ public class App : MonoBehaviour {
       using (Stream body = request.InputStream) {
         using (var reader = new StreamReader(body, request.ContentEncoding))
         {
-          paramString = reader.ReadToEnd();
+          var parts = Uri.UnescapeDataString(reader.ReadToEnd()).Split(new[] {'='}, 2);
+          paramString = parts[1].Replace("+", " ");
         }
       }
     }
@@ -1355,93 +1358,136 @@ public class App : MonoBehaviour {
     } catch (InvalidOperationException) {
       return;
     }
+    if (string.IsNullOrEmpty(command.Value)) return;
 
-    List<List<List<float>>> paths = null;
-    
     switch (command.Key)
     {
       case "draw":
-        if (string.IsNullOrEmpty(command.Value)) return;
-        paths = JsonConvert.DeserializeObject<List<List<List<float>>>>(command.Value);
+        var jsonData = JsonConvert.DeserializeObject<List<List<List<float>>>>(command.Value);
+        PathsToStrokes(jsonData);
         break;
       case "text":
         var font = Resources.Load<CHRFont>("arcade");
         var textToStroke = new TextToStrokes(font);
-        paths = textToStroke.Build(command.Value);
+        var polyline2d = textToStroke.Build(command.Value);
+        PathsToStrokes(polyline2d);
+        break;
+      case "svgpath":
+        SVGData svgData = new SVGData();
+        svgData.Path(command.Value);
+        SVGPolyline svgPolyline = new SVGPolyline();
+        svgPolyline.Fill(svgData);
+        PathsToStrokes(svgPolyline.Polyline, 0.01f, true);
         break;
       case "brush":
         break;
     }
+  }
 
-    if (paths != null)
+  private static void PathsToStrokes(List<List<List<float>>> floatPaths, float scale = 1f)
+  {
+    var paths = new List<List<Vector3>>();
+    foreach (List<List<float>> positionList in floatPaths)
     {
-
-      //var pose = App.Scene.ActiveCanvas.Pose;
-      //Vector3 pos = pose.translation;
-    
-      Vector3 pos = Vector3.zero;
-      var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
-      uint time = 0;
-      float minPressure = PointerManager.m_Instance.MainPointer.CurrentBrush.PressureSizeMin(false);
-      float pressure = Mathf.Lerp(minPressure, 1f, 0.5f);
-      
-      var strokes = new List<Stroke>();
-
-      foreach (var path in paths)
+      var path = new List<Vector3>();
+      foreach (List<float> position in positionList)
       {
-        if (path.Count<2) continue;
-        float lineLength = 0;
-        var controlPoints = new List<PointerManager.ControlPoint>();
-        for (var vertexIndex = 0; vertexIndex < path.Count - 1; vertexIndex++)
-        {
-          var coordList0 = path[vertexIndex];
-          var vert = new Vector3(coordList0[0], coordList0[1], coordList0[2]);
-          var coordList1 = path[(vertexIndex + 1) % path.Count];
-          var nextVert = new Vector3(coordList1[0], coordList1[1], coordList1[2]);
-          for (float step = 0; step <= 1f; step += .25f)
-          {
-            controlPoints.Add(new PointerManager.ControlPoint
-            {
-              m_Pos = pos + vert + ((nextVert - vert) * step),
-              m_Orient = Quaternion.identity, //.LookRotation(face.Normal, Vector3.up),
-              m_Pressure = pressure,
-              m_TimestampMs = time++
-            });
-          }
+        path.Add(new Vector3(position[0], position[1], position[2]));
+      }
+      paths.Add(path);
+    }
+    PathsToStrokes(paths, scale);
+  }
 
-          lineLength += (nextVert - vert).magnitude; // TODO Does this need scaling? Should be in Canvas space
+  private static void PathsToStrokes(List<List<Vector2>> polyline2d, float scale = 1f, bool breakOnOrigin=false)
+  {
+    var paths = new List<List<Vector3>>();
+    foreach (List<Vector2> positionList in polyline2d)
+    {
+      var path = new List<Vector3>();
+      foreach (Vector2 position in positionList)
+      {
+        path.Add(new Vector3(position.x, position.y, 0));
+      }
+      paths.Add(path);
+    }
+    PathsToStrokes(paths, scale, breakOnOrigin);
+  }
+
+  private static void PathsToStrokes(List<List<Vector3>> paths, float scale = 1f, bool breakOnOrigin=false)
+  {
+    Vector3 pos = Vector3.zero;
+    var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
+    uint time = 0;
+    float minPressure = PointerManager.m_Instance.MainPointer.CurrentBrush.PressureSizeMin(false);
+    float pressure = Mathf.Lerp(minPressure, 1f, 0.5f);
+
+    var strokes = new List<Stroke>();
+    foreach (var path in paths)
+    {
+      if (path.Count < 2) continue;
+      float lineLength = 0;
+      var controlPoints = new List<PointerManager.ControlPoint>();
+      for (var vertexIndex = 0; vertexIndex < path.Count - 1; vertexIndex++)
+      {
+        var coordList0 = path[vertexIndex];
+        var vert = new Vector3(coordList0[0], coordList0[1], coordList0[2]) * scale;
+        var coordList1 = path[(vertexIndex + 1) % path.Count];
+        // Fix for trailing zeros from SVG.
+        // TODO Find out why and fix it properly
+        if (breakOnOrigin && coordList1 == Vector3.zero)
+        {
+          break;
+        }
+        var nextVert = new Vector3(coordList1[0], coordList1[1], coordList1[2]) * scale;
+        for (float step = 0; step <= 1f; step += .25f)
+        {
+          controlPoints.Add(new PointerManager.ControlPoint
+          {
+            m_Pos = pos + vert + ((nextVert - vert) * step),
+            m_Orient = Quaternion.identity, //.LookRotation(face.Normal, Vector3.up),
+            m_Pressure = pressure,
+            m_TimestampMs = time++
+          });
         }
 
-        var stroke = new Stroke
-        {
-          m_Type = Stroke.Type.NotCreated,
-          m_IntendedCanvas = App.Scene.ActiveCanvas,
-          m_BrushGuid = brush.m_Guid,
-          m_BrushScale = 1f,
-          m_BrushSize = PointerManager.m_Instance.MainPointer.BrushSizeAbsolute,
-          m_Color = Color.magenta,
-          m_Seed = 0,
-          m_ControlPoints = controlPoints.ToArray(),
-        };
-        stroke.m_ControlPointsToDrop = Enumerable.Repeat(false, stroke.m_ControlPoints.Length).ToArray();
-        stroke.Uncreate();
-        stroke.Recreate(null, App.Scene.ActiveCanvas);
-
-        SketchMemoryScript.m_Instance.MemorizeBatchedBrushStroke(
-          stroke.m_BatchSubset,
-          stroke.m_Color,
-          stroke.m_BrushGuid,
-          stroke.m_BrushSize,
-          stroke.m_BrushScale,
-          stroke.m_ControlPoints.ToList(),
-          stroke.m_Flags,
-          WidgetManager.m_Instance.ActiveStencil,
-          lineLength,
-          123
-        );
-
-        strokes.Add(stroke);
+        lineLength += (nextVert - vert).magnitude; // TODO Does this need scaling? Should be in Canvas space
       }
+
+      for (var i = 0; i < controlPoints.Count; i++)
+      {
+        var p = controlPoints[i];
+      }
+
+      var stroke = new Stroke
+      {
+        m_Type = Stroke.Type.NotCreated,
+        m_IntendedCanvas = App.Scene.ActiveCanvas,
+        m_BrushGuid = brush.m_Guid,
+        m_BrushScale = 1f,
+        m_BrushSize = PointerManager.m_Instance.MainPointer.BrushSizeAbsolute,
+        m_Color = Color.magenta,
+        m_Seed = 0,
+        m_ControlPoints = controlPoints.ToArray(),
+      };
+      stroke.m_ControlPointsToDrop = Enumerable.Repeat(false, stroke.m_ControlPoints.Length).ToArray();
+      stroke.Uncreate();
+      stroke.Recreate(null, App.Scene.ActiveCanvas);
+
+      SketchMemoryScript.m_Instance.MemorizeBatchedBrushStroke(
+        stroke.m_BatchSubset,
+        stroke.m_Color,
+        stroke.m_BrushGuid,
+        stroke.m_BrushSize,
+        stroke.m_BrushScale,
+        stroke.m_ControlPoints.ToList(),
+        stroke.m_Flags,
+        WidgetManager.m_Instance.ActiveStencil,
+        lineLength,
+        123
+      );
+
+      strokes.Add(stroke);
     }
   }
 

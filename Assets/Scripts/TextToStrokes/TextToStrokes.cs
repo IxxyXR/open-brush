@@ -14,9 +14,9 @@ namespace TiltBrush
       _font = font;
     }
 
-    public List<List<List<float>>> Build(string text)
+    public List<List<Vector3>> Build(string text)
     {
-      var shape = new List<List<List<float>>>();
+      var shape = new List<List<Vector3>>();
       Vector2 offset = Vector2.zero;
       foreach (var character in text)
       {
@@ -28,10 +28,11 @@ namespace TiltBrush
         if (character < _font.Outlines.Count)
         {
           List<List<Vector2>> letter = _font.Outlines[character];
+          // Offset letter outline by the current total offset
           shape.AddRange(
             letter.Select(
               path => path.Select(
-                point=>new List<float>{point.x + offset.x, point.y + offset.y, 0}
+                point=>new Vector3(point.x + offset.x, point.y + offset.y, 0)
               ).ToList()
             ).ToList()
           );
