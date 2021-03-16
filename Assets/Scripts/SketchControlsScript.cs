@@ -53,7 +53,7 @@ public class SketchControlsScript : MonoBehaviour {
     SketchOrigin,
     SymmetryPlane,
     SymmetryFour,
-    SymmetrySix,
+    CustomSymmetryCommand,
     ViewOnly,
     SaveGallery,
     LightingLdr,
@@ -1217,7 +1217,7 @@ public class SketchControlsScript : MonoBehaviour {
         var next = (cur == SymmetryMode.None) ? SymmetryMode.SinglePlane
           : (cur == SymmetryMode.SinglePlane) ? SymmetryMode.DebugMultiple
           : (cur == SymmetryMode.DebugMultiple) ? SymmetryMode.FourAroundY
-          : (cur == SymmetryMode.FourAroundY) ? SymmetryMode.SixAroundY
+          : (cur == SymmetryMode.FourAroundY) ? SymmetryMode.CustomSymmetryMode
           : SymmetryMode.None;
         PointerManager.m_Instance.CurrentSymmetryMode = next;
       } else if (InputManager.m_Instance.GetKeyboardShortcutDown(
@@ -3640,9 +3640,9 @@ public class SketchControlsScript : MonoBehaviour {
       }
       InputManager.m_Instance.TriggerHaptics(InputManager.ControllerName.Brush, 0.1f);
       break;
-    case GlobalCommands.SymmetrySix:
-      if (PointerManager.m_Instance.CurrentSymmetryMode != SymmetryMode.SixAroundY) {
-        PointerManager.m_Instance.SetSymmetryMode(SymmetryMode.SixAroundY);
+    case GlobalCommands.CustomSymmetryCommand:
+      if (PointerManager.m_Instance.CurrentSymmetryMode != SymmetryMode.CustomSymmetryMode) {
+        PointerManager.m_Instance.SetSymmetryMode(SymmetryMode.CustomSymmetryMode);
         ControllerConsoleScript.m_Instance.AddNewLine("Symmetry Enabled");
       } else {
         PointerManager.m_Instance.SetSymmetryMode(SymmetryMode.None);
@@ -4175,7 +4175,7 @@ public class SketchControlsScript : MonoBehaviour {
     case GlobalCommands.StraightEdgeMeterDisplay: return PointerManager.m_Instance.StraightEdgeGuide.IsShowingMeter();
     case GlobalCommands.SymmetryPlane: return PointerManager.m_Instance.CurrentSymmetryMode == SymmetryMode.SinglePlane;
     case GlobalCommands.SymmetryFour: return PointerManager.m_Instance.CurrentSymmetryMode == SymmetryMode.FourAroundY;
-    case GlobalCommands.SymmetrySix: return PointerManager.m_Instance.CurrentSymmetryMode == SymmetryMode.SixAroundY;
+    case GlobalCommands.CustomSymmetryCommand: return PointerManager.m_Instance.CurrentSymmetryMode == SymmetryMode.CustomSymmetryMode;
     case GlobalCommands.AutoOrient: return m_AutoOrientAfterRotation;
     case GlobalCommands.AudioVisualization: return VisualizerManager.m_Instance.VisualsRequested;
     case GlobalCommands.AdvancedPanelsToggle: return m_PanelManager.AdvancedModeActive();

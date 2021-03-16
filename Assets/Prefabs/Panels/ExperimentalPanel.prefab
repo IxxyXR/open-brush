@@ -1148,7 +1148,7 @@ GameObject:
   - component: {fileID: 4329030615002288417}
   - component: {fileID: 6376489254652185559}
   m_Layer: 16
-  m_Name: PanelButton_SixMirror
+  m_Name: PanelButton_CustomMirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1242,7 +1242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DescriptionType: 0
   m_DescriptionYOffset: 0
-  m_DescriptionText: Six Mirror
+  m_DescriptionText: Custom Mirror
   m_DescriptionTextExtra: 
   m_DescriptionActivateSpeed: 12
   m_DescriptionZScale: 1

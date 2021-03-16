@@ -37,7 +37,7 @@ public class PointerManager : MonoBehaviour {
     None,
     SinglePlane,
     FourAroundY,
-    SixAroundY,
+    CustomSymmetryMode,
     DebugMultiple,
   }
 
@@ -385,7 +385,7 @@ public class PointerManager : MonoBehaviour {
         } else if (m_CurrentSymmetryMode == SymmetryMode.FourAroundY) {
           m_SymmetryWidget.position = SketchSurfacePanel.m_Instance.transform.position;
           m_SymmetryWidget.rotation = SketchSurfacePanel.m_Instance.transform.rotation;
-        } else if (m_CurrentSymmetryMode == SymmetryMode.SixAroundY) {
+        } else if (m_CurrentSymmetryMode == SymmetryMode.CustomSymmetryMode) {
           m_SymmetryWidget.position = SketchSurfacePanel.m_Instance.transform.position;
           m_SymmetryWidget.rotation = SketchSurfacePanel.m_Instance.transform.rotation;
         }
@@ -579,7 +579,10 @@ public class PointerManager : MonoBehaviour {
     case SymmetryMode.None: active = 1; break;
     case SymmetryMode.SinglePlane: active = 2; break;
     case SymmetryMode.FourAroundY: active = 4; break;
-    case SymmetryMode.SixAroundY: active = 6; break;
+    case SymmetryMode.CustomSymmetryMode:
+      var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
+      active = vrPoly._conwayPoly.Faces.Count;
+      break;
     case SymmetryMode.DebugMultiple: active = DEBUG_MULTIPLE_NUM_POINTERS; break;
     }
     int maxUserPointers = m_Pointers.Length;
@@ -647,12 +650,14 @@ public class PointerManager : MonoBehaviour {
       return aboutY * xfMain;
     }
     
-    case SymmetryMode.SixAroundY: {
-      // aboutY is an operator that rotates worldspace objects N degrees around the widget's Y
+    case SymmetryMode.CustomSymmetryMode: {
+      var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
+      
       TrTransform aboutY; {
         var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
-        float angle = (360f * child) / m_NumActivePointers;
-        aboutY = TrTransform.TR(Vector3.zero, Quaternion.AngleAxis(angle, Vector3.up));
+        var face =  vrPoly._conwayPoly.Faces[child];
+        TrTransform foo = TrTransform.TR(Vector3.zero, Quaternion.AngleAxis(33, Vector3.up));
+        aboutY = TrTransform.TR(face.Centroid, Quaternion.AngleAxis(0, Vector3.up));
         // convert from widget-local coords to world coords
         aboutY = aboutY.TransformBy(xfWidget);
       }
@@ -708,22 +713,58 @@ public class PointerManager : MonoBehaviour {
       break;
     }
     
-    case SymmetryMode.SixAroundY: {
-      TrTransform pointer0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
-      // aboutY is an operator that rotates worldspace objects N degrees around the widget's Y
-      TrTransform aboutY; {
-        var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
-        float angle = 360f / m_NumActivePointers;
-        aboutY = TrTransform.TR(Vector3.zero, Quaternion.AngleAxis(angle, Vector3.up));
-        // convert from widget-local coords to world coords
-        aboutY = xfWidget * aboutY * xfWidget.inverse;
-      }
+    // case SymmetryMode.CustomSymmetryMode: {
+    //   
+    //   TrTransform pointer0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
+    //   var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
+    //   if (vrPoly == null || vrPoly._conwayPoly == null) return;
+    //   var faces = vrPoly._conwayPoly.Faces;
+    //   m_NumActivePointers = Mathf.Min(faces.Count, m_Pointers.Length);
+    //   var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
+    //   TrTransform face0Tr = TrTransform.identity;
+    //   for (int i = 0; i < m_NumActivePointers; i++) {
+    //     var face = faces[i];
+    //     TrTransform faceTr = TrTransform.TR(Vector3.zero, Quaternion.LookRotation(face.Centroid, Vector3.up));
+    //     face0Tr = (i == 0) ? faceTr : face0Tr;
+    //     faceTr = xfWidget * faceTr * xfWidget.inverse;
+    //     var tmp = faceTr * pointer0 * face0Tr.inverse; // Work around 2018.3.x Mono parse bug
+    //     tmp.ToTransform(m_Pointers[i].m_Script.transform);
+    //   }
+    //   break;
+    // }
 
-      TrTransform cur = TrTransform.identity;
-      for (int i = 1; i < m_NumActivePointers; ++i) {
-        cur = aboutY * cur;   // stack another rotation on top
-        var tmp = (cur * pointer0); // Work around 2018.3.x Mono parse bug
-        tmp.ToTransform(m_Pointers[i].m_Script.transform);
+    
+    // case SymmetryMode.CustomSymmetryMode: {
+    //   var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
+    //   var xf0 = m_Pointers[0].m_Script.transform;
+    //   var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
+    //   if (vrPoly == null || vrPoly._conwayPoly == null) return;
+    //   var faces = vrPoly._conwayPoly.Faces;
+    //   for (int i = 0; i < faces.Count; i++) {
+    //     var face = faces[i];
+    //     var xf = m_Pointers[i].m_Script.transform;
+    //     var tmp = xfWidget;
+    //     tmp.ToTransform(m_Pointers[i].m_Script.transform);
+    //     xf.position = tmp.translation + xf0.position + face.Centroid;
+    //     //xf.rotation = xf0.rotation * Quaternion.LookRotation(face.Normal, Vector3.up);
+    //   }
+    //   break;
+    // }
+    
+    case SymmetryMode.CustomSymmetryMode: {
+      var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
+      var xf0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
+      // var xf0 = m_Pointers[0].m_Script.transform;
+      var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
+      if (vrPoly == null || vrPoly._conwayPoly == null) return;
+      var faces = vrPoly._conwayPoly.Faces;
+      for (int i = 0; i < faces.Count; i++) {
+        var face = faces[i];
+        TrTransform faceTr = TrTransform.TR(face.Centroid, Quaternion.LookRotation(face.Centroid, Vector3.up));
+        faceTr = xfWidget * faceTr * xfWidget.inverse;
+        faceTr *= xf0;
+        faceTr.ToTransform(m_Pointers[i].m_Script.transform);
+        Debug.Log($"{i}: {m_Pointers[i].m_Script.transform.position}");
       }
       break;
     }
