@@ -16,7 +16,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-
+using Conway;
 using ControllerName = TiltBrush.InputManager.ControllerName;
 
 namespace TiltBrush {
@@ -712,59 +712,60 @@ public class PointerManager : MonoBehaviour {
       }
       break;
     }
-    
-    // case SymmetryMode.CustomSymmetryMode: {
-    //   
-    //   TrTransform pointer0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
-    //   var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
-    //   if (vrPoly == null || vrPoly._conwayPoly == null) return;
-    //   var faces = vrPoly._conwayPoly.Faces;
-    //   m_NumActivePointers = Mathf.Min(faces.Count, m_Pointers.Length);
-    //   var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
-    //   TrTransform face0Tr = TrTransform.identity;
-    //   for (int i = 0; i < m_NumActivePointers; i++) {
-    //     var face = faces[i];
-    //     TrTransform faceTr = TrTransform.TR(Vector3.zero, Quaternion.LookRotation(face.Centroid, Vector3.up));
-    //     face0Tr = (i == 0) ? faceTr : face0Tr;
-    //     faceTr = xfWidget * faceTr * xfWidget.inverse;
-    //     var tmp = faceTr * pointer0 * face0Tr.inverse; // Work around 2018.3.x Mono parse bug
-    //     tmp.ToTransform(m_Pointers[i].m_Script.transform);
-    //   }
-    //   break;
-    // }
 
-    
-    // case SymmetryMode.CustomSymmetryMode: {
-    //   var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
-    //   var xf0 = m_Pointers[0].m_Script.transform;
-    //   var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
-    //   if (vrPoly == null || vrPoly._conwayPoly == null) return;
-    //   var faces = vrPoly._conwayPoly.Faces;
-    //   for (int i = 0; i < faces.Count; i++) {
-    //     var face = faces[i];
-    //     var xf = m_Pointers[i].m_Script.transform;
-    //     var tmp = xfWidget;
-    //     tmp.ToTransform(m_Pointers[i].m_Script.transform);
-    //     xf.position = tmp.translation + xf0.position + face.Centroid;
-    //     //xf.rotation = xf0.rotation * Quaternion.LookRotation(face.Normal, Vector3.up);
-    //   }
-    //   break;
-    // }
-    
+    // Converts a Face to a coordinate frame:
+    // - origin at the centroid
+    // - forward sticking out of the face
+    // - scale == 1 (-1 is also useful and fun, but for the moment always uses 1)
+    TrTransform asFrame(Face face) {
+      Vector3 pos = face.Centroid;
+      var faceVector = face.Halfedge.Midpoint - pos;
+      return TrTransform.TRS(
+        pos,
+        // halfedge.midpoint could be any arbitrary point in the plane of the face
+        // Use something principled here instead of midpoint, to give interesting symmetries
+        Quaternion.LookRotation(face.Normal, faceVector),
+        // faceVector.magnitude // Approximate measure of face size
+        1f
+      );
+    }
+
+    Face getBestFace(TrTransform reference_OS, MeshFaceList faces) {
+      Vector3 pos = reference_OS.translation;
+      int best = -1;
+      float bestScore = 10000;
+      for (int i = 0; i < faces.Count; ++i) {
+        float thisScore = (pos - faces[i].Centroid).magnitude;
+        if (thisScore < bestScore) {
+          best = i; bestScore = thisScore;
+        }
+      }
+      return faces[best];
+    }
+
     case SymmetryMode.CustomSymmetryMode: {
       var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
-      var xf0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
-      // var xf0 = m_Pointers[0].m_Script.transform;
+      // Transform of pointer 0 in global space
+      var xf0_GS = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
+      var xf0_OS = xfWidget.inverse * xf0_GS;
+
       var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
       if (vrPoly == null || vrPoly._conwayPoly == null) return;
       var faces = vrPoly._conwayPoly.Faces;
+
+      // pose of best face, in object space
+      TrTransform bestface_OS = asFrame(getBestFace(xf0_OS, faces));
+
       for (int i = 0; i < faces.Count; i++) {
-        var face = faces[i];
-        TrTransform faceTr = TrTransform.TR(face.Centroid, Quaternion.LookRotation(face.Centroid, Vector3.up));
-        faceTr = xfWidget * faceTr * xfWidget.inverse;
-        faceTr *= xf0;
-        faceTr.ToTransform(m_Pointers[i].m_Script.transform);
-        Debug.Log($"{i}: {m_Pointers[i].m_Script.transform.position}");
+        // Pose of face i, in object space
+        TrTransform face_i_OS = asFrame(faces[i]);
+        // Active transform from face 0 to face i; acts on object-space things
+        TrTransform face_i_from_bestface_OS = face_i_OS * bestface_OS.inverse;
+        // Active transform from face 0 to face i; acts on global-space things
+        TrTransform face_i_from_bestface_GS = xfWidget * face_i_from_bestface_OS * xfWidget.inverse;
+        // apply face 0->face i transform to pointer 0 to get pointer i
+        TrTransform xf_i_GS = face_i_from_bestface_GS * xf0_GS;
+        xf_i_GS.ToTransform(m_Pointers[i].m_Script.transform);
       }
       break;
     }
