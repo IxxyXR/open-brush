@@ -40,24 +40,77 @@ public class ClipboardManager : MonoBehaviour {
 
   /// Copies and pastes the current selection to the current canvas.
   public void DuplicateSelection(bool offsetDuplicate = false) {
+    TrTransform originalXf = SelectionManager.m_Instance.SelectionTransform;
     TrTransform xf = SelectionManager.m_Instance.SelectionTransform;
-    if (offsetDuplicate) {
-      // Scoot all the strokes and widgets.
-      // TODO: Make this relative to the user's facing.
-      Vector3 offset = m_DuplicateOffset / App.Scene.Pose.scale * 0.5f;
-      xf.translation += offset;
-    }
-
+    Vector3 offset = m_DuplicateOffset / App.Scene.Pose.scale * 0.5f;
     // Lil' jiggle.
     var controller = InputManager.ControllerName.Brush;
-    if (SketchControlsScript.m_Instance.OneHandGrabController != InputManager.ControllerName.None) {
+    if (SketchControlsScript.m_Instance.OneHandGrabController != InputManager.ControllerName.None)
+    {
       controller = SketchControlsScript.m_Instance.OneHandGrabController;
     }
     InputManager.m_Instance.TriggerHapticsPulse(controller, 3, 0.15f, 0.07f);
     AudioManager.m_Instance.PlayDuplicateSound(InputManager.m_Instance.GetControllerPosition(controller));
 
-    SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DuplicateSelectionCommand(xf));
+    if (offsetDuplicate)
+    {
+      // Scoot all the strokes and widgets.
+      // TODO: Make this relative to the user's facing.
+      xf.translation += offset;
+    }
+    
+    SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DuplicateSelectionCommand(xf, SelectionManager.m_Instance.SelectedStrokes));
+    var mirror = PointerManager.m_Instance.SymmetryPlane_RS;
+    if (mirror.HasValue)
+     {
+       //var mirroredXf = PointerManager.m_Instance.GetSymmetryTransformFor(PointerManager.m_Instance.MainPointer, xf);
+       var mirroredXf = mirror.Value.ReflectPoseKeepHandedness(originalXf);
+       
+       //SelectionManager.m_Instance.SelectionTransform = mirroredXf;
+       SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DuplicateSelectionCommand(mirroredXf, SelectionManager.m_Instance.SelectedStrokes));
+
+        // TrTransform mirroredXf = mirror.Value.ReflectPoseKeepHandedness(originalXf);
+        // TrTransform mirroredXf = new TrTransform();
+        // mirroredXf.translation = mirroredXf.translation + Vector3.up;
+        // SelectionManager.m_Instance.SelectionTransform = mirroredXf;
+        // SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DuplicateSelectionCommand(originalXf));
+        // mirroredXf.translation = mirroredXf.translation + Vector3.forward;
+        // SelectionManager.m_Instance.SelectionTransform = mirroredXf;
+        // SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DuplicateSelectionCommand(originalXf));
+        // mirroredXf.translation = mirroredXf.translation + Vector3.left;
+        // SelectionManager.m_Instance.SelectionTransform = mirroredXf;
+        // SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DuplicateSelectionCommand(originalXf));
+    }
+    //SelectionManager.m_Instance.SelectionTransform = originalXf;
   }
+  
+  // public void DuplicateSelection2(bool offsetDuplicate = false)
+  // {
+  //   
+  //   TrTransform xf = SelectionManager.m_Instance.SelectionTransform;
+  //   
+  //   for (int i = 0; i < 2; i++)
+  //   {
+  //     Vector3 offset = m_DuplicateOffset / App.Scene.Pose.scale * 0.5f;
+  //     if (offsetDuplicate) {
+  //       // Scoot all the strokes and widgets.
+  //       // TODO: Make this relative to the user's facing.
+  //       xf.translation += offset;
+  //     }
+  //     xf.translation += (offset * i);
+  //     // Lil' jiggle.
+  //     var controller = InputManager.ControllerName.Brush;
+  //     if (SketchControlsScript.m_Instance.OneHandGrabController != InputManager.ControllerName.None) {
+  //       controller = SketchControlsScript.m_Instance.OneHandGrabController;
+  //     }
+  //     InputManager.m_Instance.TriggerHapticsPulse(controller, 3, 0.15f, 0.07f);
+  //     AudioManager.m_Instance.PlayDuplicateSound(InputManager.m_Instance.GetControllerPosition(controller));
+  //
+  //     SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DuplicateSelectionCommand(xf));
+  //   }
+  //   
+  // }
+// }
 }
 
 }  // namespace TiltBrush
