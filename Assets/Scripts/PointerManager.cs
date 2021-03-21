@@ -154,6 +154,7 @@ public class PointerManager : MonoBehaviour {
   private float m_SketchSurfaceLineDepthIncrement = 0.0001f;
   private float m_SketchSurfaceLineDepth;
   private bool m_SketchSurfaceLineWasEnabled;
+  private TrTransform m_bestface_OS;
 
   // ---- events
 
@@ -719,7 +720,7 @@ public class PointerManager : MonoBehaviour {
     // - scale == 1 (-1 is also useful and fun, but for the moment always uses 1)
     TrTransform asFrame(Face face) {
       Vector3 pos = face.Centroid;
-      var faceVector = face.Halfedge.Midpoint - pos;
+      var faceVector = face.GetBestEdge().Midpoint - pos;
       return TrTransform.TRS(
         pos,
         // halfedge.midpoint could be any arbitrary point in the plane of the face
@@ -730,16 +731,16 @@ public class PointerManager : MonoBehaviour {
       );
     }
 
-    Face getBestFace(TrTransform reference_OS, MeshFaceList faces) {
-      Vector3 pos = reference_OS.translation;
+    Face getBestFace(Vector3 pos, MeshFaceList faces) {
       int best = -1;
       float bestScore = 10000;
       for (int i = 0; i < faces.Count; ++i) {
-        float thisScore = (pos - faces[i].Centroid).magnitude;
+        float thisScore = (pos - faces[i].Centroid).sqrMagnitude;
         if (thisScore < bestScore) {
           best = i; bestScore = thisScore;
         }
       }
+      Debug.Log($"Best face is {best}");
       return faces[best];
     }
 
@@ -752,15 +753,18 @@ public class PointerManager : MonoBehaviour {
       var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
       if (vrPoly == null || vrPoly._conwayPoly == null) return;
       var faces = vrPoly._conwayPoly.Faces;
-
-      // pose of best face, in object space
-      TrTransform bestface_OS = asFrame(getBestFace(xf0_OS, faces));
+      
+      if (!m_Instance.MainPointer.IsCreatingStroke())
+      { 
+        // pose of best face, in object space from pointer position
+        m_bestface_OS = asFrame(getBestFace(xf0_OS.translation, faces));
+      }
 
       for (int i = 0; i < faces.Count; i++) {
         // Pose of face i, in object space
         TrTransform face_i_OS = asFrame(faces[i]);
         // Active transform from face 0 to face i; acts on object-space things
-        TrTransform face_i_from_bestface_OS = face_i_OS * bestface_OS.inverse;
+        TrTransform face_i_from_bestface_OS = face_i_OS * m_bestface_OS.inverse;
         // Active transform from face 0 to face i; acts on global-space things
         TrTransform face_i_from_bestface_GS = xfWidget * face_i_from_bestface_OS * xfWidget.inverse;
         // apply face 0->face i transform to pointer 0 to get pointer i
