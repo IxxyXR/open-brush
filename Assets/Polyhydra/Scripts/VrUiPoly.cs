@@ -243,7 +243,7 @@ public class VrUiPoly : MonoBehaviour
         
             if (_conwayPoly == null) return;
             #if UNITY_EDITOR
-                GizmoHelper.DrawGizmos(_conwayPoly, transform, vertexGizmos, faceGizmos, edgeGizmos, faceCenterGizmos, 0.3f);
+                GizmoHelper.DrawGizmos(_conwayPoly, transform, vertexGizmos, faceGizmos, edgeGizmos, faceCenterGizmos, false, 0.3f);
             #endif
         }
 }
