@@ -740,7 +740,6 @@ public class PointerManager : MonoBehaviour {
           best = i; bestScore = thisScore;
         }
       }
-      Debug.Log($"Best face is {best}");
       return faces[best];
     }
 
@@ -769,6 +768,10 @@ public class PointerManager : MonoBehaviour {
         TrTransform face_i_from_bestface_GS = xfWidget * face_i_from_bestface_OS * xfWidget.inverse;
         // apply face 0->face i transform to pointer 0 to get pointer i
         TrTransform xf_i_GS = face_i_from_bestface_GS * xf0_GS;
+        // TODO - how to scale strokes in the plane of each face?
+        // var faceScalingFactor = (faces[i].GetBestEdge().Midpoint - faces[i].Centroid).magnitude;
+        // var trScale = TrTransform.S(faceScalingFactor);
+        // xf_i_GS *= trScale;
         xf_i_GS.ToTransform(m_Pointers[i].m_Script.transform);
       }
       break;
