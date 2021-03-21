@@ -552,6 +552,7 @@ public class App : MonoBehaviour {
       HttpServer.AddHttpHandler("/api/v1/draw", ApiCommandCallback);
       HttpServer.AddHttpHandler("/api/v1/svgpath", ApiCommandCallback);
       HttpServer.AddHttpHandler("/api/v1/brush", ApiCommandCallback);
+      HttpServer.AddHttpHandler("/api/v1/color", ApiCommandCallback);
       HttpServer.AddHttpHandler("/api/v1/text", ApiCommandCallback);
     }
 
@@ -1380,6 +1381,30 @@ public class App : MonoBehaviour {
         PathsToStrokes(svgPolyline.Polyline, 0.01f, true);
         break;
       case "brush":
+        var brushId = command.Value;
+        BrushDescriptor brushDescriptor = null;
+        try
+        {
+          var guid = new Guid(brushId);
+          brushDescriptor = BrushCatalog.m_Instance.GetBrush(guid);
+        }
+        catch (FormatException e)
+        {}
+        
+        if (brushDescriptor == null)
+        {
+          brushId = brushId.ToLower();
+          brushDescriptor = BrushCatalog.m_Instance.AllBrushes.First(x => x.name.ToLower() == brushId);
+        }
+        PointerManager.m_Instance.SetBrushForAllPointers(brushDescriptor);
+        break;
+      case "color":
+        Color color;
+        if (ColorUtility.TryParseHtmlString(command.Value, out color) ||
+            ColorUtility.TryParseHtmlString($"#{command.Value}", out color))
+        {
+          BrushColor.CurrentColor = color;
+        }
         break;
     }
   }
@@ -1454,25 +1479,20 @@ public class App : MonoBehaviour {
         lineLength += (nextVert - vert).magnitude; // TODO Does this need scaling? Should be in Canvas space
       }
 
-      for (var i = 0; i < controlPoints.Count; i++)
-      {
-        var p = controlPoints[i];
-      }
-
       var stroke = new Stroke
       {
         m_Type = Stroke.Type.NotCreated,
-        m_IntendedCanvas = App.Scene.ActiveCanvas,
+        m_IntendedCanvas = Scene.ActiveCanvas,
         m_BrushGuid = brush.m_Guid,
         m_BrushScale = 1f,
         m_BrushSize = PointerManager.m_Instance.MainPointer.BrushSizeAbsolute,
-        m_Color = Color.magenta,
+        m_Color = BrushColor.CurrentColor,
         m_Seed = 0,
         m_ControlPoints = controlPoints.ToArray(),
       };
       stroke.m_ControlPointsToDrop = Enumerable.Repeat(false, stroke.m_ControlPoints.Length).ToArray();
       stroke.Uncreate();
-      stroke.Recreate(null, App.Scene.ActiveCanvas);
+      stroke.Recreate(null, Scene.ActiveCanvas);
 
       SketchMemoryScript.m_Instance.MemorizeBatchedBrushStroke(
         stroke.m_BatchSubset,
