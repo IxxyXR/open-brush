@@ -166,8 +166,6 @@ public abstract class ControllerInfo {
       return GetVrInput(VrInput.Button01 /*half_left*/);
     case SketchCommands.Redo:
       return GetVrInput(VrInput.Button02 /*half_right*/);
-    case SketchCommands.Fly:
-      return IsTrigger();
     }
 
     return false;

@@ -70,10 +70,9 @@ namespace TiltBrush.AndyB
             
             if (InputManager.m_Instance.GetCommandDown(InputManager.SketchCommands.Activate))
             {
+                VrUiPoly uiPoly = FindObjectOfType<VrUiPoly>();
+                if (uiPoly == null) return;
 
-                // var poly = GetComponentInChildren<VrUiPoly>()._conwayPoly;
-                // TODO
-                var uiPoly = FindObjectOfType<VrUiPoly>();
                 var poly = uiPoly._conwayPoly;
 
                 var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;

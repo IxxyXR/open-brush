@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Conway;
@@ -25,8 +24,6 @@ public class VrUiPoly : MonoBehaviour
     public Gradient colors;
 
     public ConwayPoly _conwayPoly;
-    public WythoffPoly WythoffPoly;
-    public string WythoffSymbol;
     public bool Rescale;
     private MeshFilter meshFilter;
     private Color[] previewColors;
@@ -36,14 +33,12 @@ public class VrUiPoly : MonoBehaviour
     public bool faceGizmos;
     public bool edgeGizmos;
     public bool faceCenterGizmos;
-    public bool shapeGizmos;
 
     void Start()
     {
         Init();
     }
 
-    
     void Init()
     {
         meshFilter = gameObject.GetComponent<MeshFilter>();

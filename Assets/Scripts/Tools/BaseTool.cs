@@ -45,7 +45,6 @@ public class BaseTool : MonoBehaviour {
     CameraPathTool,
     
     //custom
-    FlyTool,
     PolyhydraTool
   }
   public ToolType m_Type;

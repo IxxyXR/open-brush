@@ -3294,7 +3294,7 @@ MonoBehaviour:
   m_OdsOutputPrefix: 
   m_ControlsPrefabOverrideOvr: {fileID: 0}
   m_ControlsPrefabOverrideSteamVr: {fileID: 0}
-  m_VersionNumber: 0.1.0
+  m_VersionNumber: 0.2.0
   m_BuildStamp: 
   m_SteamVrRenderPrefab: {fileID: 1000010802110602, guid: 80670fed37dd0364db7c72ccc9fb3a8f,
     type: 3}
@@ -31064,7 +31064,7 @@ Transform:
   m_GameObject: {fileID: 2017772650}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 684558198}
   m_RootOrder: 11

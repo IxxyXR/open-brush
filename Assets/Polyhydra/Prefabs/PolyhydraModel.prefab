@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8240667959069599072}
   - component: {fileID: 8240667959069599073}
   m_Layer: 0
-  m_Name: Polyhydra
+  m_Name: PolyhydraModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,13 +131,17 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 6
     m_NumAlphaKeys: 2
-  WythoffSymbol: 
   Rescale: 1
   PreviewColorMethod: 1
   vertexGizmos: 0
   faceGizmos: 0
   edgeGizmos: 0
   faceCenterGizmos: 0
-  shapeGizmos: 0
-  ConwayOperators: []
+  ConwayOperators:
+  - opType: 0
+    faceSelections: 0
+    randomize: 0
+    amount: 0
+    amount2: 0
+    disabled: 0
   SafeLimits: 0

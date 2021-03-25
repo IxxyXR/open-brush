@@ -13,22 +13,20 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Conway;
-using UnityEngine;
 
 
 namespace TiltBrush {
 
 public class PolyhydraPopUpWindowConwayOps : PolyhydraPopUpWindowBase {
   
-    [NonSerialized] protected int OpIndex;
+    [NonSerialized] protected int OpIndex = 0;
 
 
     protected override string[] GetButtonList()
     {
-      return Enum.GetNames(typeof(Ops)).ToArray();
+      return Enum.GetNames(typeof(Ops)).Take(24).ToArray();
     }
 
     protected override string GetButtonTexturePath(int i)
@@ -38,9 +36,29 @@ public class PolyhydraPopUpWindowConwayOps : PolyhydraPopUpWindowBase {
 
     public override void HandleButtonPress(int buttonIndex)
     {
-      var op = ParentPanel.PolyhydraModel.ConwayOperators[OpIndex];
+      var ops = ParentPanel.PolyhydraModel.ConwayOperators;
+      PolyHydraEnums.OpConfig opConfig = PolyHydraEnums.OpConfigs[(Ops)buttonIndex];
+      while (ops.Count < OpIndex)
+      {
+        ops.Add(new VrUiPoly.ConwayOperator());
+      }
+      
+      var op = ops[OpIndex];
       op.opType = (Ops)buttonIndex;
-      ParentPanel.PolyhydraModel.ConwayOperators[OpIndex] = op;
+      op.amount = opConfig.amountDefault;
+      op.amount2 = opConfig.amount2Default;
+      
+      ops[OpIndex] = op;
+      ParentPanel.PolyhydraModel.ConwayOperators = ops;
+      ParentPanel.ButtonsConwayOps[OpIndex].SetButtonTexture(GetButtonTexture(buttonIndex));
+      
+      ParentPanel.SlidersConwayOps[OpIndex * 2].Min = opConfig.amountSafeMin;
+      ParentPanel.SlidersConwayOps[OpIndex * 2].Max = opConfig.amountSafeMax;
+      ParentPanel.SlidersConwayOps[OpIndex * 2].UpdateValue(opConfig.amountDefault);
+      
+      ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].Min = opConfig.amount2SafeMin;
+      ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].Max = opConfig.amount2SafeMax;
+      ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].UpdateValue(opConfig.amount2Default);
     }
 
 

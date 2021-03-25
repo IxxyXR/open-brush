@@ -29,7 +29,7 @@ public class GuideBeam {
 
 public class SymmetryWidget : GrabWidget {
   [SerializeField] private Renderer m_LeftRightMesh;
-  [SerializeField] private MeshRenderer m_SymmetryGuidePoly;
+  [SerializeField] public MeshRenderer m_SymmetryGuidePoly;
   [SerializeField] private TextMeshPro m_TitleText;
   [SerializeField] private GameObject m_HintText;
   [SerializeField] private GrabWidgetHome m_Home;

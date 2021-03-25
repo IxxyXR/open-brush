@@ -84,10 +84,7 @@ public class InputManager : MonoBehaviour {
     Confirm,
     Cancel,
     Trash,
-    Share,
-    
-    Fly,
-    // Foo ? do we need this?
+    Share
   }
 
   /// WARNING: do not arbitrarily rename these enum values.

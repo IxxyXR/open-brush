@@ -53,7 +53,6 @@ public class SketchControlsScript : MonoBehaviour {
     SketchOrigin,
     SymmetryPlane,
     SymmetryFour,
-    CustomSymmetryCommand,
     ViewOnly,
     SaveGallery,
     LightingLdr,
@@ -140,6 +139,7 @@ public class SketchControlsScript : MonoBehaviour {
     SignOutConfirm,
     ReadOnlyNotice,
     
+    CustomSymmetryCommand,
     PolyhydraOpenShapeTypesPopup,
     PolyhydraOpenUniformsPopup,
     PolyhydraGridTypesPopup,

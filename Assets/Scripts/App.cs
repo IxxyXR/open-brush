@@ -547,7 +547,6 @@ public class App : MonoBehaviour {
     m_HttpServer = GetComponentInChildren<HttpServer>();
     if (!Config.IsMobileHardware) {
       HttpServer.AddHttpHandler("/load", HttpLoadSketchCallback);
-      HttpServer.AddHttpHandler("/foo", HttpLoadSketchCallback);
     }
 
     m_AutosaveRestoreFileExists = File.Exists(AutosaveRestoreFilePath());
@@ -581,16 +580,6 @@ public class App : MonoBehaviour {
     if (urlPath == "/load" && query.Length > 1) {
       var filePath = query.Substring(1);
       m_RequestedTiltFileQueue.Enqueue(filePath);
-    }
-    return "";
-  }
-  
-  string FooCallback(HttpListenerRequest request) {
-    var urlPath = request.Url.LocalPath;
-    var query = Uri.UnescapeDataString(request.Url.Query);
-    if (urlPath == "/foo" && query.Length > 1)
-    {
-      Debug.Log($"{query.Substring(1)}");
     }
     return "";
   }

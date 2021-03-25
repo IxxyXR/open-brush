@@ -15,9 +15,13 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Conway;
+using Wythoff;
 using ControllerName = TiltBrush.InputManager.ControllerName;
+using Face = Conway.Face;
+using Random = UnityEngine.Random;
 
 namespace TiltBrush {
 
@@ -574,14 +578,16 @@ public class PointerManager : MonoBehaviour {
     UpdateSymmetryPointerTransforms();
   }
 
-  public void SetSymmetryMode(SymmetryMode mode, bool recordCommand = true) {
+  public void SetSymmetryMode(SymmetryMode mode, bool recordCommand = true)
+  {
+    VrUiPoly vrPoly = null;
     int active = m_NumActivePointers;
     switch (mode) {
     case SymmetryMode.None: active = 1; break;
     case SymmetryMode.SinglePlane: active = 2; break;
     case SymmetryMode.FourAroundY: active = 4; break;
     case SymmetryMode.CustomSymmetryMode:
-      var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
+      vrPoly = (VrUiPoly) FindObjectOfType(typeof(VrUiPoly));
       active = vrPoly._conwayPoly.Faces.Count;
       break;
     case SymmetryMode.DebugMultiple: active = DEBUG_MULTIPLE_NUM_POINTERS; break;
@@ -600,6 +606,14 @@ public class PointerManager : MonoBehaviour {
         new SymmetryWidgetVisibleCommand(m_SymmetryWidgetScript));
     }
 
+    // Get a max face size to use as a scaling factor later.
+    // float faceMax = 1;
+    // if (vrPoly != null && vrPoly._conwayPoly!=null)
+    // {
+    //   var faceSizes = vrPoly._conwayPoly.Faces.Select(x => (x.Centroid - x.GetBestEdge().Midpoint).magnitude);
+    //   faceMax = Mathf.Max(faceSizes.ToArray());
+    // }
+    
     for (int i = 1; i < m_Pointers.Length; ++i) {
       var pointer = m_Pointers[i];
       bool enabled = i < m_NumActivePointers;
@@ -608,6 +622,18 @@ public class PointerManager : MonoBehaviour {
       pointer.m_Script.EnableRendering(m_PointersRenderingActive && enabled);
       if (enabled) {
         pointer.m_Script.CopyInternals(m_Pointers[0].m_Script);
+      }
+
+      if (vrPoly != null && vrPoly._conwayPoly!=null)
+      {
+        if (i < vrPoly._conwayPoly.Faces.Count)
+        {
+          var face = vrPoly._conwayPoly.Faces[i];
+          // We could scale brushes by face size?
+          // pointer.m_Script.BrushSizeAbsolute *= (faceMax * (face.Centroid - face.GetBestEdge().Midpoint).magnitude);
+          if (vrPoly)
+          pointer.m_Script.SetColor(MainPointer.GetCurrentColor() + new Color(Random.value,Random.value,Random.value));
+        }
       }
     }
 

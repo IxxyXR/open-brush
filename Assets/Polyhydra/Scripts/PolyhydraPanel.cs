@@ -31,7 +31,9 @@ public class PolyhydraPanel : BasePanel
     public PolyhydraOptionButton ButtonGridType;
     public PolyhydraOptionButton ButtonOtherPolyType;
     public PolyhydraOptionButton ButtonGridShape;
-    
+    public PolyhydraOptionButton[] ButtonsConwayOps;
+    public PolyhydraSlider[] SlidersConwayOps;
+
     public PolyhydraSlider SliderP;
     public PolyhydraSlider SliderQ;
 
@@ -44,15 +46,35 @@ public class PolyhydraPanel : BasePanel
         SetPanelButtonVisibility();
     }
 
-    public void HandleSliderP(float value)
+    public void HandleSliderP(Vector3 value)
     {
-      PolyhydraModel.PrismP = Mathf.FloorToInt(value);
+      PolyhydraModel.PrismP = Mathf.FloorToInt(value.z);
       RebuildPoly();
     }
 
-    public void HandleSliderQ(float value)
+    public void HandleSliderQ(Vector3 value)
     {
-      PolyhydraModel.PrismQ = Mathf.FloorToInt(value);
+      PolyhydraModel.PrismQ = Mathf.FloorToInt(value.z);
+      RebuildPoly();
+    }
+    
+    public void HandleOpAmountSlider(Vector3 value)
+    {
+      int opIndex = (int)value.x;
+      int paramIndex = (int)value.y;
+      float amount = value.z;
+      var op = PolyhydraModel.ConwayOperators[opIndex];
+      Debug.Log($"{opIndex} {paramIndex} {amount}");
+      switch (paramIndex)
+      {
+        case 0:
+          op.amount = amount;
+          break;
+        case 1:
+          op.amount2 = amount;
+          break;
+      }
+      PolyhydraModel.ConwayOperators[opIndex] = op;
       RebuildPoly();
     }
 
@@ -63,6 +85,30 @@ public class PolyhydraPanel : BasePanel
         ? PolyHydraEnums.ColorMethods.ByFaceDirection
         : PolyHydraEnums.ColorMethods.ByRole;
       PolyhydraModel.MakePolyhedron();
+      
+      // I know the following is bad but I haven't decided the right way to do this yet
+      // so I want to avoid adding the wrong abstraction.
+      // Clunky and explicit is better than obscure and implicit.
+
+      var symWidget = SketchControlsScript.m_Instance.GetComponentInChildren<SymmetryWidget>();
+      if (symWidget != null)
+      {
+        
+        Mesh polyMesh;
+        var meshFilter = symWidget.m_SymmetryGuidePoly.GetComponent<MeshFilter>();
+      
+        if (Application.isPlaying)
+        {
+          polyMesh = PolyhydraModel.GetComponent<MeshFilter>().mesh;
+          meshFilter.mesh = polyMesh;
+        }
+        else
+        {
+          polyMesh = PolyhydraModel.GetComponent<MeshFilter>().sharedMesh;
+          meshFilter.sharedMesh = polyMesh;
+        }
+        PointerManager.m_Instance.SetSymmetryMode(PointerManager.m_Instance.CurrentSymmetryMode);
+      }
     }
     
     void Update()
@@ -324,17 +370,21 @@ public class PolyhydraPanel : BasePanel
                 break;
             
             case VrUi.ShapeCategories.Grids:
-              
+
+                var p = SliderP.GetCurrentValue();
+                var q = SliderQ.GetCurrentValue();
                 SliderP.gameObject.SetActive(true);
                 SliderQ.gameObject.SetActive(true);
                 SliderP.SetDescriptionText("Width");
                 SliderQ.SetDescriptionText("Depth");
                 SliderP.Min = 1;
-                SliderP.Max = 16;
+                SliderP.Max = 8;
                 SliderQ.Min = 1;
-                SliderQ.Max = 16;
+                SliderQ.Max = 8;
                 SliderP.SliderType = SliderTypes.Int;
                 SliderQ.SliderType = SliderTypes.Int;
+                SliderP.UpdateValue(2);
+                SliderQ.UpdateValue(2);
                 break;
             
             case VrUi.ShapeCategories.Other:

@@ -21,7 +21,7 @@ using UnityEngine.Events;
 
 namespace TiltBrush {
 
-    [Serializable] public class myFloatEvent : UnityEvent<float>{}
+    [Serializable] public class sliderEvent : UnityEvent<Vector3>{}
   
     [Serializable]
     public enum SliderTypes
@@ -32,6 +32,9 @@ namespace TiltBrush {
   
     public class PolyhydraSlider : BaseSlider
     {
+      public int opIndex;
+      public int paramIndex;
+      
       private float min;
       private float max;
       public float Max
@@ -58,7 +61,7 @@ namespace TiltBrush {
         [SerializeField] private TextMeshPro valueText;
         public SliderTypes SliderType;
         
-        [SerializeField] public myFloatEvent onUpdateValue;
+        [SerializeField] public sliderEvent onUpdateValue;
 
 
         float remap(float s, float a1, float a2, float b1, float b2)
@@ -92,7 +95,7 @@ namespace TiltBrush {
         override public void UpdateValue(float fValue) {
             var val = remap(fValue, 0, 1, min, Max);
             valueText.text = FormatValue(val);
-            onUpdateValue.Invoke(val);
+            onUpdateValue.Invoke(new Vector3(opIndex, paramIndex, val));
         }
 
         public override void ResetState() {
