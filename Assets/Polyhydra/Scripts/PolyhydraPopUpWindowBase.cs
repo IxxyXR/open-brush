@@ -77,7 +77,7 @@ namespace TiltBrush
                 rButton.transform.localScale = Vector3.one * .3f;
                 
                 Renderer rButtonRenderer = rButton.GetComponent<Renderer>();
-                rButtonRenderer.material.mainTexture = Resources.Load<Texture2D>(GetButtonTexturePath(buttonIndex));
+                rButtonRenderer.material.mainTexture = GetButtonIcon(buttonIndex);
 
                 PolyhydraThingButton rButtonScript = rButton.GetComponent<PolyhydraThingButton>();
                 rButtonScript.ButtonIndex = buttonIndex;
@@ -85,6 +85,11 @@ namespace TiltBrush
                 rButtonScript.SetDescriptionText(buttonLabels[buttonIndex]);
                 rButtonScript.RegisterComponent();
             }
+        }
+
+        internal Texture2D GetButtonIcon(int buttonIndex)
+        {
+          return Resources.Load<Texture2D>(GetButtonTexturePath(buttonIndex));
         }
 
         protected abstract string GetButtonTexturePath(int i);

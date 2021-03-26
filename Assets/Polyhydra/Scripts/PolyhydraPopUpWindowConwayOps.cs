@@ -51,14 +51,30 @@ public class PolyhydraPopUpWindowConwayOps : PolyhydraPopUpWindowBase {
       ops[OpIndex] = op;
       ParentPanel.PolyhydraModel.ConwayOperators = ops;
       ParentPanel.ButtonsConwayOps[OpIndex].SetButtonTexture(GetButtonTexture(buttonIndex));
-      
-      ParentPanel.SlidersConwayOps[OpIndex * 2].Min = opConfig.amountSafeMin;
-      ParentPanel.SlidersConwayOps[OpIndex * 2].Max = opConfig.amountSafeMax;
-      ParentPanel.SlidersConwayOps[OpIndex * 2].UpdateValue(opConfig.amountDefault);
-      
-      ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].Min = opConfig.amount2SafeMin;
-      ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].Max = opConfig.amount2SafeMax;
-      ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].UpdateValue(opConfig.amount2Default);
+
+      if (opConfig.usesAmount)
+      {
+        ParentPanel.SlidersConwayOps[OpIndex * 2].gameObject.SetActive(true);
+        ParentPanel.SlidersConwayOps[OpIndex * 2].Min = opConfig.amountSafeMin;
+        ParentPanel.SlidersConwayOps[OpIndex * 2].Max = opConfig.amountSafeMax;
+        ParentPanel.SlidersConwayOps[OpIndex * 2].UpdateValueAbsolute(opConfig.amountDefault);
+      }
+      else
+      {
+        ParentPanel.SlidersConwayOps[OpIndex * 2].gameObject.SetActive(false);
+      }
+
+      if (opConfig.usesAmount2)
+      {
+        ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].gameObject.SetActive(true);
+        ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].Min = opConfig.amount2SafeMin;
+        ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].Max = opConfig.amount2SafeMax;
+        ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].UpdateValueAbsolute(opConfig.amount2Default);
+      }
+      else
+      {
+        ParentPanel.SlidersConwayOps[OpIndex * 2 + 1].gameObject.SetActive(false);
+      }
     }
 
 

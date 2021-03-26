@@ -746,7 +746,8 @@ public class PointerManager : MonoBehaviour {
     // - scale == 1 (-1 is also useful and fun, but for the moment always uses 1)
     TrTransform asFrame(Face face) {
       Vector3 pos = face.Centroid;
-      var faceVector = face.GetBestEdge().Midpoint - pos;
+      //var faceVector = face.GetBestEdge().Midpoint - pos;
+      var faceVector = face.GetVertices()[0].Position - pos;
       return TrTransform.TRS(
         pos,
         // halfedge.midpoint could be any arbitrary point in the plane of the face

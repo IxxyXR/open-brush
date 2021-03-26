@@ -94,8 +94,14 @@ namespace TiltBrush {
 
         override public void UpdateValue(float fValue) {
             var val = remap(fValue, 0, 1, min, Max);
-            valueText.text = FormatValue(val);
-            onUpdateValue.Invoke(new Vector3(opIndex, paramIndex, val));
+            UpdateValueAbsolute(val);
+        }
+        
+        public void UpdateValueAbsolute(float fValue) {
+          valueText.text = FormatValue(fValue);
+          onUpdateValue.Invoke(new Vector3(opIndex, paramIndex, fValue));
+          m_CurrentValue = Mathf.InverseLerp(min, Max, fValue);
+          SetSliderPositionToReflectValue();
         }
 
         public override void ResetState() {

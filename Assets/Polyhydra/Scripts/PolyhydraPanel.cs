@@ -64,7 +64,6 @@ public class PolyhydraPanel : BasePanel
       int paramIndex = (int)value.y;
       float amount = value.z;
       var op = PolyhydraModel.ConwayOperators[opIndex];
-      Debug.Log($"{opIndex} {paramIndex} {amount}");
       switch (paramIndex)
       {
         case 0:
@@ -383,8 +382,8 @@ public class PolyhydraPanel : BasePanel
                 SliderQ.Max = 8;
                 SliderP.SliderType = SliderTypes.Int;
                 SliderQ.SliderType = SliderTypes.Int;
-                SliderP.UpdateValue(2);
-                SliderQ.UpdateValue(2);
+                SliderP.UpdateValueAbsolute(2);
+                SliderQ.UpdateValueAbsolute(2);
                 break;
             
             case VrUi.ShapeCategories.Other:
