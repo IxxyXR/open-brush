@@ -12,13 +12,35 @@ usage () {
 
 LOGFILE=${WORK_DIR:+$WORK_DIR/}adblog.txt
 PACKAGE=com.Icosa.OpenBrush
+BUILD_LOG=Build.log
+ADB=
 
 if [ ! -f $PACKAGE.apk ]; then
 	echo "Package $PACKAGE not found"
 	exit 1
 fi
 
-ADB=adb
+function get_adb_path ()
+{
+	if [ ! -f $BUILD_LOG ]; then
+		echo "Missing $BUILD_LOG. Need this to find tools."
+		exit 1
+	fi
+	# Find the adb path specified in the log and get the path.
+	# Also strip off Windows CR line ending \r
+	local ADBP=$(cygpath -u $(grep '^\sadb' $BUILD_LOG | sed 's/adb\s*:\s*//' | sed 's/\r//'))
+	if [ -z $ADBP ]; then
+		echo "ADB path not found in $BUILD_LOG."
+		exit 1
+	fi
+	if [[ ! -x "$ADBP" ]]; then
+		echo "ADB does not exist at $ADBP."
+		exit 1
+	fi
+	export ADB=$ADBP
+}
+
+get_adb_path
 $ADB devices
 
 while getopts "hbsiulr" options; do

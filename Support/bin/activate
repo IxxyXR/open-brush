@@ -4,6 +4,6 @@
 
 export PATH=$PATH:$(cd $(dirname ${BASH_SOURCE[0]}) && pwd)
 
-export UNITY_ROOT="C:\Unity\2019.4.18f1"
-export PATH=$PATH:"$(cygpath -u "$UNITY_ROOT\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools")"
+#export UNITY_ROOT="C:\Unity\2019.4.22f1"
+export PATH=$PATH #:"$(cygpath -u "$UNITY_ROOT\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools")"
 
