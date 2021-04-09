@@ -836,7 +836,7 @@ public class BasePanel : MonoBehaviour {
       }
 
       m_PanelDescriptionCounter = 6;
-      if (m_PanelFlairState != DescriptionState.Closed) {
+      if (m_PanelFlairState != DescriptionState.Closed && m_PanelFlairSpring != null) {
         m_PanelDescriptionCounter = 7;
         m_PanelFlairSpring.Update(m_DescriptionSpringK, m_DescriptionSpringDampen);
         float fDistToClosed = Mathf.Abs(m_PanelFlairSpring.m_CurrentAngle - m_DescriptionClosedAngle);
