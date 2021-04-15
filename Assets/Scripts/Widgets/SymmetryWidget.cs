@@ -111,7 +111,7 @@ namespace TiltBrush
                     for (int i = 0; i < m_GuideBeams.Length; ++i)
                     {
                         m_GuideBeams[i].m_BeamRenderer.enabled = ((m_GuideBeams[i].m_Direction != BeamDirection.Left) &&
-                                                                  (m_GuideBeams[i].m_Direction != BeamDirection.Right));
+                            (m_GuideBeams[i].m_Direction != BeamDirection.Right));
                     }
                     break;
                 case PointerManager.SymmetryMode.FourAroundY:
@@ -119,7 +119,7 @@ namespace TiltBrush
                     for (int i = 0; i < m_GuideBeams.Length; ++i)
                     {
                         m_GuideBeams[i].m_BeamRenderer.enabled = ((m_GuideBeams[i].m_Direction != BeamDirection.Up) &&
-                                                                  (m_GuideBeams[i].m_Direction != BeamDirection.Down));
+                            (m_GuideBeams[i].m_Direction != BeamDirection.Down));
                     }
                     break;
             }
@@ -186,8 +186,8 @@ namespace TiltBrush
             // axis traces out a plane whose normal is the axis of rotation.
             if (IsSpinningFreely)
             {
-                float MAX_ROTATE_SPEED = 100f;  // deg/sec
-                float DECAY_TIME_SEC = .75f;      // Time to decay 63% towards goal
+                float MAX_ROTATE_SPEED = 100f; // deg/sec
+                float DECAY_TIME_SEC = .75f;   // Time to decay 63% towards goal
                 Vector3 normal = ReflectionPlane.normal;
                 Vector3 projected = AngularVelocity_GS;
                 projected = projected - Vector3.Dot(normal, projected) * normal;
@@ -199,9 +199,9 @@ namespace TiltBrush
                     // arm to rotate towards projected; pick the one that's closest
                     // Choices are .up and .forward (and their negatives)
                     Vector3 arm =
-                      (Mathf.Abs(Vector3.Dot(transform.up, projected)) >
-                       Mathf.Abs(Vector3.Dot(transform.forward, projected)))
-                      ? transform.up : transform.forward;
+                        (Mathf.Abs(Vector3.Dot(transform.up, projected)) >
+                        Mathf.Abs(Vector3.Dot(transform.forward, projected)))
+                            ? transform.up : transform.forward;
                     arm *= Mathf.Sign(Vector3.Dot(arm, projected));
 
                     // Rotate arm towards projected. Since both arm and projected
@@ -301,7 +301,8 @@ namespace TiltBrush
 
                 // Normal should be on the XZ plane.
                 Vector3 vUpNoXZ = vDesiredUp;
-                vUpNoXZ.x = 0.0f; vUpNoXZ.z = 0.0f;
+                vUpNoXZ.x = 0.0f;
+                vUpNoXZ.z = 0.0f;
 
                 // Only pop to the new angle if we've moved beyond our pad amount.
                 Vector3 vEulers = Quaternion.LookRotation(vForwardNoY.normalized, vUpNoXZ.normalized).eulerAngles;
@@ -425,4 +426,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

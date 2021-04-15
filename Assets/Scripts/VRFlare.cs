@@ -57,9 +57,9 @@ namespace TiltBrush
             for (int i = 0; i < m_Flares.Length; ++i)
             {
                 m_Flares[i].m_Flare.position = headPos
-                                             - m_Flares[i].m_DepthFactor * dirToCamera
-                                             - m_Flares[i].m_CrossFactor * cameraCross * cameraDot * scale;
+                    - m_Flares[i].m_DepthFactor * dirToCamera
+                    - m_Flares[i].m_CrossFactor * cameraCross * cameraDot * scale;
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

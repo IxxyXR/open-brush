@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
-
 using UnityAsyncAwaitUtil;
 
 namespace TiltBrush
@@ -26,9 +25,13 @@ namespace TiltBrush
     {
         public FutureFailed(string message) : base(message) { }
         public FutureFailed(string fmt, params System.Object[] args)
-          : base(string.Format(fmt, args)) { }
+            : base(string.Format(fmt, args))
+        {
+        }
         public FutureFailed(Exception inner, string fmt, params System.Object[] args)
-          : base(string.Format(fmt, args), inner) { }
+            : base(string.Format(fmt, args), inner)
+        {
+        }
     }
 
     /// Future is a way of running some computation on another thread.
@@ -84,7 +87,7 @@ namespace TiltBrush
                 lock (m_future.m_lock)
                 {
                     if (!IsCompleted)
-                    {  // common case
+                    { // common case
                         if (m_future.m_continuations == null)
                         {
                             m_future.m_continuations = new List<(Action, SynchronizationContext)>();
@@ -92,7 +95,7 @@ namespace TiltBrush
                         m_future.m_continuations.Add((continuation, ctx));
                     }
                     else
-                    {  // racy uncommon case
+                    { // racy uncommon case
                         ctx.Post(_ => continuation(), null);
                     }
                 }

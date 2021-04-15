@@ -42,7 +42,7 @@ namespace TiltBrush
         private Color? m_MaterialTint;
         private Dictionary<string, float> m_MaterialFloats;
         private float m_CurrentRotation; // Degrees
-        private float m_TargetRotation; // Degrees
+        private float m_TargetRotation;  // Degrees
         private bool m_IsRotating;
 
         private int NumOptions
@@ -267,4 +267,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

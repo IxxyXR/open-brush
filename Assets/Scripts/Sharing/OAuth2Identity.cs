@@ -16,7 +16,6 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.PeopleService.v1;
@@ -30,7 +29,6 @@ namespace TiltBrush
 {
 
     /// Handle accessing OAuth2 based web services.
-
     public class OAuth2Identity : MonoBehaviour
     {
 
@@ -71,19 +69,20 @@ namespace TiltBrush
         }
 
 #if UNITY_EDITOR
-  [MenuItem("Tilt/Cloud/Log in (Google)")]
-  private static void LogInGoogle() => App.GoogleIdentity.LoginAsync();
-  [MenuItem("Tilt/Cloud/Log in (Sketchfab)")]
-  private static void LogInSketchfab() => App.SketchfabIdentity.LoginAsync();
-  [MenuItem("Tilt/Cloud/Log out (All)")]
-  private static void LogOutAll() {
-    App.GoogleIdentity.Logout();
-    App.SketchfabIdentity.Logout();
-  }
-  [MenuItem("Tilt/Cloud/Log in (Sketchfab)", true)]
-  [MenuItem("Tilt/Cloud/Log in (Google)", true)]
-  [MenuItem("Tilt/Cloud/Log out (All)", true)]
-  private static bool EnablePlayModeOnly() => Application.isPlaying;
+        [MenuItem("Tilt/Cloud/Log in (Google)")]
+        private static void LogInGoogle() => App.GoogleIdentity.LoginAsync();
+        [MenuItem("Tilt/Cloud/Log in (Sketchfab)")]
+        private static void LogInSketchfab() => App.SketchfabIdentity.LoginAsync();
+        [MenuItem("Tilt/Cloud/Log out (All)")]
+        private static void LogOutAll()
+        {
+            App.GoogleIdentity.Logout();
+            App.SketchfabIdentity.Logout();
+        }
+        [MenuItem("Tilt/Cloud/Log in (Sketchfab)", true)]
+        [MenuItem("Tilt/Cloud/Log in (Google)", true)]
+        [MenuItem("Tilt/Cloud/Log out (All)", true)]
+        private static bool EnablePlayModeOnly() => Application.isPlaying;
 #endif
 
         // instance API
@@ -147,7 +146,7 @@ namespace TiltBrush
             if (string.IsNullOrEmpty(ClientId) || string.IsNullOrEmpty(ClientSecret))
             {
                 Debug.LogWarning(
-                  $"Attempted to initialize to {m_Service} with missing Client Id or Client Secret.");
+                    $"Attempted to initialize to {m_Service} with missing Client Id or Client Secret.");
                 return;
             }
             m_TokenDataStore = new PlayerPrefsDataStore(m_TokenStorePrefix);
@@ -232,7 +231,7 @@ namespace TiltBrush
             if (string.IsNullOrEmpty(ClientId) || string.IsNullOrEmpty(ClientSecret))
             {
                 Debug.LogWarning(
-                  $"Attempted to log in to {m_Service} with missing Client Id or Client Secret.");
+                    $"Attempted to log in to {m_Service} with missing Client Id or Client Secret.");
                 return;
             }
             await AuthorizeAsync();
@@ -289,7 +288,7 @@ namespace TiltBrush
                 ? GetUserInfoGoogleAsync(forTesting)
                 : GetUserInfoSketchfabAsync(forTesting);
 
-            Profile = await infoTask;  // Triggers OnProfileUpdated event
+            Profile = await infoTask; // Triggers OnProfileUpdated event
 
             if (!forTesting)
             {
@@ -336,7 +335,7 @@ namespace TiltBrush
                 Debug.LogException(new UserInfoError("Returned UserInfo contained no icon URI."));
             }
             else if (!forTesting)
-            {  // Not necessary yet when unit-testing
+            { // Not necessary yet when unit-testing
                 user.icon = await ImageUtils.DownloadTextureAsync(SetImageUrlOptions(iconUri));
             }
             // Assume if the texture is 8x8 that the texture couldn't be decoded, and put our own in.
@@ -349,4 +348,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

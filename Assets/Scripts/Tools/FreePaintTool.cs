@@ -162,4 +162,4 @@ namespace TiltBrush
             return App.Instance.IsInStateThatAllowsPainting();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

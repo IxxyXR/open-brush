@@ -116,7 +116,7 @@ namespace TiltBrush
             Vector3 grabSpot = InputManager.m_Instance.GetControllerPosition(m_InteractingController);
             Vector3 grabToCenter = xf_GS.translation - grabSpot;
             outXf_GS.translation = grabSpot +
-              grabToCenter.magnitude * (grabToCenter.y > 0 ? Vector3.up : Vector3.down);
+                grabToCenter.magnitude * (grabToCenter.y > 0 ? Vector3.up : Vector3.down);
 
             return outXf_GS;
         }
@@ -202,17 +202,21 @@ namespace TiltBrush
         override protected void OnUpdate()
         {
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Debug.isDebugBuild && Config.IsExperimental) {
-      if (InputManager.m_Instance.GetKeyboardShortcutDown(
-          InputManager.KeyboardShortcut.ToggleHeadStationaryOrWobble)) {
-        m_CurrentMode = (m_CurrentMode == Mode.Wobble) ? Mode.Stationary : Mode.Wobble;
-        RefreshRenderers();
-      } else if (InputManager.m_Instance.GetKeyboardShortcutDown(
-          InputManager.KeyboardShortcut.ToggleHeadStationaryOrFollow)) {
-        m_CurrentMode = (m_CurrentMode == Mode.SlowFollow) ? Mode.Stationary : Mode.SlowFollow;
-        RefreshRenderers();
-      }
-    }
+            if (Debug.isDebugBuild && Config.IsExperimental)
+            {
+                if (InputManager.m_Instance.GetKeyboardShortcutDown(
+                    InputManager.KeyboardShortcut.ToggleHeadStationaryOrWobble))
+                {
+                    m_CurrentMode = (m_CurrentMode == Mode.Wobble) ? Mode.Stationary : Mode.Wobble;
+                    RefreshRenderers();
+                }
+                else if (InputManager.m_Instance.GetKeyboardShortcutDown(
+                    InputManager.KeyboardShortcut.ToggleHeadStationaryOrFollow))
+                {
+                    m_CurrentMode = (m_CurrentMode == Mode.SlowFollow) ? Mode.Stationary : Mode.SlowFollow;
+                    RefreshRenderers();
+                }
+            }
 #endif
 
             //animate the guide beams in and out, relatively to activation
@@ -262,29 +266,33 @@ namespace TiltBrush
                     case Mode.SlowFollow:
                         {
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-          if (Debug.isDebugBuild && Config.IsExperimental) {
-            if (InputManager.m_Instance.GetKeyboardShortcutDown(
-                InputManager.KeyboardShortcut.DecreaseSlowFollowSmoothing)) {
-              m_SlowFollowSmoothing -= 0.001f;
-              m_SlowFollowSmoothing = Mathf.Max(m_SlowFollowSmoothing, 0.0f);
-            } else if (InputManager.m_Instance.GetKeyboardShortcutDown(
-                InputManager.KeyboardShortcut.IncreaseSlowFollowSmoothing)) {
-              m_SlowFollowSmoothing += 0.001f;
-            }
-          }
+                            if (Debug.isDebugBuild && Config.IsExperimental)
+                            {
+                                if (InputManager.m_Instance.GetKeyboardShortcutDown(
+                                    InputManager.KeyboardShortcut.DecreaseSlowFollowSmoothing))
+                                {
+                                    m_SlowFollowSmoothing -= 0.001f;
+                                    m_SlowFollowSmoothing = Mathf.Max(m_SlowFollowSmoothing, 0.0f);
+                                }
+                                else if (InputManager.m_Instance.GetKeyboardShortcutDown(
+                                    InputManager.KeyboardShortcut.IncreaseSlowFollowSmoothing))
+                                {
+                                    m_SlowFollowSmoothing += 0.001f;
+                                }
+                            }
 #endif
 
                             transform.position = Vector3.SmoothDamp(transform.position, ViewpointScript.Head.position,
-                              ref m_SlowFollowMoveVel, m_SlowFollowSmoothing, Mathf.Infinity, Time.deltaTime);
+                                ref m_SlowFollowMoveVel, m_SlowFollowSmoothing, Mathf.Infinity, Time.deltaTime);
 
                             Vector3 eulers = transform.rotation.eulerAngles;
                             Vector3 targetEulers = ViewpointScript.Head.eulerAngles;
                             eulers.x = Mathf.SmoothDampAngle(eulers.x, targetEulers.x,
-                              ref m_SlowFollowRotVel.x, m_SlowFollowSmoothing, Mathf.Infinity, Time.deltaTime);
+                                ref m_SlowFollowRotVel.x, m_SlowFollowSmoothing, Mathf.Infinity, Time.deltaTime);
                             eulers.y = Mathf.SmoothDampAngle(eulers.y, targetEulers.y,
-                              ref m_SlowFollowRotVel.y, m_SlowFollowSmoothing, Mathf.Infinity, Time.deltaTime);
+                                ref m_SlowFollowRotVel.y, m_SlowFollowSmoothing, Mathf.Infinity, Time.deltaTime);
                             eulers.z = Mathf.SmoothDampAngle(eulers.z, targetEulers.z,
-                              ref m_SlowFollowRotVel.z, m_SlowFollowSmoothing, Mathf.Infinity, Time.deltaTime);
+                                ref m_SlowFollowRotVel.z, m_SlowFollowSmoothing, Mathf.Infinity, Time.deltaTime);
 
                             transform.rotation = Quaternion.Euler(eulers);
                         }
@@ -359,7 +367,7 @@ namespace TiltBrush
         public bool ShouldHmdBeVisible()
         {
             return (m_CurrentMode != Mode.SlowFollow) &&
-              (m_CurrentState == State.Showing || m_CurrentState == State.Visible);
+                (m_CurrentState == State.Showing || m_CurrentState == State.Visible);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -120,16 +119,17 @@ URL=" + kExportDocumentationUrl;
     if (App.PlatformConfig.EnableExportFbx) { progress.SetWork("fbx"); }
 #endif
 #if USD_SUPPORTED
-    if (App.PlatformConfig.EnableExportUsd) { progress.SetWork("usd"); }
+            if (App.PlatformConfig.EnableExportUsd) { progress.SetWork("usd"); }
 #endif
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      progress.SetWork("wrl");
-      progress.SetWork("stl");
+            if (Config.IsExperimental)
+            {
+                progress.SetWork("wrl");
+                progress.SetWork("stl");
 #if FBX_SUPPORTED
       progress.SetWork("obj");
 #endif
-    }
+            }
 #endif
             if (App.PlatformConfig.EnableExportGlb) { progress.SetWork("glb"); }
 
@@ -158,26 +158,29 @@ URL=" + kExportDocumentationUrl;
 #endif
 
 #if USD_SUPPORTED
-    if (App.PlatformConfig.EnableExportUsd &&
-        (filename = MakeExportPath(parent, basename, "usd")) != null)
-    using (var unused = new AutoTimer("usd export")) {
-      ExportUsd.ExportPayload(filename);
-    }
-    progress.CompleteWork("usd");
+            if (App.PlatformConfig.EnableExportUsd &&
+                (filename = MakeExportPath(parent, basename, "usd")) != null)
+                using (var unused = new AutoTimer("usd export"))
+                {
+                    ExportUsd.ExportPayload(filename);
+                }
+            progress.CompleteWork("usd");
 #endif
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental &&
-        (filename = MakeExportPath(parent, basename, "wrl")) != null) {
-      ExportVrml.Export(filename);
-      progress.CompleteWork("wrl");
-    }
+            if (Config.IsExperimental &&
+                (filename = MakeExportPath(parent, basename, "wrl")) != null)
+            {
+                ExportVrml.Export(filename);
+                progress.CompleteWork("wrl");
+            }
 
-    if (Config.IsExperimental &&
-        (filename = MakeExportPath(parent, basename, "stl")) != null) {
-      ExportStl.Export(filename);
-      progress.CompleteWork("stl");
-    }
+            if (Config.IsExperimental &&
+                (filename = MakeExportPath(parent, basename, "stl")) != null)
+            {
+                ExportStl.Export(filename);
+                progress.CompleteWork("stl");
+            }
 
 #if FBX_SUPPORTED
     if (Config.IsExperimental &&

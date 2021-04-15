@@ -31,7 +31,7 @@ namespace TiltBrush
         }
 
         override public bool UpdateStateWithInput(bool inputValid, Ray inputRay,
-            GameObject parentActiveObject, Collider parentCollider)
+                                                  GameObject parentActiveObject, Collider parentCollider)
         {
             // If this function is being ticked, it means we're active.  In that case, keep the capture
             // rig locked to our attach point.
@@ -57,4 +57,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

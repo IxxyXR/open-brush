@@ -75,7 +75,7 @@ namespace TiltBrush
             get
             {
                 return Mathf.Max(m_Mesh.localScale.x,
-                  Mathf.Max(m_Mesh.localScale.y, m_Mesh.localScale.z));
+                    Mathf.Max(m_Mesh.localScale.y, m_Mesh.localScale.z));
             }
         }
 
@@ -150,13 +150,13 @@ namespace TiltBrush
             m_Mesh.localScale = vScale;
             m_Missing.localScale = new Vector3(vScale.x, vScale.y * aspectRatio, vScale.z);
             m_Background.localScale = new Vector3(
-              m_Background.localScale.x,
-              m_Background.localScale.y,
-              m_BGThickness / m_Size);
+                m_Background.localScale.x,
+                m_Background.localScale.y,
+                m_BGThickness / m_Size);
             m_Background.localPosition = new Vector3(
-              m_Background.localPosition.x,
-              m_Background.localPosition.y,
-              m_BGDist / m_Size);
+                m_Background.localPosition.x,
+                m_Background.localPosition.y,
+                m_BGDist / m_Size);
 
             //set collider bounds
             Vector3 vColliderBounds = Vector3.zero;
@@ -213,7 +213,7 @@ namespace TiltBrush
             m_MissingInfo = (fileName, aspectRatio);
             m_MissingQuestionMark.SetActive(true);
             m_MissingQuestionMark.transform.localScale =
-              Mathf.Min(aspectRatio, 0.5f / aspectRatio) * m_QuestionMarkScalar * Vector3.one;
+                Mathf.Min(aspectRatio, 0.5f / aspectRatio) * m_QuestionMarkScalar * Vector3.one;
             if (aspectRatio < 1)
             {
                 m_MissingText.transform.localScale = 2 * Vector3.one;
@@ -229,7 +229,7 @@ namespace TiltBrush
         }
 
         public override float GetActivationScore(
-          Vector3 vControllerPos, InputManager.ControllerName name)
+            Vector3 vControllerPos, InputManager.ControllerName name)
         {
             float baseScore = base.GetActivationScore(vControllerPos, name);
             if (baseScore >= 0)

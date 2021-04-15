@@ -22,4 +22,4 @@ namespace TiltBrush
         public Transform m_Base;
         public Transform m_Stand;
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

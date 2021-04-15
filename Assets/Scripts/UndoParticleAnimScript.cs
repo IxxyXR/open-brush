@@ -54,7 +54,7 @@ namespace TiltBrush
                 for (int i = 0; i < m_ParticleCount; ++i)
                 {
                     m_WorkingParticles[i].position = Vector3.Lerp(
-                        m_Particles[i].position,  // already in canvas space
+                        m_Particles[i].position, // already in canvas space
                         vTargetPos_CS,
                         m_HiddenAmount);
                     m_WorkingParticles[i].startSize = m_Particles[i].startSize * (1 - m_HiddenAmount);
@@ -64,4 +64,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

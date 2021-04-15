@@ -82,4 +82,4 @@ namespace TiltBrush
         public override void TriggerControllerHaptics(float seconds) { }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

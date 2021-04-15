@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 using Brush = TiltBrush.BrushDescriptor;
 
 namespace TiltBrush
@@ -33,26 +32,28 @@ namespace TiltBrush
         static public BrushCatalog m_Instance;
 
 #if UNITY_EDITOR
-  /// Pass a GameObject to receive the newly-created singleton BrushCatalog
-  /// Useful for unit tests because a ton of Tilt Brush uses GetBrush(Guid).
-  /// TODO: change TB to use BrushDescriptor directly rather than indirect through Guids
-  public static void UnitTestSetUp(GameObject container) {
-    Debug.Assert(m_Instance == null);
-    m_Instance = container.AddComponent<BrushCatalog>();
+        /// Pass a GameObject to receive the newly-created singleton BrushCatalog
+        /// Useful for unit tests because a ton of Tilt Brush uses GetBrush(Guid).
+        /// TODO: change TB to use BrushDescriptor directly rather than indirect through Guids
+        public static void UnitTestSetUp(GameObject container)
+        {
+            Debug.Assert(m_Instance == null);
+            m_Instance = container.AddComponent<BrushCatalog>();
 
-    // For unit testing, probably best to have all the descriptors available,
-    // rather than just a subset of them that are in a manifest.
-    m_Instance.m_GuidToBrush = UnityEditor.AssetDatabase.FindAssets("t:BrushDescriptor")
-        .Select(name => UnityEditor.AssetDatabase.LoadAssetAtPath<BrushDescriptor>(
+            // For unit testing, probably best to have all the descriptors available,
+            // rather than just a subset of them that are in a manifest.
+            m_Instance.m_GuidToBrush = UnityEditor.AssetDatabase.FindAssets("t:BrushDescriptor")
+                .Select(name => UnityEditor.AssetDatabase.LoadAssetAtPath<BrushDescriptor>(
                     UnityEditor.AssetDatabase.GUIDToAssetPath(name)))
-        .ToDictionary(desc => (Guid)desc.m_Guid);
-  }
+                .ToDictionary(desc => (Guid)desc.m_Guid);
+        }
 
-  /// The inverse of UnitTestSetUp
-  public static void UnitTestTearDown(GameObject container) {
-    Debug.Assert(m_Instance == container.GetComponent<BrushCatalog>());
-    m_Instance = null;
-  }
+        /// The inverse of UnitTestSetUp
+        public static void UnitTestTearDown(GameObject container)
+        {
+            Debug.Assert(m_Instance == container.GetComponent<BrushCatalog>());
+            m_Instance = null;
+        }
 #endif
 
         public event Action BrushCatalogChanged;
@@ -104,7 +105,7 @@ namespace TiltBrush
             for (int i = 0; i < m_BlocksMaterials.Length; ++i)
             {
                 m_MaterialToBrush.Add(m_BlocksMaterials[i].brushDescriptor.Material,
-                                      m_BlocksMaterials[i].brushDescriptor);
+                    m_BlocksMaterials[i].brushDescriptor);
             }
 
             Shader.SetGlobalTexture("_GlobalNoiseTexture", m_GlobalNoiseTexture);
@@ -220,4 +221,4 @@ namespace TiltBrush
             return output;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

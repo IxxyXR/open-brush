@@ -31,4 +31,4 @@ namespace TiltBrush
             ControllerGeometry.PaintHintObject.Activate(bActivate);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

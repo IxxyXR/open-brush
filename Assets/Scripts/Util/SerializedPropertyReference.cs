@@ -24,16 +24,24 @@ namespace TiltBrush
     // attached.
 
     [Serializable]
-    public class SerializedPropertyReferenceBool : SerializedPropertyReference<bool> { }
+    public class SerializedPropertyReferenceBool : SerializedPropertyReference<bool>
+    {
+    }
 
     [Serializable]
-    public class SerializedPropertyReferenceInt : SerializedPropertyReference<int> { }
+    public class SerializedPropertyReferenceInt : SerializedPropertyReference<int>
+    {
+    }
 
     [Serializable]
-    public class SerializedPropertyReferenceFloat : SerializedPropertyReference<float> { }
+    public class SerializedPropertyReferenceFloat : SerializedPropertyReference<float>
+    {
+    }
 
     [Serializable]
-    public class SerializedPropertyReferenceString : SerializedPropertyReference<string> { }
+    public class SerializedPropertyReferenceString : SerializedPropertyReference<string>
+    {
+    }
 
     [Serializable]
     public class SerializedPropertyReference<T> : ISerializationCallbackReceiver

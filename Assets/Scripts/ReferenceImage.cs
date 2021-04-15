@@ -43,7 +43,7 @@ namespace TiltBrush
         private Texture2D m_Icon;
         private Texture2D m_FullSize;
         private int m_FullSizeReferences = 0;
-        private float m_ImageAspect;  // only valid if ImageState == Ready
+        private float m_ImageAspect; // only valid if ImageState == Ready
         private string m_Path;
 
         public string FileName { get { return Path.GetFileName(m_Path); } }
@@ -451,7 +451,7 @@ namespace TiltBrush
             if (result != null)
             {
                 while (ReferenceImageCatalog.m_Instance.TexturesCreatedThisFrame >=
-                       ReferenceImageCatalog.TEXTURE_CREATIONS_PER_FRAME)
+                    ReferenceImageCatalog.TEXTURE_CREATIONS_PER_FRAME)
                 {
                     yield return null;
                 }

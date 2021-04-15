@@ -34,14 +34,15 @@ namespace TiltBrush
         // Kind of arbitrary -- this is based on the dimensions of a rugby ball
         const float kInitialWidth = .7073f;
 
-        static AxisDirection[] sm_AxisDirections = {
-    new AxisDirection { axis = Axis.X,  direction = new Vector3(1, 0, 0) },
-    new AxisDirection { axis = Axis.Y,  direction = new Vector3(0, 1, 0) },
-    new AxisDirection { axis = Axis.Z,  direction = new Vector3(0, 0, 1) },
-    new AxisDirection { axis = Axis.XY, direction = new Vector3(1, 1, 0).normalized },
-    new AxisDirection { axis = Axis.XZ, direction = new Vector3(1, 0, 1).normalized },
-    new AxisDirection { axis = Axis.YZ, direction = new Vector3(0, 1, 1).normalized }
-  };
+        static AxisDirection[] sm_AxisDirections =
+        {
+            new AxisDirection { axis = Axis.X, direction = new Vector3(1, 0, 0) },
+            new AxisDirection { axis = Axis.Y, direction = new Vector3(0, 1, 0) },
+            new AxisDirection { axis = Axis.Z, direction = new Vector3(0, 0, 1) },
+            new AxisDirection { axis = Axis.XY, direction = new Vector3(1, 1, 0).normalized },
+            new AxisDirection { axis = Axis.XZ, direction = new Vector3(1, 0, 1).normalized },
+            new AxisDirection { axis = Axis.YZ, direction = new Vector3(0, 1, 1).normalized }
+        };
 
         private Vector3 m_AspectRatio;
 
@@ -115,8 +116,8 @@ namespace TiltBrush
         private static Vector3 CMax(Vector3 va, Vector3 vb)
         {
             return new Vector3(Mathf.Max(va.x, vb.x),
-                               Mathf.Max(va.y, vb.y),
-                               Mathf.Max(va.z, vb.z));
+                Mathf.Max(va.y, vb.y),
+                Mathf.Max(va.z, vb.z));
         }
 
         private static Vector3 CMul(Vector3 va, Vector3 vb)
@@ -130,7 +131,7 @@ namespace TiltBrush
         }
 
         public override void FindClosestPointOnSurface(Vector3 pos,
-            out Vector3 surfacePos, out Vector3 surfaceNorm)
+                                                       out Vector3 surfacePos, out Vector3 surfaceNorm)
         {
             // The closest-point functions operate on an unrotated ellipsoid at the origin.
             // I'll call that coordinate system "ellipse space (ES)".
@@ -154,7 +155,7 @@ namespace TiltBrush
             // up simplifying to this:
             surfaceNorm = transform.rotation *
                 CDiv(closest_ES,
-                     CMul(halfExtent, halfExtent)).normalized;
+                    CMul(halfExtent, halfExtent)).normalized;
             surfacePos = xfWorldFromEllipse * closest_ES;
         }
 
@@ -286,7 +287,7 @@ namespace TiltBrush
             if (m_RecordMovements)
             {
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                  new MoveWidgetCommand(this, LocalTransform, aspectRatio));
+                    new MoveWidgetCommand(this, LocalTransform, aspectRatio));
             }
             else
             {
@@ -322,8 +323,8 @@ namespace TiltBrush
                     bounds.Encapsulate(colliderToCanvasXf * (sphere.center +
                         sphere.radius *
                         new Vector3((i & 1) == 0 ? -1.0f : 1.0f,
-                                    (i & 2) == 0 ? -1.0f : 1.0f,
-                                    (i & 4) == 0 ? -1.0f : 1.0f)));
+                            (i & 2) == 0 ? -1.0f : 1.0f,
+                            (i & 4) == 0 ? -1.0f : 1.0f)));
                 }
 
                 return bounds;

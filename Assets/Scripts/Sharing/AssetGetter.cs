@@ -39,7 +39,7 @@ namespace TiltBrush
         {
 
             protected override JsonProperty CreateProperty(MemberInfo member,
-                MemberSerialization memberSerialization)
+                                                           MemberSerialization memberSerialization)
             {
                 JsonProperty jsonProperty = base.CreateProperty(member, memberSerialization);
                 jsonProperty.PropertyName = SnakeToCamelCase(jsonProperty.PropertyName);
@@ -152,8 +152,8 @@ namespace TiltBrush
 
                         // Get root element info.
                         m_Asset.SetRootElement(
-                          internalRootFilePath,
-                          format["root"]?["url"].ToString());
+                            internalRootFilePath,
+                            format["root"]?["url"].ToString());
 
                         // Get all resource infos.  There may be zero.
                         foreach (var r in format["resources"])
@@ -163,7 +163,7 @@ namespace TiltBrush
 
                             // The root element should be the only gltf file.
                             Debug.Assert(!path.EndsWith(".gltf") && !path.EndsWith(".gltf2"),
-                                         string.Format("Found extra gltf resource: {0}", path));
+                                string.Format("Found extra gltf resource: {0}", path));
                         }
                         break;
                     }
@@ -198,7 +198,7 @@ namespace TiltBrush
                     catch (VrAssetServiceException e)
                     {
                         Debug.LogErrorFormat("Error downloading {0} at {1}\n{2}",
-                          m_Asset.Id, m_Asset.RootDataURL, e);
+                            m_Asset.Id, m_Asset.RootDataURL, e);
                         yield break;
                     }
                     yield return cr.Current;
@@ -221,7 +221,7 @@ namespace TiltBrush
                         catch (VrAssetServiceException ex)
                         {
                             Debug.LogErrorFormat("Error downloading {0} at {1}\n{2}",
-                              m_Asset.Id, m_Asset.RootDataURL, ex);
+                                m_Asset.Id, m_Asset.RootDataURL, ex);
                             e.assetBytes = null;
                             yield break;
                         }
@@ -235,4 +235,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

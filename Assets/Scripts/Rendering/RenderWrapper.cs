@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UObject = UnityEngine.Object;
 
@@ -99,8 +98,8 @@ namespace TiltBrush
                 {
                     // Clamp value to [min,max] and quantize to nearest 1 / Quantum.
                     m_superSampling = Mathf.Clamp(Mathf.Round(SSAA_QUANTUM * value) / SSAA_QUANTUM,
-                                                  SSAA_MIN,
-                                                  SSAA_MAX);
+                        SSAA_MIN,
+                        SSAA_MAX);
                 }
                 else
                 {
@@ -130,8 +129,8 @@ namespace TiltBrush
             for (int i = 0; i < m_features.Count; i++)
             {
                 m_features[i].behaviour.enabled = enable
-                                              ? m_features[i].defaultState
-                                              : false;
+                    ? m_features[i].defaultState
+                    : false;
             }
         }
 
@@ -257,7 +256,7 @@ namespace TiltBrush
             if (!m_camCopy)
             {
                 var go = new GameObject("(RenderWrapper Camera)",
-                                        typeof(Camera));
+                    typeof(Camera));
 
                 m_camCopy = go.GetComponent<Camera>();
                 m_camCopy.transform.parent = srcCam.transform;
@@ -367,7 +366,7 @@ namespace TiltBrush
             // eg, mobile quality setting, or when recording video.
             if (fmt == RenderTextureFormat.ARGB32 && HasHdrDecodePass())
             {
-                Shader.EnableKeyword("HDR_EMULATED");  // RGBAE: turn on alpha-exp encoding
+                Shader.EnableKeyword("HDR_EMULATED"); // RGBAE: turn on alpha-exp encoding
             }
             else
             {
@@ -485,4 +484,3 @@ namespace TiltBrush
 #if UNITY_ANDROID
 #pragma warning restore 649, 414
 #endif
-

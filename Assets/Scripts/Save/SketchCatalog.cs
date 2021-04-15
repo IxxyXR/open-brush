@@ -57,12 +57,13 @@ namespace TiltBrush
 
             int maxTriangles = QualityControls.m_Instance.AppQualityLevels.MaxPolySketchTriangles;
 
-            m_Sets = new SketchSet[] {
-      new FileSketchSet(),
-      new PolySketchSet(this, SketchSetType.Curated, maxTriangles),
-      new PolySketchSet(this, SketchSetType.Liked, maxTriangles, needsLogin: true),
-      new GoogleDriveSketchSet(),
-    };
+            m_Sets = new SketchSet[]
+            {
+                new FileSketchSet(),
+                new PolySketchSet(this, SketchSetType.Curated, maxTriangles),
+                new PolySketchSet(this, SketchSetType.Liked, maxTriangles, needsLogin: true),
+                new GoogleDriveSketchSet(),
+            };
         }
 
         void Start()
@@ -93,4 +94,4 @@ namespace TiltBrush
     }
 
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

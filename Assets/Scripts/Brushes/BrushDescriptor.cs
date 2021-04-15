@@ -30,7 +30,9 @@ namespace TiltBrush
         /// which want user-friendly UI that looks like a BrushDescriptor.
         /// One reason to use a string rather than a direct reference is
         /// to keep Unity from forcing that asset to be included in a build.
-        public class AsStringGuidAttribute : PropertyAttribute { }
+        public class AsStringGuidAttribute : PropertyAttribute
+        {
+        }
 
         static private ExportGlTF.ExportManifest sm_gltfManifest;
         static public ExportGlTF.ExportManifest GltfManifest
@@ -87,8 +89,8 @@ namespace TiltBrush
         [Tooltip("Name of the brush, in the UI and elsewhere")]
         public string m_Description;
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-  [Tooltip("Optional, experimental-only information about the brush")]
-  public string m_DescriptionExtra;
+        [Tooltip("Optional, experimental-only information about the brush")]
+        public string m_DescriptionExtra;
 #endif
         [System.NonSerialized] public bool m_HiddenInGui = false;
 
@@ -100,7 +102,7 @@ namespace TiltBrush
         public float m_BrushVolumeUpSpeed = 4f;
         public float m_BrushVolumeDownSpeed = 4f;
         public float m_VolumeVelocityRangeMultiplier = 1f;
-        public bool m_AudioReactive;  // whether we should show the audio reactive icon on the brush page
+        public bool m_AudioReactive; // whether we should show the audio reactive icon on the brush page
         public AudioClip m_ButtonAudio;
 
         [Header("Material")]
@@ -154,10 +156,10 @@ namespace TiltBrush
         public bool m_TubeStoreRadiusInTexcoord0Z;
 
         [Header("Misc")]
-        public bool m_RenderBackfaces;  // whether we should submit backfaces to renderer
-        public bool m_BackIsInvisible;  // whether the backside is visible to the user
+        public bool m_RenderBackfaces; // whether we should submit backfaces to renderer
+        public bool m_BackIsInvisible; // whether the backside is visible to the user
         public float m_BackfaceHueShift;
-        public float m_BoundsPadding;  // amount to pad bounding box by in canvas space in meters
+        public float m_BoundsPadding; // amount to pad bounding box by in canvas space in meters
 
         [Tooltip("For particularly expensive geometry generation: do not incrementally play back the stroke.")]
         public bool m_PlayBackAtStrokeGranularity;
@@ -213,7 +215,7 @@ namespace TiltBrush
         public string GetExportTextureFilename()
         {
 #if UNITY_EDITOR
-    return GetExportTextureFilenameEditor();
+            return GetExportTextureFilenameEditor();
 #else
             return GetExportTextureFilenameStandalone();
 #endif
@@ -398,37 +400,46 @@ namespace TiltBrush
         }
 
 #if UNITY_EDITOR
-  private string GetExportTextureFilenameEditor() {
-    Debug.Assert(m_Material != null);
-    Texture2D mainTex = (Texture2D)m_Material.mainTexture;
-    if (mainTex != null) {
-      // Kind of junky... this is because we hardcode this extension
-      // it in GetExportTextureFilename
-      var path = UnityEditor.AssetDatabase.GetAssetPath(mainTex);
-      if (!path.EndsWith(EXPORT_TEXTURE_EXTENSION)) {
-        throw new InvalidOperationException(string.Format(
-           "{0} texture filetype ({1}) should be a '{2}'.",
-           m_Description, path,EXPORT_TEXTURE_EXTENSION));
-      }
-      return path;
-    } else {
-      return null;
-    }
-  }
+        private string GetExportTextureFilenameEditor()
+        {
+            Debug.Assert(m_Material != null);
+            Texture2D mainTex = (Texture2D)m_Material.mainTexture;
+            if (mainTex != null)
+            {
+                // Kind of junky... this is because we hardcode this extension
+                // it in GetExportTextureFilename
+                var path = UnityEditor.AssetDatabase.GetAssetPath(mainTex);
+                if (!path.EndsWith(EXPORT_TEXTURE_EXTENSION))
+                {
+                    throw new InvalidOperationException(string.Format(
+                        "{0} texture filetype ({1}) should be a '{2}'.",
+                        m_Description, path, EXPORT_TEXTURE_EXTENSION));
+                }
+                return path;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-  internal IEnumerable<CopyRequest> CopyRequests {
-    get {
-      if (HasExportTexture()) {
-        yield return new CopyRequest {
-          source = GetExportTextureFilenameEditor(),
-          dest = GetExportTextureFilenameStandalone(),
-          // No export support on Android
-          omitForAndroid = true
-        };
-      }
-    }
-  }
+        internal IEnumerable<CopyRequest> CopyRequests
+        {
+            get
+            {
+                if (HasExportTexture())
+                {
+                    yield return new CopyRequest
+                    {
+                        source = GetExportTextureFilenameEditor(),
+                        dest = GetExportTextureFilenameStandalone(),
+                        // No export support on Android
+                        omitForAndroid = true
+                    };
+                }
+            }
+        }
 #endif
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

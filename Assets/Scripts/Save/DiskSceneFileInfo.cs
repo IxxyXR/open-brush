@@ -15,9 +15,7 @@
 using System;
 using System.IO;
 using UnityEngine;
-
 using Newtonsoft.Json;
-
 #if USE_DOTNETZIP
 using ZipSubfileReader = ZipSubfileReader_DotNetZip;
 using ZipLibrary = Ionic.Zip;
@@ -39,7 +37,7 @@ namespace TiltBrush
         private bool m_embedded;
         private string m_humanName;
         private string m_AssetId;
-        private string m_SourceId;  // If this is a derivative work of a poly asset, that asset id
+        private string m_SourceId; // If this is a derivative work of a poly asset, that asset id
         private bool m_readOnly;
         private DateTime? m_creationTime;
 
@@ -363,4 +361,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

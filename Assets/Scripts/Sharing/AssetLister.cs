@@ -69,7 +69,8 @@ namespace TiltBrush
                 foreach (var asset in assets)
                 {
                     var info = new PolySceneFileInfo(asset);
-                    info.Author = asset["displayName"].ToString(); ;
+                    info.Author = asset["displayName"].ToString();
+                    ;
                     files.Add(info);
                 }
             }
@@ -78,7 +79,7 @@ namespace TiltBrush
         }
 
         public IEnumerator<Null> NextPage(List<PolyAssetCatalog.AssetDetails> files,
-            string thumbnailSuffix)
+                                          string thumbnailSuffix)
         {
             string uri = m_PageToken == null ? m_Uri
                 : String.Format("{0}&page_token={1}", m_Uri, m_PageToken);
@@ -155,4 +156,4 @@ namespace TiltBrush
             m_PageToken = jPageToken != null ? jPageToken.ToString() : null;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

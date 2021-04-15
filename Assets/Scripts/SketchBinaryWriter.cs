@@ -26,7 +26,7 @@ namespace TiltBrush
     {
         Stream m_stream;
         byte[] m_buf16;
-        byte[] m_bufBig;  // lazily-initialized
+        byte[] m_bufBig; // lazily-initialized
 
         /// Detaching the BaseStream or Disposing the Writer leaves the stream in a consistent state.
         /// SketchBinaryWriter also doesn't (currently) do any write-caching/combining.

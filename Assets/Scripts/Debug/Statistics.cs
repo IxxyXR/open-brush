@@ -50,7 +50,7 @@ namespace TiltBrush
                 InterquartileMean =
                     sortedData.Skip(sortedData.Length / 4).Take(sortedData.Length / 2).Average();
                 StandardDeviation = Mathf.Sqrt(
-                  data.Select(x => Mathf.Pow(x - Median, 2f)).Sum() / (sortedData.Length - 1));
+                    data.Select(x => Mathf.Pow(x - Median, 2f)).Sum() / (sortedData.Length - 1));
                 StandardDeviationPcOfMedian = 100f * StandardDeviation / Median;
                 StandardDeviationPcOfMean = 100f * StandardDeviation / Mean;
                 StandardDeviationPcOfInterquartileMean = 100f * StandardDeviation / InterquartileMean;

@@ -82,7 +82,7 @@ namespace TiltBrush
         public static TiltModels75[] GetTiltModels(GroupIdMapping groupIdMapping)
         {
             var widgets =
-              WidgetManager.m_Instance.ModelWidgets.Where(w => w.gameObject.activeSelf).ToArray();
+                WidgetManager.m_Instance.ModelWidgets.Where(w => w.gameObject.activeSelf).ToArray();
             if (widgets.Length == 0 && !ModelCatalog.m_Instance.MissingModels.Any())
             {
                 return null;
@@ -127,14 +127,13 @@ namespace TiltBrush
             }
 
             return models
-              .Concat(ModelCatalog.m_Instance.MissingModels)
-              .OrderBy(ByModelLocation).ToArray();
+                .Concat(ModelCatalog.m_Instance.MissingModels)
+                .OrderBy(ByModelLocation).ToArray();
         }
 
         public static TiltVideo[] GetTiltVideos(GroupIdMapping groupIdMapping)
         {
-            return WidgetManager.m_Instance.VideoWidgets.Where(x => x.gameObject.activeSelf).
-                Select(x => ConvertVideoToTiltVideo(x)).ToArray();
+            return WidgetManager.m_Instance.VideoWidgets.Where(x => x.gameObject.activeSelf).Select(x => ConvertVideoToTiltVideo(x)).ToArray();
 
             TiltVideo ConvertVideoToTiltVideo(VideoWidget widget)
             {
@@ -159,13 +158,13 @@ namespace TiltBrush
         public static Guides[] GetGuideIndex(GroupIdMapping groupIdMapping)
         {
             var stencils =
-              WidgetManager.m_Instance.StencilWidgets.Where(s => s.gameObject.activeSelf).ToList();
+                WidgetManager.m_Instance.StencilWidgets.Where(s => s.gameObject.activeSelf).ToList();
             if (stencils.Count == 0)
             {
                 return null;
             }
             Dictionary<StencilType, List<Guides.State>> guides =
-              new Dictionary<StencilType, List<Guides.State>>();
+                new Dictionary<StencilType, List<Guides.State>>();
             foreach (var stencil in stencils)
             {
                 if (!guides.ContainsKey(stencil.Type))
@@ -189,7 +188,7 @@ namespace TiltBrush
         public static TiltImages75[] GetTiltImages(GroupIdMapping groupIdMapping)
         {
             var imports = WidgetManager.m_Instance.ImageWidgets
-              .Where(w => w.gameObject.activeSelf).ToArray();
+                .Where(w => w.gameObject.activeSelf).ToArray();
             if (imports.Length == 0)
             {
                 return null;

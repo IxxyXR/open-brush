@@ -22,20 +22,20 @@ namespace TiltBrush
         static bool IsRfc5987AttrChar(char c)
         {
             return (('a' <= c && c <= 'z') ||
-                     ('A' <= c && c <= 'Z') ||
-                     ('0' <= c && c <= '9') ||
-                     c == '!' ||
-                     c == '#' ||
-                     c == '$' ||
-                     c == '&' ||
-                     c == '+' ||
-                     c == '-' ||
-                     c == '.' ||
-                     c == '^' ||
-                     c == '_' ||
-                     c == '`' ||
-                     c == '|' ||
-                     c == '~');
+                ('A' <= c && c <= 'Z') ||
+                ('0' <= c && c <= '9') ||
+                c == '!' ||
+                c == '#' ||
+                c == '$' ||
+                c == '&' ||
+                c == '+' ||
+                c == '-' ||
+                c == '.' ||
+                c == '^' ||
+                c == '_' ||
+                c == '`' ||
+                c == '|' ||
+                c == '~');
         }
 
         /// Encode a string according to RFC 5987. The result will contain only the

@@ -24,9 +24,13 @@ namespace TiltBrush
     {
         public ImageLoadError(string message) : base(message) { }
         public ImageLoadError(string fmt, params System.Object[] args)
-          : base(string.Format(fmt, args)) { }
+            : base(string.Format(fmt, args))
+        {
+        }
         public ImageLoadError(Exception inner, string fmt, params System.Object[] args)
-          : base(string.Format(fmt, args), inner) { }
+            : base(string.Format(fmt, args), inner)
+        {
+        }
     }
 
     static public class ImageUtils
@@ -86,8 +90,8 @@ namespace TiltBrush
             if (imageWidth > maxDimension || imageHeight > maxDimension)
             {
                 throw new ImageLoadError(
-                  String.Format("Image dimensions {0}x{1} are greater than max dimensions of {2}x{2}!",
-                      imageWidth, imageHeight, maxDimension));
+                    String.Format("Image dimensions {0}x{1} are greater than max dimensions of {2}x{2}!",
+                        imageWidth, imageHeight, maxDimension));
             }
         }
 
@@ -103,7 +107,7 @@ namespace TiltBrush
         // [MustUseReturnValue] -- Unity doesn't seem to contain this annotation?!
         // Should probably return (int, int)? instead
         static public bool GetJpegWidthAndHeight(Stream stream,
-            out int width, out int height)
+                                                 out int width, out int height)
         {
             width = 0;
             height = 0;
@@ -155,7 +159,7 @@ namespace TiltBrush
                 try
                 {
                     FluxJpeg.Core.DecodedJpeg decoded =
-                      new FluxJpeg.Core.Decoder.JpegDecoder(stream).Decode();
+                        new FluxJpeg.Core.Decoder.JpegDecoder(stream).Decode();
                     image = decoded.Image;
                     image.ChangeColorSpace(FluxJpeg.Core.ColorSpace.RGB);
                 }
@@ -208,14 +212,14 @@ namespace TiltBrush
             return (
                 data.Length >= 8 &&
                 data[0] == 0x89 &&
-                data[1] == 'P' && data[2] == 'N' && data[3] == 'G' &&  // "PNG"
-                data[4] == '\r' && data[5] == '\n' &&  // CRLF
-                data[6] == 0x1a &&  // DOS EOF
+                data[1] == 'P' && data[2] == 'N' && data[3] == 'G' && // "PNG"
+                data[4] == '\r' && data[5] == '\n' &&                 // CRLF
+                data[6] == 0x1a &&                                    // DOS EOF
                 data[7] == '\n');
         }
 
         static public void GetPngWidthAndHeight(System.IO.Stream stream,
-            out int width, out int height)
+                                                out int width, out int height)
         {
             BinaryReader br = new BinaryReader(stream);
             // Skip signature.
@@ -413,7 +417,7 @@ namespace TiltBrush
                     }
                     else
                     {
-                        Debug.LogError("DownloadTextureAsync: LoadImage failed");  // Unexpected
+                        Debug.LogError("DownloadTextureAsync: LoadImage failed"); // Unexpected
                     }
                     UnityEngine.Object.Destroy(dest);
                 }
@@ -437,7 +441,7 @@ namespace TiltBrush
                         dest.SetPixels32(im.ColorData);
                         dest.Apply();
                         Console.WriteLine("ImageUtils: hand-created icon dimensions: " +
-                                          $"{dest.width}, {dest.height}");
+                            $"{dest.width}, {dest.height}");
                         return dest;
                     }
                 }
@@ -450,7 +454,7 @@ namespace TiltBrush
                 // This case should get hit even less than the previous case.
                 {
                     Console.WriteLine("ImageUtils: downloaded and handled {0}: {1} {2}",
-                                      uri, www.isDone, www.downloadHandler.isDone);
+                        uri, www.isDone, www.downloadHandler.isDone);
                     // b/62269743: sometimes this returns an ugly 8x8 texture.
                     Texture2D dest = DownloadHandlerTexture.GetContent(www);
                     Console.WriteLine($"ImageUtils: icon dimensions: {dest.width}, {dest.height}");
@@ -458,6 +462,5 @@ namespace TiltBrush
                 }
             }
         }
-    }  // ImageUtils
-}  // TiltBrush
-
+    } // ImageUtils
+}     // TiltBrush

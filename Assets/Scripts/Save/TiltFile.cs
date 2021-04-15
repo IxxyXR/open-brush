@@ -16,7 +16,6 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
-
 #if USE_DOTNETZIP
 using ZipSubfileReader = ZipSubfileReader_DotNetZip;
 using ZipLibrary = Ionic.Zip;
@@ -31,12 +30,12 @@ namespace TiltBrush
     public class TiltFile
     {
 
-        private const uint TILT_SENTINEL = 0x546c6974;   // 'tilT'
+        private const uint TILT_SENTINEL = 0x546c6974; // 'tilT'
         private const uint PKZIP_SENTINEL = 0x04034b50;
 
         // These are the only valid subfile names for GetStream()
         public const string FN_METADATA = "metadata.json";
-        public const string FN_METADATA_LEGACY = "main.json";  // used pre-release only
+        public const string FN_METADATA_LEGACY = "main.json"; // used pre-release only
         public const string FN_SKETCH = "data.sketch";
         public const string FN_THUMBNAIL = "thumbnail.png";
         public const string FN_HI_RES = "hires.png";
@@ -75,10 +74,16 @@ namespace TiltBrush
                 bool useZip;
                 switch (DevOptions.I.PreferredTiltFormat)
                 {
-                    case TiltFormat.Directory: useZip = false; break;
-                    case TiltFormat.Inherit: useZip = !Directory.Exists(path); break;
+                    case TiltFormat.Directory:
+                        useZip = false;
+                        break;
+                    case TiltFormat.Inherit:
+                        useZip = !Directory.Exists(path);
+                        break;
                     default:
-                    case TiltFormat.Zip: useZip = true; break;
+                    case TiltFormat.Zip:
+                        useZip = true;
+                        break;
                 }
                 if (useZip)
                 {
@@ -100,8 +105,8 @@ namespace TiltBrush
         m_zipstream.EnableZip64 = ZipLibrary.Zip64Option.Never;
 #else
                     m_zipstream.SetLevel(0); // no compression
-                                             // Since we don't have size info up front, it conservatively assumes 64-bit.
-                                             // We turn it off to maximize compatibility with wider ecosystem (eg, osx unzip).
+                    // Since we don't have size info up front, it conservatively assumes 64-bit.
+                    // We turn it off to maximize compatibility with wider ecosystem (eg, osx unzip).
                     m_zipstream.UseZip64 = ZipLibrary.UseZip64.Off;
 #endif
                 }
@@ -156,8 +161,8 @@ namespace TiltBrush
                     // There is such a thing as "Deflated, compression level 0".
                     // Explicitly use "Stored".
                     entry.CompressionMethod = (m_zipstream.GetLevel() == 0)
-                      ? ZipLibrary.CompressionMethod.Stored
-                      : ZipLibrary.CompressionMethod.Deflated;
+                        ? ZipLibrary.CompressionMethod.Stored
+                        : ZipLibrary.CompressionMethod.Deflated;
                     return new ZipOutputStreamWrapper_SharpZipLib(m_zipstream, entry);
 #endif
                 }
@@ -357,12 +362,12 @@ namespace TiltBrush
                 // Directories don't have a header but we can do some roughly-equivalent
                 // sanity-checking
                 return (File.Exists(Path.Combine(m_Fullpath, FN_METADATA)) &&
-                        File.Exists(Path.Combine(m_Fullpath, FN_SKETCH)) &&
-                        File.Exists(Path.Combine(m_Fullpath, FN_THUMBNAIL)));
+                    File.Exists(Path.Combine(m_Fullpath, FN_SKETCH)) &&
+                    File.Exists(Path.Combine(m_Fullpath, FN_THUMBNAIL)));
             }
             return false;
         }
 
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

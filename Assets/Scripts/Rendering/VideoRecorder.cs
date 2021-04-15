@@ -224,11 +224,11 @@ namespace TiltBrush
                     for (int i = 0; i < interp; i++)
                     {
                         m_leftChannel[curOffset] = Mathf.Lerp(m_leftChannel[oldOffset],
-                                                              m_leftChannel[curOffset],
-                                                              i / (float)interp);
+                            m_leftChannel[curOffset],
+                            i / (float)interp);
                         m_rightChannel[curOffset] = Mathf.Lerp(m_rightChannel[oldOffset],
-                                                               m_rightChannel[curOffset],
-                                                               i / (float)interp);
+                            m_rightChannel[curOffset],
+                            i / (float)interp);
                         oldOffset++;
                         curOffset++;
                     }
@@ -471,14 +471,14 @@ namespace TiltBrush
             // We need to "touch" the destination file immediately, to avoid overlapping encoder instances
             // from stomping each other.
             FileStream myFileStream = File.Open(m_filePath, FileMode.OpenOrCreate,
-                                                FileAccess.Write, FileShare.ReadWrite);
+                FileAccess.Write, FileShare.ReadWrite);
             myFileStream.Close();
             myFileStream.Dispose();
             File.SetLastWriteTimeUtc(m_filePath, System.DateTime.UtcNow);
 
             string videoFileName = audioSampleRate > 0
-                                 ? m_filePath + ".tmp." + App.UserConfig.Video.ContainerType
-                                 : m_filePath;
+                ? m_filePath + ".tmp." + App.UserConfig.Video.ContainerType
+                : m_filePath;
 
             if (!m_ffmpegVideo.Start(kPipeStdIn, videoFileName, width, height, (float)m_FPS, blocking))
             {
@@ -488,7 +488,7 @@ namespace TiltBrush
             m_ffmpegAudio.OutputFile = "";
             if (m_isCapturingAudio
                 && !m_ffmpegAudio.Start(kPipeStdIn, m_filePath + ".tmp.m4a",
-                                        width, height, audioSampleRate, blocking))
+                    width, height, audioSampleRate, blocking))
             {
                 m_ffmpegVideo.Stop();
                 return false;
@@ -615,7 +615,7 @@ namespace TiltBrush
                 // TODO: This should be a task executed in a thread pool, using a thread is overkill.
                 string filePath = m_filePath;
                 System.Threading.Thread t = new System.Threading.Thread(
-                                                  () => RemoveFile(filePath, videoPipe, audioPipe));
+                    () => RemoveFile(filePath, videoPipe, audioPipe));
                 m_ffmpegVideo = new FfmpegPipe();
                 m_ffmpegAudio = new FfmpegPipe();
                 t.IsBackground = true;
@@ -690,12 +690,12 @@ namespace TiltBrush
         {
             try
             {
-                videoPipe.WaitForEncoderExit(/*ms*/20 * 1000);
+                videoPipe.WaitForEncoderExit( /*ms*/20 * 1000);
                 System.IO.File.Delete(videoPipe.OutputFile);
 
                 if (audioPipe.OutputFile.Length > 0)
                 {
-                    audioPipe.WaitForEncoderExit(/*ms*/20 * 1000);
+                    audioPipe.WaitForEncoderExit( /*ms*/20 * 1000);
                     System.IO.File.Delete(audioPipe.OutputFile);
                     // Remove the primary file last, to avoid file collisions with the next recording.
                     System.IO.File.Delete(filePath);
@@ -713,11 +713,11 @@ namespace TiltBrush
             m_isSaving = true;
             try
             {
-                videoPipe.WaitForEncoderExit(/*ms*/20 * 1000);
+                videoPipe.WaitForEncoderExit( /*ms*/20 * 1000);
 
                 if (audioPipe.OutputFile.Length > 0)
                 {
-                    audioPipe.WaitForEncoderExit(/*ms*/20 * 1000);
+                    audioPipe.WaitForEncoderExit( /*ms*/20 * 1000);
                     if (FfmpegPipe.Mux(audioPipe.OutputFile, videoPipe.OutputFile, filePath))
                     {
                         System.IO.File.Delete(videoPipe.OutputFile);

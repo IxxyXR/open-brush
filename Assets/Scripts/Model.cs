@@ -39,7 +39,7 @@ namespace TiltBrush
 
             private Type type;
             private string path;
-            private string id;                      // Only valid when the type is PolyAssetId.
+            private string id; // Only valid when the type is PolyAssetId.
 
             public static Location File(string relativePath)
             {
@@ -176,9 +176,9 @@ namespace TiltBrush
                 this.message = message;
                 this.detail = detail;
             }
-            public readonly string message;  // Human-readable short message
-            public readonly string detail;   // Maybe non-human-readable details
-                                             // maybe? public bool transient;  // true if we know for sure that this error is transient
+            public readonly string message; // Human-readable short message
+            public readonly string detail;  // Maybe non-human-readable details
+            // maybe? public bool transient;  // true if we know for sure that this error is transient
         }
 
         /// Is m_ModelParent assigned?
@@ -443,14 +443,15 @@ namespace TiltBrush
                 IsValid = (rootObject != null);
                 return rootObject;
             }
-        }  // GltfModelBuilder
+        } // GltfModelBuilder
 
         GameObject LoadUsd(List<string> warnings)
         {
 #if USD_SUPPORTED && (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      return ImportUsd.Import(m_Location.AbsolutePath, out warnings);
-    }
+            if (Config.IsExperimental)
+            {
+                return ImportUsd.Import(m_Location.AbsolutePath, out warnings);
+            }
 #endif
             m_LoadError = new LoadError("usd not supported");
             return null;
@@ -531,7 +532,7 @@ namespace TiltBrush
 
             bool allowUsd = false;
 #if USD_SUPPORTED && (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    allowUsd = Config.IsExperimental;
+            allowUsd = Config.IsExperimental;
 #endif
 
             // Experimental usd loading.
@@ -652,7 +653,7 @@ namespace TiltBrush
                     go = LoadUsd(warnings);
                 }
                 else if (m_Location.GetLocationType() == Location.Type.PolyAssetId ||
-                         ext == ".gltf2" || ext == ".gltf" || ext == ".glb")
+                    ext == ".gltf2" || ext == ".gltf" || ext == ".glb")
                 {
                     // If we pulled this from Poly, it's going to be a gltf file.
                     go = LoadGltf(warnings);
@@ -734,7 +735,7 @@ namespace TiltBrush
                 // Procedurally created meshes need to be explicitly destroyed - you can't just destroy
                 // the MeshFilter that references them.
                 foreach (var mesh in m_ModelParent.GetComponentsInChildren<MeshFilter>()
-                                                  .Select(x => x.sharedMesh))
+                    .Select(x => x.sharedMesh))
                 {
                     UObject.Destroy(mesh);
                 }
@@ -777,11 +778,11 @@ namespace TiltBrush
             if (warnings.Count > 0)
             {
                 TiltBrush.ControllerConsoleScript.m_Instance.AddNewLine(
-                  "Loading " + Path.GetFileName(m_Location.AbsolutePath), true);
+                    "Loading " + Path.GetFileName(m_Location.AbsolutePath), true);
                 foreach (string warning in warnings)
                 {
                     TiltBrush.ControllerConsoleScript.m_Instance.AddNewLine(
-                      OutputWindowScript.GetShorterFileName(warning.Replace("/", @"\")), false);
+                        OutputWindowScript.GetShorterFileName(warning.Replace("/", @"\")), false);
                 }
             }
         }
@@ -789,13 +790,13 @@ namespace TiltBrush
         public bool IsCached()
         {
             return m_Location.GetLocationType() == Location.Type.PolyAssetId &&
-              Directory.Exists(m_Location.AbsolutePath);
+                Directory.Exists(m_Location.AbsolutePath);
         }
 
         public void RefreshCache()
         {
             Directory.SetLastAccessTimeUtc(
-              Path.GetDirectoryName(m_Location.AbsolutePath), System.DateTime.UtcNow);
+                Path.GetDirectoryName(m_Location.AbsolutePath), System.DateTime.UtcNow);
         }
 
         // Returns all leaf meshes which are part of the model.

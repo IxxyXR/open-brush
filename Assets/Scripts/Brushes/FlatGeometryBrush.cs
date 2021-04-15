@@ -24,12 +24,12 @@ namespace TiltBrush
         const int kSharedVertsInSolidPair = 2;
         const int kTrisInSolid = 2;
         const int kSharedTrisInSolidPair = 0;
-        const int kMinimumKnotsAfterBreak = 6;  // shortest stroke allowed after a break, in knots.
+        const int kMinimumKnotsAfterBreak = 6; // shortest stroke allowed after a break, in knots.
 
-        protected const int BR = 0;   // back right  (top)
-        protected const int BL = 1;   // back left   (top)
-        protected const int FR = 2;   // front right (top)
-        protected const int FL = 3;   // front left  (top)
+        protected const int BR = 0; // back right  (top)
+        protected const int BL = 1; // back left   (top)
+        protected const int FR = 2; // front right (top)
+        protected const int FL = 3; // front left  (top)
 
         protected enum UVStyle
         {
@@ -49,9 +49,9 @@ namespace TiltBrush
         [SerializeField] protected bool m_bOffsetInTexcoord1;
 
         public FlatGeometryBrush()
-          : base(bCanBatch: true,
-                 upperBoundVertsPerKnot: kVertsInSolid,
-                 bDoubleSided: true)
+            : base(bCanBatch: true,
+                upperBoundVertsPerKnot: kVertsInSolid,
+                bDoubleSided: true)
         {
         }
 
@@ -60,7 +60,7 @@ namespace TiltBrush
         //
 
         protected override void InitBrush(BrushDescriptor desc,
-            TrTransform localPointerXf)
+                                          TrTransform localPointerXf)
         {
             base.InitBrush(desc, localPointerXf);
             SetDoubleSided(desc);
@@ -79,15 +79,15 @@ namespace TiltBrush
                 uv0Semantic = GeometryPool.Semantic.XyIsUv,
                 uv1Size = m_bOffsetInTexcoord1 ? 3 : 0,
                 uv1Semantic = m_bOffsetInTexcoord1
-                  ? GeometryPool.Semantic.Vector
-                  : GeometryPool.Semantic.Unspecified
+                    ? GeometryPool.Semantic.Vector
+                    : GeometryPool.Semantic.Unspecified
             };
         }
 
         override public float GetSpawnInterval(float pressure01)
         {
             return kSolidMinLengthMeters_PS * POINTER_TO_LOCAL * App.METERS_TO_UNITS +
-              (PressuredSize(pressure01) * kSolidAspectRatio);
+                (PressuredSize(pressure01) * kSolidAspectRatio);
         }
 
         override protected void ControlPointsChanged(int iKnot0)
@@ -210,8 +210,8 @@ namespace TiltBrush
                     }
                 }
                 Vector3 vPreferredRight = m_Desc.m_BackIsInvisible
-                  ? Vector3.Cross(cur.point.m_Orient * Vector3.forward, nTangent)
-                  : prev.nRight;
+                    ? Vector3.Cross(cur.point.m_Orient * Vector3.forward, nTangent)
+                    : prev.nRight;
                 ComputeSurfaceFrameNew(
                     vPreferredRight, nTangent, cur.point.m_Orient,
                     out cur.nRight, out cur.nSurface);
@@ -382,7 +382,7 @@ namespace TiltBrush
                         Vector3 halfRight = 0.3f * halfRightPrev + 0.4f * halfRightCur + 0.3f * halfRightNext;
                         // The last nRight vector is very jittery, so don't do interpolation for the last couple
                         // knots.
-                        if (!m_knots[iNext].HasGeometry/* || iKnot >= m_knots.Count - 2*/)
+                        if (!m_knots[iNext].HasGeometry /* || iKnot >= m_knots.Count - 2*/)
                         {
                             halfRight = halfRightCur;
                         }
@@ -522,9 +522,9 @@ namespace TiltBrush
                     // ComputeST is static API; takes vert indices instead of vert-pair indices.
                     Vector3 vS_BR_BL_FL, vS_BR_FL_FR, unused;
                     ComputeST(m_geometry.m_Vertices, m_geometry.m_Texcoord0.v2, cur.iVert, BR * NS, BL * NS, FL * NS,
-                              out vS_BR_BL_FL, out unused);
+                        out vS_BR_BL_FL, out unused);
                     ComputeST(m_geometry.m_Vertices, m_geometry.m_Texcoord0.v2, cur.iVert, BR * NS, FL * NS, FR * NS,
-                              out vS_BR_FL_FR, out unused);
+                        out vS_BR_FL_FR, out unused);
 
                     if (!prev.HasGeometry)
                     {
@@ -540,4 +540,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -58,4 +58,4 @@ namespace TiltBrush
             SetWrapped(wrapped, false);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

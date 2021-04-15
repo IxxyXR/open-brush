@@ -58,9 +58,9 @@ namespace TiltBrush
         public TetraBrush() : this(true) { }
 
         public TetraBrush(bool bCanBatch)
-          : base(bCanBatch: bCanBatch,
-                 upperBoundVertsPerKnot: kVertsInClosedCircle * 2,
-                 bDoubleSided: false)
+            : base(bCanBatch: bCanBatch,
+                upperBoundVertsPerKnot: kVertsInClosedCircle * 2,
+                bDoubleSided: false)
         {
             // Start and end of circle are coincident, and need at least one more point.
             Debug.Assert(kVertsInClosedCircle > 2);
@@ -91,7 +91,7 @@ namespace TiltBrush
         override public float GetSpawnInterval(float pressure01)
         {
             return kSolidMinLengthMeters * App.METERS_TO_UNITS +
-              (PressuredSize(pressure01) * kSolidAspectRatio);
+                (PressuredSize(pressure01) * kSolidAspectRatio);
         }
 
         override protected void ControlPointsChanged(int iKnot0)
@@ -109,7 +109,7 @@ namespace TiltBrush
 
         // This approximates parallel transport.
         static Quaternion ComputeMinimalRotationFrame(
-          Vector3 nTangent, Quaternion qPrevFrame)
+            Vector3 nTangent, Quaternion qPrevFrame)
         {
             Vector3 nPrevTangent = qPrevFrame * Vector3.forward;
             Quaternion minimal = Quaternion.FromToRotation(nPrevTangent, nTangent);
@@ -252,7 +252,7 @@ namespace TiltBrush
 
                     // Tris
                     int BC = 0;
-                    int FC = BC + kVertsInClosedCircle;  // vert index of front circle
+                    int FC = BC + kVertsInClosedCircle; // vert index of front circle
 
                     // Connect back circle to front point
                     for (int i = 0; i < kVertsInClosedCircle - 1; ++i)
@@ -294,9 +294,9 @@ namespace TiltBrush
         }
 
         void MakeClosedCircle(
-          ref Knot k, Vector3 center, float radius, int num,
-          Vector3 up, Vector3 rt, Vector3 fwd,
-          float u, float v0, float v1)
+            ref Knot k, Vector3 center, float radius, int num,
+            Vector3 up, Vector3 rt, Vector3 fwd,
+            float u, float v0, float v1)
         {
             // When facing down the tangent, circle verts should go clockwise
             // We'd like the seam to be on the bottom
@@ -325,7 +325,7 @@ namespace TiltBrush
         /// Resizes arrays if necessary, appends data, mutates knot's vtx count. The
         /// incoming normal n should be normalized.
         void AppendVert(ref Knot k, Vector3 v, Vector3 n, Color32 c,
-                       Vector3 tan, Vector2 uv)
+                        Vector3 tan, Vector2 uv)
         {
             int i = k.iVert + k.nVert++;
             Vector4 tan4 = tan;
@@ -370,4 +370,4 @@ namespace TiltBrush
             return (iKnot + 1 == m_knots.Count || !m_knots[iKnot + 1].HasGeometry);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -404,4 +404,4 @@ namespace TiltBrush
         /// Trigger a haptic pulse for the given duration.
         public abstract void TriggerControllerHaptics(float seconds);
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

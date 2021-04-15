@@ -38,7 +38,7 @@ namespace TiltBrush
             m_SelectedStrokes = SelectionManager.m_Instance.SelectedStrokes.ToList();
             m_DuplicatedStrokes = m_SelectedStrokes
                 .Select(stroke => SketchMemoryScript.m_Instance.DuplicateStroke(
-                            stroke, App.Scene.SelectionCanvas, null))
+                    stroke, App.Scene.SelectionCanvas, null))
                 .ToList();
 
             // Move duplicates of grouped strokes to their own groups.

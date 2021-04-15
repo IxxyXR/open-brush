@@ -119,4 +119,4 @@ namespace TiltBrush
 #endif
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

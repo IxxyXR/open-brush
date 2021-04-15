@@ -83,4 +83,4 @@ namespace TiltBrush
         Dictionary<string, Color> ColorParams { get; }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

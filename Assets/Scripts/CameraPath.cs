@@ -58,10 +58,13 @@ namespace TiltBrush
     {
         public static int Cmp(PathT lhs, PathT rhs)
         {
-            { int cmp = lhs.t.CompareTo(rhs.t); return cmp; }
+            {
+                int cmp = lhs.t.CompareTo(rhs.t);
+                return cmp;
+            }
         }
 
-        private float t;  // in [0, CameraPath.PositionKnots.Count-1)
+        private float t; // in [0, CameraPath.PositionKnots.Count-1)
 
         public float T => t;
 
@@ -302,7 +305,7 @@ namespace TiltBrush
         {
             KnotSegment segment = new KnotSegment();
             GameObject go =
-                  UnityEngine.Object.Instantiate(WidgetManager.m_Instance.CameraPathKnotSegmentPrefab);
+                UnityEngine.Object.Instantiate(WidgetManager.m_Instance.CameraPathKnotSegmentPrefab);
             go.transform.parent = parent;
             segment.renderer = go.GetComponent<LineRenderer>();
             segment.renderer.positionCount = kNumSegmentPoints;
@@ -462,8 +465,8 @@ namespace TiltBrush
             // head, we want the user manipulating the back tangent.  In other cases, the forward tangent.
             // The exception to the head is when there's only one knot.
             CameraPathPositionKnot.ControlType controlType = (index == 0 && PositionKnots.Count > 1) ?
-              CameraPathPositionKnot.ControlType.TangentControlBack :
-              CameraPathPositionKnot.ControlType.TangentControlForward;
+                CameraPathPositionKnot.ControlType.TangentControlBack :
+                CameraPathPositionKnot.ControlType.TangentControlForward;
             m_LastPlacedKnotInfo.Set(knot, (int)controlType, index, null);
         }
 
@@ -471,9 +474,15 @@ namespace TiltBrush
         {
             switch (type)
             {
-                case CameraPathKnot.Type.Fov: FovKnots.Sort(CompareKnotsByPathT); break;
-                case CameraPathKnot.Type.Rotation: RotationKnots.Sort(CompareKnotsByPathT); break;
-                case CameraPathKnot.Type.Speed: SpeedKnots.Sort(CompareKnotsByPathT); break;
+                case CameraPathKnot.Type.Fov:
+                    FovKnots.Sort(CompareKnotsByPathT);
+                    break;
+                case CameraPathKnot.Type.Rotation:
+                    RotationKnots.Sort(CompareKnotsByPathT);
+                    break;
+                case CameraPathKnot.Type.Speed:
+                    SpeedKnots.Sort(CompareKnotsByPathT);
+                    break;
                 default:
                     Debug.Log("Unsupported type passed to SortKnotList " + type);
                     break;
@@ -830,7 +839,7 @@ namespace TiltBrush
         }
 
         public void RefreshSegmentVisuals(Vector3 segPos, KnotSegment seg,
-            CameraPathTool.ExtendPathType extendType)
+                                          CameraPathTool.ExtendPathType extendType)
         {
             // If we don't have position knots, just keep the segment quiet.
             if (PositionKnots.Count <= 0)
@@ -903,7 +912,7 @@ namespace TiltBrush
         }
 
         void RecomputeKnotPlacementAfterPositionAdded(CameraPathKnot knot, int addedKnotIndex,
-            float[] prevSegmentLengths, float[] newSegmentLengths)
+                                                      float[] prevSegmentLengths, float[] newSegmentLengths)
         {
             if (addedKnotIndex > Mathf.CeilToInt(knot.PathT.T))
             {
@@ -968,7 +977,7 @@ namespace TiltBrush
         }
 
         void RecomputeKnotPlacementAfterPositionRemoved(CameraPathKnot knot, int removedKnotIndex,
-            float[] prevSegmentLengths, float[] newSegmentLengths)
+                                                        float[] prevSegmentLengths, float[] newSegmentLengths)
         {
             if (removedKnotIndex > Mathf.CeilToInt(knot.PathT.T))
             {
@@ -1306,10 +1315,10 @@ namespace TiltBrush
             int baseKnot = Mathf.FloorToInt(pathT.T);
             int nextKnot = PathLoops ? (baseKnot + 1) % numKnots : Mathf.Min(baseKnot + 1, numKnots - 1);
             Vector3 pos = CalculateHermite(pathT.T % 1.0f,
-              PositionKnots[baseKnot].KnotXf.position,
-              PositionKnots[baseKnot].ScaledTangent,
-              PositionKnots[nextKnot].KnotXf.position,
-              PositionKnots[nextKnot].ScaledTangent);
+                PositionKnots[baseKnot].KnotXf.position,
+                PositionKnots[baseKnot].ScaledTangent,
+                PositionKnots[nextKnot].KnotXf.position,
+                PositionKnots[nextKnot].ScaledTangent);
             return pos;
         }
 

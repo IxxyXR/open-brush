@@ -23,7 +23,8 @@ namespace TiltBrush
     {
         public const float HUE_MAX = 6;
 
-        public float h;   /// Range is [0, HUE_MAX)
+        public float h;
+        /// Range is [0, HUE_MAX)
         public float s;
         public float l;
         public float a;
@@ -144,9 +145,9 @@ namespace TiltBrush
                 var tb = th - 2;
 
                 return new Color(ColorCalc(tr, t1, t2),
-                                 ColorCalc(tg, t1, t2),
-                                 ColorCalc(tb, t1, t2),
-                                 hslColor.a);
+                    ColorCalc(tg, t1, t2),
+                    ColorCalc(tb, t1, t2),
+                    hslColor.a);
             }
         }
 
@@ -237,4 +238,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

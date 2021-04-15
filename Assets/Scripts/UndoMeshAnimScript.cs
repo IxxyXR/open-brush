@@ -42,4 +42,4 @@ namespace TiltBrush
             Coords.AsCanvas[transform] = xf_CS;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

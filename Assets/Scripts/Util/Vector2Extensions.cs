@@ -26,7 +26,7 @@ namespace TiltBrush
             float sin = Mathf.Sin(radians);
             float cos = Mathf.Cos(radians);
             return new Vector2(cos * v.x - sin * v.y,
-                               sin * v.x + cos * v.y);
+                sin * v.x + cos * v.y);
         }
     }
 

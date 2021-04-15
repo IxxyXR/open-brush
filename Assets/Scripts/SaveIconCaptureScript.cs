@@ -61,4 +61,4 @@ namespace TiltBrush
             transform.rotation = qRotate * baseRot;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

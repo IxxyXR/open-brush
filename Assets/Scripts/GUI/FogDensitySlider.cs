@@ -46,7 +46,7 @@ namespace TiltBrush
         {
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                 new ModifyFogCommand(SceneSettings.m_Instance.FogColor,
-                GetCurrentValue() * m_MaxFogDensity));
+                    GetCurrentValue() * m_MaxFogDensity));
         }
 
         override public void ButtonReleased()
@@ -73,7 +73,7 @@ namespace TiltBrush
         {
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                 new ModifyFogCommand(SceneSettings.m_Instance.FogColor,
-                SceneSettings.m_Instance.FogDensity, final: true));
+                    SceneSettings.m_Instance.FogDensity, final: true));
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

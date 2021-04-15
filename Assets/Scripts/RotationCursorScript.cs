@@ -91,4 +91,4 @@ namespace TiltBrush
             m_CrossSectionLine.transform.position = vSurfacePos;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

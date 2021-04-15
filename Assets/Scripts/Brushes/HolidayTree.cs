@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -67,7 +66,7 @@ namespace TiltBrush
                         TrTransform.R(120, Vector3.right);
                     InitializeAndAddChild(
                         new PbChildWithOffset(m_knots.Count - 1, AttachFrame.LineTangent, offset, 0),
-                        m_Desc,  // Recurse with same brush
+                        m_Desc, // Recurse with same brush
                         Color.white, m_branchRelativeSize);
                 }
             }

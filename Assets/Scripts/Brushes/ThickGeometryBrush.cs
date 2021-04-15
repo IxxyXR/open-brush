@@ -38,19 +38,19 @@ namespace TiltBrush
         // First letter is Front/Back
         // Second letter is Left/Middle/Right
         // Third letter is Top/Bottom
-        protected const int BRT = 0;   // back  right
-        protected const int BRB = 1;   // back  right
-        protected const int BMT = 2;   // back  middle
-        protected const int BMB = 3;   // back  middle
-        protected const int BLT = 4;   // back  left
-        protected const int BLB = 5;   // back  left
+        protected const int BRT = 0; // back  right
+        protected const int BRB = 1; // back  right
+        protected const int BMT = 2; // back  middle
+        protected const int BMB = 3; // back  middle
+        protected const int BLT = 4; // back  left
+        protected const int BLB = 5; // back  left
 
-        protected const int FRT = 6;   // front right
-        protected const int FRB = 7;   // front right
-        protected const int FMT = 8;   // front middle
-        protected const int FMB = 9;   // front middle
-        protected const int FLT = 10;  // front left
-        protected const int FLB = 11;  // front left
+        protected const int FRT = 6;  // front right
+        protected const int FRB = 7;  // front right
+        protected const int FMT = 8;  // front middle
+        protected const int FMB = 9;  // front middle
+        protected const int FLT = 10; // front left
+        protected const int FLB = 11; // front left
 
         protected enum UVStyle
         {
@@ -72,9 +72,9 @@ namespace TiltBrush
         protected UVStyle m_uvStyle = UVStyle.Distance;
 
         public ThickGeometryBrush()
-          : base(bCanBatch: true,
-                 upperBoundVertsPerKnot: kVertsInSolid,
-                 bDoubleSided: false)
+            : base(bCanBatch: true,
+                upperBoundVertsPerKnot: kVertsInSolid,
+                bDoubleSided: false)
         {
         }
 
@@ -103,7 +103,7 @@ namespace TiltBrush
         override public float GetSpawnInterval(float pressure01)
         {
             return kSolidMinLengthMeters_PS * App.METERS_TO_UNITS * POINTER_TO_LOCAL +
-              (PressuredSize(pressure01) * kSolidAspectRatio);
+                (PressuredSize(pressure01) * kSolidAspectRatio);
         }
 
         override protected void ControlPointsChanged(int iKnot0)
@@ -165,8 +165,8 @@ namespace TiltBrush
                 // If single-sided, always point the frontside towards the brush. Causes twisting.
                 Vector3 nMove = vMove / cur.length;
                 Vector3 vPreferredRight = m_Desc.m_BackIsInvisible
-                  ? Vector3.Cross(cur.point.m_Orient * Vector3.forward, nMove)
-                  : prev.nRight;
+                    ? Vector3.Cross(cur.point.m_Orient * Vector3.forward, nMove)
+                    : prev.nRight;
                 ComputeSurfaceFrameNew(
                     vPreferredRight, nMove, cur.point.m_Orient,
                     out cur.nRight, out cur.nSurface);
@@ -214,8 +214,8 @@ namespace TiltBrush
 
         void OnChanged_MakeVertsAndNormals(int iKnot0)
         {
-            float belly = 1f / 8;  // amount of belly rise per unit width
-                                   // float theta = atan(belly/1);  belly angle
+            float belly = 1f / 8; // amount of belly rise per unit width
+            // float theta = atan(belly/1);  belly angle
             float sinTheta, cosTheta;
             {
                 float hypotenuse = Mathf.Sqrt(1 + belly * belly);
@@ -450,7 +450,7 @@ namespace TiltBrush
                     // the seam shares verts (needs separate verts so they can flip w)
                     Vector3 vS, unused;
                     ComputeST(m_geometry.m_Vertices, m_geometry.m_Texcoord0.v2, cur.iVert, BRT, BMT, FMT,
-                              out vS, out unused);
+                        out vS, out unused);
 
                     if (!prev.HasGeometry)
                     {
@@ -474,4 +474,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

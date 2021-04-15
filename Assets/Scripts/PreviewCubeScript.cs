@@ -71,4 +71,4 @@ namespace TiltBrush
             m_SampleQuad.GetComponent<Renderer>().material.mainTexture = tex;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

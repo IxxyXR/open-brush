@@ -320,7 +320,7 @@ namespace TiltBrush
             var q = new Queue<WasapiCapture>();
             using (var deviceEnumerator = new MMDeviceEnumerator())
             using (var activeDevices = deviceEnumerator.EnumAudioEndpoints(
-                       DataFlow.Render, DeviceState.Active))
+                DataFlow.Render, DeviceState.Active))
             {
                 foreach (MMDevice device in activeDevices)
                 {
@@ -390,7 +390,7 @@ namespace TiltBrush
                 // Future is ready, but it says there are no sources
                 ControllerConsoleScript.m_Instance.AddNewLine("No audio sources available.");
                 m_SearchFoundNoAudio = true;
-                StopFuture();  // Re-query for captures after timeout
+                StopFuture(); // Re-query for captures after timeout
                 m_SelectNextCaptureTimer = m_SelectDeviceTimeoutDuration;
                 return;
             }
@@ -398,7 +398,7 @@ namespace TiltBrush
             if (captures.Count == 0)
             {
                 // Future is ready, and there were sources, but we've tried them all
-                StopFuture();  // Re-query for captures next frame
+                StopFuture(); // Re-query for captures next frame
                 m_SelectNextCaptureTimer = 0;
                 return;
             }
@@ -564,7 +564,6 @@ namespace TiltBrush
         }
 
 #else
-
   public void Activate(float unused) { }
 
   public void Deactivate() { }
@@ -572,4 +571,4 @@ namespace TiltBrush
 #endif
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -150,8 +150,8 @@ namespace TiltBrush
         private static string GetPcId()
         {
             return GetPCSerialNumber("bios") ??
-                   GetPCSerialNumber("baseboard") ??
-                   $"Windows-{System.Environment.MachineName}";
+                GetPCSerialNumber("baseboard") ??
+                $"Windows-{System.Environment.MachineName}";
         }
 
         // On Android we use the ANDROID_ID, which is unique for each app/device pair.
@@ -266,7 +266,7 @@ namespace TiltBrush
 
         /// Returns a list of all the contents of a folder, files and folders.
         public async Task<List<DriveData.File>> GetFolderContentsAsync(string folderId,
-            bool getFiles, bool getFolders, CancellationToken token)
+                                                                       bool getFiles, bool getFolders, CancellationToken token)
         {
             var request = m_DriveService.Files.List();
             if (!getFiles && !getFolders)
@@ -283,8 +283,8 @@ namespace TiltBrush
                 mimeRequest = "mimeType = 'application/vnd.google-apps.folder' and ";
             }
             request.Q = $"'{folderId}' in parents and " +
-                        $"{mimeRequest}" +
-                        $"trashed = false";
+                $"{mimeRequest}" +
+                $"trashed = false";
             request.Fields =
                 "nextPageToken, " +
                 "files(id, name, description, thumbnailLink, modifiedTime, size, mimeType, description)";
@@ -313,11 +313,11 @@ namespace TiltBrush
         /// Get the first folder inside another folder with a given name. Returns null if one can't be
         /// found.
         public async Task<DriveData.File> GetFolderAsync(string name, string parentId,
-            CancellationToken token)
+                                                         CancellationToken token)
         {
             var request = m_DriveService.Files.List();
             request.Q = $"'{parentId}' in parents and name = '{name}' and trashed = false and " +
-                        "mimeType = 'application/vnd.google-apps.folder'";
+                "mimeType = 'application/vnd.google-apps.folder'";
             request.Fields = "nextPageToken, files(id, name)";
             try
             {
@@ -339,7 +339,7 @@ namespace TiltBrush
 
         /// Get the first file inside a folder with a given name. Returns null if one can't be found.
         public async Task<DriveData.File> GetFileAsync(string name, string parentId,
-            CancellationToken token)
+                                                       CancellationToken token)
         {
             var request = m_DriveService.Files.List();
             request.Q = $"'{parentId}' in parents and name = '{name}' and trashed = false";
@@ -401,7 +401,7 @@ namespace TiltBrush
             {
                 var request = m_DriveService.Files.List();
                 request.Q = "'root' in parents and trashed = false and " +
-                            "mimeType = 'application/vnd.google-apps.folder'";
+                    "mimeType = 'application/vnd.google-apps.folder'";
                 request.Fields = "nextPageToken, files(id, name, createdTime)";
                 var result = await Retry(() => request.ExecuteAsync(token));
                 if (result != null && result.Files.Count > 0)
@@ -416,7 +416,7 @@ namespace TiltBrush
             {
                 var request = m_DriveService.Files.List();
                 request.Q = $"name = '{App.kDriveFolderName}' and trashed = false and " +
-                            "mimeType = 'application/vnd.google-apps.folder'";
+                    "mimeType = 'application/vnd.google-apps.folder'";
                 request.Fields = "nextPageToken, files(id, name, createdTime)";
                 var result = await Retry(() => request.ExecuteAsync(token));
                 if (result != null && result.Files.Count > 0)
@@ -485,8 +485,8 @@ namespace TiltBrush
             }
 
             m_DeviceFolderId = (await CreateFolderAsync(m_DeviceId,
-                                                        m_GoogleUserSettings.DriveSyncFolderId,
-                                                        token))?.Id;
+                m_GoogleUserSettings.DriveSyncFolderId,
+                token))?.Id;
         }
 
 
@@ -507,8 +507,8 @@ namespace TiltBrush
 
             var folderRequest = m_DriveService.Files.List();
             folderRequest.Q = $"name = '{name}' and '{parentId}' in parents and " +
-                              "mimeType = 'application/vnd.google-apps.folder' and " +
-                              "trashed = false";
+                "mimeType = 'application/vnd.google-apps.folder' and " +
+                "trashed = false";
             folderRequest.Fields = "nextPageToken, files(id, name)";
             DriveData.FileList fileList;
             try
@@ -530,7 +530,7 @@ namespace TiltBrush
             if (fileList.Files.Any())
             {
                 Debug.Assert(fileList.Files.Count == 1,
-                             $"ALERT! more than one folder called {name} found! Choosing the first one.");
+                    $"ALERT! more than one folder called {name} found! Choosing the first one.");
                 return fileList.Files[0];
             }
             else
@@ -621,7 +621,7 @@ namespace TiltBrush
             if (result.Status != UploadStatus.Completed && !token.IsCancellationRequested)
             {
                 Debug.LogException(new DriveSync.DataTransferError("Google Drive new file upload failed.",
-                                                                   result.Exception));
+                    result.Exception));
             }
             await RefreshFreeSpaceAsync(token);
         }
@@ -651,7 +651,7 @@ namespace TiltBrush
             if (result.Status != UploadStatus.Completed && !token.IsCancellationRequested)
             {
                 Debug.LogException(new DriveSync.DataTransferError("Google Drive file update failed.",
-                                                                   result.Exception));
+                    result.Exception));
             }
             await RefreshFreeSpaceAsync(token);
         }

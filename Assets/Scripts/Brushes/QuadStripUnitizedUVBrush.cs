@@ -57,4 +57,4 @@ namespace TiltBrush
         protected override void UpdateUVsForQuad(int iQuadIndex) { }
         protected override void UpdateUVsForSegment(int iSegmentBack, int iSegmentFront, float size) { }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -96,8 +96,8 @@ namespace TiltBrush
             // return a.inverse * b;
             Quaternion a_invrot = a.rotation.TrueInverse();
             return TRS(a_invrot * ((b.translation - a.translation) / a.scale),
-                       a_invrot * b.rotation,
-                       b.scale / a.scale);
+                a_invrot * b.rotation,
+                b.scale / a.scale);
         }
 
         /// Linearly interpolate between two TrTransforms.
@@ -107,8 +107,8 @@ namespace TiltBrush
         {
             Debug.Assert(a.scale > 0 && b.scale > 0);
             return TRS(Vector3.Lerp(a.translation, b.translation, t),
-                      Quaternion.Slerp(a.rotation, b.rotation, t),
-                      Mathf.Exp(Mathf.Lerp(Mathf.Log(a.scale), Mathf.Log(b.scale), t)));
+                Quaternion.Slerp(a.rotation, b.rotation, t),
+                Mathf.Exp(Mathf.Lerp(Mathf.Log(a.scale), Mathf.Log(b.scale), t)));
         }
 
         /// Equivalent to doing a matrix-multiply against the 4-vector (p, 1)
@@ -121,8 +121,8 @@ namespace TiltBrush
         public static TrTransform operator *(TrTransform a, TrTransform b)
         {
             return TRS(a.rotation * (a.scale * b.translation) + a.translation,
-                       a.rotation * b.rotation,
-                       a.scale * b.scale);
+                a.rotation * b.rotation,
+                a.scale * b.scale);
         }
 
         public static Plane operator *(TrTransform xf, Plane plane)
@@ -186,13 +186,13 @@ namespace TiltBrush
         {
             // Unity's Vector3 and Quaternion equality is approximate
             return (lhs.translation.x == rhs.translation.x &&
-                    lhs.translation.y == rhs.translation.y &&
-                    lhs.translation.z == rhs.translation.z &&
-                    lhs.rotation.x == rhs.rotation.x &&
-                    lhs.rotation.y == rhs.rotation.y &&
-                    lhs.rotation.z == rhs.rotation.z &&
-                    lhs.rotation.w == rhs.rotation.w &&
-                    lhs.scale == rhs.scale);
+                lhs.translation.y == rhs.translation.y &&
+                lhs.translation.z == rhs.translation.z &&
+                lhs.rotation.x == rhs.rotation.x &&
+                lhs.rotation.y == rhs.rotation.y &&
+                lhs.rotation.z == rhs.rotation.z &&
+                lhs.rotation.w == rhs.rotation.w &&
+                lhs.scale == rhs.scale);
         }
 
         /// Returns true if the transforms are approximately equal.
@@ -200,8 +200,8 @@ namespace TiltBrush
         {
             // Unity's Vector3 and Quaternion equality is approximate
             return (lhs.translation == rhs.translation &&
-                    lhs.rotation == rhs.rotation &&
-                    Mathf.Approximately(lhs.scale, rhs.scale));
+                lhs.rotation == rhs.rotation &&
+                Mathf.Approximately(lhs.scale, rhs.scale));
         }
 
         public TrTransform inverse
@@ -211,8 +211,8 @@ namespace TiltBrush
                 var rinv = this.rotation.TrueInverse();
                 float invScale = 1f / this.scale;
                 return TRS((rinv * this.translation) * -invScale,
-                           rinv,
-                           invScale);
+                    rinv,
+                    invScale);
             }
         }
 
@@ -257,9 +257,9 @@ namespace TiltBrush
         {
             // return string.Format("T: {0}\nR: {1}\n S: {2}", translation, rotation, scale);
             return string.Format("T: {0:e} {1:e} {2:e}\nR: {3:e} {4:e} {5:e}  {6:e}\n S: {7:e}",
-                                 translation.x, translation.y, translation.z,
-                                 rotation.x, rotation.y, rotation.z, rotation.w,
-                                 scale);
+                translation.x, translation.y, translation.z,
+                rotation.x, rotation.y, rotation.z, rotation.w,
+                scale);
         }
 
         public override bool Equals(System.Object o)
@@ -361,8 +361,8 @@ namespace TiltBrush
             // when rhs is non-invertible as a result of zero scale.
             Quaternion similar = (rhs.rotation * this.rotation * rhs.rotation.TrueInverse());
             Vector3 retTrans = similar * (-this.scale * rhs.translation)
-              + rhs.rotation * (rhs.scale * this.translation)
-              + rhs.translation;
+                + rhs.rotation * (rhs.scale * this.translation)
+                + rhs.translation;
 
             return new TrTransform
             {

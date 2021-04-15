@@ -16,7 +16,6 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 #if !OCULUS_SUPPORTED
 using OVROverlay = UnityEngine.MonoBehaviour;
 #endif // !OCULUS_SUPPORTED
@@ -98,7 +97,7 @@ namespace TiltBrush
                 case OverlayState.Exiting:
                     m_OverlayStateTransitionValue -= Time.deltaTime;
                     App.VrSdk.SetOverlayAlpha(
-                      Mathf.Max(m_OverlayStateTransitionValue, 0.0f) / m_OverlayStateTransitionDuration);
+                        Mathf.Max(m_OverlayStateTransitionValue, 0.0f) / m_OverlayStateTransitionDuration);
                     if (m_OverlayStateTransitionValue <= 0.0f)
                     {
                         m_OverlayStateTransitionValue = 0.0f;
@@ -118,7 +117,7 @@ namespace TiltBrush
             {
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), m_BlackTexture);
                 GUI.DrawTexture(new Rect(Screen.width / 2 - Screen.height / 4, Screen.height / 4,
-                  Screen.height / 2, Screen.height / 2), m_GUILogo);
+                    Screen.height / 2, Screen.height / 2), m_GUILogo);
             }
         }
 

@@ -268,4 +268,4 @@ namespace TiltBrush
             EnableMic(true);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

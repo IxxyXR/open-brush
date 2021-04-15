@@ -41,7 +41,7 @@ namespace TiltBrush
             get
             {
                 return m_PrevEnvironment != m_NextEnvironment ||
-                  m_PrevBackdrop != null || m_PrevLights != null;
+                    m_PrevBackdrop != null || m_PrevLights != null;
             }
         }
 
@@ -51,7 +51,7 @@ namespace TiltBrush
         {
             SceneSettings.m_Instance.RecordSkyColorsForFading();
             SceneSettings.m_Instance.SetDesiredPreset(m_NextEnvironment,
-              keepSceneTransform: true, forceTransition: true, hasCustomLights: false);
+                keepSceneTransform: true, forceTransition: true, hasCustomLights: false);
         }
 
         protected override void OnUndo()
@@ -62,10 +62,10 @@ namespace TiltBrush
                 SceneSettings.m_Instance.SetCustomEnvironment(m_PrevBackdrop, m_PrevEnvironment);
             }
             SceneSettings.m_Instance.SetDesiredPreset(m_PrevEnvironment,
-              keepSceneTransform: true,
-              forceTransition:
+                keepSceneTransform: true,
+                forceTransition:
                 m_PrevEnvironment == m_NextEnvironment && m_PrevBackdrop == null && m_PrevLights == null,
-              hasCustomLights: m_PrevLights != null);
+                hasCustomLights: m_PrevLights != null);
             if (m_PrevLights != null)
             {
                 LightsControlScript.m_Instance.CustomLights = m_PrevLights;

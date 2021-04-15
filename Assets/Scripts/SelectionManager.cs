@@ -122,8 +122,8 @@ namespace TiltBrush
                     {
                         // There's one group present in both strokes and widgets.
                         return m_GroupToSelectedStrokes.Keys.First() != SketchGroupTag.None &&
-                               m_GroupToSelectedWidgets.Keys.First() != SketchGroupTag.None &&
-                               m_GroupToSelectedStrokes.Keys.First() == m_GroupToSelectedWidgets.Keys.First();
+                            m_GroupToSelectedWidgets.Keys.First() != SketchGroupTag.None &&
+                            m_GroupToSelectedStrokes.Keys.First() == m_GroupToSelectedWidgets.Keys.First();
                     }
                     else
                     {
@@ -410,15 +410,18 @@ namespace TiltBrush
             bool showSelection = ShouldShowSelectedStrokes;
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      // Strokes of type BrushStroke currently only exist in experimental builds.
-      // The list of selected strokes might be quite long, so we want to avoid iterating it.
-      foreach (Stroke stroke in m_SelectedStrokes) {
-        if (stroke.m_Type == Stroke.Type.BrushStroke) {
-          stroke.m_Object.SetActive(showSelection);
-        }
-      }
-    }
+            if (Config.IsExperimental)
+            {
+                // Strokes of type BrushStroke currently only exist in experimental builds.
+                // The list of selected strokes might be quite long, so we want to avoid iterating it.
+                foreach (Stroke stroke in m_SelectedStrokes)
+                {
+                    if (stroke.m_Type == Stroke.Type.BrushStroke)
+                    {
+                        stroke.m_Object.SetActive(showSelection);
+                    }
+                }
+            }
 #endif
             App.Scene.SelectionCanvas.BatchManager.SetVisibility(showSelection);
 
@@ -468,8 +471,8 @@ namespace TiltBrush
             ClearActiveSelection();
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                 new SelectCommand(null, new[] { grabWidget },
-                                  SelectionTransform,
-                                  deselect: false, initial: true, isGrabbingGroup: true));
+                    SelectionTransform,
+                    deselect: false, initial: true, isGrabbingGroup: true));
             UpdateSelectionWidget();
             ResolveChanges();
 
@@ -490,9 +493,9 @@ namespace TiltBrush
                 ClearActiveSelection();
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                     new SelectCommand(m_SelectedStrokesCopyWhileGrabbingGroup,
-                                      m_SelectedWidgetsCopyWhileGrabbingGroup,
-                                      SelectionTransform,
-                                      isGrabbingGroup: true, isEndGrabbingGroup: true));
+                        m_SelectedWidgetsCopyWhileGrabbingGroup,
+                        SelectionTransform,
+                        isGrabbingGroup: true, isEndGrabbingGroup: true));
                 m_SelectedStrokesCopyWhileGrabbingGroup = null;
                 m_SelectedWidgetsCopyWhileGrabbingGroup = null;
                 SketchSurfacePanel.m_Instance.EnableSpecificTool(m_ToolTypeBeforeGrabbingGroup);
@@ -769,7 +772,7 @@ namespace TiltBrush
             // Select everything that was in the main canvas.
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                 new InvertSelectionCommand(unselectedStrokes, m_SelectedStrokes,
-                  unselectedWidgets, m_SelectedWidgets));
+                    unselectedWidgets, m_SelectedWidgets));
         }
 
         public void FlipSelection()
@@ -806,8 +809,8 @@ namespace TiltBrush
             // Select em all.
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                 new SelectCommand(unselectedStrokes, unselectedWidgets,
-                                  SelectionManager.m_Instance.SelectionTransform,
-                                  deselect: false, initial: false));
+                    SelectionManager.m_Instance.SelectionTransform,
+                    deselect: false, initial: false));
         }
 
         /// Groups all the selected strokes into a single new group unless they are already in a single
@@ -927,4 +930,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -249,7 +249,7 @@ namespace TiltBrush
         }
 
         public bool StartLoop(AudioClip rClip, string sLoopName, Transform targetTransform,
-            float fVolume = 1.0f, float fGain = 0.0f, float fSpatialBlend = 1.0f)
+                              float fVolume = 1.0f, float fGain = 0.0f, float fSpatialBlend = 1.0f)
         {
             if (!Enabled)
             {
@@ -638,7 +638,7 @@ namespace TiltBrush
         public void PlayToggleSelect(Vector3 vPos, bool willSelect)
         {
             TriggerOneShot(willSelect ? m_ToggleToSelect : m_ToggleToDeselect, vPos,
-                           m_SelectionToggleVolume);
+                m_SelectionToggleVolume);
         }
 
         public void PlayPinCushionSound(bool bShow)
@@ -729,7 +729,7 @@ namespace TiltBrush
         }
 
         public void TriggerOneShot(AudioClip rClip, Vector3 vPos, float fVolume,
-            float fSpatialBlend = 1.0f, float fGain = 0.0f)
+                                   float fSpatialBlend = 1.0f, float fGain = 0.0f)
         {
             if (Enabled)
             {
@@ -754,4 +754,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

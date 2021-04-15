@@ -157,7 +157,7 @@ namespace TiltBrush
             // If this panel is fixed and facing away from the user, don't allow it to be grabbed.
             if (m_PanelSibling.m_Fixed &&
                 Vector3.Angle(transform.forward, ViewpointScript.Gaze.direction) >
-                  m_GrabFixedMaxFacingAngle)
+                m_GrabFixedMaxFacingAngle)
             {
                 return -1.0f;
             }
@@ -217,4 +217,4 @@ namespace TiltBrush
             return true;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

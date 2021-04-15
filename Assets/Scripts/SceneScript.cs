@@ -193,16 +193,17 @@ namespace TiltBrush
         public CanvasScript Test_AddLayer()
         {
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      var go = new GameObject(string.Format("Layer {0}", m_LayerCanvases.Count));
-      go.transform.parent = transform;
-      Coords.AsLocal[go.transform] = TrTransform.identity;
-      go.transform.hasChanged = false;
-      var layer = go.AddComponent<CanvasScript>();
-      m_LayerCanvases.Add(layer);
-      App.Scene.ActiveCanvas = layer;
-      return layer;
-    }
+            if (Config.IsExperimental)
+            {
+                var go = new GameObject(string.Format("Layer {0}", m_LayerCanvases.Count));
+                go.transform.parent = transform;
+                Coords.AsLocal[go.transform] = TrTransform.identity;
+                go.transform.hasChanged = false;
+                var layer = go.AddComponent<CanvasScript>();
+                m_LayerCanvases.Add(layer);
+                App.Scene.ActiveCanvas = layer;
+                return layer;
+            }
 #endif
             return null;
         }
@@ -210,39 +211,45 @@ namespace TiltBrush
         public void Test_SquashCurrentLayer()
         {
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      var layer = ActiveCanvas;
-      if (layer == m_MainCanvas) {
-        return;
-      }
-      // TODO: this should defer updates to the batches until the end
-      foreach (var stroke in SketchMemoryScript.AllStrokes()) {
-        if (stroke.Canvas == layer) {
-          stroke.SetParentKeepWorldPosition(m_MainCanvas);
-        }
-      }
-      // Hm. remove after squashing?
-      OutputWindowScript.m_Instance.CreateInfoCardAtController(
-          InputManager.ControllerName.Brush,
-          string.Format("Squashed {0}", layer.gameObject.name));
-      ActiveCanvas = m_MainCanvas;
-    }
+            if (Config.IsExperimental)
+            {
+                var layer = ActiveCanvas;
+                if (layer == m_MainCanvas)
+                {
+                    return;
+                }
+                // TODO: this should defer updates to the batches until the end
+                foreach (var stroke in SketchMemoryScript.AllStrokes())
+                {
+                    if (stroke.Canvas == layer)
+                    {
+                        stroke.SetParentKeepWorldPosition(m_MainCanvas);
+                    }
+                }
+                // Hm. remove after squashing?
+                OutputWindowScript.m_Instance.CreateInfoCardAtController(
+                    InputManager.ControllerName.Brush,
+                    string.Format("Squashed {0}", layer.gameObject.name));
+                ActiveCanvas = m_MainCanvas;
+            }
 #endif
         }
 
         public void Test_CycleCanvas()
         {
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      // Klunky! Find the next canvas in the list (assumes AllCanvases has deterministic order)
-      // Skip over the selection canvas; it's internal.
-      var all = AllCanvases.ToList();
-      int next = (all.IndexOf(ActiveCanvas) + 1) % all.Count;
-      if (all[next] == m_SelectionCanvas) {
-        next = (next + 1) % all.Count;
-      }
-      ActiveCanvas = all[next];
-    }
+            if (Config.IsExperimental)
+            {
+                // Klunky! Find the next canvas in the list (assumes AllCanvases has deterministic order)
+                // Skip over the selection canvas; it's internal.
+                var all = AllCanvases.ToList();
+                int next = (all.IndexOf(ActiveCanvas) + 1) % all.Count;
+                if (all[next] == m_SelectionCanvas)
+                {
+                    next = (next + 1) % all.Count;
+                }
+                ActiveCanvas = all[next];
+            }
 #endif
         }
 
@@ -257,4 +264,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

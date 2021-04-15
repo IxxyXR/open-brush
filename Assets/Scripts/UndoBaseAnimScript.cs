@@ -82,4 +82,4 @@ namespace TiltBrush
             return Coords.AsCanvas[InputManager.m_Instance.GetBrushControllerAttachPoint()].translation;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

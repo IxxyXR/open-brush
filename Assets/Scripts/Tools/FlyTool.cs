@@ -115,7 +115,7 @@ namespace TiltBrush.LachlanSleight
                 AudioManager.m_Instance.WorldGrabbed(m_BrushController.position);
                 AudioManager.m_Instance.ChangeLoopVolume("WorldGrab",
                     Mathf.Clamp((m_Velocity.magnitude / m_MaxSpeed) /
-                                AudioManager.m_Instance.m_WorldGrabLoopAttenuation, 0f,
+                        AudioManager.m_Instance.m_WorldGrabLoopAttenuation, 0f,
                         AudioManager.m_Instance.m_WorldGrabLoopMaxVolume));
             }
             else
@@ -131,7 +131,7 @@ namespace TiltBrush.LachlanSleight
                 {
                     AudioManager.m_Instance.ChangeLoopVolume("WorldGrab",
                         Mathf.Clamp((mag / m_MaxSpeed) /
-                                    AudioManager.m_Instance.m_WorldGrabLoopAttenuation, 0f,
+                            AudioManager.m_Instance.m_WorldGrabLoopAttenuation, 0f,
                             AudioManager.m_Instance.m_WorldGrabLoopMaxVolume));
                 }
             }

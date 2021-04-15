@@ -48,7 +48,7 @@ namespace TiltBrush
             // Default to all the way up.
             PositionNobAtSimplificationLevel(0.0f);
             SetDescriptionText(m_DescriptionText,
-                               GetDescriptionExtraText(m_SimplificationAmounts.Length - 1));
+                GetDescriptionExtraText(m_SimplificationAmounts.Length - 1));
         }
 
         void PositionNobAtSimplificationLevel(float level)
@@ -181,4 +181,4 @@ namespace TiltBrush
             SetDescriptionText(m_DescriptionText, GetDescriptionExtraText(step));
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

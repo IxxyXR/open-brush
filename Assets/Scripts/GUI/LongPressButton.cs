@@ -103,4 +103,4 @@ namespace TiltBrush
             m_PressTimer = 0;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

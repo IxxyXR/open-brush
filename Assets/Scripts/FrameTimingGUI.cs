@@ -53,7 +53,7 @@ namespace TiltBrush
                     m_DroppedFramesBar.localPosition = vLocalPos;
 
                     m_DroppedFramesBar.GetComponent<Renderer>().material.mainTextureScale =
-                      new Vector2(fFrameCount, 1);
+                        new Vector2(fFrameCount, 1);
 
                     m_DroppedFramesBar.parent.gameObject.SetActive(true);
                 }
@@ -81,9 +81,9 @@ namespace TiltBrush
             while (material.color.a > 0)
             {
                 material.color = SetAlpha(material.color,
-                                          Mathf.Clamp01(material.color.a - Time.deltaTime * 2));
+                    Mathf.Clamp01(material.color.a - Time.deltaTime * 2));
                 yield return null;
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -142,8 +142,8 @@ namespace TiltBrush
                             if (AudioManager.Enabled)
                             {
                                 AudioManager.m_Instance.TriggerOneShot(
-                                  m_FallSounds[Random.Range(0, m_FallSounds.Length)],
-                                  transform.position, m_FallVolume);
+                                    m_FallSounds[Random.Range(0, m_FallSounds.Length)],
+                                    transform.position, m_FallVolume);
                             }
                         }
                     }
@@ -284,4 +284,4 @@ namespace TiltBrush
             transform.localScale = m_BaseScale * fScale;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

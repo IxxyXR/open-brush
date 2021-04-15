@@ -259,8 +259,7 @@ namespace TiltBrush
             TrTransform xfBrush = TrTransform.FromTransform(
                 InputManager.m_Instance.GetBrushControllerAttachPoint());
             TrTransform xfTarget = new TrTransform();
-            xfTarget.translation = PanelManager.m_Instance.
-                GetFixedPanelPosClosestToPoint(xfBrush.translation);
+            xfTarget.translation = PanelManager.m_Instance.GetFixedPanelPosClosestToPoint(xfBrush.translation);
             xfBrush.rotation = Quaternion.LookRotation(
                 (xfTarget.translation - xfBrush.translation).normalized, Vector3.up);
             xfTarget.rotation = xfBrush.rotation;

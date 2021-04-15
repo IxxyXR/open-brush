@@ -111,8 +111,8 @@ namespace TiltBrush
 
             // Make the full screen overlay 20% bigger than the center fov so it covers both eyes.
             float fSize = 1.2f
-                        * Mathf.Tan(App.VrSdk.GetVrCamera().fieldOfView * Mathf.Deg2Rad)
-                        * vLocalPos.z;
+                * Mathf.Tan(App.VrSdk.GetVrCamera().fieldOfView * Mathf.Deg2Rad)
+                * vLocalPos.z;
             m_FullScreenOverlay.transform.localScale = Vector3.one * fSize;
 
             // Same with exception overlay.
@@ -289,4 +289,4 @@ namespace TiltBrush
         }
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

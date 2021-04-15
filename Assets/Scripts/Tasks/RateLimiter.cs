@@ -36,7 +36,8 @@ namespace TiltBrush
         /// next frame.
         public uint MaxEventsPerFrame
         {
-            get; set;
+            get;
+            set;
         }
 
         public RateLimiter()

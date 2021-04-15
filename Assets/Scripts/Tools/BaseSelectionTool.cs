@@ -448,4 +448,4 @@ namespace TiltBrush
             Debug.DrawLine(vPos + vMaxMaxNeg, vPos + vMaxMaxPos);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

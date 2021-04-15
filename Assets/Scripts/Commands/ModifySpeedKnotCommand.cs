@@ -21,8 +21,8 @@ namespace TiltBrush
         private bool m_Final;
 
         public ModifySpeedKnotCommand(CameraPathSpeedKnot knot, float endSpeed,
-            bool mergesWithCreateCommand = false, bool final = false,
-            BaseCommand parent = null) : base(knot, mergesWithCreateCommand, parent)
+                                      bool mergesWithCreateCommand = false, bool final = false,
+                                      BaseCommand parent = null) : base(knot, mergesWithCreateCommand, parent)
         {
             m_EndSpeed = endSpeed;
             m_Final = final;

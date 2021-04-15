@@ -102,4 +102,4 @@ namespace TiltBrush
             return base.RequestClose(bForceClose || m_AudioFound);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

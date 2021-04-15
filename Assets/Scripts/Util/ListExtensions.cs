@@ -36,12 +36,13 @@ namespace TiltBrush
         {
             // Will probably work in IL2CPP, but currently only tested on Mono.
 #if ENABLE_MONO
-    var helper = new ConvertHelper<TFrom, TTo> { input = thing };
-    unsafe {
-      long* dangerous = &helper.before;
-      dangerous[2] = dangerous[1];  // ie, output = input
-    }
-    return helper.output;
+            var helper = new ConvertHelper<TFrom, TTo> { input = thing };
+            unsafe
+            {
+                long* dangerous = &helper.before;
+                dangerous[2] = dangerous[1]; // ie, output = input
+            }
+            return helper.output;
 #else
             return null;
 #endif
@@ -52,9 +53,9 @@ namespace TiltBrush
         [FieldOffset(8)] public TFrom input;
         [FieldOffset(16)] public TTo output;
 #else
-  public long before;
-  public TFrom input;
-  public TTo output;
+        public long before;
+        public TFrom input;
+        public TTo output;
 #endif
     }
 
@@ -82,10 +83,10 @@ namespace TiltBrush
                 catch (KeyNotFoundException)
                 {
                     var field = sm_cache[t] = t.GetField(
-                      sm_name,
-                      System.Reflection.BindingFlags.NonPublic |
-                      System.Reflection.BindingFlags.GetField |
-                      System.Reflection.BindingFlags.Instance);
+                        sm_name,
+                        System.Reflection.BindingFlags.NonPublic |
+                        System.Reflection.BindingFlags.GetField |
+                        System.Reflection.BindingFlags.Instance);
                     return field;
                 }
             }
@@ -246,4 +247,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

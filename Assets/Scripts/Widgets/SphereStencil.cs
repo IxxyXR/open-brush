@@ -45,7 +45,7 @@ namespace TiltBrush
         }
 
         public override void FindClosestPointOnSurface(Vector3 pos,
-            out Vector3 surfacePos, out Vector3 surfaceNorm)
+                                                       out Vector3 surfacePos, out Vector3 surfaceNorm)
         {
             Vector3 vCenterToPos = pos - transform.position;
             float fRadius = Mathf.Abs(GetSignedWidgetSize()) * 0.5f * Coords.CanvasPose.scale;

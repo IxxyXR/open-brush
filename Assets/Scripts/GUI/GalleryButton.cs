@@ -19,8 +19,8 @@ namespace TiltBrush
     {
         public enum Type
         {
-            Delete,     // Deprecated
-            Selection,  // Deprecated
+            Delete,    // Deprecated
+            Selection, // Deprecated
             LogOut,
             Liked,
             Exit,
@@ -40,4 +40,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

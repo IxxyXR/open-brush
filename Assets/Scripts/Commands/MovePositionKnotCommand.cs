@@ -26,7 +26,7 @@ namespace TiltBrush
         private bool m_Final;
 
         public MovePositionKnotCommand(CameraPath path, KnotDescriptor knotDesc,
-            TrTransform endXf_GS, bool final = false, BaseCommand parent = null)
+                                       TrTransform endXf_GS, bool final = false, BaseCommand parent = null)
             : base((CameraPathPositionKnot)knotDesc.knot, false, parent)
         {
             m_Path = path;

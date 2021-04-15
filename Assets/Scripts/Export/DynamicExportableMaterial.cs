@@ -90,6 +90,7 @@ namespace TiltBrush
         }
 
         #region IExportableMaterial interface
+
         public Guid UniqueName => m_UniqueName;
         public string DurableName => m_DurableName;
         public ExportableMaterialBlendMode BlendMode => Parent.BlendMode;
@@ -109,6 +110,7 @@ namespace TiltBrush
         public Dictionary<string, float> FloatParams => m_FloatParams;
         public Dictionary<string, Vector3> VectorParams => m_VectorParams;
         public Dictionary<string, Color> ColorParams => m_ColorParams;
+
         #endregion
 
         /// The descriptor this material was based from.
@@ -125,4 +127,4 @@ namespace TiltBrush
         private Dictionary<string, Color> m_ColorParams;
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

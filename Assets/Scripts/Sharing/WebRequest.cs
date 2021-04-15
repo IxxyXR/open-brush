@@ -24,7 +24,6 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 using CompressionLevel = System.IO.Compression.CompressionLevel;
-
 using JObject = Newtonsoft.Json.Linq.JObject;
 
 namespace TiltBrush
@@ -36,13 +35,13 @@ namespace TiltBrush
         public string UserFriendly { get; set; }
 
         public VrAssetServiceException(string userFriendly, Exception inner = null)
-          : base(userFriendly, inner)
+            : base(userFriendly, inner)
         {
             UserFriendly = userFriendly;
         }
 
         public VrAssetServiceException(string userFriendly, string details, Exception inner = null)
-          : base(string.Format("{0}\n{1}", userFriendly, details), inner)
+            : base(string.Format("{0}\n{1}", userFriendly, details), inner)
         {
             UserFriendly = userFriendly;
         }
@@ -73,7 +72,7 @@ namespace TiltBrush
             }
         }
 
-        static bool kEnableHttpCompression = true;  // not const to avoid dumb compiler warning
+        static bool kEnableHttpCompression = true; // not const to avoid dumb compiler warning
         private static readonly string[] kInterestingRequestHeaders =
             { "Authorization", "Content-Type", "Content-Encoding" };
         const int kNumRetries = 3;
@@ -89,7 +88,7 @@ namespace TiltBrush
         {
             if (!App.Config.m_DebugWebRequest) { return null; }
 #if UNITY_EDITOR
-    string dir = "Requests";
+            string dir = "Requests";
 #else
             string dir = Path.Combine(Application.temporaryCachePath, "Requests");
 #endif
@@ -205,7 +204,7 @@ namespace TiltBrush
         public static string RedactUriForError(string uriString)
         {
 #if DEBUG
-    return uriString;
+            return uriString;
 #else
             // Messy, but lots of different exceptions can be raised, and this method needs to be robust.
             try
@@ -287,7 +286,7 @@ namespace TiltBrush
 
         // identity may be null, in which case no authentication takes place
         public WebRequest(string uri, OAuth2Identity identity,
-            string method = UnityWebRequest.kHttpVerbGET, bool compress = false)
+                          string method = UnityWebRequest.kHttpVerbGET, bool compress = false)
         {
             if (string.IsNullOrEmpty(uri))
             {
@@ -397,9 +396,9 @@ namespace TiltBrush
             int debugId = RequestDebugGetNewId();
             RequestDebugLogBytes(debugId, "bytes", uncompressedData);
             return SendAsync(() => new UploadHandlerRaw(uncompressedData) { contentType = contentType },
-                             contentType: contentType,
-                             isCompressed: false,
-                             debugId: debugId);
+                contentType: contentType,
+                isCompressed: false,
+                debugId: debugId);
         }
 
         /// Pass:
@@ -418,13 +417,13 @@ namespace TiltBrush
             // TODO: Consider having an outer controller managing the retry logic because
             // in-lining the checks may be error prone.
             int retries = kNumRetries;
-            for (int retryIndex = 0; ; ++retryIndex)
+            for (int retryIndex = 0;; ++retryIndex)
             {
                 using (UnityWebRequest www = new UnityWebRequest(m_Uri, m_Method))
                 {
                     UploadHandler payload = payloadCreator?.Invoke();
                     www.uploadHandler = payload;
-                    www.disposeUploadHandlerOnDispose = true;  // the default, but just to be expicit about it
+                    www.disposeUploadHandlerOnDispose = true; // the default, but just to be expicit about it
 
                     if (contentType != null)
                     {
@@ -487,7 +486,11 @@ namespace TiltBrush
                             {
                                 // Unity would be within its rights to barf if we await right after disposing,
                                 // so try to await before disposing. It might still barf (but currently doesn't).
-                                async void DelayedDispose(IDisposable id) { await Awaiters.NextFrame; id.Dispose(); }
+                                async void DelayedDispose(IDisposable id)
+                                {
+                                    await Awaiters.NextFrame;
+                                    id.Dispose();
+                                }
                                 DelayedDispose(www);
                                 await sendTask;
                             }
@@ -516,7 +519,7 @@ namespace TiltBrush
                             throw new VrAssetServiceException(
                                 "Error connecting to server.",
                                 string.Format("Error connecting to {0} : {1}",
-                                              RedactUriForError(m_Uri), www.error));
+                                    RedactUriForError(m_Uri), www.error));
                         }
                         Debug.LogFormat("Network error ({0} retries remaining): {1} : {2}", retries, m_Uri, www.error);
                         await Awaiters.SecondsRealtime(BackoffSeconds(retries));
@@ -554,20 +557,20 @@ namespace TiltBrush
                     {
                         m_Identity.Logout();
                         throw new VrAssetServiceException("Not authorized for login. Automatically logged out.",
-                                                          RedactUriForError(m_Uri));
+                            RedactUriForError(m_Uri));
                     }
 
                     // We failed for some reason besides auth.
 
                     string ptype = payload?.GetType().Name ?? "null";
                     string errorMessage = $"HTTP error {www.responseCode}\n"
-                      + $"URI: {m_Method} {RedactUriForError(m_Uri)} {ptype} {m_UploadDescription ?? "n/a"}\n"
+                        + $"URI: {m_Method} {RedactUriForError(m_Uri)} {ptype} {m_UploadDescription ?? "n/a"}\n"
 #if DEBUG
-          // Unique info in the headers (dates, etc) keep the exceptions from aggregating
-          // in analytics.
-          + $"Headers: {GetResponseHeadersAsString(www) ?? "No response headers"}\n"
+                        // Unique info in the headers (dates, etc) keep the exceptions from aggregating
+                        // in analytics.
+                        + $"Headers: {GetResponseHeadersAsString(www) ?? "No response headers"}\n"
 #endif
-          + $"Body: {www.downloadHandler?.text ?? "<null>"}";
+                        + $"Body: {www.downloadHandler?.text ?? "<null>"}";
 
                     if (retries > 0 && IsTransientServerError(www.responseCode))
                     {

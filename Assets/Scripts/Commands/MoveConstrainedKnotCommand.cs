@@ -26,7 +26,7 @@ namespace TiltBrush
         private bool m_Final;
 
         public MoveConstrainedKnotCommand(CameraPath path, KnotDescriptor knotDesc, Quaternion rot_GS,
-            bool mergesWithCreateCommand = false, bool final = false, BaseCommand parent = null)
+                                          bool mergesWithCreateCommand = false, bool final = false, BaseCommand parent = null)
             : base(knotDesc.knot, mergesWithCreateCommand, parent)
         {
             m_Path = path;

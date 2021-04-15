@@ -41,7 +41,7 @@ namespace TiltBrush
                 {
                     // This button should be either set to login or upload. If not, just warn.
                     Debug.LogWarning("UploadSketchButton command should be either " +
-                                     "LoginToGenericCloud or UploadToGenericCloud.");
+                        "LoginToGenericCloud or UploadToGenericCloud.");
                 }
             }
             else
@@ -52,4 +52,4 @@ namespace TiltBrush
             base.OnButtonPressed();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

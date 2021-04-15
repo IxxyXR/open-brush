@@ -26,4 +26,4 @@ namespace TiltBrush
             Shader.SetGlobalMatrix("_WorldToCameraMatrix", GetComponent<Camera>().worldToCameraMatrix);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

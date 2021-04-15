@@ -164,7 +164,7 @@ namespace TiltBrush
             // Hitting the delete key in demo mode resets everything, making the app ready
             // for the next demo guest.
             if (InputManager.m_Instance.GetKeyboardShortcutDown(
-                    InputManager.KeyboardShortcut.ResetEverything))
+                InputManager.KeyboardShortcut.ResetEverything))
             {
                 FadeOut(m_FadeOutDuration);
             }
@@ -172,14 +172,14 @@ namespace TiltBrush
             // Hitting P in demo mode resets the scene transform to the initial transform,
             // that is, the position saved in the sketch, not the origin.
             if (InputManager.m_Instance.GetKeyboardShortcutDown(
-                    InputManager.KeyboardShortcut.GotoInitialPosition))
+                InputManager.KeyboardShortcut.GotoInitialPosition))
             {
                 SketchControlsScript.m_Instance.RequestWorldTransformReset(toSavedXf: true);
             }
 
             // Hitting E in demo mode extends the countdown timer (if active) by 30 seconds.
             if (InputManager.m_Instance.GetKeyboardShortcutDown(
-                    InputManager.KeyboardShortcut.ExtendDemoTimer))
+                InputManager.KeyboardShortcut.ExtendDemoTimer))
             {
                 m_SecondsRemainingInState += 30.0f;
             }
@@ -189,7 +189,7 @@ namespace TiltBrush
         private void OnSessionStart()
         {
             m_DemoState = ShouldUseCountdownTimer ? DemoState.WaitingForFirstStroke
-                                                  : DemoState.Standard;
+                : DemoState.Standard;
             if (ShouldUseCountdownTimer)
             {
                 m_SecondsRemainingInState = App.UserConfig.Demo.Duration.Value;
@@ -205,4 +205,4 @@ namespace TiltBrush
             ViewpointScript.m_Instance.FadeToColor(Color.black, 1.0f / duration);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

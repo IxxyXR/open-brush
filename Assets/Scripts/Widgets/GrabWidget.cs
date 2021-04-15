@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -65,7 +64,7 @@ namespace TiltBrush
         const float m_LinDistInheritMax = 1f;
         const float m_AngDistInheritMax = 30f;
 
-        public float m_ShowDuration;  // currently .2
+        public float m_ShowDuration; // currently .2
         public float m_GrabDistance;
         public float m_CollisionRadius = 1.2f;
 
@@ -309,7 +308,7 @@ namespace TiltBrush
             get
             {
                 return Mathf.Max(transform.localScale.x,
-                  Mathf.Max(transform.localScale.y, transform.localScale.z));
+                    Mathf.Max(transform.localScale.y, transform.localScale.z));
             }
         }
 
@@ -344,7 +343,7 @@ namespace TiltBrush
             get
             {
                 TrTransform xf = m_NonScaleChild == null ?
-                  TrTransform.FromLocalTransform(transform) : m_NonScaleChild.PositionRotationInParentSpace;
+                    TrTransform.FromLocalTransform(transform) : m_NonScaleChild.PositionRotationInParentSpace;
                 xf.scale = GetSignedWidgetSize();
                 return xf;
             }
@@ -411,8 +410,8 @@ namespace TiltBrush
                     bounds.Encapsulate(boxColliderToCanvasXf * (m_BoxCollider.center + Vector3.Scale(
                         m_BoxCollider.size,
                         new Vector3((i & 1) == 0 ? -0.5f : 0.5f,
-                                    (i & 2) == 0 ? -0.5f : 0.5f,
-                                    (i & 4) == 0 ? -0.5f : 0.5f))));
+                            (i & 2) == 0 ? -0.5f : 0.5f,
+                            (i & 4) == 0 ? -0.5f : 0.5f))));
                 }
 
                 return bounds;
@@ -426,7 +425,7 @@ namespace TiltBrush
         }
 
         public void UserInteracting(bool interacting,
-            InputManager.ControllerName controller = InputManager.ControllerName.None)
+                                    InputManager.ControllerName controller = InputManager.ControllerName.None)
         {
             // Update state before calling OnUserBegin and OnUserEnd so we can use that state in
             // those functions.
@@ -674,7 +673,7 @@ namespace TiltBrush
             if (!wasSpinningFreely && m_IsSpinningFreely)
             {
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                  new MoveWidgetCommand(this, LocalTransform, CustomDimension, final: true));
+                    new MoveWidgetCommand(this, LocalTransform, CustomDimension, final: true));
             }
         }
 
@@ -1033,10 +1032,10 @@ namespace TiltBrush
                 Vector3 velocity_BS = bodyFromLocal.MultiplyVector(m_Velocity_LS);
                 float dt = Time.deltaTime;
                 TrTransform xfDelta_BS = TrTransform.TR(
-                  velocity_BS * dt,
-                  Quaternion.AngleAxis(
-                    angularVelocity_BS.magnitude * dt,
-                    angularVelocity_BS.normalized));
+                    velocity_BS * dt,
+                    Quaternion.AngleAxis(
+                        angularVelocity_BS.magnitude * dt,
+                        angularVelocity_BS.normalized));
 
                 xfDelta_LS = xfDelta_BS.TransformBy(bodyNoScale_LS);
                 // No input scale means no output scale, but be defensive:
@@ -1079,8 +1078,8 @@ namespace TiltBrush
             if (m_RecordMovements && !m_IsSpinningFreely && !bFadingAway)
             {
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                  new MoveWidgetCommand(this, newLocalTransform, CustomDimension, final: !IsMoving()),
-                  discardIfNotMerged: true);
+                    new MoveWidgetCommand(this, newLocalTransform, CustomDimension, final: !IsMoving()),
+                    discardIfNotMerged: true);
             }
             else
             {
@@ -1120,7 +1119,7 @@ namespace TiltBrush
             if (m_AllowSnapping)
             {
                 SnapEnabled = InputManager.Controllers[(int)m_InteractingController].GetCommand(
-                    InputManager.SketchCommands.MenuContextClick) &&
+                        InputManager.SketchCommands.MenuContextClick) &&
                     SketchControlsScript.m_Instance.ShouldRespondToPadInput(m_InteractingController) &&
                     !m_Pinned;
 
@@ -1141,11 +1140,11 @@ namespace TiltBrush
             if (m_RecordMovements)
             {
                 TrTransform newXf = TrTransform.FromTransform(
-                  m_NonScaleChild == null ? transform.parent : m_NonScaleChild.parent).inverse * xf_GS;
+                    m_NonScaleChild == null ? transform.parent : m_NonScaleChild.parent).inverse * xf_GS;
                 newXf.scale = GetSignedWidgetSize();
 
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                  new MoveWidgetCommand(this, newXf, CustomDimension));
+                    new MoveWidgetCommand(this, newXf, CustomDimension));
             }
             else
             {
@@ -1227,7 +1226,7 @@ namespace TiltBrush
                 }
             }
             outXf_GS.rotation =
-              App.Scene.Pose.rotation * m_ValidSnapRotations_SS[m_PrevValidSnapRotationIndex];
+                App.Scene.Pose.rotation * m_ValidSnapRotations_SS[m_PrevValidSnapRotationIndex];
 
             Quaternion qDelta = outXf_GS.rotation * Quaternion.Inverse(xf_GS.rotation);
             Vector3 grabSpot = InputManager.m_Instance.GetControllerPosition(m_InteractingController);
@@ -1528,7 +1527,7 @@ namespace TiltBrush
             // If the widget is pinned, don't pretend like we can snap it to things.
             bool show = m_AllowSnapping && !Pinned;
             InputManager.GetControllerGeometry(m_InteractingController)
-                        .TogglePadSnapHint(SnapEnabled, show);
+                .TogglePadSnapHint(SnapEnabled, show);
         }
 
         // Returns distance from center of collider if point is inside, 0..1
@@ -1541,8 +1540,8 @@ namespace TiltBrush
             vSize.y *= m_BoxCollider.transform.localScale.y;
             vSize.z *= m_BoxCollider.transform.localScale.z;
             return Mathf.Abs(vInvTransformedPos.x) < vSize.x &&
-              Mathf.Abs(vInvTransformedPos.y) < vSize.y &&
-              Mathf.Abs(vInvTransformedPos.z) < vSize.z;
+                Mathf.Abs(vInvTransformedPos.y) < vSize.y &&
+                Mathf.Abs(vInvTransformedPos.z) < vSize.z;
         }
 
         // Returns "score" that rates grab distance from 0 to 1, 0 being worst, 1 best, and -1 out of
@@ -1614,7 +1613,7 @@ namespace TiltBrush
         virtual protected void OnTossComplete() { }
 
         public void InitIntroAnim(TrTransform xfSpawn, TrTransform xfTarget, bool bFaceUser,
-            Quaternion? endForward = null)
+                                  Quaternion? endForward = null)
         {
             Vector3 vSpawnForwardNoY = xfSpawn.forward;
             vSpawnForwardNoY.y = 0.0f;
@@ -1695,7 +1694,7 @@ namespace TiltBrush
             float softT = (1 - Mathf.Cos(Mathf.PI / 2 * (1 - m_IntroAnimValue)));
             desiredCm_LS.rotation = desiredCm_LS.rotation
                 * Quaternion.AngleAxis(softT * m_IntroAnimSpinAmount,
-                                       Vector3.forward);
+                    Vector3.forward);
 
             // Find the corresponding widget pose, given a center-of-mass pose
             //   this * CenterOfMass_OS = CenterOfMass        // invariant (and by definition of _OS)
@@ -1752,7 +1751,7 @@ namespace TiltBrush
                 if (m_IsSpinningFreely)
                 {
                     SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                      new MoveWidgetCommand(this, LocalTransform, CustomDimension));
+                        new MoveWidgetCommand(this, LocalTransform, CustomDimension));
                 }
             }
         }
@@ -1775,7 +1774,7 @@ namespace TiltBrush
                 m_CurrentState != State.Tossed)
             {
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                  new MoveWidgetCommand(this, LocalTransform, CustomDimension, final: true));
+                    new MoveWidgetCommand(this, LocalTransform, CustomDimension, final: true));
             }
 
             // Give up usage of any pin we're using.
@@ -1810,7 +1809,8 @@ namespace TiltBrush
         // Allows subclasses to do something when a two handed grab is initiated.
         virtual protected void OnUserBeginTwoHandGrab(
             Vector3 primaryHand, Vector3 secondaryHand, bool secondaryHandInObject)
-        { }
+        {
+        }
 
         // Allows subclasses to do something when a two handed grab is ended.
         virtual protected void OnUserEndTwoHandGrab() { }
@@ -1888,4 +1888,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

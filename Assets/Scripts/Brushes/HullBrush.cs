@@ -124,9 +124,9 @@ namespace TiltBrush
         private List<Vertex> m_AllVertices;
 
         public HullBrush()
-          : base(bCanBatch: true,
-                 upperBoundVertsPerKnot: 1,
-                 bDoubleSided: false)
+            : base(bCanBatch: true,
+                upperBoundVertsPerKnot: 1,
+                bDoubleSided: false)
         {
             m_AllVertices = new List<Vertex>();
         }
@@ -407,8 +407,8 @@ namespace TiltBrush
 
             // Straightedge is very WYSIWYG, so don't simplify if it's enabled.
             bool simplify = !PointerManager.m_Instance.StraightEdgeModeEnabled &&
-              ((isEnd && m_SimplifyMode == SimplifyMode.SimplifyAtEnd) ||
-               (!isEnd && m_SimplifyMode == SimplifyMode.SimplifyInteractively && recordInterior));
+                ((isEnd && m_SimplifyMode == SimplifyMode.SimplifyAtEnd) ||
+                (!isEnd && m_SimplifyMode == SimplifyMode.SimplifyInteractively && recordInterior));
 
             // Attempt to create hull. It can fail if the dimensionality is too low
             // because of too few points; and maybe also if the points are collinear/coplanar.

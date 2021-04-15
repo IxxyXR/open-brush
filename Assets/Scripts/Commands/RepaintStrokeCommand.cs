@@ -58,4 +58,3 @@ namespace TiltBrush
         }
     }
 } // namespace TiltBrush
-

@@ -189,7 +189,7 @@ namespace TiltBrush
                 Vector3 newDimensions = CustomDimension;
                 newDimensions[(int)axis] *= deltaScale;
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                  new MoveWidgetCommand(this, LocalTransform, newDimensions));
+                    new MoveWidgetCommand(this, LocalTransform, newDimensions));
             }
             else
             {
@@ -243,7 +243,7 @@ namespace TiltBrush
         }
 
         public override void FindClosestPointOnSurface(Vector3 pos,
-            out Vector3 surfacePos, out Vector3 surfaceNorm)
+                                                       out Vector3 surfacePos, out Vector3 surfaceNorm)
         {
             // Convert world space position to local space.
             Vector3 localPos = transform.InverseTransformPoint(pos);
@@ -258,13 +258,13 @@ namespace TiltBrush
                     if (m_StayInsideEdges)
                     {
                         FindClosestPointWithStrokeInFace(localPos, halfWidth, m_LastQueriedFace,
-                          PointerManager.m_Instance.StraightEdgeModeEnabled, m_Size, m_AspectRatio,
-                          out closestPos, out normal, ref m_ClampedFace, m_PreviewClampPreference);
+                            PointerManager.m_Instance.StraightEdgeModeEnabled, m_Size, m_AspectRatio,
+                            out closestPos, out normal, ref m_ClampedFace, m_PreviewClampPreference);
                     }
                     else
                     {
                         FindClosestPointOnBoxFace(localPos, halfWidth, m_LastQueriedFace,
-                          out closestPos, out normal);
+                            out closestPos, out normal);
                     }
                 }
                 else
@@ -275,7 +275,7 @@ namespace TiltBrush
                     if (m_StayInsideEdges)
                     {
                         FindClosestPointWithStrokeInFace(localPos, halfWidth, m_LastQueriedFace, true, m_Size,
-                          m_AspectRatio, out closestPos, out normal, ref m_ClampedFace, m_PreviewClampPreference);
+                            m_AspectRatio, out closestPos, out normal, ref m_ClampedFace, m_PreviewClampPreference);
                     }
                 }
             }
@@ -299,8 +299,8 @@ namespace TiltBrush
         }
 
         static void FindClosestPointWithStrokeInFace(Vector3 pos, Vector3 halfWidth, CubeFace face, bool preview,
-            float size, Vector3 aspectRatio, out Vector3 surfacePos, out Vector3 surfaceNorm,
-            ref int clampedSide, float previewClampPreference)
+                                                     float size, Vector3 aspectRatio, out Vector3 surfacePos, out Vector3 surfaceNorm,
+                                                     ref int clampedSide, float previewClampPreference)
         {
             float strokeSize_RS = PointerManager.m_Instance.MainPointer.BrushSizeAbsolute;
 
@@ -353,7 +353,7 @@ namespace TiltBrush
                             clampedSide = 2;
                         }
                         else if (Mathf.Abs(surfacePos.z) - insideBorder.z >
-                          Mathf.Abs(surfacePos.x) - insideBorder.x * previewClampPreference)
+                            Mathf.Abs(surfacePos.x) - insideBorder.x * previewClampPreference)
                         {
                             clampedSide = 0;
                         }
@@ -368,7 +368,7 @@ namespace TiltBrush
                     }
                 }
                 else if (Mathf.Abs(surfacePos.x) > insideBorder.x &&
-                         Mathf.Abs(surfacePos.y) > insideBorder.y)
+                    Mathf.Abs(surfacePos.y) > insideBorder.y)
                 {
                     if (preview)
                     {
@@ -378,7 +378,7 @@ namespace TiltBrush
                             clampedSide = 1;
                         }
                         else if (Mathf.Abs(surfacePos.y) - insideBorder.y >
-                          Mathf.Abs(surfacePos.x) - insideBorder.x * previewClampPreference)
+                            Mathf.Abs(surfacePos.x) - insideBorder.x * previewClampPreference)
                         {
                             clampedSide = 0;
                         }
@@ -393,7 +393,7 @@ namespace TiltBrush
                     }
                 }
                 else if (Mathf.Abs(surfacePos.y) > insideBorder.y &&
-                         Mathf.Abs(surfacePos.z) > insideBorder.z)
+                    Mathf.Abs(surfacePos.z) > insideBorder.z)
                 {
                     if (preview)
                     {
@@ -403,7 +403,7 @@ namespace TiltBrush
                             clampedSide = 2;
                         }
                         else if (Mathf.Abs(surfacePos.z) - insideBorder.z >
-                          Mathf.Abs(surfacePos.y) - insideBorder.y * previewClampPreference)
+                            Mathf.Abs(surfacePos.y) - insideBorder.y * previewClampPreference)
                         {
                             clampedSide = 1;
                         }
@@ -445,7 +445,7 @@ namespace TiltBrush
         }
 
         static void FindClosestPointOnBoxFace(Vector3 pos, Vector3 halfWidth, CubeFace face,
-            out Vector3 surfacePos, out Vector3 surfaceNorm)
+                                              out Vector3 surfacePos, out Vector3 surfaceNorm)
         {
             surfacePos.x = Mathf.Clamp(pos.x, -halfWidth.x, halfWidth.x);
             surfacePos.y = Mathf.Clamp(pos.y, -halfWidth.y, halfWidth.y);
@@ -482,7 +482,7 @@ namespace TiltBrush
         }
 
         private void FindClosestPointOnBoxSurfaceHardEdges(Vector3 pos, Vector3 halfWidth,
-            out Vector3 surfacePos, out Vector3 surfaceNorm)
+                                                           out Vector3 surfacePos, out Vector3 surfaceNorm)
         {
             // If were have a sticky face assigned, bloat the other two axes.
             switch (m_StickyFace)
@@ -534,7 +534,7 @@ namespace TiltBrush
         }
 
         static public void FindClosestPointOnBoxSurface(Vector3 pos, Vector3 halfWidth,
-            out Vector3 surfacePos, out Vector3 surfaceNorm)
+                                                        out Vector3 surfacePos, out Vector3 surfaceNorm)
         {
             // Clamp to boundaries of cube.
             Vector3 absPos =

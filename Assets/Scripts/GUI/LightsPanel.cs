@@ -64,7 +64,7 @@ namespace TiltBrush
         public Vector3 LightWidgetPosition(Quaternion lightRot)
         {
             var pos = PreviewCenter + lightRot * Vector3.back * m_LightSize *
-              (1 + m_GazeActivePercent * (m_GazeHighlightScaleMultiplier - 1.0f));
+                (1 + m_GazeActivePercent * (m_GazeHighlightScaleMultiplier - 1.0f));
             return pos;
         }
 
@@ -84,7 +84,7 @@ namespace TiltBrush
             {
                 Debug.Assert(IsLightGizmoBeingDragged || IsLightGizmoBeingHovered);
                 return m_LightGizmo_Shadow.IsBeingHovered || m_LightGizmo_Shadow.IsBeingDragged ?
-                      m_LightGizmo_Shadow.transform.position : m_LightGizmo_NoShadow.transform.position;
+                    m_LightGizmo_Shadow.transform.position : m_LightGizmo_NoShadow.transform.position;
             }
         }
 
@@ -99,20 +99,20 @@ namespace TiltBrush
                 m_NoShadowLightFake.transform.position = m_LightGizmo_NoShadow.transform.position;
                 float zOffset = m_PreviewSphere.transform.localPosition.z;
                 m_ShadowLightFake.transform.localPosition = new Vector3(
-                  m_ShadowLightFake.transform.localPosition.x,
-                  m_ShadowLightFake.transform.localPosition.y,
-                  zOffset + (IsPositionCloserThanPreview(m_ShadowLightFake.transform.position) ? -.1f : .1f));
+                    m_ShadowLightFake.transform.localPosition.x,
+                    m_ShadowLightFake.transform.localPosition.y,
+                    zOffset + (IsPositionCloserThanPreview(m_ShadowLightFake.transform.position) ? -.1f : .1f));
                 m_NoShadowLightFake.transform.localPosition = new Vector3(
-                  m_NoShadowLightFake.transform.localPosition.x,
-                  m_NoShadowLightFake.transform.localPosition.y,
-                  zOffset + (IsPositionCloserThanPreview(m_NoShadowLightFake.transform.position) ? -.05f : .05f));
+                    m_NoShadowLightFake.transform.localPosition.x,
+                    m_NoShadowLightFake.transform.localPosition.y,
+                    zOffset + (IsPositionCloserThanPreview(m_NoShadowLightFake.transform.position) ? -.05f : .05f));
             }
         }
 
         bool IsPositionCloserThanPreview(Vector3 pos)
         {
             return (pos - ViewpointScript.Head.position).magnitude <
-                   (PreviewCenter - ViewpointScript.Head.position).magnitude;
+                (PreviewCenter - ViewpointScript.Head.position).magnitude;
         }
 
         void ActivateButtons(bool show)
@@ -129,7 +129,7 @@ namespace TiltBrush
             for (int i = -1; i < (int)LightMode.NumLights; i++)
             {
                 m_LightButtons[i + 1].SetDescriptionText(LightModeToString((LightMode)i),
-                  ColorTable.m_Instance.NearestColorTo(GetLightColor((LightMode)i)));
+                    ColorTable.m_Instance.NearestColorTo(GetLightColor((LightMode)i)));
             }
             m_ShadowLightFake.gameObject.SetActive(true);
             m_NoShadowLightFake.gameObject.SetActive(true);
@@ -263,7 +263,7 @@ namespace TiltBrush
 
         Action<Color> OnColorPicked(LightMode mode)
         {
-            return delegate (Color c)
+            return delegate(Color c)
             {
                 SetLightColor(mode, c);
                 if (mode == LightMode.Shadow || mode == LightMode.NoShadow)
@@ -391,9 +391,9 @@ namespace TiltBrush
             base.OnUpdatePanel(vToPanel, vHitPoint);
 
             m_LightGizmo_Shadow.UpdateDragState(
-              m_GizmoPointedAt == m_LightGizmo_Shadow, m_InputValid);
+                m_GizmoPointedAt == m_LightGizmo_Shadow, m_InputValid);
             m_LightGizmo_NoShadow.UpdateDragState(
-              m_GizmoPointedAt == m_LightGizmo_NoShadow, m_InputValid);
+                m_GizmoPointedAt == m_LightGizmo_NoShadow, m_InputValid);
 
             TutorialManager.m_Instance.UpdateLightGizmoHint();
         }
@@ -448,11 +448,11 @@ namespace TiltBrush
             for (int i = -1; i < (int)LightMode.NumLights; i++)
             {
                 m_LightButtons[i + 1].SetDescriptionText(LightModeToString((LightMode)i),
-                  ColorTable.m_Instance.NearestColorTo(GetLightColor((LightMode)i)));
+                    ColorTable.m_Instance.NearestColorTo(GetLightColor((LightMode)i)));
             }
 
             m_LightButtonHDRMaterial.SetColor(
-              "_ClampedColor", ColorPickerUtils.ClampColorIntensityToLdr(m_LightGizmo_Shadow.GetColor()));
+                "_ClampedColor", ColorPickerUtils.ClampColorIntensityToLdr(m_LightGizmo_Shadow.GetColor()));
         }
 
         override protected void OnUpdateActive()
@@ -494,8 +494,8 @@ namespace TiltBrush
             // Create the popup with callback.
             SketchControlsScript.GlobalCommands command =
                 (mode == LightMode.Shadow || mode == LightMode.NoShadow) ?
-                SketchControlsScript.GlobalCommands.LightingHdr :
-                SketchControlsScript.GlobalCommands.LightingLdr;
+                    SketchControlsScript.GlobalCommands.LightingHdr :
+                    SketchControlsScript.GlobalCommands.LightingLdr;
             CreatePopUp(command, -1, -1, LightModeToString(mode), MakeOnPopUpClose(mode));
 
             // Init popup according to current light mode.
@@ -503,10 +503,10 @@ namespace TiltBrush
             popup.transform.localPosition += new Vector3(0, m_ColorPickerPopUpHeightOffset, 0);
             ColorPickerUtils.SetLogVRangeForMode(mode);
             popup.ColorPicker.ColorPicked += OnColorPicked(mode);
-            popup.ColorPicker.ColorPicked += delegate (Color c)
+            popup.ColorPicker.ColorPicked += delegate(Color c)
             {
                 m_LightButtons[(int)mode + 1].SetDescriptionText(LightModeToString(mode),
-                  ColorTable.m_Instance.NearestColorTo(c));
+                    ColorTable.m_Instance.NearestColorTo(c));
                 SetLightColor(mode, c);
             };
 
@@ -538,21 +538,21 @@ namespace TiltBrush
             return delegate
             {
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(mode == LightMode.Ambient ?
-                  new ModifyLightCommand(mode, RenderSettings.ambientLight, Quaternion.identity, final: true) :
-                  new ModifyLightCommand(mode, App.Scene.GetLight((int)mode).color,
-                    App.Scene.GetLight((int)mode).transform.localRotation, final: true));
+                    new ModifyLightCommand(mode, RenderSettings.ambientLight, Quaternion.identity, final: true) :
+                    new ModifyLightCommand(mode, App.Scene.GetLight((int)mode).color,
+                        App.Scene.GetLight((int)mode).transform.localRotation, final: true));
             };
         }
 
         Action<Color> MakeLightColorPickedAsFinal(LightMode mode)
         {
-            return delegate (Color c)
+            return delegate(Color c)
             {
                 SetLightColor(mode, c);
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(mode == LightMode.Ambient ?
-                  new ModifyLightCommand(mode, RenderSettings.ambientLight, Quaternion.identity, final: true) :
-                  new ModifyLightCommand(mode, App.Scene.GetLight((int)mode).color,
-                    App.Scene.GetLight((int)mode).transform.localRotation, final: true));
+                    new ModifyLightCommand(mode, RenderSettings.ambientLight, Quaternion.identity, final: true) :
+                    new ModifyLightCommand(mode, App.Scene.GetLight((int)mode).color,
+                        App.Scene.GetLight((int)mode).transform.localRotation, final: true));
             };
         }
 
@@ -586,4 +586,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

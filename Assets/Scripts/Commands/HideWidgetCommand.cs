@@ -25,7 +25,7 @@ namespace TiltBrush
         public GrabWidget Widget { get { return m_Widget; } }
 
         public HideWidgetCommand(GrabWidget widget, BaseCommand parent = null)
-          : base(parent)
+            : base(parent)
         {
             m_Widget = widget;
             if (widget is StencilWidget)

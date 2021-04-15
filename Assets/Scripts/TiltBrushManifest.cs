@@ -69,13 +69,13 @@ namespace TiltBrush
         public void ExportBrushGuids()
         {
 #if UNITY_EDITOR
-    string path =
-        EditorUtility.SaveFilePanel("Save Brush Guids", Application.dataPath, "BrushGuids", ".txt");
-    string[] guids =
-        Brushes.Select(x => string.Format("{0},{1}",x.m_Guid.ToString(), x.DurableName)).ToArray();
-    System.IO.File.WriteAllLines(path, guids);
+            string path =
+                EditorUtility.SaveFilePanel("Save Brush Guids", Application.dataPath, "BrushGuids", ".txt");
+            string[] guids =
+                Brushes.Select(x => string.Format("{0},{1}", x.m_Guid.ToString(), x.DurableName)).ToArray();
+            System.IO.File.WriteAllLines(path, guids);
 #endif
         }
-    }  // TiltBrushManifest
+    } // TiltBrushManifest
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

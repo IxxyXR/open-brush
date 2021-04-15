@@ -43,7 +43,7 @@ namespace TiltBrush
             if (stroke.m_ControlPoints.Length >= 4)
             {
                 FlagPointsToDrop(stroke.m_ControlPoints, stroke.m_ControlPointsToDrop, 0,
-                  stroke.m_ControlPoints.Length - 1, sqrMaxError);
+                    stroke.m_ControlPoints.Length - 1, sqrMaxError);
                 FlagPointsToKeep(stroke, stroke.m_ControlPointsToDrop, brushScript);
             }
         }
@@ -89,10 +89,10 @@ namespace TiltBrush
                                        int dir, BaseBrushScript brushScript)
         {
             int count = (dir == 1) ? brushScript.Descriptor.m_HeadMinPoints
-                                   : brushScript.Descriptor.m_TailMinPoints;
+                : brushScript.Descriptor.m_TailMinPoints;
             int step = (dir == 1)
-              ? brushScript.Descriptor.m_HeadPointStep
-              : brushScript.Descriptor.m_TailPointStep;
+                ? brushScript.Descriptor.m_HeadPointStep
+                : brushScript.Descriptor.m_TailPointStep;
             int lastPoint = point;
             toDrop[point] = false;
             float spawnInterval = brushScript.GetSpawnInterval(stroke.m_ControlPoints[point].m_Pressure);
@@ -119,7 +119,7 @@ namespace TiltBrush
 
         /// Uses the RDP algorithm to flat control points to drop when simplifying.
         private void FlagPointsToDrop(ControlPoint[] points, bool[] toDrop, int first, int last,
-                                           float sqrMaxError)
+                                      float sqrMaxError)
         {
             Vector3 start = points[first].m_Pos;
             Vector3 end = points[last].m_Pos;

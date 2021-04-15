@@ -299,8 +299,7 @@ namespace TiltBrush
             {
                 return null;
             }
-            return SketchControlsScript.m_Instance.MultiCamCaptureRig.
-                ManagerFromStyle(MultiCamStyle.Video).GetComponent<VideoRecorder>();
+            return SketchControlsScript.m_Instance.MultiCamCaptureRig.ManagerFromStyle(MultiCamStyle.Video).GetComponent<VideoRecorder>();
         }
 
         public override bool CanShowPromosWhileInUse()
@@ -559,8 +558,8 @@ namespace TiltBrush
                     VideoRecorder recorder = GetVideoRecorder(m_CurrentCameraIndex);
                     bool recording = recorder != null && recorder.IsCapturing;
                     return (m_CurrentVideoState == VideoState.Capturing && !recording)
-                      || m_CurrentVideoState == VideoState.ReadyToShare
-                      || m_CurrentVideoState == VideoState.Previewing;
+                        || m_CurrentVideoState == VideoState.ReadyToShare
+                        || m_CurrentVideoState == VideoState.Previewing;
             }
             return false;
         }
@@ -650,7 +649,7 @@ namespace TiltBrush
             {
                 transform.position = SketchSurfacePanel.m_Instance.transform.position;
                 transform.rotation = SketchSurfacePanel.m_Instance.transform.rotation *
-                  Quaternion.Euler(m_SketchSurfaceAdditionalRotation);
+                    Quaternion.Euler(m_SketchSurfaceAdditionalRotation);
             }
         }
 
@@ -1192,16 +1191,16 @@ namespace TiltBrush
                             // Proper SMPTE timecode is: hour:minute:second:frame
                             // Here only minute:second:frame is shown, since we don't expect/support hours of video.
                             m_VideoRecordTimer.text = iMinutes
-                                                    + ":" + iSeconds.ToString("D2")
-                                                    + ":" + iFrames.ToString("D2");
+                                + ":" + iSeconds.ToString("D2")
+                                + ":" + iFrames.ToString("D2");
 
                             // Notify the user we are recording
                             Color recordingColor;
                             if (recorder.IsCapturing)
                             {
                                 recordingColor = Color.Lerp(m_VideoRecordingIndicatorColor1,
-                                                            m_VideoRecordingIndicatorColor2,
-                                                            Mathf.Abs(Mathf.Sin((float)recorder.FrameCount / 3.0f)));
+                                    m_VideoRecordingIndicatorColor2,
+                                    Mathf.Abs(Mathf.Sin((float)recorder.FrameCount / 3.0f)));
                             }
                             else
                             {
@@ -1239,9 +1238,9 @@ namespace TiltBrush
 
                     case VideoState.Previewing:
                         Color c = Color.Lerp(
-                          m_VideoPreviewingIndicatorColor1,
-                          m_VideoPreviewingIndicatorColor2,
-                          Mathf.Abs(Mathf.Sin((float)recorder.PlaybackFrameCount / 3.0f)));
+                            m_VideoPreviewingIndicatorColor1,
+                            m_VideoPreviewingIndicatorColor2,
+                            Mathf.Abs(Mathf.Sin((float)recorder.PlaybackFrameCount / 3.0f)));
                         m_VideoRecordingIndicator.material.color = c;
                         break;
                 }
@@ -1269,14 +1268,22 @@ namespace TiltBrush
             string ext = "";
             switch (style)
             {
-                case MultiCamStyle.AutoGif: ext = ".gif"; break;
-                case MultiCamStyle.Snapshot: ext = ".png"; break;
-                case MultiCamStyle.TimeGif: ext = ".gif"; break;
-                case MultiCamStyle.Video: ext = "." + App.UserConfig.Video.ContainerType; break;
+                case MultiCamStyle.AutoGif:
+                    ext = ".gif";
+                    break;
+                case MultiCamStyle.Snapshot:
+                    ext = ".png";
+                    break;
+                case MultiCamStyle.TimeGif:
+                    ext = ".gif";
+                    break;
+                case MultiCamStyle.Video:
+                    ext = "." + App.UserConfig.Video.ContainerType;
+                    break;
             }
 
             var basename = FileUtils.SanitizeFilename(SaveLoadScript.m_Instance.GetLastFileHumanName())
-                         + "_{0:00}";
+                + "_{0:00}";
 
             try
             {
@@ -1301,7 +1308,7 @@ namespace TiltBrush
             string fullpath;
             int lower = 0;
             int upper = 1024;
-            for (int i = 1; ; i *= 2)
+            for (int i = 1;; i *= 2)
             {
                 upper = i;
                 fullpath = string.Format(basename, upper - 1);
@@ -1432,7 +1439,7 @@ namespace TiltBrush
             VrInput? lastHeld = InputManager.Brush.GetLastHeldInput();
 
             if (((!lastHeld.HasValue || input != lastHeld.Value)
-                    && input != VrInput.Directional)
+                && input != VrInput.Directional)
                 || controller != InputManager.ControllerName.Brush)
             {
                 return 0f;
@@ -1523,7 +1530,7 @@ namespace TiltBrush
             VideoRecorder recorder = GetVideoRecorder(m_CurrentCameraIndex);
             bool playbackActive = recorder != null && recorder.IsPlayingBack;
             m_LookingForAudio = !AudioCaptureManager.m_Instance.IsCapturingAudio
-                             && !playbackActive;
+                && !playbackActive;
 
             if (m_LookingForAudio)
             {
@@ -1695,12 +1702,12 @@ namespace TiltBrush
             }
 
             m_VideoPlaybackRoot.SetActive(recorder != null
-                                       && recorder.IsPlayingBack
-                                       && m_CurrentVideoState != VideoState.Capturing);
+                && recorder.IsPlayingBack
+                && m_CurrentVideoState != VideoState.Capturing);
 
             m_VideoSavingRoot.SetActive(recorder != null
-                                       && recorder.IsSaving
-                                       && m_CurrentVideoState != VideoState.Capturing);
+                && recorder.IsSaving
+                && m_CurrentVideoState != VideoState.Capturing);
 
             if (m_CurrentVideoState == VideoState.Processing && !recorder.IsSaving)
             {
@@ -1835,8 +1842,7 @@ namespace TiltBrush
                     rMgr.RenderToTexture(tmp);
                     wrapper.SuperSampling = ssaaRestore;
                     yield return null;
-                    SketchControlsScript.m_Instance.MultiCamCaptureRig.
-                        EnableCamera(App.PlatformConfig.EnableMulticamPreview);
+                    SketchControlsScript.m_Instance.MultiCamCaptureRig.EnableCamera(App.PlatformConfig.EnableMulticamPreview);
 
                     string fullPath = Path.GetFullPath(saveName);
                     System.Object err = null;
@@ -2004,14 +2010,14 @@ namespace TiltBrush
 
                 TrTransform prevXf = TrTransform.FromLocalTransform(camera);
                 TrTransform offsetXf = GetGifTransform(t);
-                var tmp = (baseXf * offsetXf);  // Work around 2018.3.x Mono parse bug
+                var tmp = (baseXf * offsetXf); // Work around 2018.3.x Mono parse bug
                 tmp.ToTransform(camera);
                 rMgr.RenderToTexture(tempTarget);
                 prevXf.ToLocalTransform(camera);
 
                 RenderTexture.active = tempTarget;
                 tempTex.ReadPixels(new Rect(0, 0, tempTex.width, tempTex.height),
-                                   0, 0, false);
+                    0, 0, false);
                 tempTex.Apply();
                 RenderTexture.active = null;
                 RenderTexture.ReleaseTemporary(tempTarget);
@@ -2068,7 +2074,7 @@ namespace TiltBrush
         bool GifMovementIsSymmetric()
         {
             return ((m_GifStyle == GifMovementStyle.HorizontalArc) ||
-                    (m_GifStyle == GifMovementStyle.HorizontalLine));
+                (m_GifStyle == GifMovementStyle.HorizontalLine));
         }
 
         TrTransform GetGifTransform(float t)
@@ -2094,20 +2100,23 @@ namespace TiltBrush
             }
             // Limit shipping version to a single gif preset
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      m_iGifPreset = (m_iGifPreset + i + m_AutoGifPresets.Length) % m_AutoGifPresets.Length;
+            if (Config.IsExperimental)
+            {
+                m_iGifPreset = (m_iGifPreset + i + m_AutoGifPresets.Length) % m_AutoGifPresets.Length;
 
-      var preset = m_AutoGifPresets[m_iGifPreset];
+                var preset = m_AutoGifPresets[m_iGifPreset];
 
-      // Apply the preset
-      var text = m_Cameras[1].m_OffsetTransform.Find("Text");
-      if (text != null) {
-        var tmpro = text.GetComponent<TMPro.TextMeshPro>();
-        if (tmpro != null) {
-          tmpro.text = preset.name;
-        }
-      }
-    }
+                // Apply the preset
+                var text = m_Cameras[1].m_OffsetTransform.Find("Text");
+                if (text != null)
+                {
+                    var tmpro = text.GetComponent<TMPro.TextMeshPro>();
+                    if (tmpro != null)
+                    {
+                        tmpro.text = preset.name;
+                    }
+                }
+            }
 #endif
         }
 
@@ -2136,7 +2145,7 @@ namespace TiltBrush
             {
                 // Ends up being the same thing as _HorizontalLine
                 Vector3 localPos = (m_GifMovementRadiusMeters * M2U) *
-                  (-cos * Vector3.right);
+                    (-cos * Vector3.right);
                 return TrTransform.T(localPos);
             }
         }
@@ -2150,7 +2159,7 @@ namespace TiltBrush
             float cos = Mathf.Cos(theta);
 
             Vector3 localPos = (m_GifMovementRadiusMeters * M2U) *
-              (-cos * Vector3.right);
+                (-cos * Vector3.right);
 
             Quaternion localRot;
             if (m_GifFocalPointMeters > 0)
@@ -2175,7 +2184,7 @@ namespace TiltBrush
             float cos = Mathf.Cos(theta);
 
             Vector3 localPos = (m_GifMovementRadiusMeters * M2U) *
-              (-cos * Vector3.right + sin * Vector3.up);
+                (-cos * Vector3.right + sin * Vector3.up);
 
             Quaternion localRot;
             if (m_GifFocalPointMeters > 0)
@@ -2191,7 +2200,7 @@ namespace TiltBrush
             return TrTransform.TR(localPos, localRot);
         }
 
-        [SuppressMessage("ReSharper", "IteratorNeverReturns")]  // Intentional infinite loop
+        [SuppressMessage("ReSharper", "IteratorNeverReturns")] // Intentional infinite loop
         IEnumerator Blink(GameObject obj, float seconds = 1f)
         {
             while (true)
@@ -2232,4 +2241,4 @@ namespace TiltBrush
             RefreshYouTubeIcon();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

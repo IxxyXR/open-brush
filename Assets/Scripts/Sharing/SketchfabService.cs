@@ -218,7 +218,7 @@ namespace TiltBrush
             public string description;
             // viewCount (integer, optional),
             public string name;
-            public JObject license;  // license (object, optional),
+            public JObject license; // license (object, optional),
             public string editorUrl;
             // soundCount (integer, optional),
             // isAgeRestricted (boolean, optional),
@@ -230,7 +230,7 @@ namespace TiltBrush
             public ThumbnailsRelated thumbnails;
             // downloadCount (integer, optional),
             // embedUrl (string, optional),
-            public JObject options;  // options (object, optional)
+            public JObject options; // options (object, optional)
         }
 
 
@@ -248,7 +248,7 @@ namespace TiltBrush
             public class inline_model_1
             {
                 public string url;  // temporary URL where the archive can be downloaded
-                public int expires;  // when the temporary URL will expire (in seconds)
+                public int expires; // when the temporary URL will expire (in seconds)
             }
             // This is called "gltf" but it's actually just the .zip archive that was uploaded, I believe
             public inline_model_1 gltf;
@@ -297,8 +297,8 @@ namespace TiltBrush
                 // public string license;  // not documented and sometimes null?
                 // public ?string? price;
             }
-            public string previous;  // uri
-            public string next;  // uri
+            public string previous; // uri
+            public string next;     // uri
             public ModelLikesList[] results;
 
             string Paginated.NextUri => next;
@@ -322,22 +322,23 @@ namespace TiltBrush
             WebRequest uploader = new WebRequest(
                 $"{kApiHost}/v3/models", m_identity, "POST", compress: false);
 
-            var moreParams = new List<(string, string)> {
-        ("name", name),
-        ("source", "open-brush"),
-        ("private", "true"),  // TODO: remove when this feature is not secret
-        // https://docs.sketchfab.com/data-api/v3/index.html#!/models/post_v3_models
-        // "Enables 2D view in model inspector. All downloadable models must have isInspectable
-        // enabled."
-        ("isInspectable", "true"),
-        // ??? https://docs.sketchfab.com/data-api/v3/index.html#!/licenses/get_v3_licenses
-        ("license", "by-sa"),
-        // This is how you specify multiple tags:
-        // ("tags", "[\"tiltbrush\", \"some-other-tag\"]"),
-        ("tags", "[\"openbrush\", \"tiltbrush\"]"),
-        ("isPublished", "false"),
-        // ("description", "Dummy description"),
-    };
+            var moreParams = new List<(string, string)>
+            {
+                ("name", name),
+                ("source", "open-brush"),
+                ("private", "true"), // TODO: remove when this feature is not secret
+                // https://docs.sketchfab.com/data-api/v3/index.html#!/models/post_v3_models
+                // "Enables 2D view in model inspector. All downloadable models must have isInspectable
+                // enabled."
+                ("isInspectable", "true"),
+                // ??? https://docs.sketchfab.com/data-api/v3/index.html#!/licenses/get_v3_licenses
+                ("license", "by-sa"),
+                // This is how you specify multiple tags:
+                // ("tags", "[\"tiltbrush\", \"some-other-tag\"]"),
+                ("tags", "[\"openbrush\", \"tiltbrush\"]"),
+                ("isPublished", "false"),
+                // ("description", "Dummy description"),
+            };
             if (options != null)
             {
                 moreParams.Add(("options", JsonConvert.SerializeObject(options)));

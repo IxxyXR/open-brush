@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Valve.VR;
-
 #if !OCULUS_SUPPORTED
 using OVROverlay = UnityEngine.MonoBehaviour;
 #endif // !OCULUS_SUPPORTED
@@ -121,8 +120,8 @@ namespace TiltBrush
         public enum DoF
         {
             None,
-            Two,     // Mouse & Keyboard
-            Six,     // Vive, Rift, etc
+            Two, // Mouse & Keyboard
+            Six, // Vive, Rift, etc
         }
 
         // -------------------------------------------------------------------------------------------- //
@@ -291,7 +290,7 @@ namespace TiltBrush
                 m_FrameTiming = new Compositor_FrameTiming
                 {
                     m_nSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(
-                    typeof(Compositor_FrameTiming))
+                        typeof(Compositor_FrameTiming))
                 };
             }
             else if (App.Config.m_SdkMode == SdkMode.Oculus)
@@ -487,9 +486,10 @@ namespace TiltBrush
                     // Undocumented if it's an AABB
                     // In practice, seems to always be an axis-aligned clockwise box.
                     chaperone.GetPlayAreaRect(ref rect);
-                    var steamPoints = new[] {
-          rect.vCorners0, rect.vCorners1, rect.vCorners2, rect.vCorners3
-        };
+                    var steamPoints = new[]
+                    {
+                        rect.vCorners0, rect.vCorners1, rect.vCorners2, rect.vCorners3
+                    };
                     points_RS = steamPoints.Select(v => UnityFromSteamVr(v)).ToArray();
                 }
             }
@@ -569,9 +569,9 @@ namespace TiltBrush
         {
             var style = VrControls.GetBehavior(name).ControllerGeometry.Style;
             return style == ControllerStyle.Wmr ||
-                   style == ControllerStyle.OculusTouch ||
-                   style == ControllerStyle.Knuckles ||
-                   style == ControllerStyle.Cosmos;
+                style == ControllerStyle.OculusTouch ||
+                style == ControllerStyle.Knuckles ||
+                style == ControllerStyle.Cosmos;
         }
 
         // Destroy and recreate the ControllerBehavior and ControllerGeometry objects.
@@ -658,25 +658,32 @@ namespace TiltBrush
             }
 
 #if UNITY_EDITOR
-    // This is _just_ robust enough to be able to switch between the Rift and Touch
-    // controllers. To force (for example) a Wmr controller when using a Touch will
-    // probably require being able to specify an override style as well, because TB
-    // might act funny if we spawn a Wmr prefab with style OculusTouch.
-    // Additionally, the Logitech Pen override happens after this, so there's no way
-    // to override it.
+            // This is _just_ robust enough to be able to switch between the Rift and Touch
+            // controllers. To force (for example) a Wmr controller when using a Touch will
+            // probably require being able to specify an override style as well, because TB
+            // might act funny if we spawn a Wmr prefab with style OculusTouch.
+            // Additionally, the Logitech Pen override happens after this, so there's no way
+            // to override it.
 
-    // Wait for the "real" SetControllerStyle to come through.
-    if (style != ControllerStyle.InitializingSteamVR) {
-      GameObject overridePrefab = null;
-      switch (App.Config.m_SdkMode) {
-      case SdkMode.Oculus:  overridePrefab = App.Config.m_ControlsPrefabOverrideOvr; break;
-      case SdkMode.SteamVR: overridePrefab = App.Config.m_ControlsPrefabOverrideSteamVr; break;
-      }
-      if (overridePrefab != null) {
-        Debug.LogWarning("Overriding Vr controls with {0}", overridePrefab);
-        controlsPrefab = overridePrefab;
-      }
-    }
+            // Wait for the "real" SetControllerStyle to come through.
+            if (style != ControllerStyle.InitializingSteamVR)
+            {
+                GameObject overridePrefab = null;
+                switch (App.Config.m_SdkMode)
+                {
+                    case SdkMode.Oculus:
+                        overridePrefab = App.Config.m_ControlsPrefabOverrideOvr;
+                        break;
+                    case SdkMode.SteamVR:
+                        overridePrefab = App.Config.m_ControlsPrefabOverrideSteamVr;
+                        break;
+                }
+                if (overridePrefab != null)
+                {
+                    Debug.LogWarning("Overriding Vr controls with {0}", overridePrefab);
+                    controlsPrefab = overridePrefab;
+                }
+            }
 #endif
 
             if (controlsPrefab != null)
@@ -1125,7 +1132,7 @@ namespace TiltBrush
                 if (NewControllerPosesApplied != null)
                 {
                     var list = m_OldOnPoseApplied.Concat(NewControllerPosesApplied.GetInvocationList())
-                      .Distinct().Cast<Action>();
+                        .Distinct().Cast<Action>();
                     NewControllerPosesApplied = null;
                     foreach (var handler in list)
                     {

@@ -24,7 +24,7 @@ namespace TiltBrush
         public bool IsPinning { get { return m_Pinning; } }
 
         public PinWidgetCommand(GrabWidget widget, bool pin, BaseCommand parent = null)
-          : base(parent)
+            : base(parent)
         {
             m_Widget = widget;
             m_Pinning = pin;

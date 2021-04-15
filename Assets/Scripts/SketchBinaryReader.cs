@@ -15,7 +15,6 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -29,7 +28,7 @@ namespace TiltBrush
 
         Stream m_stream;
         byte[] m_buf16;
-        byte[] m_bufBig;  // lazily-initialized
+        byte[] m_bufBig; // lazily-initialized
 
         /// Detaching the BaseStream or Disposing the Reader leaves the stream in a consistent state.
         /// SketchBinaryReader also doesn't (currently) do any pre-reading or caching.
@@ -120,7 +119,7 @@ namespace TiltBrush
                 int numRead = m_stream.Read(m_bufBig, 0, MathUtils.Min(remaining, m_bufBig.Length));
                 if (numRead <= 0)
                 {
-                    return false;           // should never happen
+                    return false; // should never happen
                 }
                 System.Runtime.InteropServices.Marshal.Copy(m_bufBig, 0, cur, numRead);
                 remaining -= numRead;
@@ -199,6 +198,7 @@ namespace TiltBrush
   }
 #else
         #region codegen
+
         // $T = Vector2
         public unsafe bool ReadIntoExact(List<Vector2> lst, int expectedCount)
         {
@@ -328,6 +328,7 @@ namespace TiltBrush
                 return ReadInto((IntPtr)ptr, ((long)count) * size);
             }
         }
+
         #endregion
 #endif
     }

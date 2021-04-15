@@ -25,9 +25,13 @@ namespace TiltBrush
     {
         public BadJson(string message) : base(message) { }
         public BadJson(string fmt, params System.Object[] args)
-          : base(string.Format(fmt, args)) { }
+            : base(string.Format(fmt, args))
+        {
+        }
         public BadJson(Exception inner, string fmt, params System.Object[] args)
-          : base(string.Format(fmt, args), inner) { }
+            : base(string.Format(fmt, args), inner)
+        {
+        }
     }
 
     // Extends JsonTextWriter with support for terse array & object formatting, so
@@ -150,10 +154,10 @@ namespace TiltBrush
         public override bool CanConvert(Type objectType)
         {
             return (objectType == typeof(Vector3)
-                    || objectType == typeof(Vector2)
-                    || objectType == typeof(Color)
-                    || objectType == typeof(Color32)
-                    || objectType == typeof(Quaternion));
+                || objectType == typeof(Vector2)
+                || objectType == typeof(Color)
+                || objectType == typeof(Color32)
+                || objectType == typeof(Quaternion));
         }
 
         private static float ReadFloat(JsonReader reader)
@@ -206,10 +210,10 @@ namespace TiltBrush
             else if (objectType == typeof(Quaternion))
             {
                 result = new Quaternion(
-                  ReadFloat(reader),
-                  ReadFloat(reader),
-                  ReadFloat(reader),
-                  ReadFloat(reader));
+                    ReadFloat(reader),
+                    ReadFloat(reader),
+                    ReadFloat(reader),
+                    ReadFloat(reader));
             }
             else
             {
@@ -356,4 +360,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -23,8 +23,8 @@ namespace TiltBrush
     {
         public static readonly AxisConvention kUnity = new AxisConvention
         {
-            right = Vector3.right,   // aka ( 1,  0,  0)
-            up = Vector3.up,      // aka ( 0,  1,  0)
+            right = Vector3.right,     // aka ( 1,  0,  0)
+            up = Vector3.up,           // aka ( 0,  1,  0)
             forward = Vector3.forward, // aka ( 0,  0,  1)
         };
 

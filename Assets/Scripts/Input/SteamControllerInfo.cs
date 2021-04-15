@@ -93,7 +93,7 @@ namespace TiltBrush
         }
 
         public SteamControllerInfo(BaseControllerBehavior behavior)
-          : base(behavior)
+            : base(behavior)
         {
             TrackedPose = behavior.GetComponent<SteamVR_Behaviour_Pose>();
             m_HapticsDurationScale = App.VrSdk.VrControls.HapticsDurationScale;
@@ -282,7 +282,7 @@ namespace TiltBrush
         }
 
         private float PrimaryAxis(InputManager.ControllerName name, GetVrInputHelper helper,
-            SteamVR_Action_Vector2 action)
+                                  SteamVR_Action_Vector2 action)
         {
             bool scrollX = App.VrSdk.VrControls.PrimaryScrollDirectionIsX(Behavior.ControllerName);
             Vector2 axis = helper.Axis(action);
@@ -299,27 +299,27 @@ namespace TiltBrush
                 case VrInput.Button01:
                     {
                         return (h.State(tb.RI_PadClick) &&
-                                PrimaryAxis(Behavior.ControllerName, h, tb.RI_PadDirectional) < 0.0f)
-                               || h.State(tb.RI_SecondaryButton);
+                            PrimaryAxis(Behavior.ControllerName, h, tb.RI_PadDirectional) < 0.0f)
+                            || h.State(tb.RI_SecondaryButton);
                     }
                 case VrInput.Button02:
                     {
                         return (h.State(tb.RI_PadClick) &&
-                                PrimaryAxis(Behavior.ControllerName, h, tb.RI_PadDirectional) > 0.0f)
-                               || h.State(tb.RI_PrimaryButton);
+                            PrimaryAxis(Behavior.ControllerName, h, tb.RI_PadDirectional) > 0.0f)
+                            || h.State(tb.RI_PrimaryButton);
                     }
                 case VrInput.Button03:
                     return (h.State(tb.RI_MenuButton) ||
-                            h.State(tb.RI_PrimaryButton));
+                        h.State(tb.RI_PrimaryButton));
                 case VrInput.Button04:
                     return (h.State(tb.RI_PadClick) ||
-                            h.State(tb.RI_SecondaryButton));
+                        h.State(tb.RI_SecondaryButton));
                 case VrInput.Button05:
                     return (h.State(tb.RI_PadClick) && h.Axis(tb.RI_PadDirectional).y > 0.0f)
-                           || h.State(tb.RI_PrimaryButton);
+                        || h.State(tb.RI_PrimaryButton);
                 case VrInput.Button06:
                     return (h.State(tb.RI_PadClick) && h.Axis(tb.RI_PadDirectional).y < 0.0f)
-                           || h.State(tb.RI_SecondaryButton);
+                        || h.State(tb.RI_SecondaryButton);
                 case VrInput.Trigger:
                     {
                         Vector2 triggerRange = App.VrSdk.VrControls.TriggerActivationRange(Behavior.ControllerName);
@@ -384,4 +384,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

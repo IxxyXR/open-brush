@@ -121,7 +121,7 @@ namespace TiltBrush
 
         protected List<Knot> m_knots;
         protected GeometryPool m_geometry;
-        protected int m_CachedNumVerts;  // for use after we free m_geometry
+        protected int m_CachedNumVerts; // for use after we free m_geometry
         protected int m_CachedNumTris;
         /// The first control point that hasn't had geometry created for it yet,
         /// or null if geometry is fully up-to-date.
@@ -157,7 +157,7 @@ namespace TiltBrush
             int upperBoundVertsPerKnot,
             bool bDoubleSided,
             bool bSmoothPositions = true)
-          : base(bCanBatch: bCanBatch)
+            : base(bCanBatch: bCanBatch)
         {
             m_bDoubleSided = bDoubleSided;
             NS = (bDoubleSided ? 2 : 1);
@@ -172,19 +172,20 @@ namespace TiltBrush
         protected void CheckKnotInvariants()
         {
 #if DEBUG
-    Knot k0 = m_knots[0];
-    Debug.Assert(k0.iTri == 0 && k0.iVert == 0, "Invariant 0");
-    Debug.Assert(k0.nTri == 0 && k0.nVert == 0, "Invariant 0b");
-    for (int i = 1; i < m_knots.Count; ++i) {
-      Knot prev = m_knots[i-1];
-      Knot cur = m_knots[i];
-      Debug.AssertFormat(prev.iTri <= cur.iTri, "starts before prev at {0}", i);
-      Debug.AssertFormat(cur.iTri <= prev.iTri + prev.nTri, "non-contiguous at {0}", i);
-      Debug.AssertFormat(cur.iTri + cur.nTri >= prev.iTri + prev.nTri, "shorten at {0}", i);
-      Debug.AssertFormat(prev.iVert <= cur.iVert, "starts before prev at {0}", i);
-      Debug.AssertFormat(cur.iVert <= prev.iVert + prev.nVert, "non-contiguous at {0}", i);
-      Debug.AssertFormat(cur.iVert + cur.nVert >= prev.iVert + prev.nVert, "shorten at {0}", i);
-    }
+            Knot k0 = m_knots[0];
+            Debug.Assert(k0.iTri == 0 && k0.iVert == 0, "Invariant 0");
+            Debug.Assert(k0.nTri == 0 && k0.nVert == 0, "Invariant 0b");
+            for (int i = 1; i < m_knots.Count; ++i)
+            {
+                Knot prev = m_knots[i - 1];
+                Knot cur = m_knots[i];
+                Debug.AssertFormat(prev.iTri <= cur.iTri, "starts before prev at {0}", i);
+                Debug.AssertFormat(cur.iTri <= prev.iTri + prev.nTri, "non-contiguous at {0}", i);
+                Debug.AssertFormat(cur.iTri + cur.nTri >= prev.iTri + prev.nTri, "shorten at {0}", i);
+                Debug.AssertFormat(prev.iVert <= cur.iVert, "starts before prev at {0}", i);
+                Debug.AssertFormat(cur.iVert <= prev.iVert + prev.nVert, "non-contiguous at {0}", i);
+                Debug.AssertFormat(cur.iVert + cur.nVert >= prev.iVert + prev.nVert, "shorten at {0}", i);
+            }
 #endif
         }
 
@@ -352,14 +353,14 @@ namespace TiltBrush
             m_knots.Add(knot);
 
             MeshFilter mf = GetComponent<MeshFilter>();
-            mf.mesh = null;  // Force a new, empty, mf-owned mesh to be generated
+            mf.mesh = null; // Force a new, empty, mf-owned mesh to be generated
             mf.mesh.MarkDynamic();
         }
 
         override public void DebugGetGeometry(
             out Vector3[] verts, out int nVerts,
             out Vector2[] uv0s,
-          out int[] tris, out int nTris)
+            out int[] tris, out int nTris)
         {
             verts = m_geometry.m_Vertices.GetBackingArray();
             nVerts = m_geometry.m_Vertices.Count;
@@ -634,8 +635,8 @@ namespace TiltBrush
                 int iv2 = m_geometry.m_Tris[iTriIndex + 2];
                 Vector3 vS, vT;
                 ComputeST(m_geometry.m_Vertices, uvs, 0,
-                          iv0, iv1, iv2,
-                          out vS, out vT);
+                    iv0, iv1, iv2,
+                    out vS, out vT);
                 SetTangent(0, iv0, vS);
                 SetTangent(0, iv1, vS);
                 SetTangent(0, iv2, vS);

@@ -262,7 +262,7 @@ namespace TiltBrush
         // This is called by the parent and should return true if the parent should
         // update the active UI object to be this entity.
         virtual public bool UpdateStateWithInput(bool inputValid, Ray inputRay,
-            GameObject parentActiveObject, Collider parentCollider)
+                                                 GameObject parentActiveObject, Collider parentCollider)
         {
             if (parentActiveObject == null || parentActiveObject == gameObject || m_StealFocus)
             {

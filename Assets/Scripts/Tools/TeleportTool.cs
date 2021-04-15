@@ -274,7 +274,7 @@ namespace TiltBrush
             m_LastParabolaVelocity.y = (
                 (vNewFeet.y - m_LastParabolaRay.origin.y) -
                 (m_TeleportParabolaGravity * m_LastParabolaTime * m_LastParabolaTime * 0.5f))
-              / m_LastParabolaTime;
+                / m_LastParabolaTime;
 
             Vector3 vVelNoY = vel;
             vVelNoY.y = 0.0f;
@@ -364,7 +364,7 @@ namespace TiltBrush
                     m_BadTeleportIconEnterAmount -= m_BoundsEnterSpeed * Time.deltaTime;
                     m_BadTeleportIconEnterAmount = Mathf.Max(m_BadTeleportIconEnterAmount, 0.0f);
                     m_BadTeleportIcon.transform.localScale = new Vector3(m_BadTeleportIconEnterAmount,
-                                m_BadTeleportIconEnterAmount, m_BadTeleportIconEnterAmount);
+                        m_BadTeleportIconEnterAmount, m_BadTeleportIconEnterAmount);
                 }
             }
             m_BadTeleportIcon.gameObject.SetActive(m_BadTeleportIconEnterAmount > 0.0f);
@@ -672,4 +672,4 @@ namespace TiltBrush
             return false;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

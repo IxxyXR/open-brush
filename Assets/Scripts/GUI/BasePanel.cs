@@ -232,7 +232,7 @@ namespace TiltBrush
         protected float m_GazeActivePercent;
 
         protected UIComponentManager m_UIComponentManager;
-        protected NonScaleChild m_NonScaleChild;  // potentially null
+        protected NonScaleChild m_NonScaleChild; // potentially null
 
         // Private
 
@@ -289,7 +289,7 @@ namespace TiltBrush
         public bool IsInInitialPosition()
         {
             return m_WandAttachYOffset == m_WandAttachYOffset_Initial &&
-m_WandAttachAngle == m_WandAttachAngle_Initial;
+                m_WandAttachAngle == m_WandAttachAngle_Initial;
         }
         public PanelWidget WidgetSibling { get { return m_WidgetSibling; } }
         public bool AdvancedModePanel { get { return m_AdvancedModePanel; } }
@@ -994,10 +994,10 @@ m_WandAttachAngle == m_WandAttachAngle_Initial;
             catch (Exception ex)
             {
                 string message = string.Format("{0}: Init State({1}, {2}), Counter({3})",
-                                               ex.Message,
-                                               m_PanelInitializationStarted,
-                                               m_PanelInitializationFinished,
-                                               m_PanelDescriptionCounter);
+                    ex.Message,
+                    m_PanelInitializationStarted,
+                    m_PanelInitializationFinished,
+                    m_PanelDescriptionCounter);
                 throw new Exception(message);
             }
         }
@@ -1096,7 +1096,7 @@ m_WandAttachAngle == m_WandAttachAngle_Initial;
                     this, m_WandTransitionTarget, m_WandTransitionPercent);
             }
             else if (WidgetSibling &&
-              WidgetSibling.IsUserInteracting(InputManager.ControllerName.Brush))
+                WidgetSibling.IsUserInteracting(InputManager.ControllerName.Brush))
             {
                 // If the user is interacting with this panel, lock to a pane if this panel allows it.
                 if (m_CanBeFixedToWand)
@@ -1314,7 +1314,7 @@ m_WandAttachAngle == m_WandAttachAngle_Initial;
                     }
                 }
                 else if (!m_ActivePopUp.InputObjectHasFocus() &&
-                  (InputManager.m_Instance.GetCommandDown(InputManager.SketchCommands.Activate) ||
+                    (InputManager.m_Instance.GetCommandDown(InputManager.SketchCommands.Activate) ||
                     m_PopUpGazeTimer > m_PopUpGazeDuration))
                 {
                     // If we're not pointing at the popup and the user doesn't have focus on an element
@@ -1399,15 +1399,15 @@ m_WandAttachAngle == m_WandAttachAngle_Initial;
         }
 
         public void CreatePopUp(SketchControlsScript.GlobalCommands rCommand,
-            int iCommandParam, int iCommandParam2, string sDelayedText = "",
-            Action delayedClose = null)
+                                int iCommandParam, int iCommandParam2, string sDelayedText = "",
+                                Action delayedClose = null)
         {
             CreatePopUp(rCommand, iCommandParam, iCommandParam2, Vector3.zero, sDelayedText, delayedClose);
         }
 
         public void CreatePopUp(SketchControlsScript.GlobalCommands rCommand,
-            int iCommandParam, int iCommandParam2, Vector3 vPopupOffset, string sDelayedText = "",
-            Action delayedClose = null)
+                                int iCommandParam, int iCommandParam2, Vector3 vPopupOffset, string sDelayedText = "",
+                                Action delayedClose = null)
         {
             bool bPopUpExisted = false;
             Vector3 vPrevPopUpPos = Vector3.zero;
@@ -1438,7 +1438,7 @@ m_WandAttachAngle == m_WandAttachAngle_Initial;
                 {
                     // Create a new popup.
                     GameObject popUp = (GameObject)Instantiate(m_PanelPopUpMap[iPopUpIndex].m_PopUpPrefab,
-                      m_Mesh.transform.position, m_Mesh.transform.rotation);
+                        m_Mesh.transform.position, m_Mesh.transform.rotation);
                     m_ActivePopUp = popUp.GetComponent<PopUpWindow>();
 
                     // If we're replacing a popup, put the new one in the same position.
@@ -1619,4 +1619,4 @@ m_WandAttachAngle == m_WandAttachAngle_Initial;
         }
         /**/
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

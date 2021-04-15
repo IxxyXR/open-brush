@@ -44,7 +44,8 @@ namespace TiltBrush
         /// Some subclasses (eg spheres) may not support assignment of non-uniform extent.
         public abstract Vector3 Extents
         {
-            get; set;
+            get;
+            set;
         }
 
         // Currently used for:
@@ -182,7 +183,7 @@ namespace TiltBrush
         //   - surfaceNorm is always outward facing, and in cases of ambiguity, will return a vector
         //     most appropriate for the user experience.
         public virtual void FindClosestPointOnSurface(Vector3 pos,
-            out Vector3 surfacePos, out Vector3 surfaceNorm)
+                                                      out Vector3 surfacePos, out Vector3 surfaceNorm)
         {
             surfacePos = transform.position;
             surfaceNorm = transform.forward;
@@ -347,7 +348,7 @@ namespace TiltBrush
                 foreach (Renderer r in m_TintableMeshes)
                 {
                     r.material.SetVector("_LocalScale",
-                                         Mul(parentScale, Mul(transform.localScale, r.transform.localScale)));
+                        Mul(parentScale, Mul(transform.localScale, r.transform.localScale)));
                 }
             }
         }
@@ -423,7 +424,7 @@ namespace TiltBrush
             HierarchyUtils.RecursivelySetLayer(transform, layer);
 
             int layerIndex = Pinned ? WidgetManager.m_Instance.PinnedStencilLayerIndex :
-                                      WidgetManager.m_Instance.StencilLayerIndex;
+                WidgetManager.m_Instance.StencilLayerIndex;
 
             // The stencil collider object has to stay in the stencil layer so it can be picked
             // up by physics checks.
@@ -439,7 +440,7 @@ namespace TiltBrush
             base.InitPin();
 
             int layerIndex = Pinned ? WidgetManager.m_Instance.PinnedStencilLayerIndex :
-                                      WidgetManager.m_Instance.StencilLayerIndex;
+                WidgetManager.m_Instance.StencilLayerIndex;
 
             for (int i = 0; i < m_TintableMeshes.Length; ++i)
             {
@@ -447,4 +448,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

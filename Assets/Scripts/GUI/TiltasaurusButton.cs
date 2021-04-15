@@ -21,4 +21,4 @@ namespace TiltBrush
             m_Manager.GetComponent<TiltasaurusPopUpWindow>().RefreshWord();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

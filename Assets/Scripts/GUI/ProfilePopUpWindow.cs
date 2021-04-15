@@ -211,9 +211,15 @@ namespace TiltBrush
                     // Identifier for triggering an info message.
                     switch (button.m_CommandParam)
                     {
-                        case 0: UpdateMode(Mode.DriveHelp); break;
-                        case 1: UpdateMode(Mode.GoogleHelp); break;
-                        case 2: UpdateMode(Mode.SketchfabHelp); break;
+                        case 0:
+                            UpdateMode(Mode.DriveHelp);
+                            break;
+                        case 1:
+                            UpdateMode(Mode.GoogleHelp);
+                            break;
+                        case 2:
+                            UpdateMode(Mode.SketchfabHelp);
+                            break;
                     }
                     break;
                 case SketchControlsScript.GlobalCommands.SignOutConfirm:
@@ -235,4 +241,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

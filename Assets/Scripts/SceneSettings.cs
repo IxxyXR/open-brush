@@ -215,7 +215,7 @@ namespace TiltBrush
                 if (InGradient)
                 {
                     RenderSettings.skybox.SetVector("_GradientDirection",
-                       App.Scene.Pose.rotation * m_GradientSkew * Vector3.up);
+                        App.Scene.Pose.rotation * m_GradientSkew * Vector3.up);
                 }
                 TriggerSkyboxChanged();
             }
@@ -237,13 +237,13 @@ namespace TiltBrush
             {
                 if (m_CurrentEnvironment == null) { return false; }
                 bool skyboxChanged = (m_InGradient && m_CurrentEnvironment.m_RenderSettings.m_SkyboxCubemap != null) ||
-                  m_CurrentEnvironment.m_SkyboxColorA != m_SkyColorA ||
-                  m_CurrentEnvironment.m_SkyboxColorB != m_SkyColorB ||
-                  m_GradientSkew != Quaternion.identity;
+                    m_CurrentEnvironment.m_SkyboxColorA != m_SkyColorA ||
+                    m_CurrentEnvironment.m_SkyboxColorB != m_SkyColorB ||
+                    m_GradientSkew != Quaternion.identity;
                 return skyboxChanged ||
-                  m_CurrentEnvironment.m_RenderSettings.m_FogColor != RenderSettings.fogColor ||
-                  m_CurrentEnvironment.m_RenderSettings.m_FogDensity != FogDensity ||
-                  m_CurrentEnvironment.m_RenderSettings.m_ReflectionIntensity != RenderSettings.reflectionIntensity;
+                    m_CurrentEnvironment.m_RenderSettings.m_FogColor != RenderSettings.fogColor ||
+                    m_CurrentEnvironment.m_RenderSettings.m_FogDensity != FogDensity ||
+                    m_CurrentEnvironment.m_RenderSettings.m_ReflectionIntensity != RenderSettings.reflectionIntensity;
             }
         }
 
@@ -330,8 +330,8 @@ namespace TiltBrush
                     // Calculate reflection intensity based on the brighter of the two.
                     float v = Mathf.Max(v1, v2);
                     RenderSettings.reflectionIntensity =
-                      Mathf.Log(1 + v / m_ReflectionIntensityFallOff) *
-                      SceneSettings.m_Instance.DefaultReflectionIntensity;
+                        Mathf.Log(1 + v / m_ReflectionIntensityFallOff) *
+                        SceneSettings.m_Instance.DefaultReflectionIntensity;
                     return;
                 }
             }
@@ -388,7 +388,7 @@ namespace TiltBrush
             m_InterimValues.m_FogEnabled = rDesired.m_FogEnabled;
             m_InterimValues.m_FogMode = rDesired.m_FogMode;
             FogDensity = m_LoadingCustomEnvironment ? m_CustomFogDensity :
-              rDesired.m_FogDensity;
+                rDesired.m_FogDensity;
             RenderSettings.fogStartDistance = rDesired.m_FogStartDistance;
             RenderSettings.fogEndDistance = rDesired.m_FogEndDistance;
             m_TransitionValue = 0.0f;
@@ -502,9 +502,9 @@ namespace TiltBrush
             m_InterimValues.m_ClearColor = Color.Lerp(m_CurrentValues.m_ClearColor, rDesired.m_ClearColor, m_TransitionValue);
             m_InterimValues.m_AmbientColor = Color.Lerp(m_CurrentValues.m_AmbientColor, rDesired.m_AmbientColor, m_TransitionValue);
             m_InterimValues.m_FogColor = Color.Lerp(m_CurrentValues.m_FogColor,
-              m_LoadingCustomEnvironment ? m_CustomFogColor : rDesired.m_FogColor, m_TransitionValue);
+                m_LoadingCustomEnvironment ? m_CustomFogColor : rDesired.m_FogColor, m_TransitionValue);
             m_InterimValues.m_ReflectionIntensity = Mathf.Lerp(m_CurrentValues.m_ReflectionIntensity,
-              m_LoadingCustomEnvironment ? m_CustomReflectionIntensity : rDesired.m_ReflectionIntensity, m_TransitionValue);
+                m_LoadingCustomEnvironment ? m_CustomReflectionIntensity : rDesired.m_ReflectionIntensity, m_TransitionValue);
             m_InterimValues.m_SkyboxTint = Color.Lerp(m_CurrentValues.m_SkyboxTint, rDesired.m_SkyboxTint, m_TransitionValue);
 
             //fade in lights
@@ -717,13 +717,13 @@ namespace TiltBrush
                 m_SkipFade = true;
             }
             bool bEnvironmentModified =
-              LightsControlScript.m_Instance.LightsChanged || SceneSettings.m_Instance.EnvironmentChanged;
+                LightsControlScript.m_Instance.LightsChanged || SceneSettings.m_Instance.EnvironmentChanged;
             if (env == null)
             {
                 Debug.Log("null environment");
             }
             else if (env == m_DesiredEnvironment && !bEnvironmentModified &&
-                     !hasCustomLights && !m_LoadingCustomEnvironment && !forceTransition)
+                !hasCustomLights && !m_LoadingCustomEnvironment && !forceTransition)
             {
                 // same environment and lights not changed; but make sure we inhibit scene reset if requested
                 m_InhibitSceneReset = keepSceneTransform;
@@ -800,15 +800,15 @@ namespace TiltBrush
             get
             {
                 return !EnvironmentChanged ? null :
-                  new CustomEnvironment
-                  {
-                      GradientColors = m_InGradient ?
-                      new[] { (Color32)m_SkyColorA, (Color32)m_SkyColorB } : null,
-                      GradientSkew = m_GradientSkew,
-                      FogColor = (Color32)RenderSettings.fogColor,
-                      FogDensity = SceneSettings.m_Instance.FogDensity,
-                      ReflectionIntensity = RenderSettings.reflectionIntensity
-                  };
+                    new CustomEnvironment
+                    {
+                        GradientColors = m_InGradient ?
+                            new[] { (Color32)m_SkyColorA, (Color32)m_SkyColorB } : null,
+                        GradientSkew = m_GradientSkew,
+                        FogColor = (Color32)RenderSettings.fogColor,
+                        FogDensity = SceneSettings.m_Instance.FogDensity,
+                        ReflectionIntensity = RenderSettings.reflectionIntensity
+                    };
             }
         }
 
@@ -851,4 +851,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -60,15 +60,15 @@ namespace TiltBrush
                                        string authorizationServerUrl, string tokenServerUrl)
         {
             Debug.Assert(!string.IsNullOrWhiteSpace(authorizationServerUrl),
-                         "Missing authorization server url");
+                "Missing authorization server url");
             Debug.Assert(!string.IsNullOrWhiteSpace(tokenServerUrl),
-                         "Missing token server url");
+                "Missing token server url");
 
             // Use the generic authorization code flow with the provided authorization and token
             // server urls.
             IsGoogle = false;
             var initializer = new AuthorizationCodeFlow.Initializer(authorizationServerUrl,
-                                                                    tokenServerUrl)
+                tokenServerUrl)
             {
                 ClientSecrets = secrets,
                 Scopes = scopes,

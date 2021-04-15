@@ -47,7 +47,7 @@ namespace TiltBrush
 
             // Update save buttons availability.
             bool alreadySaved = SaveLoadScript.m_Instance.SceneFile.Valid &&
-                                SaveLoadScript.m_Instance.CanOverwriteSource;
+                SaveLoadScript.m_Instance.CanOverwriteSource;
             m_NewSaveButton.SetActive(!alreadySaved);
             m_SaveOptionsButton.SetActive(alreadySaved);
 
@@ -97,7 +97,7 @@ namespace TiltBrush
         {
             var shareButtonRenderer = m_ShareButton.GetComponent<Renderer>();
             shareButtonRenderer.material =
-              notify ? m_ShareButtonNotify : m_ShareButtonStandard;
+                notify ? m_ShareButtonNotify : m_ShareButtonStandard;
             m_ShareButton.SetColor(GetGazeColor());
             if (shareButtonRenderer.material.HasProperty("_PulseSpeed"))
             {
@@ -135,4 +135,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

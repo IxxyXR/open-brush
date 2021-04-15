@@ -165,4 +165,4 @@ namespace TiltBrush
             UpdateScale();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

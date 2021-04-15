@@ -14,7 +14,6 @@
 
 using System;
 using System.Reflection;
-
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -202,4 +201,4 @@ namespace TiltBrush
             mc.AssignMaterial(catalogMat);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

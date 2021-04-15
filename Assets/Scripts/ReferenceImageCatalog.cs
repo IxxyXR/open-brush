@@ -37,7 +37,7 @@ namespace TiltBrush
         private string m_ReferenceDirectory;
 
         private List<ReferenceImage> m_Images;
-        private Stack<int> m_RequestedLoads;  // it's okay if this contains duplicates
+        private Stack<int> m_RequestedLoads; // it's okay if this contains duplicates
         private bool m_DirNeedsProcessing;
         private string m_ChangedFile;
         private int m_InCompositorLoad;
@@ -136,8 +136,8 @@ namespace TiltBrush
             {
                 // We can't set it ourselves because there's a frame of latency between
                 // caller calling StartCoroutine and us getting control.
-                yield return null;  // Give the compositor time to spool up
-            restart:
+                yield return null; // Give the compositor time to spool up
+                restart:
                 m_ResetImageEnumeration = false;
                 foreach (var image in m_Images)
                 {
@@ -305,10 +305,10 @@ namespace TiltBrush
             iMax = Mathf.Min(m_Images.Count, iMax);
 
             var newRequests = m_RequestedLoads
-              .Concat(Enumerable.Range(iMin, iMax - iMin))
-              .Distinct()
-              .OrderBy(i => m_Images[i].Running ? 0 : 1)
-              .ThenBy(i => (iMin <= i && i < iMax) ? 0 : 1);
+                .Concat(Enumerable.Range(iMin, iMax - iMin))
+                .Distinct()
+                .OrderBy(i => m_Images[i].Running ? 0 : 1)
+                .ThenBy(i => (iMin <= i && i < iMax) ? 0 : 1);
             m_RequestedLoads = new Stack<int>(newRequests.Reverse());
             Resources.UnloadUnusedAssets();
         }
@@ -433,4 +433,4 @@ namespace TiltBrush
             return null;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

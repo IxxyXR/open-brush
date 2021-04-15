@@ -59,6 +59,7 @@ namespace TiltBrush
     public abstract class BaseBrushScript : MonoBehaviour
     {
         #region Static public
+
         public const float kPreviewDuration = 0.2f; // Must be > 0 for the particles shader to work.
 
         /// Creates and properly initializes a new line.
@@ -86,9 +87,10 @@ namespace TiltBrush
         public static float GetStrokeCost(BrushDescriptor desc, int verts, float size)
         {
             return (verts / 6)
-                   * QualityControls.m_Instance.AppQualityLevels.GetWeightForBrush(desc.m_Guid)
-                   * size;
+                * QualityControls.m_Instance.AppQualityLevels.GetWeightForBrush(desc.m_Guid)
+                * size;
         }
+
         #endregion
 
         readonly public bool m_bCanBatch;
@@ -114,6 +116,7 @@ namespace TiltBrush
         }
 
         #region Accessors
+
         /// The size of the pointer when it created the stroke.
         /// Larger pointers create larger lines with a lower density of control points.
         /// This can also be thought of as the "Pointer to Local" scale factor
@@ -176,9 +179,11 @@ namespace TiltBrush
         }
 
         public Stroke Stroke { get; set; }
+
         #endregion
 
         #region Initialization, Update, Destruction
+
         /// This should only be used during initialization.
         public void SetIsLoading() { m_IsLoading = true; }
 
@@ -232,9 +237,11 @@ namespace TiltBrush
                 Destroy(mf.mesh);
             }
         }
+
         #endregion
 
         #region To override
+
         // Passed transform is relative to the stroke
         protected virtual void InitBrush(BrushDescriptor desc, TrTransform localPointerXf)
         {
@@ -308,8 +315,8 @@ namespace TiltBrush
 
         // Return true if a new solid was created.
         protected abstract bool UpdatePositionImpl(
-          Vector3 vPos, Quaternion ori,
-          float fPressure);
+            Vector3 vPos, Quaternion ori,
+            float fPressure);
 
         // This function is a sanity check for making sure we don't overrun our allocated vertex buffers
         //  when creating new geometry.  It is used at low levels as a safeguard.
@@ -331,17 +338,21 @@ namespace TiltBrush
             out Vector2[] uv0s,
             out int[] tris, out int nTris)
         {
-            verts = null; nVerts = 0;
+            verts = null;
+            nVerts = 0;
             uv0s = null;
-            tris = null; nTris = 0;
+            tris = null;
+            nTris = 0;
         }
 
         public abstract void FinalizeSolitaryBrush();
 
         public abstract BatchSubset FinalizeBatchedBrush();
+
         #endregion
 
         #region Helpers for subclasses
+
         // Returns brush size in local (ie canvas) space with pressure factored in.
         protected float PressuredSize(float pressure01)
         {
@@ -368,6 +379,7 @@ namespace TiltBrush
         #endregion
 
         #region Helpers for subclasses (static)
+
         // Returns v, flipped so it points in the same direction as desired.
         static Vector3 InDirectionOf(Vector3 desired, Vector3 v)
         {
@@ -393,8 +405,8 @@ namespace TiltBrush
         // The isOriMirrored flag is passed through just in case we need to be
         // correct at some point in the future.
         protected static void ComputeSurfaceFrameNew(Vector3 vPreferredR,
-            Vector3 nMove, Quaternion ori,
-            out Vector3 nRight, out Vector3 nNormal)
+                                                     Vector3 nMove, Quaternion ori,
+                                                     out Vector3 nRight, out Vector3 nNormal)
         {
             Vector3 nPointerF = ori * Vector3.forward;
             Vector3 nPointerU = ori * Vector3.up;
@@ -521,12 +533,12 @@ namespace TiltBrush
         ///   Breaking this will make the bumps invert.
         ///
         protected static void ComputeTangentSpaceForQuads(
-          Vector3[] aVertices,
-          Vector2[] aUVs,
-          Vector3[] aNormals,
-          Vector4[] aTangents,
-          int stride,
-          int iVert0, int iVert1)
+            Vector3[] aVertices,
+            Vector2[] aUVs,
+            Vector3[] aNormals,
+            Vector4[] aTangents,
+            int stride,
+            int iVert0, int iVert1)
         {
             // See http://www.terathon.com/code/tangent.html
 
@@ -536,8 +548,8 @@ namespace TiltBrush
             {
                 // Each vertex will have a slightly-modified S and T, adjusted so they
                 // are orthogonal to the blended vertex normal.
-                Vector3 n023 = aNormals[iCur];  // 0,2,3 have the same normal
-                Vector3 n145 = aNormals[iCur + 1];  // 1,4,5 have the same normal
+                Vector3 n023 = aNormals[iCur];     // 0,2,3 have the same normal
+                Vector3 n145 = aNormals[iCur + 1]; // 1,4,5 have the same normal
 
                 int iPrev = iCur - stride;
                 bool bHavePreviousQuad = (iPrev >= iVert0);
@@ -686,6 +698,7 @@ namespace TiltBrush
 
             vS = new Vector3(r * (t2 * x1 - t1 * x2), r * (t2 * y1 - t1 * y2), r * (t2 * z1 - t1 * z2));
         }
+
         #endregion
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -27,9 +27,9 @@ namespace TiltBrush
         // Adds a path knot of type knotType to the path owned by widget at the
         // transform defined by spawnXf.
         public CreatePathKnotCommand(CameraPathWidget widget, CameraPathKnot.Type knotType,
-            PathT pathT, TrTransform spawnXf,
-            BaseCommand parent = null)
-          : base(parent)
+                                     PathT pathT, TrTransform spawnXf,
+                                     BaseCommand parent = null)
+            : base(parent)
         {
             m_Widget = widget;
             m_KnotType = knotType;

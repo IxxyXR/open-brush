@@ -62,16 +62,16 @@ namespace TiltBrush
                 {
                     FilePath = e.Key,
                     Transforms = m_MissingNormalizedModelsByRelativePath.ContainsKey(e.Key) ?
-                    m_MissingNormalizedModelsByRelativePath[e.Key] : null,
+                        m_MissingNormalizedModelsByRelativePath[e.Key] : null,
                     RawTransforms = e.Value
                 });
                 var missingNormalizedModels = m_MissingNormalizedModelsByRelativePath.Select(e =>
-                  m_MissingModelsByRelativePath.ContainsKey(e.Key) ? null :
-                  new TiltModels75
-                  {
-                      FilePath = e.Key,
-                      Transforms = e.Value
-                  }).Where(m => m != null);
+                    m_MissingModelsByRelativePath.ContainsKey(e.Key) ? null :
+                        new TiltModels75
+                        {
+                            FilePath = e.Key,
+                            Transforms = e.Value
+                        }).Where(m => m != null);
                 return missingModels.Concat(missingNormalizedModels);
             }
         }
@@ -236,11 +236,12 @@ namespace TiltBrush
                 string[] extensions = { ".obj", ".fbx", ".gltf2", ".gltf", ".glb" };
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-      if (Config.IsExperimental) {
-        var l = new List<string>(extensions);
-        l.AddRange(new string[] { ".usda", ".usdc", ".usd" });
-        extensions = l.ToArray();
-      }
+                if (Config.IsExperimental)
+                {
+                    var l = new List<string>(extensions);
+                    l.AddRange(new string[] { ".usda", ".usdc", ".usd" });
+                    extensions = l.ToArray();
+                }
 #endif
 
                 for (int i = 0; i < aFiles.Length; ++i)
@@ -283,4 +284,4 @@ namespace TiltBrush
             return m;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -150,7 +150,7 @@ namespace TiltBrush
             if (ControllerGeometry.XRayVisuals)
             {
                 float XRayHeight_ss = (App.Scene.Pose.translation.y
-                                    + App.Scene.Pose.scale * SceneSettings.m_Instance.ControllerXRayHeight);
+                    + App.Scene.Pose.scale * SceneSettings.m_Instance.ControllerXRayHeight);
                 bool bControllerUnderground = transform.position.y < XRayHeight_ss;
                 bool bHMDUnderground = ViewpointScript.Head.position.y < XRayHeight_ss;
                 ControllerGeometry.XRayVisuals.SetActive(bControllerUnderground != bHMDUnderground);
@@ -216,8 +216,8 @@ namespace TiltBrush
             if (!App.Instance.ShowControllers) { return; }
             var highlightEffectPrefab = ControllerGeometry.HighlightEffectPrefab;
             GameObject rEffect = Instantiate(highlightEffectPrefab,
-                                             transform.position,
-                                             transform.rotation) as GameObject;
+                transform.position,
+                transform.rotation) as GameObject;
             rEffect.transform.parent = m_ControllerGeometry.transform;
             rEffect.transform.localPosition = highlightEffectPrefab.transform.localPosition;
             rEffect.transform.localRotation = highlightEffectPrefab.transform.localRotation;
@@ -367,7 +367,7 @@ namespace TiltBrush
                 {
 
                     bool manuallyAnimateGrips = (style == ControllerStyle.Vive ||
-                                                 style == ControllerStyle.Wmr);
+                        style == ControllerStyle.Wmr);
 
                     switch (state)
                     {
@@ -414,4 +414,4 @@ namespace TiltBrush
             m_CurrentGripState = state;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

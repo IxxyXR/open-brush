@@ -117,4 +117,4 @@ namespace TiltBrush
             m_BaseBehavior.ActivateHint(false);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

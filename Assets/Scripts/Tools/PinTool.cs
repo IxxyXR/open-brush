@@ -92,8 +92,8 @@ namespace TiltBrush
                     StartToggleAnimation();
                 }
                 else if (!m_InPinningMode &&
-                  !WidgetManager.m_Instance.AnyWidgetsToUnpin &&
-                  WidgetManager.m_Instance.AnyWidgetsToPin)
+                    !WidgetManager.m_Instance.AnyWidgetsToUnpin &&
+                    WidgetManager.m_Instance.AnyWidgetsToPin)
                 {
                     StartToggleAnimation();
                 }
@@ -181,4 +181,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

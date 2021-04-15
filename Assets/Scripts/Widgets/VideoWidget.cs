@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using UnityEngine;
-
 using System.IO;
 
 namespace TiltBrush
@@ -174,7 +173,7 @@ namespace TiltBrush
         public override GrabWidget Clone()
         {
             VideoWidget clone = Instantiate(WidgetManager.m_Instance.VideoWidgetPrefab) as VideoWidget;
-            clone.m_LoadingFromSketch = true;  // prevents intro animation
+            clone.m_LoadingFromSketch = true; // prevents intro animation
             clone.m_TransitionScale = 1.0f;
             clone.transform.parent = transform.parent;
             clone.SetVideo(m_Video);

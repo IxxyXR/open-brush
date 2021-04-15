@@ -103,8 +103,8 @@ namespace TiltBrush
             get
             {
                 return this.m_Object != null && this.m_Object.activeSelf ||
-                       m_Type == Type.BatchedBrushStroke &&
-                       m_BatchSubset.m_Active;
+                    m_Type == Type.BatchedBrushStroke &&
+                    m_BatchSubset.m_Active;
             }
         }
 
@@ -175,7 +175,7 @@ namespace TiltBrush
         {
             m_ControlPointsToDrop = new bool[existing.m_ControlPointsToDrop.Length];
             Array.Copy(existing.m_ControlPointsToDrop, m_ControlPointsToDrop,
-                       existing.m_ControlPointsToDrop.Length);
+                existing.m_ControlPointsToDrop.Length);
 
             // Alas, we can't chain constructor to this() because we chain to base(existing).
             // And we can't use field initializers for the linked list creation.

@@ -91,4 +91,4 @@ namespace TiltBrush
             return QualitySettings.names[iCurrentQuality];
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

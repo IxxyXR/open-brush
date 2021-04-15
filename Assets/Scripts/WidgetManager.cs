@@ -603,7 +603,7 @@ namespace TiltBrush
                         App.Config.m_EnableReferenceModelExport &&
                         ExportableModelWidgets.Any(
                             w => w.gameObject.activeSelf &&
-                                 w.Model.GetLocation().GetLocationType() == Model.Location.Type.PolyAssetId);
+                                w.Model.GetLocation().GetLocationType() == Model.Location.Type.PolyAssetId);
             }
         }
 
@@ -936,8 +936,8 @@ namespace TiltBrush
             get
             {
                 return m_ModelWidgets
-                  .Select(w => w == null ? null : w.WidgetScript)
-                  .Where(w => w != null);
+                    .Select(w => w == null ? null : w.WidgetScript)
+                    .Where(w => w != null);
             }
         }
 
@@ -956,8 +956,8 @@ namespace TiltBrush
             get
             {
                 return m_ModelWidgets
-                  .Select(w => w == null ? null : w.WidgetScript)
-                  .Where(w => w != null).Where(w => !w.Model.AllowExport);
+                    .Select(w => w == null ? null : w.WidgetScript)
+                    .Where(w => w != null).Where(w => !w.Model.AllowExport);
             }
         }
 
@@ -966,8 +966,8 @@ namespace TiltBrush
             get
             {
                 return m_ModelWidgets
-                  .Select(w => w == null ? null : w.WidgetScript)
-                  .Where(w => w != null).Where(w => w.Model.AllowExport);
+                    .Select(w => w == null ? null : w.WidgetScript)
+                    .Where(w => w != null).Where(w => w.Model.AllowExport);
             }
         }
 
@@ -976,8 +976,8 @@ namespace TiltBrush
             get
             {
                 return m_StencilWidgets
-                  .Select(d => d == null ? null : d.WidgetScript)
-                  .Where(w => w != null);
+                    .Select(d => d == null ? null : d.WidgetScript)
+                    .Where(w => w != null);
             }
         }
 
@@ -998,8 +998,8 @@ namespace TiltBrush
             get
             {
                 return m_ImageWidgets
-                  .Select(d => d == null ? null : d.m_WidgetScript as ImageWidget)
-                  .Where(w => w != null);
+                    .Select(d => d == null ? null : d.m_WidgetScript as ImageWidget)
+                    .Where(w => w != null);
             }
         }
 
@@ -1318,7 +1318,7 @@ namespace TiltBrush
             App.Switchboard.TriggerAllWidgetsDestroyed();
 
             void DestroyWidgetList<T>(List<TypedWidgetData<T>> widgetList,
-                bool hideBeforeDestroy = true) where T : GrabWidget
+                                      bool hideBeforeDestroy = true) where T : GrabWidget
             {
                 while (widgetList.Count > 0)
                 {
@@ -1362,7 +1362,7 @@ namespace TiltBrush
                     {
                         var state = App.PolyAssetCatalog.GetAssetLoadState(assetId);
                         return (state == PolyAssetCatalog.AssetLoadState.Downloading ||
-                                state == PolyAssetCatalog.AssetLoadState.Loading);
+                            state == PolyAssetCatalog.AssetLoadState.Loading);
                     }
                     while (assetIds.Any(IsLoading))
                     {
@@ -1374,7 +1374,7 @@ namespace TiltBrush
                 {
                     ModelWidget.CreateFromSaveData(m_loadingTiltModels75[i]);
                     OverlayManager.m_Instance.UpdateProgress(
-                      (float)(i + 1) / m_loadingTiltModels75.Length, true);
+                        (float)(i + 1) / m_loadingTiltModels75.Length, true);
                 }
                 OverlayManager.m_Instance.RefuseProgressBarChanges(false);
                 m_loadingTiltModels75 = null;
@@ -1460,7 +1460,7 @@ namespace TiltBrush
                 }
                 // All media widgets record their movements.
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                  new MoveWidgetCommand(widget, widget.LocalTransform, widget.CustomDimension));
+                    new MoveWidgetCommand(widget, widget.LocalTransform, widget.CustomDimension));
                 float speed = (App.METERS_TO_UNITS * SketchControlsScript.m_Instance.m_TossThresholdMeters);
                 Vector3 vLinVel = ViewpointScript.Head.forward * speed;
                 Vector3 vAngVel = Quaternion.AngleAxis(UnityEngine.Random.Range(0, 360), Vector3.forward)

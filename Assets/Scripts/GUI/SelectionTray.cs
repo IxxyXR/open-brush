@@ -96,7 +96,7 @@ namespace TiltBrush
         }
 
         override public bool UpdateStateWithInput(bool inputValid, Ray inputRay,
-              GameObject parentActiveObject, Collider parentCollider)
+                                                  GameObject parentActiveObject, Collider parentCollider)
         {
             if (base.UpdateStateWithInput(inputValid, inputRay, parentActiveObject, parentCollider))
             {
@@ -119,7 +119,7 @@ namespace TiltBrush
         }
 
         override public bool RaycastAgainstCustomCollider(Ray ray,
-            out RaycastHit hitInfo, float dist)
+                                                          out RaycastHit hitInfo, float dist)
         {
             return BasePanel.DoesRayHitCollider(ray, GetCollider(), out hitInfo);
         }
@@ -127,7 +127,7 @@ namespace TiltBrush
         void OnToolChanged()
         {
             bool isSelectionTool = SketchSurfacePanel.m_Instance.GetCurrentToolType() ==
-                                   BaseTool.ToolType.SelectionTool;
+                BaseTool.ToolType.SelectionTool;
             if (isSelectionTool != m_AnimateIn)
             {
                 if (m_AnimationCoroutine != null)

@@ -176,7 +176,7 @@ namespace TiltBrush
                         withTxc2.texcoord2 = new TexcoordInfo { size = 3, semantic = Semantic.Timestamp };
                         pool.Layout = withTxc2;
                         pool.m_Texcoord2.v3 = timestamps;
-                        timestamps = null;  // don't let caller reuse the list
+                        timestamps = null; // don't let caller reuse the list
                     }
                     else
                     {
@@ -198,8 +198,8 @@ namespace TiltBrush
                 List<Vector3> timestamps)
             {
                 Vector3 ts = new Vector3(stroke.HeadTimestampMs * .001f,
-                                         stroke.TailTimestampMs * .001f,
-                                         0);
+                    stroke.TailTimestampMs * .001f,
+                    0);
                 foreach (float interpolated in MathUtils.LinearResampleCurve(
                     stroke.m_ControlPoints.Select(cp => cp.m_TimestampMs * .001f).ToArray(),
                     numVerts))
@@ -386,7 +386,7 @@ namespace TiltBrush
         public class LightPayload
         {
             public LightType type;
-            public string legacyUniqueName;  // guaranteed unique but maybe not friendly
+            public string legacyUniqueName; // guaranteed unique but maybe not friendly
             public string name;
             public Color lightColor;
             public Matrix4x4 xform;
@@ -395,7 +395,7 @@ namespace TiltBrush
         [UsedImplicitly(ImplicitUseTargetFlags.Members)]
         public class LightsPayload
         {
-            public Color ambientColor;  // currently unused
+            public Color ambientColor; // currently unused
             public List<LightPayload> lights = new List<LightPayload>();
         }
 
@@ -475,7 +475,7 @@ namespace TiltBrush
                 {
                     if (model.GetLocation().GetLocationType() == Model.Location.Type.PolyAssetId)
                     {
-                        return model.AssetId;  // blows up if type is not PolyAssetId
+                        return model.AssetId; // blows up if type is not PolyAssetId
                     }
                     else
                     {
@@ -528,14 +528,14 @@ namespace TiltBrush
             // getting here.
             var allowedBrushGuids = new HashSet<Guid>(
                 BrushCatalog.m_Instance.AllBrushes
-                .Where(b => b.m_AllowExport)
-                .Select(b => (Guid)b.m_Guid));
+                    .Where(b => b.m_AllowExport)
+                    .Select(b => (Guid)b.m_Guid));
             var main = App.Scene.MainCanvas;
             var selection = App.Scene.SelectionCanvas;
             var mainStrokes = SketchMemoryScript.AllStrokes()
                 .Where(stroke => allowedBrushGuids.Contains(stroke.m_BrushGuid) &&
-                                 stroke.IsGeometryEnabled &&
-                                 (stroke.Canvas == main || stroke.Canvas == selection));
+                    stroke.IsGeometryEnabled &&
+                    (stroke.Canvas == main || stroke.Canvas == selection));
             return new ExportCanvas(main, mainStrokes.ToList());
         }
 
@@ -544,12 +544,12 @@ namespace TiltBrush
         {
             var allowedBrushGuids = new HashSet<Guid>(
                 BrushCatalog.m_Instance.AllBrushes
-                .Where(b => b.m_AllowExport)
-                .Select(b => (Guid)b.m_Guid));
+                    .Where(b => b.m_AllowExport)
+                    .Select(b => (Guid)b.m_Guid));
 
             return SketchMemoryScript.AllStrokes()
                 .Where(stroke => allowedBrushGuids.Contains(stroke.m_BrushGuid) &&
-                                 stroke.IsGeometryEnabled)
+                    stroke.IsGeometryEnabled)
                 .GroupBy(stroke => stroke.Canvas)
                 .Select(canvasStrokes => new ExportCanvas(canvasStrokes))
                 .ToList();
@@ -593,7 +593,7 @@ namespace TiltBrush
       xfBivector = Matrix4x4.Scale(-Vector3.one) * xfBivector;
     }
 #else
-            Matrix4x4 xfBivector = basisChange;  // The mirroring and the winding-flip cancel each other out
+            Matrix4x4 xfBivector = basisChange; // The mirroring and the winding-flip cancel each other out
 #endif
             pool.ApplyTransform(basisAndUnitChange, xfBivector, unitChange, 0, pool.NumVerts);
         }
@@ -759,15 +759,15 @@ namespace TiltBrush
         static public string GetTexturePath(Texture texture)
         {
 #if UNITY_EDITOR
-    // Copy the raw asset texture file and make sure it's either a PNG or JPG.
-    string texturePath = UnityEditor.AssetDatabase.GetAssetPath(texture);
-    texturePath = texturePath.Substring("Assets/".Length);
-    texturePath = Path.Combine(Application.dataPath, texturePath);
-    string extension = Path.GetExtension(texturePath).ToUpper();
-    Debug.Assert(extension == ".PNG" || extension == ".JPG" || extension == ".JPEG",
-                 String.Format("Texture {0} must be converted to png or jpg format",
-                               texturePath));
-    return texturePath;
+            // Copy the raw asset texture file and make sure it's either a PNG or JPG.
+            string texturePath = UnityEditor.AssetDatabase.GetAssetPath(texture);
+            texturePath = texturePath.Substring("Assets/".Length);
+            texturePath = Path.Combine(Application.dataPath, texturePath);
+            string extension = Path.GetExtension(texturePath).ToUpper();
+            Debug.Assert(extension == ".PNG" || extension == ".JPG" || extension == ".JPEG",
+                String.Format("Texture {0} must be converted to png or jpg format",
+                    texturePath));
+            return texturePath;
 #else
             // Create an uncompressed texture from mainTex as a fallback when the asset database is
             // not available. This only works on 2D textures that are readable.
@@ -832,7 +832,8 @@ namespace TiltBrush
                 int dot = originalName.LastIndexOf('.');
                 if (dot < 0)
                 {
-                    baseName = originalName; ext = "";
+                    baseName = originalName;
+                    ext = "";
                 }
                 else
                 {
@@ -841,7 +842,7 @@ namespace TiltBrush
                 }
             }
 
-            for (int i = 0; ; ++i)
+            for (int i = 0;; ++i)
             {
                 string subscript = (i == 0 ? "" : $"_{i}");
                 string attempt = $"{baseName}{subscript}{ext}";
@@ -852,4 +853,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

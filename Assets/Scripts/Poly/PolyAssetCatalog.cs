@@ -42,10 +42,10 @@ namespace TiltBrush
             Unknown,
             NotDownloaded,
             Downloading,
-            Downloaded,      // On disk but not in memory
-                             // DownloadFailed,  // We don't keep track of download errors, so this becomes "NotDownloaded"
+            Downloaded, // On disk but not in memory
+            // DownloadFailed,  // We don't keep track of download errors, so this becomes "NotDownloaded"
             Loading,
-            LoadFailed,      // This shows up as a !Valid model in the model catalog
+            LoadFailed, // This shows up as a !Valid model in the model catalog
             Loaded
         }
 
@@ -56,7 +56,7 @@ namespace TiltBrush
 
             private readonly PolyAssetCatalog m_Owner;
             private readonly Texture2D m_Thumbnail;
-            private string m_ThumbnailUrl;  // if non-null, have not attempted to fetch it yet
+            private string m_ThumbnailUrl; // if non-null, have not attempted to fetch it yet
 
             public string AssetId { get; }
             public string HumanName { get; }
@@ -90,10 +90,10 @@ namespace TiltBrush
                 if (rotation != null)
                 {
                     ModelRotation = new Quaternion(
-                      rotation["x"]?.Value<float>() ?? 0,
-                      rotation["y"]?.Value<float>() ?? 0,
-                      rotation["z"]?.Value<float>() ?? 0,
-                      rotation["w"]?.Value<float>() ?? 0
+                        rotation["x"]?.Value<float>() ?? 0,
+                        rotation["y"]?.Value<float>() ?? 0,
+                        rotation["z"]?.Value<float>() ?? 0,
+                        rotation["w"]?.Value<float>() ?? 0
                     );
                 }
                 else
@@ -139,15 +139,18 @@ namespace TiltBrush
             private static void SafeWriteCache(string path, byte[] contents)
             {
                 if (path == null) { return; }
-                try { File.Delete(path); } catch { }
+                try { File.Delete(path); }
+                catch { }
                 if (contents != null)
                 {
                     string dir = Path.GetDirectoryName(path);
                     if (!Directory.Exists(dir))
                     {
-                        try { Directory.CreateDirectory(dir); } catch { }
+                        try { Directory.CreateDirectory(dir); }
+                        catch { }
                     }
-                    try { File.WriteAllBytes(path, contents); } catch { }
+                    try { File.WriteAllBytes(path, contents); }
+                    catch { }
                 }
             }
 
@@ -160,8 +163,8 @@ namespace TiltBrush
                 {
                     await m_Owner.m_thumbnailFetchLimiter.WaitAsync();
                     WebRequest www = new WebRequest(thumbnailUrl,
-                                                    App.GoogleIdentity,
-                                                    UnityWebRequest.kHttpVerbGET);
+                        App.GoogleIdentity,
+                        UnityWebRequest.kHttpVerbGET);
 
                     await www.SendAsync();
 
@@ -184,7 +187,7 @@ namespace TiltBrush
                         if (imageData != null)
                         {
                             m_Thumbnail.Resize(imageData.ColorWidth, imageData.ColorHeight,
-                                               TextureFormat.ARGB32, false);
+                                TextureFormat.ARGB32, false);
                             m_Thumbnail.SetPixels32(imageData.ColorData);
                             m_Thumbnail.Apply(updateMipmaps: false, makeNoLongerReadable: true);
                         }
@@ -335,25 +338,26 @@ namespace TiltBrush
                 Debug.LogException(e);
             }
 
-            m_AssetSetByType = new Dictionary<PolySetType, AssetSet> {
-      {
-        PolySetType.User,
-        new AssetSet()
-      },
-      {
-        PolySetType.Liked,
-        new AssetSet()
-      },
-      {
-        PolySetType.Featured,
-        new AssetSet { m_RefreshRequested = true }
-      }
-    };
+            m_AssetSetByType = new Dictionary<PolySetType, AssetSet>
+            {
+                {
+                    PolySetType.User,
+                    new AssetSet()
+                },
+                {
+                    PolySetType.Liked,
+                    new AssetSet()
+                },
+                {
+                    PolySetType.Featured,
+                    new AssetSet { m_RefreshRequested = true }
+                }
+            };
 
             App.Instance.AppExit += () =>
             {
                 var models = EnumerateCacheDirectories()
-                  .OrderBy(d => Directory.GetLastAccessTimeUtc(d)).ToArray();
+                    .OrderBy(d => Directory.GetLastAccessTimeUtc(d)).ToArray();
                 for (int excess = models.Count() - kAssetDiskCacheSize; excess > 0; excess--)
                 {
                     Directory.Delete(models[excess - 1], true);

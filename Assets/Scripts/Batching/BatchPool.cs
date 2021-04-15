@@ -119,4 +119,4 @@ namespace TiltBrush
             m_Batches = null;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

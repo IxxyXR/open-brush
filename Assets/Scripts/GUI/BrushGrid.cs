@@ -93,7 +93,7 @@ namespace TiltBrush
             base.HasFocus(hitInfo);
 
             if (m_EatPadInput && !(InputManager.Brush.GetPadTouch()
-                                   || InputManager.Brush.GetThumbStickTouch()))
+                || InputManager.Brush.GetThumbStickTouch()))
             {
                 m_EatPadInput = false;
             }
@@ -137,7 +137,7 @@ namespace TiltBrush
         }
 
         override public bool UpdateStateWithInput(bool inputValid, Ray inputRay,
-              GameObject parentActiveObject, Collider parentCollider)
+                                                  GameObject parentActiveObject, Collider parentCollider)
         {
             if (base.UpdateStateWithInput(inputValid, inputRay, parentActiveObject, parentCollider))
             {
@@ -164,9 +164,15 @@ namespace TiltBrush
         {
             switch (type)
             {
-                case UIComponent.ComponentMessage.NextPage: AdvancePage(1); break;
-                case UIComponent.ComponentMessage.PrevPage: AdvancePage(-1); break;
-                case UIComponent.ComponentMessage.GotoPage: GotoPage(param); break;
+                case UIComponent.ComponentMessage.NextPage:
+                    AdvancePage(1);
+                    break;
+                case UIComponent.ComponentMessage.PrevPage:
+                    AdvancePage(-1);
+                    break;
+                case UIComponent.ComponentMessage.GotoPage:
+                    GotoPage(param);
+                    break;
             }
         }
 
@@ -341,7 +347,7 @@ namespace TiltBrush
             float threshold = Mathf.Abs(m_BrushButtons[0].m_OriginPosition.x);
             float buttonSizeX = m_BrushButtons[0].transform.localScale.x;
             float buttonSpacingX = Mathf.Abs(m_BrushButtons[0].m_OriginPosition.x - m_BrushButtons[1].m_OriginPosition.x) -
-              buttonSizeX;
+                buttonSizeX;
             float translationDistance = -(buttonSizeX + buttonSpacingX) * NUM_COLS;
             float rotationAngle = 90;
             for (int i = 0; i < m_BrushButtons.Length; i++)
@@ -357,22 +363,22 @@ namespace TiltBrush
 
                 Quaternion updatedRotation = Quaternion.identity;
                 float rotationAmount = Mathf.Abs(Mathf.Abs(updatedPosition.x) - threshold) /
-                  (Mathf.Abs(translationDistance / 2f) - threshold);
+                    (Mathf.Abs(translationDistance / 2f) - threshold);
 
                 if (updatedPosition.x < (-threshold))
                 {
                     updatedRotation =
-                      Quaternion.Slerp(Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, rotationAngle, 0), (rotationAmount));
+                        Quaternion.Slerp(Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, rotationAngle, 0), (rotationAmount));
                     updateVector =
-                      new Vector3(updatedPosition.x, m_BrushButtons[i].m_OriginPosition.y, m_BrushButtons[i].m_OriginPosition.z + .2f);
+                        new Vector3(updatedPosition.x, m_BrushButtons[i].m_OriginPosition.y, m_BrushButtons[i].m_OriginPosition.z + .2f);
                     updatedPosition = Vector3.Lerp(updatedPosition, updateVector, rotationAmount);
                 }
                 else if (updatedPosition.x > (threshold))
                 {
                     updatedRotation =
-                      Quaternion.Slerp(Quaternion.Euler(0, -rotationAngle, 0), Quaternion.Euler(0, 0, 0), (1 - rotationAmount));
+                        Quaternion.Slerp(Quaternion.Euler(0, -rotationAngle, 0), Quaternion.Euler(0, 0, 0), (1 - rotationAmount));
                     updateVector =
-                      new Vector3(updatedPosition.x, m_BrushButtons[i].m_OriginPosition.y, m_BrushButtons[i].m_OriginPosition.z + .2f);
+                        new Vector3(updatedPosition.x, m_BrushButtons[i].m_OriginPosition.y, m_BrushButtons[i].m_OriginPosition.z + .2f);
                     updatedPosition = Vector3.Lerp(updateVector, updatedPosition, 1 - rotationAmount);
                 }
 

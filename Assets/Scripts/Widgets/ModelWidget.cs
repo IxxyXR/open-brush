@@ -80,7 +80,7 @@ namespace TiltBrush
         protected override Vector3 GetHomeSnapLocation(Quaternion snapOrient)
         {
             return base.GetHomeSnapLocation(snapOrient) -
-              snapOrient * (App.Scene.Pose.scale * m_Size * m_Model.m_MeshBounds.center);
+                snapOrient * (App.Scene.Pose.scale * m_Size * m_Model.m_MeshBounds.center);
         }
 
         public override float MaxAxisScale
@@ -88,8 +88,8 @@ namespace TiltBrush
             get
             {
                 return Mathf.Max(transform.localScale.x * m_BoxCollider.size.x,
-                  Mathf.Max(transform.localScale.y * m_BoxCollider.size.y,
-                            transform.localScale.z * m_BoxCollider.size.z));
+                    Mathf.Max(transform.localScale.y * m_BoxCollider.size.y,
+                        transform.localScale.z * m_BoxCollider.size.z));
             }
         }
 
@@ -248,7 +248,7 @@ namespace TiltBrush
             m_ContainerBloat.x = Mathf.Max(0, m_MinContainerRatio - ratios.x);
             m_ContainerBloat.y = Mathf.Max(0, m_MinContainerRatio - ratios.y);
             m_ContainerBloat.z = Mathf.Max(0, m_MinContainerRatio - ratios.z);
-            m_ContainerBloat /= m_MinContainerRatio; // Normalize for the min ratio.
+            m_ContainerBloat /= m_MinContainerRatio;               // Normalize for the min ratio.
             m_ContainerBloat *= m_MaxBloat / App.Scene.Pose.scale; // Apply bloat to appropriate axes.
 
             m_BoxCollider.size = m_Model.m_MeshBounds.size + m_ContainerBloat;
@@ -288,7 +288,7 @@ namespace TiltBrush
             if (xDiff > 0.0f && yDiff > 0.0f && zDiff > 0.0f)
             {
                 float minSize = Mathf.Abs(m_Size) *
-                  Mathf.Min(m_BoxCollider.size.x, Mathf.Min(m_BoxCollider.size.y, m_BoxCollider.size.z));
+                    Mathf.Min(m_BoxCollider.size.x, Mathf.Min(m_BoxCollider.size.y, m_BoxCollider.size.z));
                 return (xDiff / vSize.x + yDiff / vSize.y + zDiff / vSize.z) / 3 / (minSize + 1);
             }
             return -1.0f;
@@ -302,9 +302,9 @@ namespace TiltBrush
             maxExtent = Mathf.Max(maxExtent, bounds.extents.z);
 
             return new Vector3(
-              bounds.extents.x / maxExtent,
-              bounds.extents.y / maxExtent,
-              bounds.extents.z / maxExtent);
+                bounds.extents.x / maxExtent,
+                bounds.extents.y / maxExtent,
+                bounds.extents.z / maxExtent);
         }
 
         protected override void OnShow()
@@ -539,7 +539,7 @@ namespace TiltBrush
 
         /// isNonRawTransform - true if the transform uses the pre-M13 meaning of transform.scale.
         static void CreateModel(Model model, TrTransform xf, bool pin,
-            bool isNonRawTransform, uint groupId, string assetId = null)
+                                bool isNonRawTransform, uint groupId, string assetId = null)
         {
             var modelWidget = Instantiate(WidgetManager.m_Instance.ModelWidgetPrefab) as ModelWidget;
             modelWidget.transform.localPosition = xf.translation;
@@ -618,4 +618,4 @@ namespace TiltBrush
             return m_Model.m_MeshBounds.center == Vector3.zero;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

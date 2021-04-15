@@ -50,4 +50,4 @@ namespace TiltBrush
             m_Nob.transform.localPosition = vLocalPos;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

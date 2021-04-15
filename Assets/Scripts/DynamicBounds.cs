@@ -47,12 +47,13 @@ namespace TiltBrush
             // TODO: if we want to keep this code, we could rewrite this code to
             // use the aabb directly. But, it's dead code and only really useful for
             // testing the VrSdk API.
-            Vector3[] bounds = new[] {
-      new Vector3(min.x, 0, max.z),     // forward-left
-      new Vector3(max.x, 0, max.z),     // forward-right
-      new Vector3(max.x, 0, min.z),     // back-right
-      new Vector3(min.x, 0, min.z),     // back-left
-    };
+            Vector3[] bounds = new[]
+            {
+                new Vector3(min.x, 0, max.z), // forward-left
+                new Vector3(max.x, 0, max.z), // forward-right
+                new Vector3(max.x, 0, min.z), // back-right
+                new Vector3(min.x, 0, min.z), // back-left
+            };
 
             Vector3 extents = App.VrSdk.GetRoomExtents();
 

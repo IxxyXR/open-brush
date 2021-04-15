@@ -42,13 +42,14 @@ namespace TiltBrush
                 m_SiblingRenderer.material = mat;
 
 #if UNITY_EDITOR
-      // Debug check to verify the material being cached is not dynamically generated.
-      if (UnityEditor.AssetDatabase.GetAssetPath(mat) == null) {
-        // If this error fires, someone is passing a dynamically generated material
-        // in to the MaterialCache.  This should only be used by materials that are
-        // resources.
-        Debug.LogError("Generated material used as a key to the MaterialCache dictionary.");
-      }
+                // Debug check to verify the material being cached is not dynamically generated.
+                if (UnityEditor.AssetDatabase.GetAssetPath(mat) == null)
+                {
+                    // If this error fires, someone is passing a dynamically generated material
+                    // in to the MaterialCache.  This should only be used by materials that are
+                    // resources.
+                    Debug.LogError("Generated material used as a key to the MaterialCache dictionary.");
+                }
 #endif
                 m_CachedMaterialMap.Add(mat, m_SiblingRenderer.material);
             }

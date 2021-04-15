@@ -128,9 +128,9 @@ namespace TiltBrush
             }
 
             SnapEnabled = (m_ActiveKnot.knot.KnotType == CameraPathKnot.Type.Rotation ||
-                           m_ActiveKnot.knot.KnotType == CameraPathKnot.Type.Position) &&
-                          InputManager.Controllers[(int)m_InteractingController].GetCommand(
-                              InputManager.SketchCommands.MenuContextClick);
+                m_ActiveKnot.knot.KnotType == CameraPathKnot.Type.Position) &&
+                InputManager.Controllers[(int)m_InteractingController].GetCommand(
+                    InputManager.SketchCommands.MenuContextClick);
             inputXf = GetDesiredTransform(inputXf);
 
             if (m_ActiveKnot.knot.KnotType == CameraPathKnot.Type.Position)
@@ -431,9 +431,9 @@ namespace TiltBrush
             // Snap is allowed on rotation and position knots.
             bool show = (m_ActiveKnot != null) &&
                 (m_ActiveKnot.knot.KnotType == CameraPathKnot.Type.Rotation ||
-                 m_ActiveKnot.knot.KnotType == CameraPathKnot.Type.Position);
+                m_ActiveKnot.knot.KnotType == CameraPathKnot.Type.Position);
             InputManager.GetControllerGeometry(m_InteractingController)
-                        .TogglePadSnapHint(SnapEnabled, show);
+                .TogglePadSnapHint(SnapEnabled, show);
         }
 
         override protected void OnUserBeginInteracting()
@@ -455,14 +455,14 @@ namespace TiltBrush
                     CameraPathFovKnot fovKnot = m_ActiveKnot.knot as CameraPathFovKnot;
                     m_GrabControlInitialYDiff = b.PointerAttachPoint.transform.position.y -
                         fovKnot.GetGrabTransform(
-                          (int)CameraPathFovKnot.ControlType.FovControl).position.y;
+                            (int)CameraPathFovKnot.ControlType.FovControl).position.y;
                 }
                 if (m_ActiveKnot.knot.KnotType == CameraPathKnot.Type.Speed)
                 {
                     CameraPathSpeedKnot speedKnot = m_ActiveKnot.knot as CameraPathSpeedKnot;
                     m_GrabControlInitialYDiff = b.PointerAttachPoint.transform.position.y -
                         speedKnot.GetGrabTransform(
-                          (int)CameraPathSpeedKnot.ControlType.SpeedControl).position.y;
+                            (int)CameraPathSpeedKnot.ControlType.SpeedControl).position.y;
                 }
             }
         }
@@ -481,7 +481,7 @@ namespace TiltBrush
                         {
                             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                                 new MovePositionKnotCommand(m_Path, m_ActiveKnot,
-                                  TrTransform.FromTransform(m_ActiveKnot.knot.transform), true));
+                                    TrTransform.FromTransform(m_ActiveKnot.knot.transform), true));
                         }
                         else
                         {
@@ -489,7 +489,7 @@ namespace TiltBrush
                             Vector3 knotFwd = m_ActiveKnot.knot.transform.forward;
                             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                                 new ModifyPositionKnotCommand(
-                                  m_Path, m_ActiveKnot, pk.TangentMagnitude, knotFwd, final: true));
+                                    m_Path, m_ActiveKnot, pk.TangentMagnitude, knotFwd, final: true));
                         }
                         break;
                     case CameraPathKnot.Type.Rotation:
@@ -505,7 +505,7 @@ namespace TiltBrush
                         {
                             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                                 new MoveConstrainedKnotCommand(m_Path, m_ActiveKnot,
-                                  m_ActiveKnot.knot.transform.rotation, final: true));
+                                    m_ActiveKnot.knot.transform.rotation, final: true));
                         }
                         else
                         {

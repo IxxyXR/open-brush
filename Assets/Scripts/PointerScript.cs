@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -28,7 +27,7 @@ namespace TiltBrush
         public struct PreviewControlPoint
         {
             public float m_BirthTime;
-            public TrTransform m_xf_LS;  // in the local coordinate system of the preview line
+            public TrTransform m_xf_LS; // in the local coordinate system of the preview line
         }
 
         /// Designates in which space space the parametric brush-size lerp operates.
@@ -36,10 +35,10 @@ namespace TiltBrush
         {
             Default,
             // These next ones are leftover tests from development
-            Radius,     // Lerp the brush radius
-            Area,       // Lerp the brush area (ie, radius ^ 2)
-            ScaleInvariant,     // Lerp in log space (fixed dt == fixed multiple of brush size)
-            SqrtRadius, // Lerp sqrt radius (ie, radius ^ 0.5). No theoretical basis, but it feels good!
+            Radius,         // Lerp the brush radius
+            Area,           // Lerp the brush area (ie, radius ^ 2)
+            ScaleInvariant, // Lerp in log space (fixed dt == fixed multiple of brush size)
+            SqrtRadius,     // Lerp sqrt radius (ie, radius ^ 0.5). No theoretical basis, but it feels good!
         };
 
         const float m_BasePreviewIntensity = 4.0f;
@@ -69,12 +68,12 @@ namespace TiltBrush
 
         private Vector3 m_InitialBrushSizeScale;
         private TiltBrush.BrushDescriptor m_CurrentBrush;
-        private float m_CurrentBrushSize;  // In pointer aka room space
+        private float m_CurrentBrushSize; // In pointer aka room space
         private Vector2 m_BrushSizeRange;
-        private float m_CurrentPressure;      // TODO: remove and query line instead?
+        private float m_CurrentPressure; // TODO: remove and query line instead?
         private BaseBrushScript m_CurrentLine;
         private ParametricStrokeCreator m_CurrentCreator;
-        private float m_ParametricCreatorBackupStrokeSize;  // In pointer aka room space
+        private float m_ParametricCreatorBackupStrokeSize; // In pointer aka room space
 
         private float m_AudioVolumeDesired;
         private float m_CurrentTotalVolume; // Brush audio volume before being divided between layers
@@ -90,12 +89,12 @@ namespace TiltBrush
         private float m_AllowPreviewLineTimer;
         private BaseBrushScript m_PreviewLine;
 
-        private List<PreviewControlPoint> m_PreviewControlPoints;  // FIFO queue
+        private List<PreviewControlPoint> m_PreviewControlPoints; // FIFO queue
         private List<PointerManager.ControlPoint> m_ControlPoints;
         private bool m_LastControlPointIsKeeper;
-        private Vector3 m_PreviousPosition;   //used for audio
+        private Vector3 m_PreviousPosition; //used for audio
 
-        private float m_LineDepth;  // depth of stroke, only used in monoscopic mode. Room-space.
+        private float m_LineDepth;     // depth of stroke, only used in monoscopic mode. Room-space.
         private float m_LineLength_CS; // distance moved for the active line. Canvas-space.
 
         private bool m_ShowDebugControlPoints = false;
@@ -566,7 +565,7 @@ namespace TiltBrush
             if (m_AudioSources.Length > 0)
             {
                 float fMovementSpeed = Vector3.Distance(m_PreviousPosition, transform.position) /
-                  Time.deltaTime;
+                    Time.deltaTime;
 
                 float fVelRangeRange = m_BrushAudioVolumeVelocityRange.y - m_BrushAudioVolumeVelocityRange.x;
                 float fVolumeRatio = Mathf.Clamp01((fMovementSpeed - m_BrushAudioVolumeVelocityRange.x) / fVelRangeRange);
@@ -1150,4 +1149,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

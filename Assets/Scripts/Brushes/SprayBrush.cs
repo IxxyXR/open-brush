@@ -35,10 +35,10 @@ namespace TiltBrush
         private const int kSaltAtlas = kSaltAlpha + 1;
         // next is kSaltAtlas + 1 (total used is 7)
 
-        protected const int BR = 0;   // back right  (top)
-        protected const int BL = 1;   // back left   (top)
-        protected const int FR = 2;   // front right (top)
-        protected const int FL = 3;   // front left  (top)
+        protected const int BR = 0; // back right  (top)
+        protected const int BL = 1; // back left   (top)
+        protected const int FR = 2; // front right (top)
+        protected const int FL = 3; // front left  (top)
 
         private readonly Vector2 m_TextureAtlas00 = new Vector2(0.0f, 0.0f);
         private readonly Vector2 m_TextureAtlas05 = new Vector2(0.0f, 0.5f);
@@ -51,10 +51,10 @@ namespace TiltBrush
         private int m_DecayedKnots;
 
         public SprayBrush()
-          : base(bCanBatch: true,
-                 upperBoundVertsPerKnot: kVertsInSolid,
-                 bDoubleSided: true,
-                 bSmoothPositions: false)
+            : base(bCanBatch: true,
+                upperBoundVertsPerKnot: kVertsInSolid,
+                bDoubleSided: true,
+                bSmoothPositions: false)
         {
             m_DecayTimers = new List<float>();
             m_DecayedKnots = 0;
@@ -68,8 +68,8 @@ namespace TiltBrush
             // If there are lots of quads in this knot, don't take random numbers from
             // adjacent knots; cycle around and reuse this knot's random numbers.
             return kSaltMaxSaltsPerQuad * (
-                       pretendKnotIndex * kSaltMaxQuadsPerKnot +
-                       quadIndex % kSaltMaxQuadsPerKnot);
+                pretendKnotIndex * kSaltMaxQuadsPerKnot +
+                quadIndex % kSaltMaxQuadsPerKnot);
         }
 
         override public float GetSpawnInterval(float pressure01)
@@ -225,7 +225,7 @@ namespace TiltBrush
                         {
                             Quaternion qRotate = Quaternion.AngleAxis(
                                 m_rng.InRange(salt + kSaltRotation,
-                                              -rotationVariance, rotationVariance), cur.nSurface);
+                                    -rotationVariance, rotationVariance), cur.nSurface);
 
                             vRight = qRotate * vRight;
                             vFacing = qRotate * vFacing;
@@ -338,4 +338,4 @@ namespace TiltBrush
             return iNumQuadsAllowed;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

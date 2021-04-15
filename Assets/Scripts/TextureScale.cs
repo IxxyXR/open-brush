@@ -94,10 +94,10 @@ namespace TiltBrush
         // to stick around.
         unsafe struct ColorBuffer
         {
-            IntPtr dealloc;             // Pointer to deallocate, or 0 if not explicitly allocated
+            IntPtr dealloc; // Pointer to deallocate, or 0 if not explicitly allocated
             public Color32* array;
-            public int length;          // number of elements in array
-            public int width, height;   // 2D size (product must be <= length)
+            public int length;        // number of elements in array
+            public int width, height; // 2D size (product must be <= length)
 
             // no allocation; pointer comes from a []
             public ColorBuffer(Color32[] c, Color32* pc, int width_, int height_)
@@ -152,14 +152,14 @@ namespace TiltBrush
                         fixed (Color32* pNew = newColors)
                         {
                             SinglePassBilinear(cur.array, cur.length, cur.width, cur.height,
-                                               pNew, newColors.Length, newWidth, newHeight);
+                                pNew, newColors.Length, newWidth, newHeight);
                         }
                         return;
                     }
 
                     ColorBuffer tmp = new ColorBuffer(tmpWidth, tmpHeight);
                     SinglePassBilinear(cur.array, cur.length, cur.width, cur.height,
-                                       tmp.array, tmp.length, tmp.width, tmp.height);
+                        tmp.array, tmp.length, tmp.width, tmp.height);
                     cur.Deallocate();
                     cur = tmp;
                 }
@@ -244,4 +244,4 @@ namespace TiltBrush
                 (byte)(c1.a + (c2.a - c1.a) * value));
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

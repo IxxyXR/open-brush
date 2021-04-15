@@ -155,98 +155,113 @@ namespace TiltBrush
         /// Below are a set of Unity Editor methods to help set up the HttpFileServer object and its
         /// set of file entries that it can serve.
         #region EditorFunctions
+
 #if UNITY_EDITOR
-  [ContextMenu("Select Paths")]
-  private void SelectPaths() {
-    m_SourceFilesPath = RelativizePath(EditorUtility.OpenFolderPanel(
-        "Select Source Path for Http File Server.", AbsolutizePath(m_SourceFilesPath), ""));
-    m_DestinationAssetPath = RelativizePath(EditorUtility.OpenFolderPanel(
-        "Select Destination Path for Http File Server.", AbsolutizePath(m_SourceFilesPath), ""));
-    RefreshFiles();
-  }
+        [ContextMenu("Select Paths")]
+        private void SelectPaths()
+        {
+            m_SourceFilesPath = RelativizePath(EditorUtility.OpenFolderPanel(
+                "Select Source Path for Http File Server.", AbsolutizePath(m_SourceFilesPath), ""));
+            m_DestinationAssetPath = RelativizePath(EditorUtility.OpenFolderPanel(
+                "Select Destination Path for Http File Server.", AbsolutizePath(m_SourceFilesPath), ""));
+            RefreshFiles();
+        }
 
-  /// Copies the files from the source folder into the destination asset folder, adding '.bytes' to
-  /// binary files. At the same time it creates the entries list as it copies.
-  [ContextMenu("Refresh Files")]
-  private void RefreshFiles() {
-    if (!EditorUtility.DisplayDialog(
-        "Refresh files?",
-        "Do you want to refresh the file list?",
-        "OK", "Cancel")) {
-      return;
-    }
+        /// Copies the files from the source folder into the destination asset folder, adding '.bytes' to
+        /// binary files. At the same time it creates the entries list as it copies.
+        [ContextMenu("Refresh Files")]
+        private void RefreshFiles()
+        {
+            if (!EditorUtility.DisplayDialog(
+                "Refresh files?",
+                "Do you want to refresh the file list?",
+                "OK", "Cancel"))
+            {
+                return;
+            }
 
-    var entries = new List<HttpFileEntry>();
-    string absoluteDestination = AbsolutizePath(m_DestinationAssetPath);
-    // We have to store the new destination paths because we can only create the asset references
-    // after the copying is done and we've instructed the AssetDatabase to refresh itself.
-    var entryToProjectPath = new Dictionary<HttpFileEntry, string>();
+            var entries = new List<HttpFileEntry>();
+            string absoluteDestination = AbsolutizePath(m_DestinationAssetPath);
+            // We have to store the new destination paths because we can only create the asset references
+            // after the copying is done and we've instructed the AssetDatabase to refresh itself.
+            var entryToProjectPath = new Dictionary<HttpFileEntry, string>();
 
-    foreach (var source in Directory.GetFiles(
-        AbsolutizePath(m_SourceFilesPath), "*", SearchOption.AllDirectories)) {
-      HttpFileEntry entry = new HttpFileEntry();
-      (entry.ContentType, entry.Binary) = ExtensionToContentType(Path.GetExtension(source));
-      if (string.IsNullOrEmpty(entry.ContentType)) {
-        continue;
-      }
-      entry.Path = RelativizePath(source).Substring(m_SourceFilesPath.Length + 1).Replace("\\", "/");
-      var destination = Path.Combine(absoluteDestination, entry.Path);
-      // All binary assets get the .bytes extension added, especially important with image files
-      // otherwise they will not be accessible as 'TextAssets'.
-      if (entry.Binary) {
-        destination += ".bytes";
-      }
-      entryToProjectPath[entry] = RelativizePath(destination);
-      Directory.CreateDirectory(Path.GetDirectoryName(destination));
-      File.Copy(source, destination, overwrite: true);
-      entries.Add(entry);
-    }
+            foreach (var source in Directory.GetFiles(
+                AbsolutizePath(m_SourceFilesPath), "*", SearchOption.AllDirectories))
+            {
+                HttpFileEntry entry = new HttpFileEntry();
+                (entry.ContentType, entry.Binary) = ExtensionToContentType(Path.GetExtension(source));
+                if (string.IsNullOrEmpty(entry.ContentType))
+                {
+                    continue;
+                }
+                entry.Path = RelativizePath(source).Substring(m_SourceFilesPath.Length + 1).Replace("\\", "/");
+                var destination = Path.Combine(absoluteDestination, entry.Path);
+                // All binary assets get the .bytes extension added, especially important with image files
+                // otherwise they will not be accessible as 'TextAssets'.
+                if (entry.Binary)
+                {
+                    destination += ".bytes";
+                }
+                entryToProjectPath[entry] = RelativizePath(destination);
+                Directory.CreateDirectory(Path.GetDirectoryName(destination));
+                File.Copy(source, destination, overwrite: true);
+                entries.Add(entry);
+            }
 
-    // Refresh the AssetDatabase and set up all the references to the newly copied assets.
-    AssetDatabase.Refresh();
-    foreach (var entry in entries) {
-      entry.Asset = AssetDatabase.LoadMainAssetAtPath(entryToProjectPath[entry]) as TextAsset;
-    }
-    m_Entries = entries.ToArray();
-    EditorUtility.SetDirty(this);
-  }
+            // Refresh the AssetDatabase and set up all the references to the newly copied assets.
+            AssetDatabase.Refresh();
+            foreach (var entry in entries)
+            {
+                entry.Asset = AssetDatabase.LoadMainAssetAtPath(entryToProjectPath[entry]) as TextAsset;
+            }
+            m_Entries = entries.ToArray();
+            EditorUtility.SetDirty(this);
+        }
 
-  /// Supported content Types
-  private static readonly (string, string, bool)?[] sm_ContentTypes = {
-      (".html", "text/html", false),
-      (".txt", "text/plain", false),
-      (".css", "text/css", false),
-      (".js", "application/javascript", false),
-      (".gif", "image/gif", true),
-      (".jpg", "image/jpeg", true),
-      (".jpeg", "image/jpeg", true),
-      (".png", "image/png", true),
-  };
+        /// Supported content Types
+        private static readonly (string, string, bool)?[] sm_ContentTypes =
+        {
+            (".html", "text/html", false),
+            (".txt", "text/plain", false),
+            (".css", "text/css", false),
+            (".js", "application/javascript", false),
+            (".gif", "image/gif", true),
+            (".jpg", "image/jpeg", true),
+            (".jpeg", "image/jpeg", true),
+            (".png", "image/png", true),
+        };
 
-  private static (string contentType, bool binary) ExtensionToContentType(string extension) {
-    var contentType = sm_ContentTypes.FirstOrDefault(x => x.Value.Item1 == extension);
-    if (contentType == null) {
-      return (null, true);
-    }
-    return (contentType.Value.Item2, contentType.Value.Item3);
-  }
+        private static (string contentType, bool binary) ExtensionToContentType(string extension)
+        {
+            var contentType = sm_ContentTypes.FirstOrDefault(x => x.Value.Item1 == extension);
+            if (contentType == null)
+            {
+                return (null, true);
+            }
+            return (contentType.Value.Item2, contentType.Value.Item3);
+        }
 
-  /// Function to make a path relative to the Unity project folder.
-  private static string RelativizePath(string path) {
-    string normalizedProject = Path.GetFullPath(Application.dataPath + "/../");
-    string normalizedPath = Path.GetFullPath(path);
-    if (!normalizedPath.StartsWith(normalizedProject)) {
-      throw new ArgumentException($"Path ({path}) must be within the Unity Project.");
-    }
-    return normalizedPath.Substring(normalizedProject.Length);
-  }
+        /// Function to make a path relative to the Unity project folder.
+        private static string RelativizePath(string path)
+        {
+            string normalizedProject = Path.GetFullPath(Application.dataPath + "/../");
+            string normalizedPath = Path.GetFullPath(path);
+            if (!normalizedPath.StartsWith(normalizedProject))
+            {
+                throw new ArgumentException($"Path ({path}) must be within the Unity Project.");
+            }
+            return normalizedPath.Substring(normalizedProject.Length);
+        }
 
-  /// Function to make an absolute path from a path relative to the Unity project folder.
-  private static string AbsolutizePath(string path) {
-    string normalizedProject = Path.GetFullPath(Application.dataPath + "/../");
-    return Path.Combine(normalizedProject, path);
-  }
+        /// Function to make an absolute path from a path relative to the Unity project folder.
+        private static string AbsolutizePath(string path)
+        {
+            string normalizedProject = Path.GetFullPath(Application.dataPath + "/../");
+            return Path.Combine(normalizedProject, path);
+        }
 #endif // UNITY_EDITOR
+
         #endregion
     }
 } // namespace TiltBrush

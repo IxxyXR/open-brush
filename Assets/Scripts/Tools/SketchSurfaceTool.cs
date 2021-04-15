@@ -73,4 +73,4 @@ namespace TiltBrush
             m_BackSide.SetActive(bActive);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

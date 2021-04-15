@@ -86,7 +86,7 @@ namespace TiltBrush
         }
 
         public QuadStripBrush()
-          : base(bCanBatch: true)
+            : base(bCanBatch: true)
         {
         }
 
@@ -105,7 +105,7 @@ namespace TiltBrush
         override public float GetSpawnInterval(float pressure01)
         {
             return kSolidMinLengthMeters_PS * App.METERS_TO_UNITS * POINTER_TO_LOCAL +
-              (PressuredSize(pressure01) * kSolidAspectRatio);
+                (PressuredSize(pressure01) * kSolidAspectRatio);
         }
 
         override public int GetNumUsedVerts()
@@ -171,7 +171,7 @@ namespace TiltBrush
             m_NumQuads = m_Geometry.NumVerts / 6;
 
             MeshFilter mf = GetComponent<MeshFilter>();
-            mf.mesh = null;  // Force a new, empty, mf-owned mesh to be generated
+            mf.mesh = null; // Force a new, empty, mf-owned mesh to be generated
             mf.mesh.MarkDynamic();
 
             // We only need to set verts and tris here because the mesh is zeroed out, effectively hidden
@@ -222,7 +222,7 @@ namespace TiltBrush
         {
             MasterBrush geom = m_Geometry;
             int iNumVerts = GetNumUsedVerts();
-            int iNumTris = iNumVerts;  // Happens to be true for QuadStripBrush and descendants
+            int iNumTris = iNumVerts; // Happens to be true for QuadStripBrush and descendants
 
             MeshFilter mf = GetComponent<MeshFilter>();
             mf.mesh.Clear(false);
@@ -296,10 +296,10 @@ namespace TiltBrush
             // "S" is the stride, either 6 or 12 depending on usesDoubleSidedGeometry.
             // In cases where there are multiple offsets to choose from, we choose the offset
             // which makes it safe to reorder verts in-place. See the comment below re: overlaps
-            const int kBrOld = 2;  // also -S+5, 3
-            const int kBlOld = 0;  // also -S+1, -S+4
-            const int kFrOld = 5;  // also S+2, S+3
-            const int kFlOld = 1;  // also 4, S+0
+            const int kBrOld = 2; // also -S+5, 3
+            const int kBlOld = 0; // also -S+1, -S+4
+            const int kFrOld = 5; // also S+2, S+3
+            const int kFlOld = 1; // also 4, S+0
 
             // Offsets to Front/Back Left/Right verts, FlatGeometry-style
             // See FlatGeometryBrush.cs:15
@@ -314,7 +314,7 @@ namespace TiltBrush
             //     2  3--5                           2--5
 
             int vertRead = 0;  // vertex read index
-            int vertWrite = 0;  // vertex write index
+            int vertWrite = 0; // vertex write index
             int triWrite = 0;  // triangle write index
 
             var vs = geometry.m_Vertices;
@@ -341,22 +341,22 @@ namespace TiltBrush
                 //   Quad #0:   write [0, 4)   read [0, 6)
                 //   Quad #1:   write [4, 8)   read [6, 12)
                 // For subsequent quads the read area is ahead of, and does not overlap, the write area.
-                vs[vertWrite + kFlNew] = vs[vertRead + kFlOld];  // 3 <- 1   7 <- 7
+                vs[vertWrite + kFlNew] = vs[vertRead + kFlOld]; // 3 <- 1   7 <- 7
                 ns[vertWrite + kFlNew] = ns[vertRead + kFlOld];
                 cs[vertWrite + kFlNew] = cs[vertRead + kFlOld];
                 ts[vertWrite + kFlNew] = ts[vertRead + kFlOld];
 
-                vs[vertWrite + kBlNew] = vs[vertRead + kBlOld];  // 1 <- 0   5 <- 6
+                vs[vertWrite + kBlNew] = vs[vertRead + kBlOld]; // 1 <- 0   5 <- 6
                 ns[vertWrite + kBlNew] = ns[vertRead + kBlOld];
                 cs[vertWrite + kBlNew] = cs[vertRead + kBlOld];
                 ts[vertWrite + kBlNew] = ts[vertRead + kBlOld];
 
-                vs[vertWrite + kBrNew] = vs[vertRead + kBrOld];  // 0 <- 2   4 <- 8
+                vs[vertWrite + kBrNew] = vs[vertRead + kBrOld]; // 0 <- 2   4 <- 8
                 ns[vertWrite + kBrNew] = ns[vertRead + kBrOld];
                 cs[vertWrite + kBrNew] = cs[vertRead + kBrOld];
                 ts[vertWrite + kBrNew] = ts[vertRead + kBrOld];
 
-                vs[vertWrite + kFrNew] = vs[vertRead + kFrOld];  // 2 <- 5   6 <- 11
+                vs[vertWrite + kFrNew] = vs[vertRead + kFrOld]; // 2 <- 5   6 <- 11
                 ns[vertWrite + kFrNew] = ns[vertRead + kFrOld];
                 cs[vertWrite + kFrNew] = cs[vertRead + kFrOld];
                 ts[vertWrite + kFrNew] = ts[vertRead + kFrOld];
@@ -386,7 +386,7 @@ namespace TiltBrush
                 tris[triWrite + 4] = vertWrite + kFlNew;
                 tris[triWrite + 5] = vertWrite + kFrNew;
 
-                vertWrite += 4;  // we wrote to a range of 4 verts
+                vertWrite += 4; // we wrote to a range of 4 verts
                 vertRead += 6;  // we read from a range of 6 verts
                 triWrite += 6;  // we wrote 6 indices
 
@@ -398,7 +398,7 @@ namespace TiltBrush
                 // QuadStripBrushes.
                 while (vertRead < numVerts && vs[vertRead + kBrOld] == vs[vertWrite - 4 + kFrNew])
                 {
-                    vertWrite -= 2;  // Share 2 verts with the previous quad
+                    vertWrite -= 2; // Share 2 verts with the previous quad
 
                     // The read range will provably never overlap with the write range. Note that
                     // this cannot be quad 0 since there exists a previous quad.
@@ -508,8 +508,8 @@ namespace TiltBrush
                     hsl.HueDegrees += m_Desc.m_BackfaceHueShift;
                     backColor = (Color32)(Color)hsl;
                     lastBackColor = (iCurrVertIndex - stride >= 0)
-                      ? aColors[iCurrVertIndex - stride + 4]
-                      : backColor;
+                        ? aColors[iCurrVertIndex - stride + 4]
+                        : backColor;
                 }
 
                 aColors[iCurrVertIndex] = lastBackColor;
@@ -523,8 +523,8 @@ namespace TiltBrush
             }
 
             // Walk backward and smooth out previous quads.
-            int iStripLength = m_LeadingQuadIndex;      // In solids
-            int iSegmentLength = m_LeadingQuadIndex - m_InitialQuadIndex;  // In solids
+            int iStripLength = m_LeadingQuadIndex;                        // In solids
+            int iSegmentLength = m_LeadingQuadIndex - m_InitialQuadIndex; // In solids
             if (m_EnableBackfaces)
             {
                 iStripLength /= 2;
@@ -656,13 +656,13 @@ namespace TiltBrush
                        bool alterBackQuad)
         {
             Vector3 vTopPos =
-              alterBackQuad
-              ? (aVerts[iBackQuadVertIndex + 1] + aVerts[iFrontQuadVertIndex]) * 0.5f
-              : aVerts[iBackQuadVertIndex + 1];
+                alterBackQuad
+                    ? (aVerts[iBackQuadVertIndex + 1] + aVerts[iFrontQuadVertIndex]) * 0.5f
+                    : aVerts[iBackQuadVertIndex + 1];
             Vector3 vBottomPos =
-              alterBackQuad
-              ? (aVerts[iBackQuadVertIndex + 5] + aVerts[iFrontQuadVertIndex + 2]) * 0.5f
-              : aVerts[iBackQuadVertIndex + 5];
+                alterBackQuad
+                    ? (aVerts[iBackQuadVertIndex + 5] + aVerts[iFrontQuadVertIndex + 2]) * 0.5f
+                    : aVerts[iBackQuadVertIndex + 5];
 
             aVerts[iBackQuadVertIndex + 1] = vTopPos;
             aVerts[iBackQuadVertIndex + 4] = vTopPos;
@@ -675,8 +675,8 @@ namespace TiltBrush
             // case that aNorms[iBackQuadVertIndex + 1] and aNorms[iFrontQuadVertIndex] would average
             // out to zero.  This, in practice, only happened for the preview brush on a cube stencil.
             Vector3 vNormalAvg = alterBackQuad
-              ? Vector3.Slerp(aNorms[iBackQuadVertIndex + 1], aNorms[iFrontQuadVertIndex], 0.5f).normalized
-              : aNorms[iBackQuadVertIndex + 1];
+                ? Vector3.Slerp(aNorms[iBackQuadVertIndex + 1], aNorms[iFrontQuadVertIndex], 0.5f).normalized
+                : aNorms[iBackQuadVertIndex + 1];
 
             aNorms[iBackQuadVertIndex + 1] = vNormalAvg;
             aNorms[iBackQuadVertIndex + 4] = vNormalAvg;
@@ -745,10 +745,10 @@ namespace TiltBrush
             {
                 // If single-sided, always point the frontside towards the brush. Causes twisting.
                 Vector3 vPreferredRight = m_Desc.m_BackIsInvisible
-                  ? Vector3.Cross(ori * Vector3.forward, vFacing)
-                  : m_LastQuadRight.normalized;
+                    ? Vector3.Cross(ori * Vector3.forward, vFacing)
+                    : m_LastQuadRight.normalized;
                 ComputeSurfaceFrameNew(vPreferredRight, vFacing, ori,
-                                       out vRight, out vSurfaceNormal);
+                    out vRight, out vSurfaceNormal);
             }
 
             if (!bGenerateNewQuad)
@@ -780,7 +780,7 @@ namespace TiltBrush
                         bIsBreak = true;
                         // Create a break.
                         UpdateUVsForSegment(m_InitialQuadIndex, m_LeadingQuadIndex,
-                                            pressuredSize);
+                            pressuredSize);
                         m_InitialQuadIndex = m_LeadingQuadIndex;
                     }
                     else if ((dotLeft < 0 && dotRight > 0) || (dotLeft > 0 && dotRight < 0))
@@ -818,8 +818,8 @@ namespace TiltBrush
             int iPrevLeadingIndex = m_LeadingQuadIndex;
             int earliestQuad;
             AppendLeadingQuad(bGenerateNewQuad, PressuredOpacity(fSmoothedPressure),
-                                vQuadCenter, vQuadForward, vSurfaceNormal, vQuadRight,
-                                rMasterBrush, out earliestQuad);
+                vQuadCenter, vQuadForward, vSurfaceNormal, vQuadRight,
+                rMasterBrush, out earliestQuad);
             Debug.Assert(m_LeadingQuadIndex == iPrevLeadingIndex + iNumQuadsPer);
 
             UpdateUVs(Mathf.Min(iPrevInitialIndex, earliestQuad), m_LeadingQuadIndex, pressuredSize);
@@ -894,4 +894,4 @@ namespace TiltBrush
             return SolidLength(aVerts, iQuad / quadsPerSolid);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

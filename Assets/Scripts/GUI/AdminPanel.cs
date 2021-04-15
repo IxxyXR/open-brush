@@ -48,7 +48,7 @@ namespace TiltBrush
 
         [SerializeField] HintObjectScript m_AdvancedModeHintObject;
 
-        private bool? m_UpdateShareButtonState;  // for UpdateShareButton
+        private bool? m_UpdateShareButtonState; // for UpdateShareButton
         private Vector3 m_MemoryWarningBaseScale;
 
         public Transform ShareButton { get { return m_ShareButton.transform; } }
@@ -108,7 +108,7 @@ namespace TiltBrush
 
             // Update save buttons availability.
             bool alreadySaved = SaveLoadScript.m_Instance.SceneFile.Valid &&
-                                SaveLoadScript.m_Instance.CanOverwriteSource;
+                SaveLoadScript.m_Instance.CanOverwriteSource;
             m_SaveNewButton.SetActive(!alreadySaved);
             m_SaveOptionsButton.SetActive(alreadySaved);
         }
@@ -209,4 +209,4 @@ namespace TiltBrush
             m_MemoryWarning.GetComponent<Renderer>().material.SetColor("_Color", m_MemoryWarningColor);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

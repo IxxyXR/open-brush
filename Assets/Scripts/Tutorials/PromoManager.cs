@@ -32,7 +32,8 @@ namespace TiltBrush
 
         public PromoFactory(PromoType type, string keySuffix)
         {
-            m_Type = type; m_KeySuffix = keySuffix;
+            m_Type = type;
+            m_KeySuffix = keySuffix;
         }
 
         public BasePromo CreateInstance() { return new T(); }
@@ -96,11 +97,11 @@ namespace TiltBrush
             get
             {
                 return (InputManager.m_Instance.GetCommand(InputManager.SketchCommands.Activate) &&
-                  !SketchSurfacePanel.m_Instance.ActiveTool.IsEatingInput) ||
-                  SketchControlsScript.m_Instance.IsUserInteractingWithUI() ||
-                  SketchControlsScript.m_Instance.IsUserInteractingWithAnyWidget() ||
-                  SketchControlsScript.m_Instance.IsUserGrabbingWorld() ||
-                  InputManager.m_Instance.ControllersAreSwapping();
+                    !SketchSurfacePanel.m_Instance.ActiveTool.IsEatingInput) ||
+                    SketchControlsScript.m_Instance.IsUserInteractingWithUI() ||
+                    SketchControlsScript.m_Instance.IsUserInteractingWithAnyWidget() ||
+                    SketchControlsScript.m_Instance.IsUserGrabbingWorld() ||
+                    InputManager.m_Instance.ControllersAreSwapping();
             }
         }
 
@@ -121,17 +122,18 @@ namespace TiltBrush
 
             // create factories
             m_Factories =
-              new IPromoFactory[] {
-        new PromoFactory<BrushSizePromo>(PromoType.BrushSize, "BrushSize"),
-        new PromoFactory<ShareSketchPromo>(PromoType.ShareSketch, "ShareSketch"),
-        new PromoFactory<FloatingPanelPromo>(PromoType.FloatingPanel, "FloatingPanel"),
-        new PromoFactory<SelectionPromo>(PromoType.Selection, "Selection"),
-        new PromoFactory<DuplicatePromo>(PromoType.Duplicate, "Duplicate"),
-        new PromoFactory<InteractIntroPanelPromo>(PromoType.InteractIntroPanel, "InteractIntroPanel"),
-        new PromoFactory<SaveIconPromo>(PromoType.SaveIcon, "SaveIcon"),
-        new PromoFactory<DeselectionPromo>(PromoType.Deselection, "Deselection"),
-        new PromoFactory<AdvancedPanelsPromo>(PromoType.AdvancedPanels, "AdvancedPanels"),
-              }.ToDictionary(f => f.InstanceType);
+                new IPromoFactory[]
+                {
+                    new PromoFactory<BrushSizePromo>(PromoType.BrushSize, "BrushSize"),
+                    new PromoFactory<ShareSketchPromo>(PromoType.ShareSketch, "ShareSketch"),
+                    new PromoFactory<FloatingPanelPromo>(PromoType.FloatingPanel, "FloatingPanel"),
+                    new PromoFactory<SelectionPromo>(PromoType.Selection, "Selection"),
+                    new PromoFactory<DuplicatePromo>(PromoType.Duplicate, "Duplicate"),
+                    new PromoFactory<InteractIntroPanelPromo>(PromoType.InteractIntroPanel, "InteractIntroPanel"),
+                    new PromoFactory<SaveIconPromo>(PromoType.SaveIcon, "SaveIcon"),
+                    new PromoFactory<DeselectionPromo>(PromoType.Deselection, "Deselection"),
+                    new PromoFactory<AdvancedPanelsPromo>(PromoType.AdvancedPanels, "AdvancedPanels"),
+                }.ToDictionary(f => f.InstanceType);
 
             m_RequestedPromos = new HashSet<BasePromo>();
 
@@ -192,7 +194,7 @@ namespace TiltBrush
         public void RecordCompletion(PromoType promo)
         {
             BasePromo[] removed =
-              m_RequestedPromos.Where(p => p.PrefsKey == m_Factories[promo].PrefsKey).ToArray();
+                m_RequestedPromos.Where(p => p.PrefsKey == m_Factories[promo].PrefsKey).ToArray();
             foreach (BasePromo p in removed)
             {
                 p.OnComplete();

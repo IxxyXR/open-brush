@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using MIConvexHull;
 using UnityEngine;
 
@@ -101,9 +100,9 @@ namespace TiltBrush
         private List<Vertex> m_AllVertices;
 
         public ConcaveHullBrush()
-          : base(bCanBatch: true,
-                 upperBoundVertsPerKnot: 1,
-                 bDoubleSided: false)
+            : base(bCanBatch: true,
+                upperBoundVertsPerKnot: 1,
+                bDoubleSided: false)
         {
             m_AllVertices = new List<Vertex>();
         }
@@ -245,7 +244,7 @@ namespace TiltBrush
                         {
                             Knot k = m_knots[iKnot];
                             float halfSize = 0.5f * PressuredSize(k.point.m_Pressure);
-                            float h = halfSize / Mathf.Sqrt(3f);  // half-extent
+                            float h = halfSize / Mathf.Sqrt(3f); // half-extent
                             int iv0 = iKnot * verticesPerKnot;
                             m_AllVertices[iv0 + 0].SetData(k.point.m_Pos + k.point.m_Orient * new Vector3(-h, -h, -h));
                             m_AllVertices[iv0 + 1].SetData(k.point.m_Pos + k.point.m_Orient * new Vector3(+h, +h, -h));

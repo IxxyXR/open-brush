@@ -33,7 +33,7 @@ namespace TiltBrush
         private string m_videoPath;
         private string m_imagesPath;
 #if USD_SUPPORTED
-  private UsdPathSerializer m_PathSerializer;
+        private UsdPathSerializer m_PathSerializer;
 #endif
 
         private bool HaveCameraPath
@@ -41,7 +41,7 @@ namespace TiltBrush
             get
             {
 #if USD_SUPPORTED
-      return m_PathSerializer != null;
+                return m_PathSerializer != null;
 #else
                 return false;
 #endif
@@ -97,7 +97,7 @@ namespace TiltBrush
                 App.Scene.GetLight(i).shadows = LightShadows.None;
             }
 
-            for (int i = 0; ; ++i)
+            for (int i = 0;; ++i)
             {
                 string o = string.Format("{0}_{1:00}", m_outputBasename, i);
                 string outVid = Path.Combine(m_outputFolder, o + ".mp4");
@@ -116,7 +116,7 @@ namespace TiltBrush
 
                     // Touch the destination file.
                     FileStream fs = File.Open(m_videoPath, FileMode.OpenOrCreate,
-                                            FileAccess.Write, FileShare.ReadWrite);
+                        FileAccess.Write, FileShare.ReadWrite);
                     fs.Close();
                     fs.Dispose();
                     File.SetLastWriteTimeUtc(m_videoPath, System.DateTime.UtcNow);
@@ -127,25 +127,28 @@ namespace TiltBrush
             if (!string.IsNullOrEmpty(CameraPath) && File.Exists(CameraPath))
             {
 #if USD_SUPPORTED
-      m_PathSerializer = gameObject.AddComponent<UsdPathSerializer>();
-      if (m_PathSerializer.Load(CameraPath)) {
-        m_PathSerializer.StartPlayback("/Sketch", "/VideoCamera");
-        FramesToCapture = Mathf.FloorToInt((float)(m_PathSerializer.Duration) * m_fps);
-        m_PathSerializer.Time = 0;
-        m_PathSerializer.Deserialize();
-      } else {
-        Destroy(m_PathSerializer);
-        m_PathSerializer = null;
-      }
+                m_PathSerializer = gameObject.AddComponent<UsdPathSerializer>();
+                if (m_PathSerializer.Load(CameraPath))
+                {
+                    m_PathSerializer.StartPlayback("/Sketch", "/VideoCamera");
+                    FramesToCapture = Mathf.FloorToInt((float)(m_PathSerializer.Duration) * m_fps);
+                    m_PathSerializer.Time = 0;
+                    m_PathSerializer.Deserialize();
+                }
+                else
+                {
+                    Destroy(m_PathSerializer);
+                    m_PathSerializer = null;
+                }
 #else
                 throw new System.NotImplementedException("CameraPath requires USD support");
 #endif
             }
 
             Debug.LogFormat("ODS Output Video: {0}" + System.Environment.NewLine +
-                            "ODS Output Path: {1}" + System.Environment.NewLine +
-                            "ODS Basename: {2}"
-                            , m_videoPath, m_odsCamera.outputFolder, m_odsCamera.basename);
+                "ODS Output Path: {1}" + System.Environment.NewLine +
+                "ODS Basename: {2}"
+                , m_videoPath, m_odsCamera.outputFolder, m_odsCamera.basename);
 
             Shader.SetGlobalFloat("ODS_PoleCollapseAmount", App.UserConfig.Video.OdsPoleCollapsing);
 
@@ -164,8 +167,8 @@ namespace TiltBrush
             TrTransform cameraStart = App.Instance.OdsScenePrimary.inverse;
             TrTransform cameraEnd = App.Instance.OdsSceneSecondary.inverse;
             TrTransform cameraCur = TrTransform.Lerp(cameraStart * App.Instance.OdsHeadPrimary,
-                                                     cameraEnd * App.Instance.OdsHeadSecondary,
-                                                     progress);
+                cameraEnd * App.Instance.OdsHeadSecondary,
+                progress);
             return cameraCur.inverse;
         }
 
@@ -185,11 +188,11 @@ namespace TiltBrush
                     System.Diagnostics.Process proc = new System.Diagnostics.Process();
                     proc.StartInfo.FileName = Path.GetFullPath(TiltBrush.FfmpegPipe.GetFfmpegExe());
                     proc.StartInfo.Arguments = System.String.Format(
-                      @"-y -framerate {0} -f image2 -i ""{1}_%06d.png"" " +
-                      @"-c:v " + FfmpegPipe.GetVideoEncoder() + @" -r {0} -pix_fmt yuv420p ""{2}""",
-                      m_fps,
-                      m_imagesPath,
-                      m_videoPath);
+                        @"-y -framerate {0} -f image2 -i ""{1}_%06d.png"" " +
+                        @"-c:v " + FfmpegPipe.GetVideoEncoder() + @" -r {0} -pix_fmt yuv420p ""{2}""",
+                        m_fps,
+                        m_imagesPath,
+                        m_videoPath);
                     Debug.LogFormat("{0} {1}", proc.StartInfo.FileName, proc.StartInfo.Arguments);
                     proc.StartInfo.CreateNoWindow = false;
                     proc.StartInfo.ErrorDialog = true;
@@ -200,9 +203,10 @@ namespace TiltBrush
                     UnityEngine.Debug.Log(proc.StandardError.ReadToEnd());
 
 #if USD_SUPPORTED
-        if (m_PathSerializer != null) {
-          m_PathSerializer.Stop();
-        }
+                    if (m_PathSerializer != null)
+                    {
+                        m_PathSerializer.Stop();
+                    }
 #endif
 
                     proc.Close();
@@ -260,8 +264,8 @@ namespace TiltBrush
             else
             {
 #if USD_SUPPORTED
-      m_PathSerializer.Time = m_odsCamera.FrameCount / m_fps;
-      m_PathSerializer.Deserialize();
+                m_PathSerializer.Time = m_odsCamera.FrameCount / m_fps;
+                m_PathSerializer.Deserialize();
 #endif
             }
 
@@ -294,4 +298,4 @@ namespace TiltBrush
         }
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

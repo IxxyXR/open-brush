@@ -35,4 +35,4 @@ namespace TiltBrush
             SetAvailable(!App.VrSdk.VrControls.LogitechPenIsPresent());
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

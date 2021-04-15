@@ -124,8 +124,8 @@ namespace TiltBrush
         // Detects intersections, but does not return the exact batches or triangles which were
         // intersected.
         public FutureBatchResult RequestBatchIntersection(Vector3 vDetectionCenter_GS,
-                                                           float radius_GS,
-                                                           int renderCullingMask)
+                                                          float radius_GS,
+                                                          int renderCullingMask)
         {
             if (!enabled)
             {
@@ -201,7 +201,7 @@ namespace TiltBrush
             // mobile.
             int size = 64;
             m_HighResTex = new RenderTexture(size, size, 16, RenderTextureFormat.ARGB32,
-                                                            RenderTextureReadWrite.Linear);
+                RenderTextureReadWrite.Linear);
             m_HighResTex.filterMode = FilterMode.Point;
             m_HighResTex.Create();
         }
@@ -547,7 +547,7 @@ namespace TiltBrush
                         // These cannot both be valid.
                         Debug.Assert(subset == null || widget == null);
                         m_ResultList.Add(
-                          new BatchResult { widget = widget, subset = subset });
+                            new BatchResult { widget = widget, subset = subset });
                         m_ResultCount++;
                     }
                 }

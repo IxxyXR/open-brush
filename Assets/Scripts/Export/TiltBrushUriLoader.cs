@@ -13,10 +13,8 @@
 // limitations under the License.
 
 using System.IO;
-
 using TiltBrushToolkit;
 using UnityEngine;
-
 using ToolkitRawImage = TiltBrushToolkit.RawImage;
 
 namespace TiltBrush
@@ -61,9 +59,10 @@ namespace TiltBrush
         }
 
 #if UNITY_EDITOR
-  public UnityEngine.Texture2D LoadAsAsset(string uri) {
-    return m_delegate.LoadAsAsset(uri);
-  }
+        public UnityEngine.Texture2D LoadAsAsset(string uri)
+        {
+            return m_delegate.LoadAsAsset(uri);
+        }
 #endif
     }
 

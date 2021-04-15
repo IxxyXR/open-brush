@@ -60,4 +60,4 @@ namespace TiltBrush
             m_MaterialSmall.SetColor("_Color", m_GridBaseColor * scaleFraction);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

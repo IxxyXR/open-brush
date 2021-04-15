@@ -198,13 +198,15 @@ namespace TiltBrush
         {
             set
             {
-                if (m_ControllerStyle == value) { /* no warning */ }
+                if (m_ControllerStyle == value)
+                { /* no warning */
+                }
                 // This is kind of a hack, because the same prefab is used for both "empty geometry"
                 // and "initializing steam vr". In all other cases, m_ControllerStyle is expected
                 // to be set properly in the prefab. Perhaps we can remove this last mutable case
                 // and detect the initializing case differently.
                 else if (m_ControllerStyle == ControllerStyle.None &&
-                         value == ControllerStyle.InitializingSteamVR)
+                    value == ControllerStyle.InitializingSteamVR)
                 {
                     /* no warning */
                 }
@@ -226,7 +228,7 @@ namespace TiltBrush
             get
             {
                 return (m_ControllerStyle == ControllerStyle.None ||
-                        m_ControllerStyle == ControllerStyle.InitializingSteamVR);
+                    m_ControllerStyle == ControllerStyle.InitializingSteamVR);
             }
         }
 
@@ -320,7 +322,7 @@ namespace TiltBrush
             {
                 if (state.current == 0)
                 {
-                    InputManager.m_Instance.TriggerHaptics(name, m_HapticPulseOn);  // Leaving 0
+                    InputManager.m_Instance.TriggerHaptics(name, m_HapticPulseOn); // Leaving 0
                 }
                 state.current = Mathf.Min(target, state.current + m_PadSpeed * Time.deltaTime);
             }
@@ -329,12 +331,12 @@ namespace TiltBrush
                 state.current = Mathf.Max(target, state.current - m_PadSpeed * Time.deltaTime);
                 if (state.current == 0)
                 {
-                    InputManager.m_Instance.TriggerHaptics(name, m_HapticPulseOff);  // Arriving at 0
+                    InputManager.m_Instance.TriggerHaptics(name, m_HapticPulseOff); // Arriving at 0
                 }
             }
             else
             {
-                return;  // No real need to mess with the transform
+                return; // No real need to mess with the transform
             }
 
             Vector3 vPos = state.anchor.localPosition;
@@ -449,25 +451,25 @@ namespace TiltBrush
             var darkColor = currentColor * m_DarkButtonColor;
 
             SetColor(Button01Mesh, VrInput.Button01, "_EmissionColor",
-                     currentColor, darkColor);
+                currentColor, darkColor);
             SetColor(Button02Mesh, VrInput.Button02, "_EmissionColor",
-                     currentColor, darkColor);
+                currentColor, darkColor);
             SetColor(JoystickPad, VrInput.Thumbstick, "_EmissionColor",
-                     currentColor, darkColor);
+                currentColor, darkColor);
             SetColor(JoystickMesh, VrInput.Thumbstick, "_EmissionColor",
-                     currentColor, darkColor);
+                currentColor, darkColor);
 
             currentColor = m_LitButtonColor;
             darkColor = m_DarkButtonColor;
 
             SetColor(Button01Mesh, VrInput.Button01, "_Color",
-                     currentColor, darkColor);
+                currentColor, darkColor);
             SetColor(Button02Mesh, VrInput.Button02, "_Color",
-                     currentColor, darkColor);
+                currentColor, darkColor);
             SetColor(JoystickPad, VrInput.Thumbstick, "_Color",
-                     currentColor, darkColor);
+                currentColor, darkColor);
             SetColor(JoystickMesh, VrInput.Thumbstick, "_Color",
-                     currentColor, darkColor);
+                currentColor, darkColor);
         }
 
         // -------------------------------------------------------------------------------------------- //
@@ -652,7 +654,7 @@ namespace TiltBrush
                     break;
                 case ControllerStyle.Wmr:
                     Materials.Assign(JoystickMesh,
-                                     SelectThumbStickTouched(Materials.BrushSizerActive, Materials.BrushSizer));
+                        SelectThumbStickTouched(Materials.BrushSizerActive, Materials.BrushSizer));
                     JoystickMesh.material.SetFloat("_Ratio", ratio);
                     break;
             }
@@ -857,7 +859,7 @@ namespace TiltBrush
                 case ControllerStyle.OculusTouch:
                 case ControllerStyle.Knuckles:
                     Materials.Assign(Button01Mesh, SelectIfTouched(VrInput.Button01,
-                                                        Materials.ShareYtActive, Materials.ShareYt));
+                        Materials.ShareYtActive, Materials.ShareYt));
 
                     // The button is animated when the user holds it down.
                     Button01Mesh.material.SetFloat("_Ratio", ratio);
@@ -894,7 +896,7 @@ namespace TiltBrush
                         if (m_LastPadButton != selected)
                         {
                             InputManager.m_Instance.TriggerHapticsPulse(InputManager.ControllerName.Brush,
-                                                                        2, 0.15f, 0.1f);
+                                2, 0.15f, 0.1f);
                         }
                         m_LastPadButton = selected;
 
@@ -928,7 +930,7 @@ namespace TiltBrush
                         if (m_LastPadButton != selected)
                         {
                             InputManager.m_Instance.TriggerHapticsPulse(InputManager.ControllerName.Brush,
-                                                                        2, 0.15f, 0.1f);
+                                2, 0.15f, 0.1f);
                         }
                         m_LastPadButton = selected;
 
@@ -942,8 +944,8 @@ namespace TiltBrush
                         }
 
                         padMat = SelectPadTouched(padX > 0f ? Materials.YesOrCancel_Cancel
-                                                            : Materials.YesOrCancel_Yes,
-                                                  padMat);
+                                : Materials.YesOrCancel_Yes,
+                            padMat);
 
                         padMat = SelectBasedOn(padX > 0f ? Materials.Cancel : Materials.Yes, padMat);
                         Materials.Assign(PadMesh, padMat);
@@ -1101,4 +1103,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

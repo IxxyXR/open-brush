@@ -55,7 +55,7 @@ namespace TiltBrush
             get
             {
                 Debug.Assert(Initialized,
-                             "Attempt to use GoogleUserSettings before it has been initialized.");
+                    "Attempt to use GoogleUserSettings before it has been initialized.");
                 return m_UserData.DriveSyncFolderId;
             }
         }
@@ -154,7 +154,7 @@ namespace TiltBrush
             else
             {
                 var request = m_DriveService.Files.Update(new DriveData.File(), fileId, jsonStream,
-                                                          "application/json");
+                    "application/json");
                 var result = await DriveAccess.Retry(() =>
                 {
                     jsonStream.Seek(0, SeekOrigin.Begin);

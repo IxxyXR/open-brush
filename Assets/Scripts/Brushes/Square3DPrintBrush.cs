@@ -24,14 +24,14 @@ namespace TiltBrush
         const float kRingSparseDistanceMeters_LS = 0.1f;
         const float kMaxCapForwardRatio = 0.01f;
         const float kMinDistKnotsMeters_LS = 0.003f;
-        const float kSwingBreakValue = 0.940f;            // 20 degrees
-        const float kTwistBreakValue = 0.940f;            // 20 degrees
-        const float kIndicatorPlaneBreakValue = 0.0087f;  // 89.5 degrees
+        const float kSwingBreakValue = 0.940f;           // 20 degrees
+        const float kTwistBreakValue = 0.940f;           // 20 degrees
+        const float kIndicatorPlaneBreakValue = 0.0087f; // 89.5 degrees
         const int kNumCapVerts = 4;
         const int kMaxBevelVerts = 10;
 
         /// Defaults defined as a reminder of brush's capabilities
-        const float kDefaultThickness = 0.2f;  // Unused, thickness substituted with size (square CS)
+        const float kDefaultThickness = 0.2f; // Unused, thickness substituted with size (square CS)
         const float kDefaultBevelSize = 0.01f;
         const int kDefaultBevelVerts = 2;
         const float kDefaultTesselation = 1;
@@ -91,7 +91,7 @@ namespace TiltBrush
         private class GeometryBasis
         {
 
-            public readonly Vector3 nStrokeTangent;  // Unit vector in direction of stroke fwd
+            public readonly Vector3 nStrokeTangent; // Unit vector in direction of stroke fwd
 
             // true if stroke tangent direction and indicator plane normal are in the
             // "same general direction", or heuristically, closer to parallel then anti-parallel.
@@ -109,11 +109,11 @@ namespace TiltBrush
             // Lies in cross section, defines direction of thickness
             public readonly Vector3 nCrossSectionTangentThickness;
 
-            public readonly Vector3 widthVectorToEdge;       // Centre to edge in dir of width
-            public readonly Vector3 thicknessVectorToEdge;   // Centre to edge in dir of thickness
-            public readonly Vector3 widthVectorToBevel;      // Centre to inset edge in dir of width
-            public readonly Vector3 thicknessVectorToBevel;  // Centre to inset edge in dir of thickness
-            public readonly Vector3 capNormalOffset;         // Cap offset in dir of cross section normal
+            public readonly Vector3 widthVectorToEdge;      // Centre to edge in dir of width
+            public readonly Vector3 thicknessVectorToEdge;  // Centre to edge in dir of thickness
+            public readonly Vector3 widthVectorToBevel;     // Centre to inset edge in dir of width
+            public readonly Vector3 thicknessVectorToBevel; // Centre to inset edge in dir of thickness
+            public readonly Vector3 capNormalOffset;        // Cap offset in dir of cross section normal
 
 
             public GeometryBasis(Knot knot, Square3DPrintBrush brushInfo,
@@ -121,7 +121,7 @@ namespace TiltBrush
             {
 
                 nStrokeTangent = manuallySetStrokeTangent != null ?
-                                (Vector3)manuallySetStrokeTangent : knot.qFrame * Vector3.forward;
+                    (Vector3)manuallySetStrokeTangent : knot.qFrame * Vector3.forward;
 
                 // Indicator Plane is defined by tangents m_Orient-rt, m_Orient-fwd w/ normal m_Orient-up.
                 Vector3 indicatorPlaneTangentRt = knot.point.m_Orient * Vector3.right;
@@ -136,7 +136,7 @@ namespace TiltBrush
                 {
                     nCrossSectionNormal = indicatorPlaneNormal;
                     nCrossSectionTangentWidth = indicatorPlaneTangentRt;
-                    nCrossSectionTangentThickness = -indicatorPlaneTangentFwd;  // rh system
+                    nCrossSectionTangentThickness = -indicatorPlaneTangentFwd; // rh system
                 }
                 else
                 {
@@ -154,12 +154,12 @@ namespace TiltBrush
                 thicknessVectorToBevel = thicknessVectorToEdge * brushInfo.m_bevelRatio;
 
                 capNormalOffset = nStrokeTangent * Mathf.Min(1 - brushInfo.m_bevelRatio,
-                                                            kMaxCapForwardRatio);
+                    kMaxCapForwardRatio);
             }
         }
 
         public Square3DPrintBrush(bool bCanBatch)
-        : base(bCanBatch: bCanBatch,
+            : base(bCanBatch: bCanBatch,
                 upperBoundVertsPerKnot: 2 * 4 * kMaxBevelVerts,
                 bDoubleSided: false)
         {
@@ -220,8 +220,8 @@ namespace TiltBrush
 
                 bool inPlane = Mathf.Abs(curNormalStrokeAlignment) < kIndicatorPlaneBreakValue;
                 bool closeToPrev = cur.length < kMinDistKnotsMeters_LS * App.METERS_TO_UNITS;
-                bool largeSwing = false;  // Rotation around pointer forward/back axis
-                bool largeTwist = false;  // Rotation around pointer up/down axis
+                bool largeSwing = false; // Rotation around pointer forward/back axis
+                bool largeTwist = false; // Rotation around pointer up/down axis
                 if (prev.HasGeometry)
                 {
                     // Decompose rotation from prev to cur knot as swing and twist
@@ -305,7 +305,7 @@ namespace TiltBrush
                         }
                     }
                     else
-                    {  // !start
+                    { // !start
                         int sharedRing = 0;
 
                         // Add a ring at the prev knot's pos, albeit virutally (by rewinding to last ring)
@@ -344,7 +344,7 @@ namespace TiltBrush
                             // Stroke continuing, see CASE 3
                         }
                         else
-                        {  // !flip
+                        { // !flip
 
                             // Add a ring at the cur knot's pos
                             AddRingVerts(ref cur, cur.smoothedPos, curBasis);
@@ -439,8 +439,8 @@ namespace TiltBrush
                 // so opt for a single vert (angle-wise) equally between them.
                 float t = (m_bevelVerts == 1) ? (.5f) : (i * dt);
                 Vector3 offset = EllipseOffset(gb.nCrossSectionTangentWidth, rtInsetOuterDist,
-                                               gb.nCrossSectionTangentThickness, upInsetOuterDist,
-                                               Mathf.Lerp(startAngle, stopAngle, t));
+                    gb.nCrossSectionTangentThickness, upInsetOuterDist,
+                    Mathf.Lerp(startAngle, stopAngle, t));
                 AppendVertSquare(ref cur, bevelOrigin + offset, c);
             }
         }
@@ -485,9 +485,9 @@ namespace TiltBrush
             for (int i = 0; i < m_vertsPerRing; i++)
             {
                 int i0 = i + ring;
-                int i1 = (i + 1) % m_vertsPerRing + ring;  // clockwise-adjacent vert to i0
-                int j0 = i0 + m_vertsPerRing;              // i0's corresponding vert on next ring
-                int j1 = i1 + m_vertsPerRing;              // i1's coorrespoding vert on next ring
+                int i1 = (i + 1) % m_vertsPerRing + ring; // clockwise-adjacent vert to i0
+                int j0 = i0 + m_vertsPerRing;             // i0's corresponding vert on next ring
+                int j1 = i1 + m_vertsPerRing;             // i1's coorrespoding vert on next ring
                 AppendQuad(ref cur, i1, i0, j0, j1);
             }
         }
@@ -503,10 +503,10 @@ namespace TiltBrush
             for (int i = 0; i < m_vertsPerRing; i++)
             {
                 int i0 = i + ring;
-                int i1 = (i + 1) % m_vertsPerRing + ring;  // clockwise-adjacent vert to i0
-                int j0 = lastVertFlippedRing - i;          // i0's corresponding vert on next ring
-                int j1 = j0 - 1;                           // i1's corresponding vert on next ring
-                j1 = (j1 < firstVertFlippedRing) ? lastVertFlippedRing : j1;  // Wrap j1 to last vert
+                int i1 = (i + 1) % m_vertsPerRing + ring;                    // clockwise-adjacent vert to i0
+                int j0 = lastVertFlippedRing - i;                            // i0's corresponding vert on next ring
+                int j1 = j0 - 1;                                             // i1's corresponding vert on next ring
+                j1 = (j1 < firstVertFlippedRing) ? lastVertFlippedRing : j1; // Wrap j1 to last vert
                 AppendQuad(ref cur, i0, i1, j1, j0);
             }
         }
@@ -525,12 +525,12 @@ namespace TiltBrush
                 int inner1 = cap + (i + 1) % numCorners;
                 int fanStart1 = ring + (i + 1) % numCorners * n;
                 if (starting)
-                {  // stitch start cap to first ring
+                { // stitch start cap to first ring
                     AppendFan(ref cur, inner, fanStart0, fanEnd0);
                     AppendQuad(ref cur, inner, fanEnd0, fanStart1, inner1);
                 }
                 else
-                {         // stitch last ring to end cap
+                { // stitch last ring to end cap
                     AppendFan(ref cur, inner, fanEnd0, fanStart0);
                     AppendQuad(ref cur, fanEnd0, inner, inner1, fanStart1);
                 }
@@ -569,7 +569,7 @@ namespace TiltBrush
                                      float theta)
         {
             return halfRt * Mathf.Cos(Mathf.Deg2Rad * theta) * rt
-                 + halfUp * Mathf.Sin(Mathf.Deg2Rad * theta) * up;
+                + halfUp * Mathf.Sin(Mathf.Deg2Rad * theta) * up;
         }
 
         // Custom GetVertexLayout() based on TubeBrush.cs's without UVs or tangents
@@ -607,7 +607,7 @@ namespace TiltBrush
         override public float GetSpawnInterval(float pressure01)
         {
             float ringDistMetres_LS = Mathf.Lerp(kRingSparseDistanceMeters_LS,
-                                                 kRingDenseDistanceMeters_LS, m_tessellation);
+                kRingDenseDistanceMeters_LS, m_tessellation);
             // Prevents artefacts caused by VR sensor accuracy limits.
             float minKnotDistMetres_PS = 0.001f;
             // Prevents inverted geometry from being created at small scale perspectives.
@@ -657,4 +657,4 @@ namespace TiltBrush
             return prevStrokeInlineWithPlaneNormal ^ curStrokeInlineWithPlaneNormal;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

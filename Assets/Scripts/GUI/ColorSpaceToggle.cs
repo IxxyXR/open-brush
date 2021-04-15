@@ -88,4 +88,4 @@ namespace TiltBrush
             SetSelectedOption((int)CustomColorPaletteStorage.m_Instance.Mode);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

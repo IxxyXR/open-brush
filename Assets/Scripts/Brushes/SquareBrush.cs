@@ -40,12 +40,12 @@ namespace TiltBrush
         const float kMinMoveLengthMeters_PS = 5e-4f;
         const float kBreakAngleScalar = 2.0f;
         const float kSolidAspectRatio = 0.2f;
-        const float kCrossSectionAspectRatio = .375f;  // height / width
+        const float kCrossSectionAspectRatio = .375f; // height / width
 
         public SquareBrush()
-          : base(bCanBatch: true,
-                 upperBoundVertsPerKnot: 8,
-                 bDoubleSided: false)
+            : base(bCanBatch: true,
+                upperBoundVertsPerKnot: 8,
+                bDoubleSided: false)
         {
         }
 
@@ -54,7 +54,7 @@ namespace TiltBrush
         //
 
         protected override void InitBrush(BrushDescriptor desc,
-            TrTransform localPointerXf)
+                                          TrTransform localPointerXf)
         {
             base.InitBrush(desc, localPointerXf);
             m_geometry.Layout = GetVertexLayout(desc);
@@ -74,7 +74,7 @@ namespace TiltBrush
         override public float GetSpawnInterval(float pressure01)
         {
             return kSolidMinLengthMeters_PS * POINTER_TO_LOCAL * App.METERS_TO_UNITS +
-              (PressuredSize(pressure01) * kSolidAspectRatio);
+                (PressuredSize(pressure01) * kSolidAspectRatio);
         }
 
         override protected void ControlPointsChanged(int iKnot0)
@@ -124,8 +124,8 @@ namespace TiltBrush
                 // If single-sided, always point the frontside towards the brush. Causes twisting.
                 Vector3 nMove = vMove / cur.length;
                 Vector3 vPreferredRight = m_Desc.m_BackIsInvisible
-                  ? Vector3.Cross(cur.point.m_Orient * Vector3.forward, nMove)
-                  : prev.nRight;
+                    ? Vector3.Cross(cur.point.m_Orient * Vector3.forward, nMove)
+                    : prev.nRight;
                 ComputeSurfaceFrameNew(
                     vPreferredRight, nMove, cur.point.m_Orient,
                     out cur.nRight, out cur.nSurface);
@@ -171,7 +171,7 @@ namespace TiltBrush
                     }
 
                     cur.startsGeometry = !prev.HasGeometry;
-                    cur.endsGeometry = false;  // this will be fixed up next iteration
+                    cur.endsGeometry = false; // this will be fixed up next iteration
                     cur.nVert = 16;
                     cur.nTri = 8;
                     cur.iTri = prev.iTri + prev.nTri;
@@ -292,4 +292,4 @@ namespace TiltBrush
         }
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

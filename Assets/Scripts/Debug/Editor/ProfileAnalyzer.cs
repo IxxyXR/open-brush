@@ -49,7 +49,7 @@ namespace TiltBrush
                 m_HistogramColors = new Color[m_NumBuckets];
                 for (int i = 0; i < m_NumBuckets; ++i)
                 {
-                    Color color = new Color32(0xdb, 0x44, 0x37, 0xff);  // default red.
+                    Color color = new Color32(0xdb, 0x44, 0x37, 0xff); // default red.
                     if (i <= 5)
                     {
                         color = new Color32(0x42, 0x85, 0xf4, 0xff); // blue for 90fps +.
@@ -72,7 +72,7 @@ namespace TiltBrush
             {
                 m_FrametimeHistogram = new int[m_NumBuckets];
                 float[] limits =
-                  Enumerable.Range(0, m_NumBuckets).Select(x => 10f + x * m_BucketSize).ToArray();
+                    Enumerable.Range(0, m_NumBuckets).Select(x => 10f + x * m_BucketSize).ToArray();
                 limits[m_NumBuckets - 1] = float.MaxValue;
                 foreach (var frame in root.frameData.Values)
                 {
@@ -245,7 +245,7 @@ namespace TiltBrush
         private string LoadProfile()
         {
             string filename = EditorUtility.OpenFilePanelWithFilters(
-              "Open profile data file", "", new string[] { "Profile files", "data", "All files", "*" });
+                "Open profile data file", "", new string[] { "Profile files", "data", "All files", "*" });
             if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
             {
                 return null;
@@ -259,7 +259,7 @@ namespace TiltBrush
         private void AnalyzeProfile()
         {
             m_Data = new ProfileDataset();
-            Action<float> progressBar = delegate (float f)
+            Action<float> progressBar = delegate(float f)
             {
                 string message = (f < 0.75f) ? "Reading profile data" : "Analyzing profile data";
                 EditorUtility.DisplayProgressBar("Loading Profile", message, f);
@@ -285,17 +285,18 @@ namespace TiltBrush
         {
             // Draw the header.
             int[] intWidths = { 50, 400, 100, 100, 100, 100, 100, 120, 120 };
-            string[] names = {
-        "id",
-        "Name",
-        "Frame Count",
-        "Average ms",
-        "Median ms",
-        "Min ms",
-        "Max ms",
-        "Median StdDev",
-        "Median StdDev %",
-      };
+            string[] names =
+            {
+                "id",
+                "Name",
+                "Frame Count",
+                "Average ms",
+                "Median ms",
+                "Min ms",
+                "Max ms",
+                "Median StdDev",
+                "Median StdDev %",
+            };
             GUILayoutOption[] widths = intWidths.Select(x => GUILayout.Width(x)).ToArray();
             if (m_Data == null || m_Data.Root == null || m_Data.Root.children == null) { return; }
             GUILayout.BeginVertical();

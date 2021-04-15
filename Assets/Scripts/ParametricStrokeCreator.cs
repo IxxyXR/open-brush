@@ -14,7 +14,6 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-
 using ControlPoint = TiltBrush.PointerManager.ControlPoint;
 using QuaternionE = TiltBrush.QuaternionExtensions;
 
@@ -142,12 +141,12 @@ namespace TiltBrush
                 TrTransform cpPose;
                 {
                     Vector3 localPos = radius * new Vector3(
-                      Mathf.Cos(theta) * Mathf.Sin(phi),
-                      Mathf.Sin(theta) * Mathf.Sin(phi),
-                      Mathf.Cos(phi));
+                        Mathf.Cos(theta) * Mathf.Sin(phi),
+                        Mathf.Sin(theta) * Mathf.Sin(phi),
+                        Mathf.Cos(phi));
                     Quaternion localRot =
-                        QuaternionE.AngleAxisRad(theta, Vector3.forward) *  // latitudinal motion
-                        QuaternionE.AngleAxisRad(phi, Vector3.up);          // longitudinal motion
+                        QuaternionE.AngleAxisRad(theta, Vector3.forward) * // latitudinal motion
+                        QuaternionE.AngleAxisRad(phi, Vector3.up);         // longitudinal motion
                     cpPose = spherePose * TrTransform.TR(localPos, localRot);
                 }
 
@@ -170,7 +169,7 @@ namespace TiltBrush
         protected Quaternion m_qPreviousOutput;
 
         public LineCreator(TrTransform initialTransform, bool flat = false)
-          : base(initialTransform)
+            : base(initialTransform)
         {
             m_flat = flat;
             m_qPreviousInput = initialTransform.rotation;
@@ -262,7 +261,7 @@ namespace TiltBrush
 #endif
 
         public CircleCreator(TrTransform initialTransform)
-          : base(initialTransform)
+            : base(initialTransform)
         {
             m_vPreferredTangent = Vector3.zero;
         }
@@ -372,7 +371,7 @@ namespace TiltBrush
 
             // TODO: adjust control point density
 
-            int n = 30;  // number of points; must be >= 2
+            int n = 30; // number of points; must be >= 2
             for (int i = 0; i <= n; ++i)
             {
                 float t = (float)i / n;

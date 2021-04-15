@@ -107,8 +107,8 @@ namespace TiltBrush
                 }
 
                 return x.shader == y.shader &&
-                       x.shaderKeywords.SequenceEqual(y.shaderKeywords) &&
-                       x.globalIlluminationFlags == y.globalIlluminationFlags;
+                    x.shaderKeywords.SequenceEqual(y.shaderKeywords) &&
+                    x.globalIlluminationFlags == y.globalIlluminationFlags;
             }
 
             public int GetHashCode(Material material)
@@ -119,7 +119,7 @@ namespace TiltBrush
                 }
 
                 int hashCode = (material.shader == null ? 0 : material.shader.GetHashCode()) ^
-                               material.globalIlluminationFlags.GetHashCode();
+                    material.globalIlluminationFlags.GetHashCode();
                 foreach (string keyword in material.shaderKeywords)
                 {
                     hashCode ^= keyword.GetHashCode();

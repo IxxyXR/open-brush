@@ -66,74 +66,88 @@ namespace TiltBrush
         {
             DevOptions.I = this;
 #if ALLOW_EXTERNAL_CFG_FILE
-    Load();
+            Load();
 #endif
         }
 
 #if ALLOW_EXTERNAL_CFG_FILE
-  private void Load(JObject obj) {
-    var config = GameObject.Find("/App/Config").GetComponent<Config>();
+        private void Load(JObject obj)
+        {
+            var config = GameObject.Find("/App/Config").GetComponent<Config>();
 
-    MaybeLoad(ref BufferBeforeZip, obj["BufferBeforeZip"]);
-    MaybeLoad(ref BufferAfterZip, obj["BufferAfterZip"]);
-    MaybeLoad(ref ResaveLegacyScenes, obj["ResaveLegacyScenes"]);
-    MaybeLoad(ref UseAutoProfiler, obj["UseAutoProfiler"]);
-    MaybeLoadEnum(ref PreferredTiltFormat, obj["PreferredTiltFormat"]);
-    MaybeLoadEnum(ref BrushLerp, obj["BrushLerp"]);
-    // Note: this now only works for choosing between VR modes.
-    // Switching from VR to non-VR requires tweaking PlayerSettings.virtualRealitySupported,
-    // which cannot be done at runtime :-/
-    MaybeLoadEnum(ref config.m_SdkMode, obj["DisplayMode"]);
-  }
+            MaybeLoad(ref BufferBeforeZip, obj["BufferBeforeZip"]);
+            MaybeLoad(ref BufferAfterZip, obj["BufferAfterZip"]);
+            MaybeLoad(ref ResaveLegacyScenes, obj["ResaveLegacyScenes"]);
+            MaybeLoad(ref UseAutoProfiler, obj["UseAutoProfiler"]);
+            MaybeLoadEnum(ref PreferredTiltFormat, obj["PreferredTiltFormat"]);
+            MaybeLoadEnum(ref BrushLerp, obj["BrushLerp"]);
+            // Note: this now only works for choosing between VR modes.
+            // Switching from VR to non-VR requires tweaking PlayerSettings.virtualRealitySupported,
+            // which cannot be done at runtime :-/
+            MaybeLoadEnum(ref config.m_SdkMode, obj["DisplayMode"]);
+        }
 
-  // Extracts a value type (int, bool, etc) from a JToken.
-  // If the value is not present or invalid, the ref is not modified.
-  private void MaybeLoad<T>(ref T rValue, JToken tok) where T : struct {
-    if (tok == null) { return; }
-    T? nullOrValue = tok.ToObject<T?>();
-    if (nullOrValue == null) { return; }
-    rValue = nullOrValue.Value;
-  }
+        // Extracts a value type (int, bool, etc) from a JToken.
+        // If the value is not present or invalid, the ref is not modified.
+        private void MaybeLoad<T>(ref T rValue, JToken tok) where T : struct
+        {
+            if (tok == null) { return; }
+            T? nullOrValue = tok.ToObject<T?>();
+            if (nullOrValue == null) { return; }
+            rValue = nullOrValue.Value;
+        }
 
-  // Extracts a string from a JToken.
-  // If the value is not present or invalid, the ref is not modified.
-  private void MaybeLoad(ref string rValue, JToken tok) {
-    if (tok == null) { return; }
-    string tmp = (string)tok;
-    if (tmp != null) {
-      rValue = tmp;
-    }
-  }
+        // Extracts a string from a JToken.
+        // If the value is not present or invalid, the ref is not modified.
+        private void MaybeLoad(ref string rValue, JToken tok)
+        {
+            if (tok == null) { return; }
+            string tmp = (string)tok;
+            if (tmp != null)
+            {
+                rValue = tmp;
+            }
+        }
 
-  // Extracts an enum-typed value from a JToken.
-  // If the value is not present or invalid, the ref is not modified.
-  private void MaybeLoadEnum<T>(ref T rEnum, JToken tok) {
-    if (tok == null) {
-      return;
-    }
-    string s = (string)tok;
-    if (s != null) {
-      try {
-        rEnum = (T)System.Enum.Parse(typeof(T), s, true);
-      } catch (System.ArgumentException) {
-        Debug.LogFormat("Invalid {0}: '{1}'", typeof(T).FullName, s);
-      }
-    }
-  }
+        // Extracts an enum-typed value from a JToken.
+        // If the value is not present or invalid, the ref is not modified.
+        private void MaybeLoadEnum<T>(ref T rEnum, JToken tok)
+        {
+            if (tok == null)
+            {
+                return;
+            }
+            string s = (string)tok;
+            if (s != null)
+            {
+                try
+                {
+                    rEnum = (T)System.Enum.Parse(typeof(T), s, true);
+                }
+                catch (System.ArgumentException)
+                {
+                    Debug.LogFormat("Invalid {0}: '{1}'", typeof(T).FullName, s);
+                }
+            }
+        }
 
-  public void Load() {
-    Debug.Assert(Application.isEditor);
-    string path = Path.Combine(UnityEngine.Application.dataPath, OPTIONS_FILE_NAME);
-    string text;
-    try {
-      text = File.ReadAllText(path, System.Text.Encoding.UTF8);
-    } catch (System.IO.IOException) {
-      return;
-    }
+        public void Load()
+        {
+            Debug.Assert(Application.isEditor);
+            string path = Path.Combine(UnityEngine.Application.dataPath, OPTIONS_FILE_NAME);
+            string text;
+            try
+            {
+                text = File.ReadAllText(path, System.Text.Encoding.UTF8);
+            }
+            catch (System.IO.IOException)
+            {
+                return;
+            }
 
-    Load(JObject.Parse(text));
-  }
+            Load(JObject.Parse(text));
+        }
 
 #endif // ALLOW_EXTERNAL_CFG_FILE
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -25,7 +25,7 @@ namespace TiltBrush
         public CameraPathKnot Knot { get; }
 
         public RemovePathKnotCommand(CameraPathWidget widget, CameraPathKnot knot,
-            TrTransform removeXf, BaseCommand parent = null)
+                                     TrTransform removeXf, BaseCommand parent = null)
             : base(parent)
         {
             Knot = knot;

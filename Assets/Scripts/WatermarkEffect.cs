@@ -48,10 +48,11 @@ namespace TiltBrush
         void Reset()
         {
 #if UNITY_EDITOR
-    if (shader == null) {
-      string path = UnityEditor.AssetDatabase.GUIDToAssetPath("35c384d563e634c38bb88d16cf788ab5");
-      shader = UnityEditor.AssetDatabase.LoadAssetAtPath<Shader>(path);
-    }
+            if (shader == null)
+            {
+                string path = UnityEditor.AssetDatabase.GUIDToAssetPath("35c384d563e634c38bb88d16cf788ab5");
+                shader = UnityEditor.AssetDatabase.LoadAssetAtPath<Shader>(path);
+            }
 #endif
         }
 
@@ -63,7 +64,7 @@ namespace TiltBrush
                 float pixelHeight = m_Size * Mathf.Min(source.width, source.height);
                 float pixelWidth = pixelHeight / m_overlayTexture.height * m_overlayTexture.width;
                 var uvSize = new Vector2(pixelWidth / source.width,
-                                         pixelHeight / source.height);
+                    pixelHeight / source.height);
 
                 Vector4 uvMax = m_uvDestination + uvSize;
                 Vector4 range = new Vector4(
@@ -80,4 +81,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

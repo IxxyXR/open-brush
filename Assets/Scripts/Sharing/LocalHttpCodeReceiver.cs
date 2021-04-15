@@ -43,7 +43,7 @@ namespace TiltBrush
         }
 
         public async Task<AuthorizationCodeResponseUrl> ReceiveCodeAsync(AuthorizationCodeRequestUrl url,
-            CancellationToken taskCancellationToken)
+                                                                         CancellationToken taskCancellationToken)
         {
             try
             {

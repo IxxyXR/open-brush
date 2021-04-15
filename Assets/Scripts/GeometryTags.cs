@@ -28,4 +28,4 @@ namespace TiltBrush
         public bool ExcludeFromPolyExport { get { return m_ExcludeFromPolyExport || m_LowLod; } }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

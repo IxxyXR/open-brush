@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-
 using JetBrains.Annotations;
 using UnityAsyncAwaitUtil;
 using UnityEngine;
@@ -83,7 +82,7 @@ namespace TiltBrush
                         // final async code will look like and do it with just the CT. Threading through a CT
                         // is common in async code, but threading through a CTS is definitely not.
                         var cts = token.UglyGetCancellationTokenSource();
-                        Debug.Assert(cts != null);  // Must be, because CanBeCanceled == true
+                        Debug.Assert(cts != null); // Must be, because CanBeCanceled == true
                         cts.Cancel();
                     }
                     else
@@ -194,7 +193,7 @@ namespace TiltBrush
         {
             var awaiter = new IEnumeratorAwaitExtensions.SimpleCoroutineAwaiter();
             RunOnUnityScheduler(() => AsyncCoroutineRunner.Instance.StartCoroutine(
-                                    CompleteAfterIsDone(awaiter, dh)));
+                CompleteAfterIsDone(awaiter, dh)));
             return awaiter;
         }
     }

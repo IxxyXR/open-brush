@@ -253,8 +253,12 @@ namespace TiltBrush
             {
                 switch (m_CurrentState)
                 {
-                    case State.Opening: UpdateOpening(); break;
-                    case State.Closing: UpdateClosing(); break;
+                    case State.Opening:
+                        UpdateOpening();
+                        break;
+                    case State.Closing:
+                        UpdateClosing();
+                        break;
                 }
             }
 
@@ -373,4 +377,4 @@ namespace TiltBrush
             m_RequestedPageIndex = Mathf.Clamp(m_PageIndex + iAmount, 0, m_NumPages - 1);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

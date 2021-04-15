@@ -260,7 +260,7 @@ namespace TiltBrush
                 m_DisplayHeight = Mathf.FloorToInt(m_DisplayHeight / 2) * 2;
                 m_DisplayWidth = Mathf.FloorToInt(m_DisplayWidth / 2) * 2;
                 OutputWindowScript.Error("Odd-numbered capture dimensions not supported.",
-                  string.Format("Capture dimensions capped to {0}x{1}.", m_DisplayWidth, m_DisplayHeight));
+                    string.Format("Capture dimensions capped to {0}x{1}.", m_DisplayWidth, m_DisplayHeight));
             }
             CreateDisplayRenderTextures();
         }
@@ -356,8 +356,8 @@ namespace TiltBrush
         RenderTextureFormat CameraFormat()
         {
             return GetComponent<Camera>().allowHDR
-              ? RenderTextureFormat.ARGBFloat
-              : RenderTextureFormat.ARGB32;
+                ? RenderTextureFormat.ARGBFloat
+                : RenderTextureFormat.ARGB32;
         }
 
         void UpdateCameraAspect()
@@ -413,7 +413,9 @@ namespace TiltBrush
         {
             if (IsPortrait)
             {
-                int tmp = width; width = height; height = tmp;
+                int tmp = width;
+                width = height;
+                height = tmp;
             }
             return RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.ARGB32);
         }
@@ -482,4 +484,4 @@ namespace TiltBrush
             return bytes;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

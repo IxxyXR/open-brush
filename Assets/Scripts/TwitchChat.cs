@@ -23,4 +23,4 @@ namespace TiltBrush
             RefreshChatText();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

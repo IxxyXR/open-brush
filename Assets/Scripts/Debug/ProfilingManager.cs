@@ -34,8 +34,8 @@ namespace TiltBrush
         public enum Mode
         {
             Standard, // Standard Unity Profiling + frame time stats.
-            Light, // Frame time stats only.
-            Deep, // Deep profiling.
+            Light,    // Frame time stats only.
+            Deep,     // Deep profiling.
         }
 
         // Stores information about a single frame's worth of profiling data for a function.
@@ -236,9 +236,9 @@ namespace TiltBrush
                                          int numTriangles, float[] frameRatePercentages)
         {
             output.AppendFormat(
-              "TBProfile: Frames: {0}  Min: {1:F2}  Median: {2:F2}  Max:{3:F2}  StdDev:{4:F2} StdDev%:{5:F1} Batches:{6} Tris:{7}\n",
-              m_FrameTimes.Count, stats.Min, stats.Median, stats.Max, stats.StandardDeviation,
-              stats.StandardDeviationPcOfMedian, numBatches, numTriangles);
+                "TBProfile: Frames: {0}  Min: {1:F2}  Median: {2:F2}  Max:{3:F2}  StdDev:{4:F2} StdDev%:{5:F1} Batches:{6} Tris:{7}\n",
+                m_FrameTimes.Count, stats.Min, stats.Median, stats.Max, stats.StandardDeviation,
+                stats.StandardDeviationPcOfMedian, numBatches, numTriangles);
 
             IEnumerable<string> sections = Enumerable.Range(0, m_ValidFramerates.Length).Select(i =>
                 string.Format("{0}fps: {1:F1}%", m_ValidFramerates[i], frameRatePercentages[i]));
@@ -250,29 +250,29 @@ namespace TiltBrush
                 var times = sample.frameData.Select(x => x.elapsedNanoseconds / 1000000f).Where(x => x > 0);
                 stats = new Statistics.Summary(times.ToArray());
                 output.AppendFormat(
-                  "Profile: {0}: Frames: {1} Min: {2:F2}  Median: {3:F2}  Max:{4:F2}  StdDev:{5:F2}  StdDev%:{6:F1}\n",
-                  sample.name, sample.frameData.Count, stats.Min, stats.Median, stats.Max,
-                  stats.StandardDeviation, stats.StandardDeviationPcOfMedian);
+                    "Profile: {0}: Frames: {1} Min: {2:F2}  Median: {3:F2}  Max:{4:F2}  StdDev:{5:F2}  StdDev%:{6:F1}\n",
+                    sample.name, sample.frameData.Count, stats.Min, stats.Median, stats.Max,
+                    stats.StandardDeviation, stats.StandardDeviationPcOfMedian);
             }
         }
 
         private void CsvOutput(StringBuilder output, Statistics.Summary stats, int numBatches,
-            int numTriangles, float[] frameRatePercentages, string filename)
+                               int numTriangles, float[] frameRatePercentages, string filename)
         {
             output.AppendFormat(
-              "TBProfile: {8}, {0}, {1:F2}, {2:F2}, {3:F2}, {4:F2}, {5:F1}, {6}, {7}, ",
-              m_FrameTimes.Count, stats.Min, stats.Median, stats.Max, stats.StandardDeviation,
-              stats.StandardDeviationPcOfMedian, numBatches, numTriangles, filename);
+                "TBProfile: {8}, {0}, {1:F2}, {2:F2}, {3:F2}, {4:F2}, {5:F1}, {6}, {7}, ",
+                m_FrameTimes.Count, stats.Min, stats.Median, stats.Max, stats.StandardDeviation,
+                stats.StandardDeviationPcOfMedian, numBatches, numTriangles, filename);
 
             IEnumerable<string> sections = frameRatePercentages.Select(x => x.ToString("F1"));
             output.AppendLine(string.Join(", ", sections.ToArray()));
         }
 
         private void PerfgateOutput(StringBuilder output, float[] frameTimes, int numBatches,
-            int numTriangles, string filename)
+                                    int numTriangles, string filename)
         {
             output.AppendFormat("TBProfile: Filename {0} Batches {1} Triangles {2} Frametimes ",
-                                filename, numBatches, numTriangles);
+                filename, numBatches, numTriangles);
             output.AppendLine(string.Join(", ", frameTimes.Select(x => x.ToString("F4")).ToArray()));
         }
     }

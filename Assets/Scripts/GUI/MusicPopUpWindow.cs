@@ -48,4 +48,4 @@ namespace TiltBrush
             base.Init(rParent, sText);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -87,17 +87,17 @@ namespace TiltBrush
                 var shadow = App.Scene.GetLight((int)LightMode.Shadow);
                 var noShadow = App.Scene.GetLight((int)LightMode.NoShadow);
                 bool colorChanged =
-                  RenderSettings.ambientLight != env.m_RenderSettings.m_AmbientColor ||
-                  env.m_Lights[(int)LightMode.Shadow].Color != shadow.color ||
-                  env.m_Lights[(int)LightMode.NoShadow].Color != noShadow.color;
+                    RenderSettings.ambientLight != env.m_RenderSettings.m_AmbientColor ||
+                    env.m_Lights[(int)LightMode.Shadow].Color != shadow.color ||
+                    env.m_Lights[(int)LightMode.NoShadow].Color != noShadow.color;
 
                 return colorChanged ||
-                  !IsLightRotationCloseEnough(
-                  env.m_Lights[(int)LightMode.Shadow].m_Rotation,
-                    App.Scene.AsScene[shadow.transform].rotation) ||
-                  !IsLightRotationCloseEnough(
-                    env.m_Lights[(int)LightMode.NoShadow].m_Rotation,
-                    App.Scene.AsScene[noShadow.transform].rotation);
+                    !IsLightRotationCloseEnough(
+                        env.m_Lights[(int)LightMode.Shadow].m_Rotation,
+                        App.Scene.AsScene[shadow.transform].rotation) ||
+                    !IsLightRotationCloseEnough(
+                        env.m_Lights[(int)LightMode.NoShadow].m_Rotation,
+                        App.Scene.AsScene[noShadow.transform].rotation);
             }
         }
 
@@ -145,7 +145,7 @@ namespace TiltBrush
                 for (int i = 0; i < (int)LightMode.NumLights; i++)
                 {
                     CustomLights.DirectionalLight data =
-                      (LightMode)i == LightMode.Shadow ? value.Shadow : value.NoShadow;
+                        (LightMode)i == LightMode.Shadow ? value.Shadow : value.NoShadow;
                     m_EnvLights[i + 1].color = data.Color;
                     m_EnvLights[i + 1].rotation = data.Orientation;
                 }

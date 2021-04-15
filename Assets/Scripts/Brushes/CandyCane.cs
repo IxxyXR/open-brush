@@ -22,11 +22,12 @@ namespace TiltBrush
 
         // The number of elements here dictates the number of fine strands
         [SerializeField]
-        protected Color32[] kCaneColors = {
-    new Color32(255, 30, 30, 255),
-    new Color32(230, 200, 200, 255),
-    new Color32(20, 180, 20, 255),
-  };
+        protected Color32[] kCaneColors =
+        {
+            new Color32(255, 30, 30, 255),
+            new Color32(230, 200, 200, 255),
+            new Color32(20, 180, 20, 255),
+        };
         [SerializeField] protected BrushDescriptor[] m_caneBrushes;
 
         [SerializeField] protected float m_grossRotationsPerRadian = .1f;
@@ -53,7 +54,7 @@ namespace TiltBrush
                     float degreesPerMeter = m_grossRotationsPerRadian / radiusMeters * 360;
                     InitializeAndAddChild(
                         new PbChildWithOffset(-1, AttachFrame.LineTangent, offset, degreesPerMeter),
-                        m_Desc,  // Recurse with same brush
+                        m_Desc, // Recurse with same brush
                         Color.white);
                 }
             }

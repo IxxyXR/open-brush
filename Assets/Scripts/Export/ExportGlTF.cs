@@ -17,7 +17,6 @@ using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-
 using static TiltBrush.ExportUtils;
 
 namespace TiltBrush
@@ -84,7 +83,7 @@ namespace TiltBrush
                 includeLocalMediaContent: includeLocalMediaContent,
                 temporaryDirectory: Path.Combine(Application.temporaryCachePath, "exportgltf"));
             return ExportHelper(payload, outputFile, binary, doExtras: doExtras, gltfVersion: gltfVersion,
-                                allowHttpUri: !selfContained);
+                allowHttpUri: !selfContained);
         }
 #if false
   // This exports a game object into glTF. Brush strokes are exported in the style of the FBX
@@ -260,7 +259,7 @@ namespace TiltBrush
                         foreach (var modelMeshPayload in modelMeshPayloads)
                         {
                             exporter.ExportMeshPayload(payload, modelMeshPayload, parentNode,
-                                                       modelMeshPayload.localXform);
+                                modelMeshPayload.localXform);
                         }
                     }
                 }
@@ -289,4 +288,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

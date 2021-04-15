@@ -120,7 +120,7 @@ namespace TiltBrush
         public bool LogitechPenIsPresent()
         {
             return (m_Brush.ControllerGeometry.Style == ControllerStyle.LogitechPen) ||
-                   (m_Wand.ControllerGeometry.Style == ControllerStyle.LogitechPen);
+                (m_Wand.ControllerGeometry.Style == ControllerStyle.LogitechPen);
         }
 
         public bool PrimaryScrollDirectionIsX(InputManager.ControllerName name)
@@ -153,4 +153,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

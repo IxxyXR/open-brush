@@ -208,7 +208,7 @@ public class MobileBloom : MonoBehaviour
         if (SceneSettings.m_Instance != null && SceneSettings.m_Instance.InGradient)
         {
             Vector3 gradUp = App.Scene.Pose.rotation * SceneSettings.m_Instance.GradientOrientation *
-                             Vector3.up;
+                Vector3.up;
             float gradRatio = Mathf.Acos(Vector3.Dot(gradUp, ViewpointScript.Gaze.direction)) / Mathf.PI;
             Color averageSky = Color.Lerp(SceneSettings.m_Instance.SkyColorB,
                 SceneSettings.m_Instance.SkyColorA, gradRatio);
@@ -234,8 +234,8 @@ public class MobileBloom : MonoBehaviour
 
         // Which slice we read/write from depends on whether we are running on PC or Mobile.
         int slice = (App.Config != null) && App.Config.IsMobileHardware
-                                        && !SpoofMobileHardware.MobileHardware
-            ? eye : 0;
+            && !SpoofMobileHardware.MobileHardware
+                ? eye : 0;
 
         for (int i = 0; i < numLevels; ++i)
         {
@@ -315,8 +315,8 @@ public class MobileBloom : MonoBehaviour
         var copyBackIdent = new RenderTargetIdentifier(copyBackId);
         var bloomIdent = new RenderTargetIdentifier(m_savedBloom[eye]);
         int slice = (App.Config != null) && App.Config.IsMobileHardware
-                                        && !SpoofMobileHardware.MobileHardware
-            ? eye : 0;
+            && !SpoofMobileHardware.MobileHardware
+                ? eye : 0;
 
         cmdBuffer.GetTemporaryRT(copyBackId, m_width, m_height, 0);
         cmdBuffer.CopyTexture(BuiltinRenderTextureType.CameraTarget, slice, 0, m_xOffset[eye],

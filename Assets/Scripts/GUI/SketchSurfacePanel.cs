@@ -289,11 +289,11 @@ namespace TiltBrush
         bool IsScrollableTool(BaseTool.ToolType rType)
         {
             return (rType == BaseTool.ToolType.SketchSurface) ||
-                    (rType == BaseTool.ToolType.ColorPicker) ||
-                    (rType == BaseTool.ToolType.BrushPicker) ||
-                    (rType == BaseTool.ToolType.BrushAndColorPicker) ||
-                    (rType == BaseTool.ToolType.Selection) ||
-                    (rType == BaseTool.ToolType.EraserTool);
+                (rType == BaseTool.ToolType.ColorPicker) ||
+                (rType == BaseTool.ToolType.BrushPicker) ||
+                (rType == BaseTool.ToolType.BrushAndColorPicker) ||
+                (rType == BaseTool.ToolType.Selection) ||
+                (rType == BaseTool.ToolType.EraserTool);
         }
 
         public void CheckForToolSelection()
@@ -310,8 +310,7 @@ namespace TiltBrush
                         ++m_ActiveToolIndex;
                         m_ActiveToolIndex %= m_Tools.Length;
                         InputManager.m_Instance.TriggerHaptics(InputManager.ControllerName.Wand, 0.1f);
-                    }
-                    while (!IsScrollableTool(m_Tools[m_ActiveToolIndex].m_Type));
+                    } while (!IsScrollableTool(m_Tools[m_ActiveToolIndex].m_Type));
 
                     while (m_ToolSelectionAggregateValue > m_ToolSelectionThreshold)
                     {
@@ -328,8 +327,7 @@ namespace TiltBrush
                             m_ActiveToolIndex += m_Tools.Length;
                         }
                         InputManager.m_Instance.TriggerHaptics(InputManager.ControllerName.Wand, 0.1f);
-                    }
-                    while (!IsScrollableTool(m_Tools[m_ActiveToolIndex].m_Type));
+                    } while (!IsScrollableTool(m_Tools[m_ActiveToolIndex].m_Type));
 
                     while (m_ToolSelectionAggregateValue < -m_ToolSelectionThreshold)
                     {
@@ -353,8 +351,7 @@ namespace TiltBrush
                 ++m_ActiveToolIndex;
                 m_ActiveToolIndex %= m_Tools.Length;
                 InputManager.m_Instance.TriggerHaptics(InputManager.ControllerName.Wand, 0.1f);
-            }
-            while (!IsScrollableTool(m_Tools[m_ActiveToolIndex].m_Type));
+            } while (!IsScrollableTool(m_Tools[m_ActiveToolIndex].m_Type));
 
             if (iPrevIndex != m_ActiveToolIndex)
             {
@@ -374,8 +371,7 @@ namespace TiltBrush
                     m_ActiveToolIndex += m_Tools.Length;
                 }
                 InputManager.m_Instance.TriggerHaptics(InputManager.ControllerName.Wand, 0.1f);
-            }
-            while (!IsScrollableTool(m_Tools[m_ActiveToolIndex].m_Type));
+            } while (!IsScrollableTool(m_Tools[m_ActiveToolIndex].m_Type));
 
             if (iPrevIndex != m_ActiveToolIndex)
             {
@@ -496,4 +492,4 @@ namespace TiltBrush
         }
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

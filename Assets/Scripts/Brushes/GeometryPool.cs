@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -44,7 +43,7 @@ namespace TiltBrush
     /// if geometry is not resident, and users must explicitly call EnsureGeometryResident().
     public class GeometryPool
     {
-        const UInt32 kMagic = 0x6f6f7047;  // 'Gpoo'
+        const UInt32 kMagic = 0x6f6f7047; // 'Gpoo'
         public const int kNumTexcoords = 3;
 
         // Static API
@@ -194,7 +193,7 @@ namespace TiltBrush
             public static bool operator ==(VertexLayout lhs, VertexLayout rhs) => lhs.Equals(rhs);
             public static bool operator !=(VertexLayout lhs, VertexLayout rhs) => !lhs.Equals(rhs);
             public bool Equals(VertexLayout rhs) =>
-                   texcoord0 == rhs.texcoord0
+                texcoord0 == rhs.texcoord0
                 && texcoord1 == rhs.texcoord1
                 && texcoord2 == rhs.texcoord2
                 && bUseNormals == rhs.bUseNormals
@@ -202,7 +201,7 @@ namespace TiltBrush
                 && bUseTangents == rhs.bUseTangents;
             public override bool Equals(object rhso) => (rhso is VertexLayout rhs) ? Equals(rhs) : false;
             public override int GetHashCode() =>
-                  texcoord0.GetHashCode()
+                texcoord0.GetHashCode()
                 ^ (texcoord1.GetHashCode() << 5)
                 ^ (texcoord2.GetHashCode() << 10)
                 ^ (bUseNormals ? 0x10000 : 0)
@@ -418,9 +417,15 @@ namespace TiltBrush
                     switch (m_Layout.GetTexcoordInfo(channel).size)
                     {
                         case 0: break;
-                        case 2: texcoordData.v2.SetCount(value); break;
-                        case 3: texcoordData.v3.SetCount(value); break;
-                        case 4: texcoordData.v4.SetCount(value); break;
+                        case 2:
+                            texcoordData.v2.SetCount(value);
+                            break;
+                        case 3:
+                            texcoordData.v3.SetCount(value);
+                            break;
+                        case 4:
+                            texcoordData.v4.SetCount(value);
+                            break;
                     }
                 }
                 if (m_Layout.bUseColors)
@@ -498,9 +503,15 @@ namespace TiltBrush
                 switch (m_Layout.GetTexcoordInfo(channel).size)
                 {
                     case 0: break;
-                    case 2: texcoordData.v2.RemoveRange(0, verts); break;
-                    case 3: texcoordData.v3.RemoveRange(0, verts); break;
-                    case 4: texcoordData.v4.RemoveRange(0, verts); break;
+                    case 2:
+                        texcoordData.v2.RemoveRange(0, verts);
+                        break;
+                    case 3:
+                        texcoordData.v3.RemoveRange(0, verts);
+                        break;
+                    case 4:
+                        texcoordData.v4.RemoveRange(0, verts);
+                        break;
                 }
             }
             m_Tris.RemoveRange(0, tris * 3);
@@ -771,7 +782,7 @@ namespace TiltBrush
             finally
             {
                 m_IsResident = true;
-                ClearBackingFile();  // Safe because it won't throw exceptions
+                ClearBackingFile(); // Safe because it won't throw exceptions
             }
         }
 
@@ -848,9 +859,15 @@ namespace TiltBrush
                 switch (m_Layout.GetTexcoordInfo(channel).size)
                 {
                     case 0: break;
-                    case 2: mesh.SetUVs(channel, texcoordData.v2); break;
-                    case 3: mesh.SetUVs(channel, texcoordData.v3); break;
-                    case 4: mesh.SetUVs(channel, texcoordData.v4); break;
+                    case 2:
+                        mesh.SetUVs(channel, texcoordData.v2);
+                        break;
+                    case 3:
+                        mesh.SetUVs(channel, texcoordData.v3);
+                        break;
+                    case 4:
+                        mesh.SetUVs(channel, texcoordData.v4);
+                        break;
                 }
             }
 
@@ -894,9 +911,15 @@ namespace TiltBrush
                 switch (m_Layout.GetTexcoordInfo(channel).size)
                 {
                     case 0: break;
-                    case 2: mesh.SetUVs(channel, SubList(texcoordData.v2, iVert, nVert)); break;
-                    case 3: mesh.SetUVs(channel, SubList(texcoordData.v3, iVert, nVert)); break;
-                    case 4: mesh.SetUVs(channel, SubList(texcoordData.v4, iVert, nVert)); break;
+                    case 2:
+                        mesh.SetUVs(channel, SubList(texcoordData.v2, iVert, nVert));
+                        break;
+                    case 3:
+                        mesh.SetUVs(channel, SubList(texcoordData.v3, iVert, nVert));
+                        break;
+                    case 4:
+                        mesh.SetUVs(channel, SubList(texcoordData.v4, iVert, nVert));
+                        break;
                 }
             }
 
@@ -945,7 +968,7 @@ namespace TiltBrush
             if (stroke.m_Type == Stroke.Type.BrushStroke)
             {
                 Append(stroke.m_Object.GetComponent<MeshFilter>().sharedMesh,
-                       BrushCatalog.m_Instance.GetBrush(stroke.m_BrushGuid).VertexLayout);
+                    BrushCatalog.m_Instance.GetBrush(stroke.m_BrushGuid).VertexLayout);
             }
             else if (stroke.m_Type == Stroke.Type.BatchedBrushStroke)
             {
@@ -1104,8 +1127,8 @@ namespace TiltBrush
         {
             GeometryPool geom = subset.m_ParentBatch.Geometry;
             Append(geom,
-                   subset.m_StartVertIndex, subset.m_VertLength,
-                   subset.m_iTriIndex, subset.m_nTriIndex);
+                subset.m_StartVertIndex, subset.m_VertLength,
+                subset.m_iTriIndex, subset.m_nTriIndex);
         }
 
         /// Does not copy vertex format -- caller can do that, if desired
@@ -1141,9 +1164,15 @@ namespace TiltBrush
                 {
                     default:
                     case 0: break;
-                    case 2: txcData.v2.AddRange(rhsTxcData.v2, iVert, nVert); break;
-                    case 3: txcData.v3.AddRange(rhsTxcData.v3, iVert, nVert); break;
-                    case 4: txcData.v4.AddRange(rhsTxcData.v4, iVert, nVert); break;
+                    case 2:
+                        txcData.v2.AddRange(rhsTxcData.v2, iVert, nVert);
+                        break;
+                    case 3:
+                        txcData.v3.AddRange(rhsTxcData.v3, iVert, nVert);
+                        break;
+                    case 4:
+                        txcData.v4.AddRange(rhsTxcData.v4, iVert, nVert);
+                        break;
                 }
             }
 
@@ -1183,9 +1212,9 @@ namespace TiltBrush
         public void ApplyTransform(TrTransform leftTransform, int iVert, int nVert)
         {
             ApplyTransform(leftTransform.ToMatrix4x4(),
-                           TrTransform.R(leftTransform.rotation).ToMatrix4x4(),
-                           leftTransform.scale,
-                           iVert, nVert);
+                TrTransform.R(leftTransform.rotation).ToMatrix4x4(),
+                leftTransform.scale,
+                iVert, nVert);
         }
 
         /// Apply a transform to a subset of the geometry.
@@ -1342,9 +1371,15 @@ namespace TiltBrush
                 {
                     default:
                     case 0: break;
-                    case 2: ok &= (texcoordData.v2.Count == nVert); break;
-                    case 3: ok &= (texcoordData.v3.Count == nVert); break;
-                    case 4: ok &= (texcoordData.v4.Count == nVert); break;
+                    case 2:
+                        ok &= (texcoordData.v2.Count == nVert);
+                        break;
+                    case 3:
+                        ok &= (texcoordData.v3.Count == nVert);
+                        break;
+                    case 4:
+                        ok &= (texcoordData.v4.Count == nVert);
+                        break;
                 }
             }
 
@@ -1370,9 +1405,15 @@ namespace TiltBrush
         {
             switch (texcoordSize)
             {
-                case 2: writer.WriteLengthPrefixed(texcoordData.v2); break;
-                case 3: writer.WriteLengthPrefixed(texcoordData.v3); break;
-                case 4: writer.WriteLengthPrefixed(texcoordData.v4); break;
+                case 2:
+                    writer.WriteLengthPrefixed(texcoordData.v2);
+                    break;
+                case 3:
+                    writer.WriteLengthPrefixed(texcoordData.v3);
+                    break;
+                case 4:
+                    writer.WriteLengthPrefixed(texcoordData.v4);
+                    break;
             }
         }
 

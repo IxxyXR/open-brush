@@ -262,7 +262,7 @@ namespace TiltBrush
             if (m_NoDataText != null)
             {
                 m_NoDataText.gameObject.SetActive(
-                   m_DataCount <= 0);
+                    m_DataCount <= 0);
             }
         }
 
@@ -326,4 +326,4 @@ namespace TiltBrush
         }
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

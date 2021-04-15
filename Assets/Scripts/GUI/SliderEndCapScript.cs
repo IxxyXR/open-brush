@@ -26,4 +26,4 @@ namespace TiltBrush
             GetComponent<Renderer>().material.mainTexture = m_Icon;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -39,7 +39,6 @@ namespace TiltBrush
     /// be populated with "Pass" or "Fail" as indicated on the panel during that session.
     /// The last column in the original table MUST have a header to not have data lost in
     /// the output file.
-
     public class TestingPanel : BasePanel
     {
         // Returns null if no input file specified
@@ -73,7 +72,7 @@ namespace TiltBrush
         [SerializeField] private TMPro.TextMeshPro m_ExpectedResult;
 
         private string[,] m_TestCases; // 0th row is headers
-        private int m_TestIndex; // valid from 1 to m_TextCases.GetLength(0) - 1
+        private int m_TestIndex;       // valid from 1 to m_TextCases.GetLength(0) - 1
         private int m_SummaryIndex = -1;
         private int m_StepsIndex = -1;
         private int m_ExpectedResultIndex = -1;
@@ -214,4 +213,4 @@ namespace TiltBrush
             m_UIComponentManager.SetColor(PanelManager.m_Instance.PanelHighlightInactiveColor);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

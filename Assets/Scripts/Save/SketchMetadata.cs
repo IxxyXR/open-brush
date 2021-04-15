@@ -357,9 +357,9 @@ namespace TiltBrush
         // Added in M13 in 97e210f041e20b87c72c87bafb71d7d399d46c13. Never released to public.
         // Turned into RawTransforms in M19.
         [JsonProperty(
-            PropertyName = "InSet",  // Used to be called InSet
-            DefaultValueHandling = DefaultValueHandling.Ignore  // Don't write "false" values into the .tilt any more
-            )]
+            PropertyName = "InSet",                            // Used to be called InSet
+            DefaultValueHandling = DefaultValueHandling.Ignore // Don't write "false" values into the .tilt any more
+        )]
         [System.ComponentModel.DefaultValue(false)]
         public bool InSet_deprecated { get; set; }
 
@@ -400,7 +400,7 @@ namespace TiltBrush
                 }
                 else
                 {
-                    return new Model.Location();  // invalid location
+                    return new Model.Location(); // invalid location
                 }
             }
             set
@@ -473,9 +473,15 @@ namespace TiltBrush
                     // Support the 8.x names for these
                     switch (value)
                     {
-                        case kHashedCube: Type = StencilType.Cube; break;
-                        case kHashedSphere: Type = StencilType.Sphere; break;
-                        case kHashedCapsule: Type = StencilType.Capsule; break;
+                        case kHashedCube:
+                            Type = StencilType.Cube;
+                            break;
+                        case kHashedSphere:
+                            Type = StencilType.Sphere;
+                            break;
+                        case kHashedCapsule:
+                            Type = StencilType.Capsule;
+                            break;
                         default:
                             // TODO: log a user visible warning?
                             Debug.LogException(e);
@@ -764,4 +770,4 @@ namespace TiltBrush
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string ApplicationVersion { get; set; }
     }
-}// namespace TiltBrush
+} // namespace TiltBrush

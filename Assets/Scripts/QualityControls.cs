@@ -113,7 +113,7 @@ namespace TiltBrush
             get
             {
                 return m_enableHdr ? RenderTextureFormat.DefaultHDR
-                                   : RenderTextureFormat.ARGB32;
+                    : RenderTextureFormat.ARGB32;
             }
         }
         public AppQualitySettingLevels AppQualityLevels
@@ -305,7 +305,7 @@ namespace TiltBrush
             if (m_MobileBloomAmount != m_DesiredBloom)
             {
                 float change = (Mathf.Sign(m_DesiredBloom - m_MobileBloomAmount) * Time.deltaTime)
-                               / AppQualityLevels.BloomFadeTime;
+                    / AppQualityLevels.BloomFadeTime;
                 m_MobileBloomAmount = Mathf.Clamp01(m_MobileBloomAmount + change);
                 foreach (var bloom in m_MobileBloom)
                 {
@@ -322,7 +322,7 @@ namespace TiltBrush
             }
 
             if (m_DebugText != null && m_DebugText.gameObject.activeInHierarchy
-                                    && App.Config.m_SdkMode == SdkMode.Oculus)
+                && App.Config.m_SdkMode == SdkMode.Oculus)
             {
                 m_DebugText.SetData(0, fps);
                 m_DebugText.SetData(1, gpuUtilization);
@@ -385,10 +385,10 @@ namespace TiltBrush
             if (value != m_lastQualityLevel && Debug.isDebugBuild && App.UserConfig.Profiling.AutoProfile)
             {
                 Debug.Log("Profile: Quality Level: " + value
-                  + " renderViewportScale: " + viewportScale
-                  + " eyeTexture scale: " + eyeScale
-                  + " MSAA: " + m_msaaLevel
-                  + " GlobalMaximumLOD: " + Shader.globalMaximumLOD);
+                    + " renderViewportScale: " + viewportScale
+                    + " eyeTexture scale: " + eyeScale
+                    + " MSAA: " + m_msaaLevel
+                    + " GlobalMaximumLOD: " + Shader.globalMaximumLOD);
                 m_lastQualityLevel = value;
             }
 
@@ -447,7 +447,7 @@ namespace TiltBrush
             if (App.UserConfig.Profiling.HasStrokeSimplification)
             {
                 Debug.LogFormat("Simplification overridden to be: {0}.",
-                                App.UserConfig.Profiling.StrokeSimplification);
+                    App.UserConfig.Profiling.StrokeSimplification);
                 return;
             }
 
@@ -464,19 +464,19 @@ namespace TiltBrush
             if (total < m_targetMaxControlPoints)
             {
                 Debug.LogFormat("Complexity ({0}) is less than {1}. No extra simplification required.",
-                                total, m_targetMaxControlPoints);
+                    total, m_targetMaxControlPoints);
                 return;
             }
             float reduction = m_targetMaxControlPoints / total;
             float level = Mathf.Max(Mathf.Min(RdpStrokeSimplifier.CalculateLevelForReduction(reduction),
-                                              m_maxLoadingSimplification), StrokeSimplifier.Level);
+                m_maxLoadingSimplification), StrokeSimplifier.Level);
             if (AutosimplifyEnabled)
             {
                 Debug.LogFormat(
                     "Complexity ({0}) is greater than {1}. Reduction of {2} using level {3} simplification.",
-                               total, m_targetMaxControlPoints, reduction, level);
+                    total, m_targetMaxControlPoints, reduction, level);
                 SimplificationLevel = level;
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

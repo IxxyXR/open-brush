@@ -25,10 +25,15 @@ namespace TiltBrush
             public int back, front;
 
             public bool IsValid { get { return back != -1; } }
-            public void Clear() { back = -1; front = -1; }
+            public void Clear()
+            {
+                back = -1;
+                front = -1;
+            }
             public void Set(int back_, int front_)
             {
-                back = back_; front = front_;
+                back = back_;
+                front = front_;
             }
         }
 
@@ -156,7 +161,7 @@ namespace TiltBrush
             {
                 int iQuadIndex = iSegmentBack + (iSolid * quadsPerSolid);
                 int iVertIndex = iQuadIndex * 6;
-                float thisSolidLength = m_QuadLengths[iQuadIndex];  // assumes frontface == backface length
+                float thisSolidLength = m_QuadLengths[iQuadIndex]; // assumes frontface == backface length
                 float fXStart = fRunningLength / fSegmentLength;
                 float fXEnd = (fRunningLength + thisSolidLength) / fSegmentLength;
                 fRunningLength += thisSolidLength;
@@ -173,8 +178,8 @@ namespace TiltBrush
                     for (int i = 0; i < 6; i++)
                     {
                         rMasterBrush.m_UVWs[iVertIndex + i] = new Vector3(
-                          rMasterBrush.m_UVs[iVertIndex + i].x,
-                          rMasterBrush.m_UVs[iVertIndex + i].y
+                            rMasterBrush.m_UVs[iVertIndex + i].x,
+                            rMasterBrush.m_UVs[iVertIndex + i].y
                         );
                     }
                 }
@@ -198,7 +203,7 @@ namespace TiltBrush
                     int iQuadIndex = iSegmentBack + (iSolid * quadsPerSolid);
                     int iVertIndex = iQuadIndex * 6;
                     float width = (rMasterBrush.m_Vertices[iVertIndex + 0]
-                                  - rMasterBrush.m_Vertices[iVertIndex + 2]).magnitude;
+                        - rMasterBrush.m_Vertices[iVertIndex + 2]).magnitude;
                     for (int i = 0; i < 6; i++)
                     {
                         uvw = rMasterBrush.m_UVWs[iVertIndex + i];
@@ -251,4 +256,4 @@ namespace TiltBrush
             base.FinalizeSolitaryBrush();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -63,7 +63,7 @@ namespace TiltBrush
             if (m_LockToController)
             {
                 Vector3 toolPos = InputManager.Brush.Geometry.ToolAttachPoint.position +
-                  InputManager.Brush.Geometry.ToolAttachPoint.forward * m_PointerForwardOffset;
+                    InputManager.Brush.Geometry.ToolAttachPoint.forward * m_PointerForwardOffset;
                 m_ToolTransform.position = toolPos;
                 m_ToolTransform.rotation = InputManager.Brush.Geometry.ToolAttachPoint.rotation *
                     Quaternion.AngleAxis(m_SpinAmount, Vector3.forward);
@@ -118,4 +118,4 @@ namespace TiltBrush
         }
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

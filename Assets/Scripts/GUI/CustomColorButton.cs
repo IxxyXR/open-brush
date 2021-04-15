@@ -80,7 +80,9 @@ namespace TiltBrush
         {
             switch (desiredState)
             {
-                case State.Off: gameObject.SetActive(false); break;
+                case State.Off:
+                    gameObject.SetActive(false);
+                    break;
                 case State.ReadyForAdd:
                     gameObject.SetActive(true);
                     if (!m_AtlasTexture)

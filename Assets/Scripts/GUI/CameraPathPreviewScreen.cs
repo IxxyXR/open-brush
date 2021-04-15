@@ -156,9 +156,8 @@ namespace TiltBrush
             float clampedLocalX = Mathf.Clamp(localHitPoint.x, -0.5f, 0.5f);
             float zeroToOne = clampedLocalX + 0.5f;
             PositionScrubBar(zeroToOne);
-            SketchControlsScript.m_Instance.CameraPathCaptureRig.
-                SetPreviewWidgetCompletionPercent(zeroToOne);
+            SketchControlsScript.m_Instance.CameraPathCaptureRig.SetPreviewWidgetCompletionPercent(zeroToOne);
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

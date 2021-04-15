@@ -40,4 +40,4 @@ namespace TiltBrush
             m_ArrowTransform.localPosition = vOffsetPosition;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

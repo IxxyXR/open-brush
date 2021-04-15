@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-#define USE_TILT_BRUSH_CPP  // Specifies that some functions will use TiltBrushCpp.dll.
+#define USE_TILT_BRUSH_CPP // Specifies that some functions will use TiltBrushCpp.dll.
 #endif
 
 using System;
@@ -27,20 +27,20 @@ namespace TiltBrush
         static public class TiltBrushCpp
         {
 #if USE_TILT_BRUSH_CPP
-  [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector3AsPoint(
-      Matrix4x4 mat, int iVert, int iVertEnd, Vector3* v3);
-  [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector3AsVector(
-      Matrix4x4 mat, int iVert, int iVertEnd, Vector3* v3);
-  [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector3AsZDistance(
-      float scale, int iVert, int iVertEnd, Vector3* v3);
-  [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector4AsPoint(
-      Matrix4x4 mat, int iVert, int iVertEnd, Vector4* v4);
-  [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector4AsVector(
-      Matrix4x4 mat, int iVert, int iVertEnd, Vector4* v4);
-  [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector4AsZDistance(
-      float scale, int iVert, int iVertEnd, Vector4* v4);
-  [DllImport("TiltBrushCpp")] unsafe public static extern void GetBoundsFor(
-      Matrix4x4 m, int iVert, int iVertEnd, Vector3* v3, Vector3* center, Vector3* size);
+            [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector3AsPoint(
+                Matrix4x4 mat, int iVert, int iVertEnd, Vector3* v3);
+            [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector3AsVector(
+                Matrix4x4 mat, int iVert, int iVertEnd, Vector3* v3);
+            [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector3AsZDistance(
+                float scale, int iVert, int iVertEnd, Vector3* v3);
+            [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector4AsPoint(
+                Matrix4x4 mat, int iVert, int iVertEnd, Vector4* v4);
+            [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector4AsVector(
+                Matrix4x4 mat, int iVert, int iVertEnd, Vector4* v4);
+            [DllImport("TiltBrushCpp")] unsafe public static extern void TransformVector4AsZDistance(
+                float scale, int iVert, int iVertEnd, Vector4* v4);
+            [DllImport("TiltBrushCpp")] unsafe public static extern void GetBoundsFor(
+                Matrix4x4 m, int iVert, int iVertEnd, Vector3* v3, Vector3* center, Vector3* size);
 #endif
 
         }
@@ -73,13 +73,13 @@ namespace TiltBrush
             out float uniformScale)
         {
             translation = m.GetColumn(3);
-            Vector3 fwd = m.GetColumn(2);  // shorthand for m * Vector3.forward
+            Vector3 fwd = m.GetColumn(2); // shorthand for m * Vector3.forward
             Vector3 up = m.GetColumn(1);  // shorthand for m * Vector3.up
 
             // Use triple product to determine if det(m) < 0 (detects a mirroring)
             float scaleSign = Mathf.Sign(Vector3.Dot(m.GetColumn(0),
-                                                     Vector3.Cross(m.GetColumn(1),
-                                                                   m.GetColumn(2))));
+                Vector3.Cross(m.GetColumn(1),
+                    m.GetColumn(2))));
             rotation = Quaternion.LookRotation(fwd * scaleSign, up * scaleSign);
 
             // Which axis (or row) to use is arbitrary, but I'm going to standardize
@@ -652,11 +652,13 @@ namespace TiltBrush
                                                    Vector3[] v3)
         {
 #if USE_TILT_BRUSH_CPP
-    unsafe {
-      fixed (Vector3* v3Fixed = v3) {
-        TiltBrushCpp.TransformVector3AsPoint(mat, iVert, iVertEnd, v3Fixed);
-      }
-    }
+            unsafe
+            {
+                fixed (Vector3* v3Fixed = v3)
+                {
+                    TiltBrushCpp.TransformVector3AsPoint(mat, iVert, iVertEnd, v3Fixed);
+                }
+            }
 #else
             for (int i = iVert; i < iVertEnd; i++)
             {
@@ -675,11 +677,13 @@ namespace TiltBrush
                                                     Vector3[] v3)
         {
 #if USE_TILT_BRUSH_CPP
-    unsafe {
-      fixed (Vector3* v3Fixed = v3) {
-        TiltBrushCpp.TransformVector3AsVector(mat, iVert, iVertEnd, v3Fixed);
-      }
-    }
+            unsafe
+            {
+                fixed (Vector3* v3Fixed = v3)
+                {
+                    TiltBrushCpp.TransformVector3AsVector(mat, iVert, iVertEnd, v3Fixed);
+                }
+            }
 #else
             for (int i = iVert; i < iVertEnd; i++)
             {
@@ -698,11 +702,13 @@ namespace TiltBrush
                                                        Vector3[] v3)
         {
 #if USE_TILT_BRUSH_CPP
-    unsafe {
-      fixed (Vector3* v3Fixed = v3) {
-        TiltBrushCpp.TransformVector3AsZDistance(scale, iVert, iVertEnd, v3Fixed);
-      }
-    }
+            unsafe
+            {
+                fixed (Vector3* v3Fixed = v3)
+                {
+                    TiltBrushCpp.TransformVector3AsZDistance(scale, iVert, iVertEnd, v3Fixed);
+                }
+            }
 #else
             for (int i = iVert; i < iVertEnd; i++)
             {
@@ -721,11 +727,13 @@ namespace TiltBrush
                                                    Vector4[] v4)
         {
 #if USE_TILT_BRUSH_CPP
-    unsafe {
-      fixed (Vector4* v4Fixed = v4) {
-        TiltBrushCpp.TransformVector4AsPoint(mat, iVert, iVertEnd, v4Fixed);
-      }
-    }
+            unsafe
+            {
+                fixed (Vector4* v4Fixed = v4)
+                {
+                    TiltBrushCpp.TransformVector4AsPoint(mat, iVert, iVertEnd, v4Fixed);
+                }
+            }
 #else
             for (int i = iVert; i < iVertEnd; i++)
             {
@@ -745,11 +753,13 @@ namespace TiltBrush
                                                     Vector4[] v4)
         {
 #if USE_TILT_BRUSH_CPP
-    unsafe {
-      fixed (Vector4* v4Fixed = v4) {
-        TiltBrushCpp.TransformVector4AsVector(mat, iVert, iVertEnd, v4Fixed);
-      }
-    }
+            unsafe
+            {
+                fixed (Vector4* v4Fixed = v4)
+                {
+                    TiltBrushCpp.TransformVector4AsVector(mat, iVert, iVertEnd, v4Fixed);
+                }
+            }
 #else
             for (int i = iVert; i < iVertEnd; i++)
             {
@@ -769,11 +779,13 @@ namespace TiltBrush
                                                        Vector4[] v4)
         {
 #if USE_TILT_BRUSH_CPP
-    unsafe {
-      fixed (Vector4* v4Fixed = v4) {
-        TiltBrushCpp.TransformVector4AsZDistance(scale, iVert, iVertEnd, v4Fixed);
-      }
-    }
+            unsafe
+            {
+                fixed (Vector4* v4Fixed = v4)
+                {
+                    TiltBrushCpp.TransformVector4AsZDistance(scale, iVert, iVertEnd, v4Fixed);
+                }
+            }
 #else
             for (int i = iVert; i < iVertEnd; i++)
             {
@@ -795,16 +807,18 @@ namespace TiltBrush
                                         out Vector3 center, out Vector3 size)
         {
 #if USE_TILT_BRUSH_CPP
-    center = new Vector3();
-    size = new Vector3();
-    unsafe {
-      fixed (Vector3* v3Fixed = v3)
-      fixed (Vector3* centerPtr = &center)
-      fixed (Vector3* sizePtr = &size) {
-        TiltBrushCpp.GetBoundsFor(mat, iVert, iVertEnd, v3Fixed,
-                                  centerPtr, sizePtr);
-      }
-    }
+            center = new Vector3();
+            size = new Vector3();
+            unsafe
+            {
+                fixed (Vector3* v3Fixed = v3)
+                fixed (Vector3* centerPtr = &center)
+                fixed (Vector3* sizePtr = &size)
+                {
+                    TiltBrushCpp.GetBoundsFor(mat, iVert, iVertEnd, v3Fixed,
+                        centerPtr, sizePtr);
+                }
+            }
 #else
             Vector3[] transformedVert;
             if (mat == Matrix4x4.identity)
@@ -877,9 +891,9 @@ namespace TiltBrush
             float areaTimes4;
             {
                 float radicand = ((a + b + c) *
-                                  (-a + b + c) *
-                                  (a + -b + c) *
-                                  (a + b + -c));
+                    (-a + b + c) *
+                    (a + -b + c) *
+                    (a + b + -c));
                 areaTimes4 = (radicand < 0) ? 0 : Mathf.Sqrt(radicand);
             }
             if (areaTimes4 == 0)
@@ -967,7 +981,7 @@ namespace TiltBrush
 
             for (int idxNew = 0; idxNew < newSamples; ++idxNew)
             {
-                double idxOldf = oldFromNew * idxNew;   // In general, this will be between two samples
+                double idxOldf = oldFromNew * idxNew; // In general, this will be between two samples
                 double idxOldFloor = Math.Floor(idxOldf);
                 int idxOld = (int)idxOldFloor;
                 // We run off the end of the array in a couple cases:
@@ -980,5 +994,5 @@ namespace TiltBrush
             }
         }
 
-    }  // MathUtils
-}  // TiltBrush
+    } // MathUtils
+}     // TiltBrush

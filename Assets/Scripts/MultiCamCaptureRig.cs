@@ -79,8 +79,7 @@ namespace TiltBrush
                     m_CaptureObjects[i].m_CameraComponent.farClipPlane;
             }
 
-            m_VideoUsdSerializer = m_CaptureObjects[(int)MultiCamStyle.Video].m_Camera.
-                GetComponentInChildren<UsdPathSerializer>(true);
+            m_VideoUsdSerializer = m_CaptureObjects[(int)MultiCamStyle.Video].m_Camera.GetComponentInChildren<UsdPathSerializer>(true);
 
             CameraConfig.FovChanged += UpdateFovs;
             UpdateFovs();

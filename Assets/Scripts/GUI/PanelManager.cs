@@ -38,9 +38,10 @@ namespace TiltBrush
                 case SdkMode.SteamVR:
                 case SdkMode.Oculus:
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-      if (Config.IsExperimental) {
-        return m_ModeVrExperimental;
-      }
+                    if (Config.IsExperimental)
+                    {
+                        return m_ModeVrExperimental;
+                    }
 #endif
                     if (App.Config.IsMobileHardware)
                     {
@@ -339,8 +340,7 @@ namespace TiltBrush
         }
         public BasePanel GetActivePanelByType(BasePanel.PanelType type)
         {
-            return m_AllPanels.Select(x => x.m_Panel).
-                FirstOrDefault(x => x.gameObject.activeInHierarchy && (x.Type == type));
+            return m_AllPanels.Select(x => x.m_Panel).FirstOrDefault(x => x.gameObject.activeInHierarchy && (x.Type == type));
         }
         public BasePanel GetSketchBookPanel()
         {
@@ -481,12 +481,14 @@ namespace TiltBrush
             m_AdvancedModeRevealActive = false;
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      // If we've got a UX exploration prefab, instantiate it here.
-      if (m_UxExplorationPrefab != null) {
-        m_UxExploration = Instantiate(m_UxExplorationPrefab);
-      }
-    }
+            if (Config.IsExperimental)
+            {
+                // If we've got a UX exploration prefab, instantiate it here.
+                if (m_UxExplorationPrefab != null)
+                {
+                    m_UxExploration = Instantiate(m_UxExplorationPrefab);
+                }
+            }
 #endif
 
             TintWandPaneVisuals(true);
@@ -561,7 +563,7 @@ namespace TiltBrush
                     m_SketchbookPanels.Add(p);
                 }
                 else if (p.Type == BasePanel.PanelType.AppSettings ||
-                  p.Type == BasePanel.PanelType.AppSettingsMobile)
+                    p.Type == BasePanel.PanelType.AppSettingsMobile)
                 {
                     m_SettingsPanels.Add(p);
                 }
@@ -898,9 +900,9 @@ namespace TiltBrush
             // If we're in non-standard panel mode, blank out wand rotation if we're flagged to eat input.
             bool inVisibleAltMode = GazePanelsAreVisible() &&
                 (m_PanelsMode == PanelMode.Sketchbook ||
-                  m_PanelsMode == PanelMode.Settings ||
-                  m_PanelsMode == PanelMode.MemoryWarning ||
-                  m_PanelsMode == PanelMode.Camera);
+                m_PanelsMode == PanelMode.Settings ||
+                m_PanelsMode == PanelMode.MemoryWarning ||
+                m_PanelsMode == PanelMode.Camera);
             if (inVisibleAltMode && App.VrSdk.AnalogIsStick(InputManager.ControllerName.Wand))
             {
                 if (m_AltModeSwipeEatStickInput)
@@ -974,7 +976,7 @@ namespace TiltBrush
                     if (m_RotateSnapAnimTime == 1.0f)
                     {
                         AudioManager.m_Instance.PanelFlip(
-                          InputManager.m_Instance.GetControllerPosition(InputManager.ControllerName.Wand));
+                            InputManager.m_Instance.GetControllerPosition(InputManager.ControllerName.Wand));
                     }
 
                     // Compensate for the initial rotation before the snap occured.
@@ -1031,10 +1033,10 @@ namespace TiltBrush
 
                 case RotateSnapState.Done:
                     if (App.VrSdk.AnalogIsStick(InputManager.ControllerName.Wand)
-                          && bWandSnap
-                          && bWandRot
-                          && GazePanelsAreVisible()
-                          && (m_PanelsMode == PanelMode.Standard))
+                        && bWandSnap
+                        && bWandRot
+                        && GazePanelsAreVisible()
+                        && (m_PanelsMode == PanelMode.Standard))
                     {
                         // Threshold hit, apply snap rotation.
                         m_RotateSnapAnimTime = 1.0f;
@@ -1045,8 +1047,8 @@ namespace TiltBrush
                     {
                         // Partially rotate the sketchbook, until the threshold is hit.
                         offsetAngle = -wandScrollXDelta *
-                                m_WandPanelsRotationScalar *
-                                kSnapStickMultiplier;
+                            m_WandPanelsRotationScalar *
+                            kSnapStickMultiplier;
                         UpdateWandPanelsOriginAngle(0, offsetAngle);
                     }
                     return;
@@ -1111,12 +1113,14 @@ namespace TiltBrush
         public void UpdatePanels()
         {
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      if (m_UxExploration != null) {
-        LockUxExplorationToController();
-        return;
-      }
-    }
+            if (Config.IsExperimental)
+            {
+                if (m_UxExploration != null)
+                {
+                    LockUxExplorationToController();
+                    return;
+                }
+            }
 #endif
 
             UnityEngine.Profiling.Profiler.BeginSample("PanelManager.UpdatePanels");
@@ -1680,11 +1684,12 @@ namespace TiltBrush
         public void LockUxExplorationToController()
         {
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      Transform baseTransform = InputManager.Wand.Geometry.MainAxisAttachPoint;
-      m_UxExploration.transform.position = baseTransform.position;
-      m_UxExploration.transform.rotation = baseTransform.rotation;
-    }
+            if (Config.IsExperimental)
+            {
+                Transform baseTransform = InputManager.Wand.Geometry.MainAxisAttachPoint;
+                m_UxExploration.transform.position = baseTransform.position;
+                m_UxExploration.transform.rotation = baseTransform.rotation;
+            }
 #endif
         }
 
@@ -1745,7 +1750,7 @@ namespace TiltBrush
         }
 
         public void SetPanelXfFromWand(BasePanel panel, Transform wandTransform,
-            float originAngle, float originOffset, float radius, bool ignoreReveal = false)
+                                       float originAngle, float originOffset, float radius, bool ignoreReveal = false)
         {
             Vector3 vBaseOffset = wandTransform.up * (radius + panel.m_WandAttachRadiusAdjust);
             float revealAngle = ignoreReveal ? 0.0f : m_AdvancedModeRevealSpinValue;
@@ -1998,12 +2003,24 @@ namespace TiltBrush
 
             switch (mode)
             {
-                case PanelMode.Standard: m_StandardScale = 1.0f; break;
-                case PanelMode.Sketchbook: m_SketchbookScale = 1.0f; break;
-                case PanelMode.Settings: m_SettingsScale = 1.0f; break;
-                case PanelMode.MemoryWarning: m_MemoryWarningScale = 1.0f; break;
-                case PanelMode.Camera: m_CameraScale = 1.0f; break;
-                case PanelMode.BrushLab: m_BrushLabScale = 1.0f; break;
+                case PanelMode.Standard:
+                    m_StandardScale = 1.0f;
+                    break;
+                case PanelMode.Sketchbook:
+                    m_SketchbookScale = 1.0f;
+                    break;
+                case PanelMode.Settings:
+                    m_SettingsScale = 1.0f;
+                    break;
+                case PanelMode.MemoryWarning:
+                    m_MemoryWarningScale = 1.0f;
+                    break;
+                case PanelMode.Camera:
+                    m_CameraScale = 1.0f;
+                    break;
+                case PanelMode.BrushLab:
+                    m_BrushLabScale = 1.0f;
+                    break;
                 default:
                     Debug.LogError("PanelManager.ForceModeScale() called with unsupported mode.");
                     break;
@@ -2504,4 +2521,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

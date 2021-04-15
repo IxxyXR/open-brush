@@ -15,12 +15,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
 #if FBX_SUPPORTED
 using Autodesk.Fbx;
 #endif
 using UnityEngine;
-
 using TiltBrushToolkit;
 
 namespace TiltBrush
@@ -157,4 +155,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

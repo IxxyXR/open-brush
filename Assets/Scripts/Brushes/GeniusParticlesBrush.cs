@@ -40,10 +40,10 @@ namespace TiltBrush
         private const int kSaltAtlas = kSaltRoll + 1;
         // next is kSaltAtlas + 1 (total used is 9)
 
-        private const int kBr = 0;   // back right  (top)
-        private const int kBl = 1;   // back left   (top)
-        private const int kFr = 2;   // front right (top)
-        private const int kFl = 3;   // front left  (top)
+        private const int kBr = 0; // back right  (top)
+        private const int kBl = 1; // back left   (top)
+        private const int kFr = 2; // front right (top)
+        private const int kFl = 3; // front left  (top)
 
         private readonly Vector4 m_TextureAtlas00 = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
         private readonly Vector4 m_TextureAtlas05 = new Vector4(0.0f, 0.5f, 0.0f, 0.0f);
@@ -61,10 +61,10 @@ namespace TiltBrush
         private float m_ParticleSizeScale;
 
         public GeniusParticlesBrush()
-          : base(bCanBatch: true,
-                 upperBoundVertsPerKnot: kVertsInSolid,
-                 bDoubleSided: false,
-                 bSmoothPositions: false)
+            : base(bCanBatch: true,
+                upperBoundVertsPerKnot: kVertsInSolid,
+                bDoubleSided: false,
+                bSmoothPositions: false)
         {
             m_DecayTimers = new List<float>();
             m_DistancePointerTravelled = -1;
@@ -105,7 +105,7 @@ namespace TiltBrush
         }
 
         protected override void InitBrush(BrushDescriptor desc,
-            TrTransform localPointerXf)
+                                          TrTransform localPointerXf)
         {
             base.InitBrush(desc, localPointerXf);
             Shader.SetGlobalFloat("_GeniusParticlePreviewLifetime", kPreviewDuration);
@@ -155,7 +155,7 @@ namespace TiltBrush
             {
                 // Reduce the calculated length cache only by multiples of the spawn interval.
                 float lengthReduction = Mathf.Floor(m_LengthsAtKnot[knotsToShift] / m_SpawnInterval)
-                                        * m_SpawnInterval;
+                    * m_SpawnInterval;
                 int newCount = m_LengthsAtKnot.Count - knotsToShift;
                 for (int i = 1; i < newCount; ++i)
                 {
@@ -289,7 +289,7 @@ namespace TiltBrush
                 return m_LengthsAtKnot[knotIndex];
             }
             Debug.Assert(knotIndex != 0); // value for m_LengthsAtKnot[0] should always be set to 0 already.
-                                          // ... otherwise calculate.
+            // ... otherwise calculate.
             m_LengthsAtKnot.SetCount(knotIndex + 1);
             Knot prev = m_knots[numLengths - 1];
             float length = m_LengthsAtKnot[numLengths - 1];
@@ -392,7 +392,7 @@ namespace TiltBrush
             else
             {
                 alpha = m_Desc.m_Opacity * Mathf.Lerp(m_Desc.m_PressureOpacityRange.x,
-                                                      m_Desc.m_PressureOpacityRange.y, cur.smoothedPressure);
+                    m_Desc.m_PressureOpacityRange.y, cur.smoothedPressure);
             }
 
             Vector3 randomOffset = m_rng.OnUnitSphere(salt + kSaltOnSphere) * size * m_ParticleSizeScale;
@@ -453,4 +453,4 @@ namespace TiltBrush
             SetUv1(vertIndex, kFr, uv1);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

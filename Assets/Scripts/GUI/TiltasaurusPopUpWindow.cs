@@ -64,7 +64,7 @@ namespace TiltBrush
                 {
                     // Save sketch in Tiltasaurus mode.
                     SketchControlsScript.m_Instance.IssueGlobalCommand(
-                      SketchControlsScript.GlobalCommands.Save, iParam2: 1);
+                        SketchControlsScript.GlobalCommands.Save, iParam2: 1);
 
                     // We need to wait for the app to stop saving before we clear the sketch. App state will not
                     // reflect that it's in the saving state until the next frame, which is the reason for the
@@ -75,7 +75,7 @@ namespace TiltBrush
                     } while (App.CurrentState == App.AppState.Saving);
                 }
                 SketchControlsScript.m_Instance.IssueGlobalCommand(
-                  SketchControlsScript.GlobalCommands.NewSketch);
+                    SketchControlsScript.GlobalCommands.NewSketch);
             }
             Tiltasaurus.m_Instance.ChooseNewPrompt();
             RefreshDrawingPrompt();
@@ -116,4 +116,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

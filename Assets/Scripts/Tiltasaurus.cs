@@ -120,11 +120,11 @@ namespace TiltBrush
 
             m_ActivePrompt = null;
 
-            m_ActiveCategory = ChooseNonEmptyCategory();  // for now, choose new category every round
+            m_ActiveCategory = ChooseNonEmptyCategory(); // for now, choose new category every round
             if (m_ActiveCategory == null) { return; }
 
             int iWord = RandomIndex(m_ActiveCategory.Words);
-            if (iWord == -1) { return; }  // should never happen
+            if (iWord == -1) { return; } // should never happen
             var word = m_ActiveCategory.Words[iWord];
             m_ActiveCategory.Words.RemoveAt(iWord);
             m_ActiveCategory.UsedWords.Add(word);

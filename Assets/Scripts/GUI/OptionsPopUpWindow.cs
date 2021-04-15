@@ -88,4 +88,4 @@ namespace TiltBrush
             base.UpdateUIComponents(rCastRay, inputValid, parentCollider);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -21,8 +21,8 @@ namespace TiltBrush
         private bool m_Final;
 
         public ModifyFovKnotCommand(CameraPathFovKnot knot, float endFov,
-            bool mergesWithCreateCommand = false, bool final = false,
-            BaseCommand parent = null) : base(knot, mergesWithCreateCommand, parent)
+                                    bool mergesWithCreateCommand = false, bool final = false,
+                                    BaseCommand parent = null) : base(knot, mergesWithCreateCommand, parent)
         {
             m_EndFov = endFov;
             m_Final = final;

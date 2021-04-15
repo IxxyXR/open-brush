@@ -61,9 +61,9 @@ namespace TiltBrush
         /// If an image dimension exceeds maxDimension, a (slow) cpu-based downsample will be done.
         /// If an image dimension exceeds abortDimension, an ImageTooLargeError exception will be thrown.
         public ThreadedImageReader(string file, int maxDimension = -1, int abortDimension = -1)
-          : base(computation: () => ThreadProc(file, maxDimension, abortDimension),
-                 cleanupFunction: null,
-                 longRunning: true)
+            : base(computation: () => ThreadProc(file, maxDimension, abortDimension),
+                cleanupFunction: null,
+                longRunning: true)
         {
         }
 
@@ -73,18 +73,18 @@ namespace TiltBrush
         /// If an image dimension exceeds maxDimension, a (slow) cpu-based downsample will be done.
         /// If an image dimension exceeds abortDimension, an ImageTooLargeError exception will be thrown.
         public ThreadedImageReader(byte[] rawData, string identifier = "",
-            int maxDimension = -1, int abortDimension = -1)
-          : base(computation: () =>
-              ThreadProc(rawData, identifier == null ? "" : identifier,
-                  maxDimension, abortDimension),
-              cleanupFunction: null,
-              longRunning: true)
+                                   int maxDimension = -1, int abortDimension = -1)
+            : base(computation: () =>
+                    ThreadProc(rawData, identifier == null ? "" : identifier,
+                        maxDimension, abortDimension),
+                cleanupFunction: null,
+                longRunning: true)
         {
         }
 
         /// Returns null if the file can't be read, or does not parse.
         static private RawImage ThreadProc(string filename,
-            int maxDimension = -1, int abortDimension = -1)
+                                           int maxDimension = -1, int abortDimension = -1)
         {
             byte[] rawData;
             try
@@ -102,7 +102,7 @@ namespace TiltBrush
         }
 
         static private RawImage ThreadProc(byte[] rawData, string identifier,
-            int maxDimension = -1, int abortDimension = -1)
+                                           int maxDimension = -1, int abortDimension = -1)
         {
             // Throws exception on error.
             var orig = ImageUtils.FromImageData(

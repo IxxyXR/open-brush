@@ -65,7 +65,7 @@ namespace TiltBrush
             {
                 // Monitor brush size usage and if the user does it enough, they know what they're doing.
                 m_BrushSizeHintSwipeTotal +=
-                  Mathf.Abs(InputManager.m_Instance.GetAdjustedBrushScrollAmount());
+                    Mathf.Abs(InputManager.m_Instance.GetAdjustedBrushScrollAmount());
                 if (Mathf.Abs(m_BrushSizeHintSwipeTotal) >
                     PromoManager.m_Instance.BrushSizeHintPreventSwipeAmount)
                 {
@@ -87,7 +87,7 @@ namespace TiltBrush
                         else
                         {
                             m_BrushSizeHintMovementAmount += Vector3.Distance(m_BrushSizeHintLastPos,
-                              brushSizeHintPos);
+                                brushSizeHintPos);
                         }
                         m_BrushSizeHintLastPos = brushSizeHintPos;
                     }
@@ -107,8 +107,8 @@ namespace TiltBrush
             else
             {
                 if (App.Instance.IsInStateThatAllowsPainting() &&
-                  SketchSurfacePanel.m_Instance.IsDefaultToolEnabled() &&
-                  !PromoManager.m_Instance.ShouldPausePromos)
+                    SketchSurfacePanel.m_Instance.IsDefaultToolEnabled() &&
+                    !PromoManager.m_Instance.ShouldPausePromos)
                 {
                     m_Request = RequestingState.ToDisplay;
                 }

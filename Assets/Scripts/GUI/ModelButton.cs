@@ -60,7 +60,7 @@ namespace TiltBrush
             m_ModelPreview.gameObject.SetActive(true);
             m_ModelPreview.parent = m_PreviewParent;
             float maxSide = Mathf.Max(m_Model.m_MeshBounds.size.x,
-              Mathf.Max(m_Model.m_MeshBounds.size.y, m_Model.m_MeshBounds.size.z));
+                Mathf.Max(m_Model.m_MeshBounds.size.y, m_Model.m_MeshBounds.size.z));
             TrTransform xf = TrTransform.S(1 / maxSide) * TrTransform.T(-m_Model.m_MeshBounds.center);
             Coords.AsLocal[m_ModelPreview] = xf;
             HierarchyUtils.RecursivelyDisableShadows(m_ModelPreview);
@@ -152,7 +152,7 @@ namespace TiltBrush
             }
             // Button forward is into the panel, not out of the panel; so flip it around
             TrTransform xfSpawn = Coords.AsGlobal[transform]
-                                  * TrTransform.R(Quaternion.AngleAxis(180, Vector3.up));
+                * TrTransform.R(Quaternion.AngleAxis(180, Vector3.up));
             CreateWidgetCommand createCommand = new CreateWidgetCommand(
                 WidgetManager.m_Instance.ModelWidgetPrefab, xfSpawn, m_PreviewBaseRotation);
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(createCommand);
@@ -228,4 +228,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

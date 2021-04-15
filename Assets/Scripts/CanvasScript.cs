@@ -24,22 +24,24 @@ namespace TiltBrush
         [SerializeField] private string[] m_BatchKeywords;
 
 #if UNITY_EDITOR
-  /// Pass a GameObject to receive the newly-created CanvasScript.
-  /// Useful for unit tests that need some access to a Canvas but don't
-  /// want to set up all of Tilt Brush.
-  public static CanvasScript UnitTestSetUp(GameObject container) {
-    var ret = container.AddComponent<CanvasScript>();
-    // There are instances of CanvasScript in the scene, and I don't want to
-    // willy-nilly add [ExecuteInEditMode] without verifying it won't cause
-    // issues at edit time. Instead, initialize canvas by hand.
-    ret.Awake();
-    return ret;
-  }
+        /// Pass a GameObject to receive the newly-created CanvasScript.
+        /// Useful for unit tests that need some access to a Canvas but don't
+        /// want to set up all of Tilt Brush.
+        public static CanvasScript UnitTestSetUp(GameObject container)
+        {
+            var ret = container.AddComponent<CanvasScript>();
+            // There are instances of CanvasScript in the scene, and I don't want to
+            // willy-nilly add [ExecuteInEditMode] without verifying it won't cause
+            // issues at edit time. Instead, initialize canvas by hand.
+            ret.Awake();
+            return ret;
+        }
 
-  /// The inverse of UnitTestSetUp
-  public static void UnitTestTearDown(GameObject container) {
-    UnityEngine.Object.DestroyImmediate(container.GetComponent<CanvasScript>());
-  }
+        /// The inverse of UnitTestSetUp
+        public static void UnitTestTearDown(GameObject container)
+        {
+            UnityEngine.Object.DestroyImmediate(container.GetComponent<CanvasScript>());
+        }
 #endif
 
         // These bounds are for keeping values sane; they're not intended to be user-facing
@@ -85,7 +87,7 @@ namespace TiltBrush
                 Transform transform = this.transform;
                 float parentScale = transform.parent.GetUniformScale();
                 value.scale = Mathf.Clamp(Mathf.Abs(value.scale),
-                                          parentScale * kScaleMin, parentScale * kScaleMax);
+                    parentScale * kScaleMin, parentScale * kScaleMax);
                 TrTransform prevValue = Coords.AsGlobal[transform];
                 Coords.AsGlobal[transform] = value;
                 // hasChanged is used in development builds to detect unsanctioned
@@ -149,11 +151,12 @@ namespace TiltBrush
         void Update()
         {
 #if UNITY_EDITOR
-    // All changes must go through .Pose accessor
-    if (transform.hasChanged) {
-      Debug.LogError("Detected unsanctioned change to transform");
-      transform.hasChanged = false;
-    }
+            // All changes must go through .Pose accessor
+            if (transform.hasChanged)
+            {
+                Debug.LogError("Detected unsanctioned change to transform");
+                transform.hasChanged = false;
+            }
 #endif
             m_BatchManager.Update();
         }
@@ -183,4 +186,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

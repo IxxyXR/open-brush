@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -45,12 +44,12 @@ namespace TiltBrush
                 {
                     // The default doesn't look very good with an even # of strands
                     return new Vector2(Mathf.Sin(TWOPI * t01),
-                                       Mathf.Sin(TWOPI * t01 * 1.5f));
+                        Mathf.Sin(TWOPI * t01 * 1.5f));
                 }
                 else
                 {
                     return new Vector2(Mathf.Sin(TWOPI * t01),
-                                       Mathf.Sin(TWOPI * t01 * 2));
+                        Mathf.Sin(TWOPI * t01 * 2));
                 }
             }
 
@@ -64,7 +63,7 @@ namespace TiltBrush
                 // some rotation to break things up a bit?
                 float rotations = (O.CyclesPerMeter * distanceMeters) * O.RotationsPerCycle;
 
-                float amplitude = lastKnot.m_pressuredSize / 2;  // /2 because size is diameter, not radius.
+                float amplitude = lastKnot.m_pressuredSize / 2; // /2 because size is diameter, not radius.
                 TrTransform action =
                     TrTransform.R(rotations * 360, Vector3.forward) *
                     TrTransform.T(SomePeriodicFunction(t) * amplitude);
@@ -80,11 +79,12 @@ namespace TiltBrush
         [Range(0, 3)]
         [SerializeField] protected int m_recursionLimit = 0;
         [SerializeField]
-        protected Color32[] m_colors = {
-    new Color32(255, 30, 30, 255),
-    new Color32(230, 200, 200, 255),
-    new Color32(20, 180, 20, 255),
-  };
+        protected Color32[] m_colors =
+        {
+            new Color32(255, 30, 30, 255),
+            new Color32(230, 200, 200, 255),
+            new Color32(20, 180, 20, 255),
+        };
         // Child size is determined mostly automatically; this fine-tunes it.
         [Range(0.25f, 4)]
         [SerializeField] protected float m_childScaleFineTune = 1;

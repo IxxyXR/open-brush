@@ -28,7 +28,7 @@ namespace TiltBrush
 
         private float m_ActivateSpeed = 6.0f;
         private float m_ActivateTimer;
-        private Vector3? m_OriginalHintObjectPosition; // local
+        private Vector3? m_OriginalHintObjectPosition;    // local
         private Quaternion? m_OriginalHintObjectRotation; // local
         private bool m_UnparentOnEnable = false;
 
@@ -257,4 +257,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

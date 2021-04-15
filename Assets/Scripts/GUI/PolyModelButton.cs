@@ -52,7 +52,7 @@ namespace TiltBrush
         public override bool IsAvailable()
         {
             return base.IsAvailable() && m_PacAsset != null &&
-              (!App.PolyAssetCatalog.IsLoading(m_PacAsset.AssetId));
+                (!App.PolyAssetCatalog.IsLoading(m_PacAsset.AssetId));
         }
 
         public void SetPreset(PolyAssetCatalog.AssetDetails asset, int index)
@@ -192,4 +192,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

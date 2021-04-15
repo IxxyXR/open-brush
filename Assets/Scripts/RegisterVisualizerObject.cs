@@ -31,4 +31,4 @@ namespace TiltBrush
             VisualizerManager.m_Instance.UnregisterVisualizerObject(this.gameObject);
         }
     }
-}  // namespace tiltBrush
+} // namespace tiltBrush

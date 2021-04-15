@@ -112,7 +112,7 @@ namespace TiltBrush
         /// discern between initial and edit-time playback in timeline edit mode
         private bool m_IsInitialPlay;
         private PlaybackMode m_PlaybackMode;
-        private float m_DistancePerSecond;  // in units. for PlaybackMode.Distance
+        private float m_DistancePerSecond; // in units. for PlaybackMode.Distance
 
         // operation stack size as of last load (always 0) or save
         private int m_LastOperationStackCount;
@@ -415,8 +415,8 @@ namespace TiltBrush
         public void MemoryListAdd(Stroke stroke)
         {
             Debug.Assert(stroke.m_Type == Stroke.Type.NotCreated ||
-                         stroke.m_Type == Stroke.Type.BrushStroke ||
-                         stroke.m_Type == Stroke.Type.BatchedBrushStroke);
+                stroke.m_Type == Stroke.Type.BrushStroke ||
+                stroke.m_Type == Stroke.Type.BatchedBrushStroke);
             if (stroke.m_ControlPoints.Length == 0)
             {
                 Debug.LogWarning("Unexpected zero-length stroke");
@@ -478,7 +478,7 @@ namespace TiltBrush
             subset.m_Stroke = rNewStroke;
 
             SketchMemoryScript.m_Instance.RecordCommand(
-              new BrushStrokeCommand(rNewStroke, stencil, lineLength));
+                new BrushStrokeCommand(rNewStroke, stencil, lineLength));
 
             if (m_SanityCheckStrokes)
             {
@@ -512,7 +512,7 @@ namespace TiltBrush
             brushScript.Stroke = rNewStroke;
 
             SketchMemoryScript.m_Instance.RecordCommand(
-              new BrushStrokeCommand(rNewStroke, stencil, lineLength));
+                new BrushStrokeCommand(rNewStroke, stencil, lineLength));
 
             MemoryListAdd(rNewStroke);
 
@@ -590,12 +590,12 @@ namespace TiltBrush
         {
             var nodeByTime = stroke.m_NodeByTime;
             if (nodeByTime.List != null)
-            {  // implies stroke object
+            { // implies stroke object
                 if (m_CurrentNodeByTime == nodeByTime)
                 {
                     m_CurrentNodeByTime = nodeByTime.Previous;
                 }
-                m_MemoryList.Remove(nodeByTime);  // O(1)
+                m_MemoryList.Remove(nodeByTime); // O(1)
                 if (m_ScenePlayback != null)
                 {
                     m_ScenePlayback.RemoveStroke(stroke);
@@ -627,8 +627,8 @@ namespace TiltBrush
         {
             return m_MemoryList.Where(
                 s => s.IsGeometryEnabled && s.Canvas == App.Scene.MainCanvas &&
-                     (s.m_Type != Stroke.Type.BatchedBrushStroke ||
-                      s.m_BatchSubset.m_VertLength > 0)).ToList();
+                    (s.m_Type != Stroke.Type.BatchedBrushStroke ||
+                    s.m_BatchSubset.m_VertLength > 0)).ToList();
         }
 
         public void ClearRedo()
@@ -812,7 +812,7 @@ namespace TiltBrush
         {
             // TODO: Finish moving control of prefab into BatchManager
             subset.Canvas.BatchManager.CloneAsUndoObject(
-              subset, m_Instance.m_UndoBatchMesh);
+                subset, m_Instance.m_UndoBatchMesh);
         }
 
         /// Restore stroke to its unrendered state, deleting underlying geometry.
@@ -882,7 +882,7 @@ namespace TiltBrush
                     if (m_ScenePlayback.MaxPointerUnderrun > 0)
                     {
                         Debug.LogFormat("Parallel pointer underrun during playback: deficient {0} pointers",
-                                        m_ScenePlayback.MaxPointerUnderrun);
+                            m_ScenePlayback.MaxPointerUnderrun);
                     }
                     // we're done-- however in timeline edit mode we keep playback alive to allow scrubbing
                     PointerManager.m_Instance.SetInPlaybackMode(false);
@@ -922,7 +922,7 @@ namespace TiltBrush
                 m_ScenePlayback = null;
             }
             else
-            {  // timeline edit mode
+            { // timeline edit mode
                 var savedSketchTime = App.Instance.CurrentSketchTime;
                 App.Instance.CurrentSketchTime = 0;
                 m_ScenePlayback.Update();
@@ -945,9 +945,11 @@ namespace TiltBrush
             BaseBrushScript newBrush)
         {
 
-            Vector3[] newVerts; int nNewVerts;
+            Vector3[] newVerts;
+            int nNewVerts;
             Vector2[] newUv0s;
-            int[] newTris; int nNewTris;
+            int[] newTris;
+            int nNewTris;
             newBrush.DebugGetGeometry(out newVerts, out nNewVerts, out newUv0s, out newTris, out nNewTris);
 
             if (nNewVerts != iOldVert1 - iOldVert0)
@@ -1025,7 +1027,7 @@ namespace TiltBrush
                 m_Seed = oldStroke.m_Seed
             };
             Array.Copy(oldStroke.m_ControlPointsToDrop, newStroke.m_ControlPointsToDrop,
-                       oldStroke.m_ControlPointsToDrop.Length);
+                oldStroke.m_ControlPointsToDrop.Length);
 
             newStroke.Recreate(TrTransform.T(new Vector3(0.5f, 0, 0)));
         }
@@ -1079,7 +1081,7 @@ namespace TiltBrush
             newStroke.m_Color.b = oldStroke.m_Color.r;
 
             Array.Copy(oldStroke.m_ControlPointsToDrop, newStroke.m_ControlPointsToDrop,
-                       oldStroke.m_ControlPointsToDrop.Length);
+                oldStroke.m_ControlPointsToDrop.Length);
 
             newStroke.m_Object = pointer.BeginLineFromMemory(newStroke, oldStroke.Canvas);
             pointer.UpdateLineFromStroke(newStroke);

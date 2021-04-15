@@ -270,8 +270,8 @@ namespace TiltBrush
         protected bool PointInTriangle(ref Vector3 rPoint, ref Vector3 rA, ref Vector3 rB, ref Vector3 rC)
         {
             if (SameSide(ref rPoint, ref rA, ref rB, ref rC) &&
-               SameSide(ref rPoint, ref rB, ref rA, ref rC) &&
-               SameSide(ref rPoint, ref rC, ref rA, ref rB))
+                SameSide(ref rPoint, ref rB, ref rA, ref rC) &&
+                SameSide(ref rPoint, ref rC, ref rA, ref rB))
             {
                 return true;
             }
@@ -315,4 +315,4 @@ namespace TiltBrush
             return vToProjectedPoint.sqrMagnitude <= fSphereRadSq;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -47,9 +47,10 @@ namespace TiltBrush
                 {
                     m_WatermarkStyle = WatermarkStyle.Standard;
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-        if (Config.IsExperimental) {
-          m_WatermarkStyle = WatermarkStyle.Labs;
-        }
+                    if (Config.IsExperimental)
+                    {
+                        m_WatermarkStyle = WatermarkStyle.Labs;
+                    }
 #endif
                 }
             }

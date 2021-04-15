@@ -318,7 +318,7 @@ namespace TiltBrush
                                    float sampleRate)
         {
             string streamInput = @"-y -r {4} -f rawvideo -codec rawvideo -s {0}x{1} " +
-                                       @"-pixel_format rgba -i {2} ";
+                @"-pixel_format rgba -i {2} ";
 
             string outputArgs = @"-vf ""transpose=3,transpose=1"" ";
 
@@ -326,7 +326,7 @@ namespace TiltBrush
             //  * https://trac.ffmpeg.org/wiki/Encode/H.264
             //  * https://trac.ffmpeg.org/wiki/Encode/YouTube
             string streamOutput = @"-r {4} -threads 8 -c:v " + GetVideoEncoder() + " -pix_fmt yuv420p " +
-                                @" ""{3}""";
+                @" ""{3}""";
 
             bool isReading = false;
             if (outputFile.EndsWith("m4a"))
@@ -353,7 +353,7 @@ namespace TiltBrush
 
             m_encoderProc.StartInfo.FileName = Path.GetFullPath(ffmpegExe);
             m_encoderProc.StartInfo.Arguments = System.String.Format(streamInput + outputArgs + streamOutput,
-                                                            width, height, inputFile, outputFile, sampleRate);
+                width, height, inputFile, outputFile, sampleRate);
 
             m_encoderProc.StartInfo.CreateNoWindow = true;
             m_encoderProc.StartInfo.UseShellExecute = false;
@@ -362,8 +362,8 @@ namespace TiltBrush
             m_encoderProc.StartInfo.RedirectStandardError = true;
 
             System.Console.WriteLine("Opening FFMPEG pipe: {0} {1}",
-                                     ffmpegExe,
-                                     m_encoderProc.StartInfo.Arguments);
+                ffmpegExe,
+                m_encoderProc.StartInfo.Arguments);
 
             try
             {
@@ -397,14 +397,14 @@ namespace TiltBrush
 
             p.StartInfo.FileName = Path.GetFullPath(ffmpegExe);
             p.StartInfo.Arguments = string.Format("-y -i \"{0}\" -i \"{1}\" -c:v copy -c:a copy \"{2}\"",
-                                      audioFile, videoFile, outputFile);
+                audioFile, videoFile, outputFile);
 
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.UseShellExecute = false;
 
             System.Console.WriteLine("Opening FFMPEG Merge: {0} {1}",
-                                     ffmpegExe,
-                                     p.StartInfo.Arguments);
+                ffmpegExe,
+                p.StartInfo.Arguments);
 
             try
             {
@@ -679,7 +679,7 @@ namespace TiltBrush
                             {
                                 // For some reason we only read the wrong amount of data.
                                 UnityEngine.Debug.LogWarningFormat("BAD READ RESULT: got {0} bytes, expected {1}",
-                                                                    bytesRead, buf.Length);
+                                    bytesRead, buf.Length);
                                 continue;
                             }
 

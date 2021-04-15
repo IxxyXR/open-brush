@@ -46,4 +46,4 @@ namespace TiltBrush
             SetButtonActivated(active);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

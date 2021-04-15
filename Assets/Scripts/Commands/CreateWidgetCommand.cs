@@ -37,7 +37,7 @@ namespace TiltBrush
             TrTransform spawnXf,
             Quaternion? desiredEndForward = null,
             BaseCommand parent = null)
-          : base(parent)
+            : base(parent)
         {
             Transform controller = InputManager.m_Instance.GetController(
                 InputManager.ControllerName.Brush).transform;

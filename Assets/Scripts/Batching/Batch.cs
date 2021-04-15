@@ -24,8 +24,8 @@ namespace TiltBrush
     public class Batch : MonoBehaviour
     {
         // This must be a multiple of 3
-        const int MAX_VERTS_SOFT = 15999;     // The limit above which we try not to go
-        const int MAX_VERTS_HARD = 0xfffe;    // This is the Unity limit
+        const int MAX_VERTS_SOFT = 15999;  // The limit above which we try not to go
+        const int MAX_VERTS_HARD = 0xfffe; // This is the Unity limit
 
         private BatchPool m_ParentPool;
         private MeshFilter m_MeshFilter;
@@ -33,7 +33,7 @@ namespace TiltBrush
         private bool m_bTopologyDirty;
         private GeometryPool m_Geometry;
         private Material m_InstantiatedMaterial;
-        private int m_LastMeshUpdate;  // BatchManager timestamp of the most-recent write to the Mesh
+        private int m_LastMeshUpdate; // BatchManager timestamp of the most-recent write to the Mesh
 
         /// Sorted by initial vert index
         /// (if this is violated, RemoveSubset() will fail)
@@ -218,7 +218,7 @@ namespace TiltBrush
             {
                 var uninitializedBounds = new Bounds();
                 uninitializedBounds.SetMinMax(new Vector3(float.MaxValue, float.MaxValue, float.MaxValue),
-                                              new Vector3(float.MinValue, float.MinValue, float.MinValue));
+                    new Vector3(float.MinValue, float.MinValue, float.MinValue));
                 return uninitializedBounds;
             }
 
@@ -240,7 +240,7 @@ namespace TiltBrush
             Color32[] colors,
             Vector4[] tangents)
         {
-            Debug.Assert(m_Geometry.IsGeometryResident);  // Caller's responsibility
+            Debug.Assert(m_Geometry.IsGeometryResident); // Caller's responsibility
             m_Geometry.m_Vertices.AddRange(vertices, 0, nVert);
             m_Geometry.m_Normals.AddRange(normals, 0, nVert);
             if (m_Geometry.Layout.texcoord0.size == 2)
@@ -258,7 +258,7 @@ namespace TiltBrush
         // This API will be removed when MasterBrush is removed
         void AppendTriangleData(int iVertOffset, int nTriIndices, int[] tris)
         {
-            Debug.Assert(m_Geometry.IsGeometryResident);  // Caller's responsibility
+            Debug.Assert(m_Geometry.IsGeometryResident); // Caller's responsibility
             if (nTriIndices > 100)
             {
                 int destStart = m_Geometry.m_Tris.Count;
@@ -313,7 +313,7 @@ namespace TiltBrush
                 // Making !resident clears dirtiness; and adding dirtiness requires resident.
                 Debug.Assert(m_Geometry.IsGeometryResident, "Impossible! Dirty but not resident");
                 m_bVertexDataDirty = false;
-                m_bTopologyDirty = false;  // The topology gets updated in CopyToMesh().
+                m_bTopologyDirty = false; // The topology gets updated in CopyToMesh().
                 m_Geometry.CopyToMesh(m_MeshFilter.mesh);
                 Bounds bounds = m_MeshFilter.mesh.bounds;
                 bounds.Expand(BrushCatalog.m_Instance.GetBrush(m_ParentPool.m_BrushGuid).m_BoundsPadding *
@@ -338,8 +338,8 @@ namespace TiltBrush
             int iVert = subset.m_StartVertIndex;
             int nVert = subset.m_VertLength;
             m_Geometry.CopyToMesh(obj.GetComponent<MeshFilter>().mesh,
-                                  iVert, nVert,
-                                  subset.m_iTriIndex, subset.m_nTriIndex);
+                iVert, nVert,
+                subset.m_iTriIndex, subset.m_nTriIndex);
 
             MeshRenderer objRenderer = obj.GetComponent<MeshRenderer>();
             // Temporary workaround for b/31346571
@@ -381,11 +381,11 @@ namespace TiltBrush
             {
                 m_Geometry.EnsureGeometryResident();
                 AppendVertexData(nVert, rMasterBrush.m_Vertices,
-                                 rMasterBrush.m_Normals,
-                                 rMasterBrush.m_UVs,
-                                 rMasterBrush.m_UVWs,
-                                 rMasterBrush.m_Colors,
-                                 rMasterBrush.m_Tangents);
+                    rMasterBrush.m_Normals,
+                    rMasterBrush.m_UVs,
+                    rMasterBrush.m_UVWs,
+                    rMasterBrush.m_Colors,
+                    rMasterBrush.m_Tangents);
                 AppendTriangleData(child.m_StartVertIndex, child.m_nTriIndex, rMasterBrush.m_Tris);
                 DelayedUpdateMesh();
             }

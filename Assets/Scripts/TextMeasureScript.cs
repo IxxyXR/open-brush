@@ -40,7 +40,7 @@ namespace TiltBrush
             public bool Equals(TextParams other)
             {
                 return (m_CharSize == other.m_CharSize) && (m_FontSize == other.m_FontSize) &&
-                  m_Text.Equals(other.m_Text) && m_Font.name.Equals(other.m_Font.name);
+                    m_Text.Equals(other.m_Text) && m_Font.name.Equals(other.m_Font.name);
             }
             public override bool Equals(object other)
             {
@@ -57,12 +57,12 @@ namespace TiltBrush
             public static bool operator ==(TextParams a, TextParams b)
             {
                 return a.m_CharSize == b.m_CharSize && a.m_FontSize == b.m_FontSize &&
-                  a.m_Text.Equals(b.m_Text) && a.m_Font.name.Equals(b.m_Font.name);
+                    a.m_Text.Equals(b.m_Text) && a.m_Font.name.Equals(b.m_Font.name);
             }
             public static bool operator !=(TextParams a, TextParams b)
             {
                 return a.m_CharSize == b.m_CharSize && a.m_FontSize == b.m_FontSize &&
-                  a.m_Text.Equals(b.m_Text) && a.m_Font.name.Equals(b.m_Font.name);
+                    a.m_Text.Equals(b.m_Text) && a.m_Font.name.Equals(b.m_Font.name);
             }
         }
         private Dictionary<TextParams, Vector2> m_StringSizeMap;
@@ -138,4 +138,4 @@ namespace TiltBrush
             return vSize;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

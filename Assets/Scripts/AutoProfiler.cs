@@ -92,9 +92,10 @@ namespace TiltBrush
                     Debug.LogFormat("Profile: auto-disable ({0})", m_disableReason);
                     DisableProfile();
 #if UNITY_EDITOR
-        if (m_pauseAppWhenPoor) {
-          UnityEditor.EditorApplication.isPaused = true;
-        }
+                    if (m_pauseAppWhenPoor)
+                    {
+                        UnityEditor.EditorApplication.isPaused = true;
+                    }
 #endif
                 }
             }
@@ -132,7 +133,7 @@ namespace TiltBrush
         void EnableProfile()
         {
             if (m_isProfiling) { return; }
-            m_enableProfiling = true;  // so it doesn't auto-turn-off
+            m_enableProfiling = true; // so it doesn't auto-turn-off
             m_isProfiling = true;
             UnityEngine.Profiling.Profiler.enabled = true;
             UnityEngine.Profiling.Profiler.enableBinaryLog = true;
@@ -150,7 +151,7 @@ namespace TiltBrush
         void DisableProfile()
         {
             if (!m_isProfiling) { return; }
-            m_enableProfiling = true;  // so it doesn't auto-turn-off
+            m_enableProfiling = true; // so it doesn't auto-turn-off
             m_isProfiling = false;
             UnityEngine.Profiling.Profiler.enabled = false;
             UnityEngine.Profiling.Profiler.enableBinaryLog = false;
@@ -158,11 +159,12 @@ namespace TiltBrush
         }
 
 #if UNITY_EDITOR
-  [UnityEditor.MenuItem("Tilt/Load Profile")]
-  static void MenuItem_LoadProfiler() {
-    UnityEngine.Profiling.Profiler.AddFramesFromFile(LOG_FILE_BASE);
-  }
+        [UnityEditor.MenuItem("Tilt/Load Profile")]
+        static void MenuItem_LoadProfiler()
+        {
+            UnityEngine.Profiling.Profiler.AddFramesFromFile(LOG_FILE_BASE);
+        }
 #endif
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

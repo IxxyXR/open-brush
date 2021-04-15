@@ -34,7 +34,7 @@ namespace TiltBrush
         private Vector3 m_LastStepNormalized;
 
         public void InitGesture(Vector3 initPos, float minSize,
-            float beginDist, float closeLoopDist, float step, float maxAngle)
+                                float beginDist, float closeLoopDist, float step, float maxAngle)
         {
             m_InitPosition = initPos;
             m_MinCircleSize = minSize;

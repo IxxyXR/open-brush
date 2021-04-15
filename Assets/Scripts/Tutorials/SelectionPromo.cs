@@ -57,7 +57,7 @@ namespace TiltBrush
         public override void OnActive()
         {
             if (InputManager.m_Instance.GetCommandDown(
-                  InputManager.SketchCommands.ToggleSelection))
+                InputManager.SketchCommands.ToggleSelection))
             {
                 PromoManager.m_Instance.RecordCompletion(this.PromoType);
                 m_Request = RequestingState.ToHide;

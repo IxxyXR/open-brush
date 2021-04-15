@@ -39,8 +39,8 @@ namespace TiltBrush
                     for (int i = 0; i < pool.NumTriIndices; i += 3)
                     {
                         Vector3 normal = (pool.m_Normals[pool.m_Tris[i]] +
-                                          pool.m_Normals[pool.m_Tris[i + 1]] +
-                                          pool.m_Normals[pool.m_Tris[i + 2]]) / 3f;
+                            pool.m_Normals[pool.m_Tris[i + 1]] +
+                            pool.m_Normals[pool.m_Tris[i + 2]]) / 3f;
                         normal.Normalize();
                         normal = xf.MultiplyVector(normal);
                         Vector3 v1 = xf * pool.m_Vertices[pool.m_Tris[i]] * scale;

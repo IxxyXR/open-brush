@@ -86,7 +86,7 @@ namespace TiltBrush
         }
 
         override public bool UpdateStateWithInput(bool inputValid, Ray inputRay,
-              GameObject parentActiveObject, Collider parentCollider)
+                                                  GameObject parentActiveObject, Collider parentCollider)
         {
             if (base.UpdateStateWithInput(inputValid, inputRay, parentActiveObject, parentCollider))
             {

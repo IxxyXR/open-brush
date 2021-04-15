@@ -40,7 +40,7 @@ namespace TiltBrush
             // Should uv1Semantic be "Vector"? Or "Unspecified"? This case currently
             // does not come up, but guard for it when/if it does.
             Debug.Assert(layout.normalSemantic != GeometryPool.Semantic.Unspecified,
-                         "Ambiguous normalSemantic");
+                "Ambiguous normalSemantic");
             layout.texcoord1.semantic = layout.normalSemantic;
             layout.texcoord1.size = 3;
             layout.bUseNormals = false;

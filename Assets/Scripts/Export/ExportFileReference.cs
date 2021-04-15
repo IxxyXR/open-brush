@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -77,7 +76,7 @@ namespace TiltBrush
         public static ExportFileReference CreateSafeLocal(string originalLocation, string unsafeName)
         {
             return CreateLocal(originalLocation,
-                               FileUtils.SanitizeFilenameAndPreserveUniqueness(unsafeName));
+                FileUtils.SanitizeFilenameAndPreserveUniqueness(unsafeName));
         }
 
         /// Returns a FileReference that will get copied into the output.

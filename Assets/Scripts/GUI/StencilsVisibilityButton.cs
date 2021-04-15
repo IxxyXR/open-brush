@@ -29,4 +29,4 @@ namespace TiltBrush
             App.Switchboard.StencilModeChanged -= UpdateVisuals;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

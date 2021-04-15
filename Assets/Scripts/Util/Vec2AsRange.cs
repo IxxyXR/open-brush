@@ -21,60 +21,68 @@ namespace TiltBrush
 {
 
 #if UNITY_EDITOR
-[CustomPropertyDrawer(typeof(Vec2AsRangeAttribute))]
-public class Vec2AsRange : PropertyDrawer {
-  static float FLOAT_WIDTH = 52;
-  static float PAD = 5;
-  static float SOLO_LABEL_WIDTH = 30;
+    [CustomPropertyDrawer(typeof(Vec2AsRangeAttribute))]
+    public class Vec2AsRange : PropertyDrawer
+    {
+        static float FLOAT_WIDTH = 52;
+        static float PAD = 5;
+        static float SOLO_LABEL_WIDTH = 30;
 
-  public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-    Vec2AsRangeAttribute attr = attribute as Vec2AsRangeAttribute;
-    EditorGUI.BeginProperty(position, label, property);
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            Vec2AsRangeAttribute attr = attribute as Vec2AsRangeAttribute;
+            EditorGUI.BeginProperty(position, label, property);
 
-    Vector2 vec2 = property.vector2Value;
-    float min = Mathf.Min(vec2.x, vec2.y);
-    float max = Mathf.Max(vec2.x, vec2.y);
+            Vector2 vec2 = property.vector2Value;
+            float min = Mathf.Min(vec2.x, vec2.y);
+            float max = Mathf.Max(vec2.x, vec2.y);
 
-    if (attr.Slider) {
-      var sliderRect = position;
-      sliderRect.xMax -= 2*FLOAT_WIDTH + PAD;
-      position.xMin = position.xMax - 2*FLOAT_WIDTH;
-      EditorGUI.MinMaxSlider(sliderRect, label, ref min, ref max, attr.LowerBound, attr.UpperBound);
+            if (attr.Slider)
+            {
+                var sliderRect = position;
+                sliderRect.xMax -= 2 * FLOAT_WIDTH + PAD;
+                position.xMin = position.xMax - 2 * FLOAT_WIDTH;
+                EditorGUI.MinMaxSlider(sliderRect, label, ref min, ref max, attr.LowerBound, attr.UpperBound);
 
-      var mid = position.x + position.width/2;
-      var rectA = position;
-      rectA.xMax = mid;
-      min = EditorGUI.DelayedFloatField(rectA, GUIContent.none, min);
-      var rectB = position;
-      rectB.xMin = mid;
-      if (! attr.HideMax) {
-        max = EditorGUI.DelayedFloatField(rectB, GUIContent.none, max);
-      }
-    } else {
-      position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+                var mid = position.x + position.width / 2;
+                var rectA = position;
+                rectA.xMax = mid;
+                min = EditorGUI.DelayedFloatField(rectA, GUIContent.none, min);
+                var rectB = position;
+                rectB.xMin = mid;
+                if (!attr.HideMax)
+                {
+                    max = EditorGUI.DelayedFloatField(rectB, GUIContent.none, max);
+                }
+            }
+            else
+            {
+                position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
-      var mid = position.x + position.width/2;
-      EditorGUIUtility.labelWidth = SOLO_LABEL_WIDTH;
-      var rectA = position;
-      rectA.xMax = mid;
-      min = EditorGUI.DelayedFloatField(rectA, "min", min);
-      var rectB = position;
-      rectB.xMin = mid;
-      if (! attr.HideMax) {
-        max = EditorGUI.DelayedFloatField(rectB, "max", max);
-      }
+                var mid = position.x + position.width / 2;
+                EditorGUIUtility.labelWidth = SOLO_LABEL_WIDTH;
+                var rectA = position;
+                rectA.xMax = mid;
+                min = EditorGUI.DelayedFloatField(rectA, "min", min);
+                var rectB = position;
+                rectB.xMin = mid;
+                if (!attr.HideMax)
+                {
+                    max = EditorGUI.DelayedFloatField(rectB, "max", max);
+                }
 
-      EditorGUIUtility.labelWidth = 0;
+                EditorGUIUtility.labelWidth = 0;
+            }
+
+            Vector2 newVec2 = new Vector2(min, max);
+            if (newVec2 != vec2)
+            {
+                property.vector2Value = newVec2;
+            }
+
+            EditorGUI.EndProperty();
+        }
     }
-
-    Vector2 newVec2 = new Vector2(min, max);
-    if (newVec2 != vec2) {
-      property.vector2Value = newVec2;
-    }
-
-    EditorGUI.EndProperty();
-  }
-}
 #endif
 
     /// Use this attribute on vec2 members to display them in the inspector
@@ -93,4 +101,4 @@ public class Vec2AsRange : PropertyDrawer {
             UpperBound = float.MaxValue;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

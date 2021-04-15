@@ -74,9 +74,9 @@ namespace TiltBrush
                 case AnimationState.SwitchTool:
                     m_Timer += Time.deltaTime / m_MoveSpeed;
                     m_Controller.transform.localPosition =
-                      Vector3.Lerp(Vector3.zero, m_SwitchPosition, Mathf.Clamp01(m_Timer));
+                        Vector3.Lerp(Vector3.zero, m_SwitchPosition, Mathf.Clamp01(m_Timer));
                     m_Controller.transform.localRotation = Quaternion.Lerp(
-                      Quaternion.Euler(m_DefaultRotation), m_SwitchRotation, Mathf.Clamp01(m_Timer));
+                        Quaternion.Euler(m_DefaultRotation), m_SwitchRotation, Mathf.Clamp01(m_Timer));
                     break;
                 case AnimationState.PauseOnOther:
                     if (m_Timer == 0)
@@ -89,9 +89,9 @@ namespace TiltBrush
                 case AnimationState.SwitchBack:
                     m_Timer += Time.deltaTime / m_MoveSpeed;
                     m_Controller.transform.localPosition =
-                      Vector3.Lerp(m_SwitchPosition, Vector3.zero, Mathf.Clamp01(m_Timer));
+                        Vector3.Lerp(m_SwitchPosition, Vector3.zero, Mathf.Clamp01(m_Timer));
                     m_Controller.transform.localRotation = Quaternion.Lerp(
-                      m_SwitchRotation, Quaternion.Euler(m_DefaultRotation), Mathf.Clamp01(m_Timer));
+                        m_SwitchRotation, Quaternion.Euler(m_DefaultRotation), Mathf.Clamp01(m_Timer));
                     break;
                 case AnimationState.HideQuickTool:
                     m_Timer += Time.deltaTime / m_ShowHideSpeed;

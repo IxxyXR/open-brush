@@ -196,13 +196,13 @@ namespace TiltBrush
             m_CapA.localScale = m_CapDimensions / .5f /* original capsule radius */ * m_Capsule.radius;
             m_CapB.localScale = m_CapDimensions / .5f * m_Capsule.radius;
             m_CapA.localPosition = new Vector3(
-              m_CapA.localPosition.x,
-              m_Capsule.height / 2 - m_Capsule.radius,
-              m_CapA.localPosition.z);
+                m_CapA.localPosition.x,
+                m_Capsule.height / 2 - m_Capsule.radius,
+                m_CapA.localPosition.z);
             m_CapB.localPosition = new Vector3(
-              m_CapB.localPosition.x,
-              -1 * (m_Capsule.height / 2 - m_Capsule.radius),
-              m_CapB.localPosition.z);
+                m_CapB.localPosition.x,
+                -1 * (m_Capsule.height / 2 - m_Capsule.radius),
+                m_CapB.localPosition.z);
             m_Body.localScale = new Vector3(
                 m_BodyDimensions.x / .5f * m_Capsule.radius,
                 m_BodyDimensions.y * BodyHeight,
@@ -242,7 +242,7 @@ namespace TiltBrush
             if (m_RecordMovements)
             {
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                  new MoveWidgetCommand(this, LocalTransform, new Vector3(radius, height, radius)));
+                    new MoveWidgetCommand(this, LocalTransform, new Vector3(radius, height, radius)));
             }
             else
             {
@@ -301,7 +301,7 @@ namespace TiltBrush
         }
 
         public override void FindClosestPointOnSurface(Vector3 pos,
-            out Vector3 surfacePos, out Vector3 surfaceNorm)
+                                                       out Vector3 surfacePos, out Vector3 surfaceNorm)
         {
             // Convert world space position to local space.
             Vector3 localPos = transform.InverseTransformPoint(pos);
@@ -353,8 +353,8 @@ namespace TiltBrush
                     bounds.Encapsulate(colliderToCanvasXf * (m_Capsule.center + Vector3.Scale(
                         capsuleSize,
                         new Vector3((i & 1) == 0 ? -0.5f : 0.5f,
-                                    (i & 2) == 0 ? -0.5f : 0.5f,
-                                    (i & 4) == 0 ? -0.5f : 0.5f))));
+                            (i & 2) == 0 ? -0.5f : 0.5f,
+                            (i & 4) == 0 ? -0.5f : 0.5f))));
                 }
 
                 return bounds;

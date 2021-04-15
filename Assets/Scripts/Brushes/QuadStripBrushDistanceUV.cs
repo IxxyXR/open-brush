@@ -26,17 +26,22 @@ namespace TiltBrush
             public int back, front;
 
             public bool IsValid { get { return back != -1; } }
-            public void Clear() { back = -1; front = -1; }
+            public void Clear()
+            {
+                back = -1;
+                front = -1;
+            }
             public void Set(int back_, int front_)
             {
-                back = back_; front = front_;
+                back = back_;
+                front = front_;
             }
         }
 
         private UpdateTangentRequest m_UpdateTangentRequest = new UpdateTangentRequest();
 
         protected override void InitBrush(BrushDescriptor desc,
-            TrTransform localPointerXf)
+                                          TrTransform localPointerXf)
         {
             base.InitBrush(desc, localPointerXf);
             m_UpdateTangentRequest.Clear();
@@ -197,4 +202,4 @@ namespace TiltBrush
 
         protected override void UpdateUVsForQuad(int iQuadIndex) { }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

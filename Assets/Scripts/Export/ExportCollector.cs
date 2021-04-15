@@ -17,10 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
 using SceneStatePayload = TiltBrush.ExportUtils.SceneStatePayload;
 using VertexLayout = TiltBrush.GeometryPool.VertexLayout;
-
 using static TiltBrush.ExportUtils;
 
 namespace TiltBrush
@@ -161,8 +159,8 @@ namespace TiltBrush
         static void BuildGenerator(SceneStatePayload payload)
         {
             payload.generator = string.Format(payload.generator,
-                                              App.Config.m_VersionNumber,
-                                              App.Config.m_BuildStamp);
+                App.Config.m_VersionNumber,
+                App.Config.m_BuildStamp);
         }
 
         // -------------------------------------------------------------------------------------------- //
@@ -207,7 +205,7 @@ namespace TiltBrush
                 Debug.Assert(unityLight != null);
 
                 Color lightColor = unityLight.color * unityLight.intensity;
-                lightColor.a = 1.0f;  // No use for alpha with light color.
+                lightColor.a = 1.0f; // No use for alpha with light color.
 
                 // because transform.name might not be unique
                 int uniquifyingId = payload.idGenerator.GetIdFromInstanceId(transform);
@@ -233,7 +231,7 @@ namespace TiltBrush
             foreach (var mediaWidget in widgets)
             {
                 payload.referenceThings.Add(new ExportUtils.XformPayload(
-                                                payload.groupIdMapping.GetId(mediaWidget.Group))
+                    payload.groupIdMapping.GetId(mediaWidget.Group))
                 {
                     name = mediaWidget.GetExportName(),
                     xform = ExportUtils.ChangeBasis(mediaWidget.transform, payload)
@@ -297,7 +295,7 @@ namespace TiltBrush
                         geometry.MakeGeometryNotResident(filename);
                     }
                     group.brushMeshes.Add(new ExportUtils.BrushMeshPayload(
-                                              payload.groupIdMapping.GetId(exportGroup.m_group))
+                        payload.groupIdMapping.GetId(exportGroup.m_group))
                     {
                         legacyUniqueName = legacyUniqueName,
                         // This is the only instance of the mesh, so the node doesn't need an extra instance id
@@ -462,7 +460,7 @@ namespace TiltBrush
                         foreach (PrefabGeometry prefabSubMesh in prefabSubMeshes)
                         {
                             payload.modelMeshes.Add(new ExportUtils.ModelMeshPayload(
-                                                        payload.groupIdMapping.GetId(widget.Group))
+                                payload.groupIdMapping.GetId(widget.Group))
                             {
                                 // Copied from "prefab"
                                 model = prefabSubMesh.model,

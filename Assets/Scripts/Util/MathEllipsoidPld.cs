@@ -49,7 +49,7 @@ namespace TiltBrush
             for (int i = 0; i < maxIters; ++i)
             {
                 k = k - ((RadiusSqOfClosestPointEllipsoid(abc2, point, k) - 1)
-                         / ddkRadiusSqOfClosestPointEllipsoid(abc2, point, k));
+                    / ddkRadiusSqOfClosestPointEllipsoid(abc2, point, k));
                 Vector3 prev = closest;
                 closest = ClosestPointEllipsoid(abc2, point, k);
                 if ((prev - closest).sqrMagnitude < distanceThreshold2)
@@ -104,7 +104,7 @@ namespace TiltBrush
             // Derived with Mathematica
             // result_x = he_x^2 point_i / (he_x^2 + k);
             return CDiv(CMul(abc2, point),
-                        abc2 + k * Vector3.one);
+                abc2 + k * Vector3.one);
         }
 
         // abc2 and point are constant; consider this a function of k
@@ -115,7 +115,7 @@ namespace TiltBrush
             // Sum( he[i]^2 point[i]^2 / (he[i]^2 + k)^2 )
             return ScalarSum(
                 CDiv(CMul(abc2, CSquare(point)),
-                     CSquare(abc2 + k * Vector3.one)));
+                    CSquare(abc2 + k * Vector3.one)));
         }
 
         // d/dk of RadiusSqOfClosestPointEllipsoid
@@ -127,7 +127,7 @@ namespace TiltBrush
             // -2 * Sum( he[i]^2 point[i]^2 / (he[i]^2 + k)^3 )
             return -2 * ScalarSum(
                 CDiv(CMul(abc2, CSquare(point)),
-                     CCube(abc2 + k * Vector3.one)));
+                    CCube(abc2 + k * Vector3.one)));
         }
     }
 } // namespace TiltBrush

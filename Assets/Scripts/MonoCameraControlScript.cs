@@ -28,7 +28,7 @@ namespace TiltBrush
         {
             // Use mouse position to control camera rotation.
             if (InputManager.m_Instance.GetKeyboardShortcut(
-                    InputManager.KeyboardShortcut.PositionMonoCamera))
+                InputManager.KeyboardShortcut.PositionMonoCamera))
             {
                 // Mouse's x coordinate corresponds to camera's rotation around y axis.
                 m_cameraRotation.y += Input.GetAxis("Mouse X") * m_xScale;
@@ -48,4 +48,4 @@ namespace TiltBrush
             transform.localEulerAngles = m_cameraRotation;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

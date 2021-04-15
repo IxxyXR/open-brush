@@ -53,7 +53,7 @@ namespace TiltBrush
         {
             ReferenceButton refButton = button as ReferenceButton;
             return refButton && (m_CurrentTab != null) &&
-                   refButton.m_ButtonType == m_CurrentTab.ReferenceButtonType;
+                refButton.m_ButtonType == m_CurrentTab.ReferenceButtonType;
         }
 
         enum Mode

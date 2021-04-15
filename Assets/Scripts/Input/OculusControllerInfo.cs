@@ -14,7 +14,6 @@
 
 using System.Collections;
 using UnityEngine;
-
 #if !OCULUS_SUPPORTED
 using OVRInput_Controller = System.Int32;
 #else // !OCULUS_SUPPORTED
@@ -262,4 +261,4 @@ namespace TiltBrush
 
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

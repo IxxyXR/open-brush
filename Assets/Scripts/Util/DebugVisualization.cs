@@ -147,7 +147,7 @@ namespace TiltBrush
                                          Transform parent = null)
         {
             m_Instance.CreateObject(VisType.Direction, parent, startPosition,
-                                    Quaternion.LookRotation(direction), Vector3.one * direction.magnitude);
+                Quaternion.LookRotation(direction), Vector3.one * direction.magnitude);
         }
 
         /// Show a plane. Visualization in centered on its closest point to the supplied vector.
@@ -157,7 +157,7 @@ namespace TiltBrush
             float distance = plane.GetDistanceToPoint(closePoint);
             Vector3 onPlane = closePoint - distance * plane.normal;
             m_Instance.CreateObject(VisType.Plane, parent, onPlane, Quaternion.LookRotation(plane.normal),
-                                    Vector3.one);
+                Vector3.one);
         }
 
         /// Show some text at the given position.

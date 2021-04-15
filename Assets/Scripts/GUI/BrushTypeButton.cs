@@ -86,11 +86,14 @@ namespace TiltBrush
             SetButtonTexture(buttonTexture);
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      SetDescriptionText(rBrush.m_Description, rBrush.m_DescriptionExtra);
-    } else {
-      SetDescriptionText(rBrush.m_Description);
-    }
+            if (Config.IsExperimental)
+            {
+                SetDescriptionText(rBrush.m_Description, rBrush.m_DescriptionExtra);
+            }
+            else
+            {
+                SetDescriptionText(rBrush.m_Description);
+            }
 #else
             SetDescriptionText(rBrush.m_Description);
 #endif
@@ -99,7 +102,7 @@ namespace TiltBrush
             // Play standard click sound if brush doesn't have a custom button sound
             m_ButtonHasPressedAudio = (rBrush.m_ButtonAudio == null);
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    m_ExperimentalIcon.SetActive(App.Instance.IsBrushExperimental(rBrush));
+            m_ExperimentalIcon.SetActive(App.Instance.IsBrushExperimental(rBrush));
 #endif
         }
 
@@ -200,4 +203,4 @@ namespace TiltBrush
             m_ExperimentalIconRenderer.material.SetColor("_Color", rColor);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

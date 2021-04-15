@@ -20,7 +20,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -73,16 +72,17 @@ namespace TiltBrush
         /// Change-of-basis transform
         public static readonly TrTransform kPolyFromUnity;
 
-        private static Dictionary<string, string> kGltfMimetypes = new Dictionary<string, string> {
-    { ".gltf", "model/gltf+json" },
-    { ".bin",  "application/octet-stream" },
-    { ".glsl", "text/plain" },
-    { ".bmp",  "image/bmp" },
-    { ".jpeg", "image/jpeg" },
-    { ".jpg",  "image/jpeg" },
-    { ".png",  "image/png" },
-    { ".tilt", "application/octet-stream" }
-  };
+        private static Dictionary<string, string> kGltfMimetypes = new Dictionary<string, string>
+        {
+            { ".gltf", "model/gltf+json" },
+            { ".bin", "application/octet-stream" },
+            { ".glsl", "text/plain" },
+            { ".bmp", "image/bmp" },
+            { ".jpeg", "image/jpeg" },
+            { ".jpg", "image/jpeg" },
+            { ".png", "image/png" },
+            { ".tilt", "application/octet-stream" }
+        };
 
         // For progress reporting
         private enum UploadStep
@@ -97,15 +97,16 @@ namespace TiltBrush
 
         // These are progress values at the start of each step.
         // TODO(b/146892613): have a different set for Poly vs Sketchfab?
-        private static double[] kProgressSteps = {
-      0.01, // UploadStep.CreateGltf -- progress > 0 means we have begun
-      0.25, // UploadStep.CreateTilt
-      0.3,  // UploadStep.ZipElements
-      0.5,  // UploadStep.UploadElements
-      0.95, // UploadStep.UpdateAssetData
-      1,    // UploadStep.Done
-      1     // <Sentinel>
-  };
+        private static double[] kProgressSteps =
+        {
+            0.01, // UploadStep.CreateGltf -- progress > 0 means we have begun
+            0.25, // UploadStep.CreateTilt
+            0.3,  // UploadStep.ZipElements
+            0.5,  // UploadStep.UploadElements
+            0.95, // UploadStep.UpdateAssetData
+            1,    // UploadStep.Done
+            1     // <Sentinel>
+        };
 
         // Classes and types
 
@@ -188,14 +189,16 @@ namespace TiltBrush
             public TemporaryUploadDirectory()
             {
 #if UNITY_EDITOR
-      if (App.Config && App.Config.m_DebugUpload) {
-        // Delay deleting the directory until the next upload
-        string dirName = Path.Combine(Application.temporaryCachePath, "Upload");
-        if (Directory.Exists(dirName)) {
-          try { Directory.Delete(dirName, true); }
-          catch (Exception e) { Debug.LogException(e); }
-        }
-      }
+                if (App.Config && App.Config.m_DebugUpload)
+                {
+                    // Delay deleting the directory until the next upload
+                    string dirName = Path.Combine(Application.temporaryCachePath, "Upload");
+                    if (Directory.Exists(dirName))
+                    {
+                        try { Directory.Delete(dirName, true); }
+                        catch (Exception e) { Debug.LogException(e); }
+                    }
+                }
 #endif
                 Value = FileUtils.GenerateNonexistentFilename(
                     Application.temporaryCachePath, "Upload", "");
@@ -210,10 +213,11 @@ namespace TiltBrush
             public void Dispose()
             {
 #if UNITY_EDITOR
-      if (App.Config && App.Config.m_DebugUpload) {
-        // Delay deleting the directory until the next upload
-        return;
-      }
+                if (App.Config && App.Config.m_DebugUpload)
+                {
+                    // Delay deleting the directory until the next upload
+                    return;
+                }
 #endif
                 if (Directory.Exists(Value))
                 {
@@ -381,7 +385,7 @@ namespace TiltBrush
                 !string.IsNullOrEmpty(App.UserConfig.Sharing.VrAssetServiceUrlOverride))
             {
                 Debug.LogFormat("Overriding VrAssetService Api Host: {0}  Landing Page: {1}",
-                                ApiHost, AssetLandingPage);
+                    ApiHost, AssetLandingPage);
             }
 
             // If auto profiling is enabled, disable automatic Poly downloading.
@@ -462,7 +466,7 @@ namespace TiltBrush
                     m_UploadTask = new TaskAndCts<(string url, long bytes)>();
                     Debug.Assert(backend == Cloud.Sketchfab);
                     m_UploadTask.Task = UploadCurrentSketchSketchfabAsync(m_UploadTask.Token, tempUploadDir.Value,
-                                                            isDemoUpload);
+                        isDemoUpload);
                     var (url, totalUploadLength) = await m_UploadTask.Task;
                     m_LastUploadCompleteUrl = url;
                     ControllerConsoleScript.m_Instance.AddNewLine("Upload succeeded!");
@@ -713,7 +717,7 @@ namespace TiltBrush
             SetUploadProgress(UploadStep.CreateTilt, 0);
             SketchControlsScript.m_Instance.GenerateReplacementSaveIcon();
             SketchSnapshot snapshot = await SaveLoadScript.m_Instance.CreateSnapshotWithIconsAsync();
-            snapshot.AssetId = fileInfo.AssetId;  // FileInfo and snapshot must match
+            snapshot.AssetId = fileInfo.AssetId; // FileInfo and snapshot must match
             await SaveLoadScript.m_Instance.SaveSnapshot(fileInfo, snapshot: snapshot);
             if (!File.Exists(fileInfo.FullPath))
             {
@@ -816,7 +820,7 @@ namespace TiltBrush
                     break;
                 case PolySetType.Featured:
                     uri = $"{ApiHost}{kListAssetsUri}?key={kPolyApiKey}" +
-                          $"&format=GLTF2&curated=true&orderBy=NEWEST&pageSize={m_AssetsPerPage}";
+                        $"&format=GLTF2&curated=true&orderBy=NEWEST&pageSize={m_AssetsPerPage}";
                     break;
             }
             return new AssetLister(uri, "Failed to connect to Poly.");
@@ -856,9 +860,9 @@ namespace TiltBrush
             }
 
             SketchControlsScript.m_Instance.IssueGlobalCommand(
-              SketchControlsScript.GlobalCommands.LoadNamedFile, sParam: path);
+                SketchControlsScript.GlobalCommands.LoadNamedFile, sParam: path);
             File.Delete(path);
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

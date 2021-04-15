@@ -44,21 +44,21 @@ namespace TiltBrush
             if (m_AnimatingIn)
             {
                 m_LeftController.localPosition =
-                  new Vector3(-1 * (m_StartPos.x + m_StartPos.x * (1 - m_Timer / m_StateDuration)),
-                    m_StartPos.y, m_StartPos.z);
+                    new Vector3(-1 * (m_StartPos.x + m_StartPos.x * (1 - m_Timer / m_StateDuration)),
+                        m_StartPos.y, m_StartPos.z);
                 m_RightController.localPosition =
-                  new Vector3(m_StartPos.x + m_StartPos.x * (1 - m_Timer / m_StateDuration),
-                    m_StartPos.y, m_StartPos.z);
+                    new Vector3(m_StartPos.x + m_StartPos.x * (1 - m_Timer / m_StateDuration),
+                        m_StartPos.y, m_StartPos.z);
                 m_Mesh.transform.localScale = (2 - m_Timer / m_StateDuration) * m_StartSize * Vector3.one;
             }
             else
             {
                 m_LeftController.localPosition =
-                  new Vector3(-1 * (m_StartPos.x + m_StartPos.x * m_Timer / m_StateDuration),
-                    m_StartPos.y, m_StartPos.z);
+                    new Vector3(-1 * (m_StartPos.x + m_StartPos.x * m_Timer / m_StateDuration),
+                        m_StartPos.y, m_StartPos.z);
                 m_RightController.localPosition =
-                  new Vector3(m_StartPos.x + m_StartPos.x * m_Timer / m_StateDuration,
-                    m_StartPos.y, m_StartPos.z);
+                    new Vector3(m_StartPos.x + m_StartPos.x * m_Timer / m_StateDuration,
+                        m_StartPos.y, m_StartPos.z);
                 m_Mesh.transform.localScale = (1 + m_Timer / m_StateDuration) * m_StartSize * Vector3.one;
             }
         }

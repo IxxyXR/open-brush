@@ -62,8 +62,8 @@ namespace TiltBrush
         public static TrTransform ToTrTransform(this Plane plane)
         {
             return TrTransform.TRS(
-                plane.ReflectPoint(Vector3.zero),  // aka 2 * plane.distance * plane.normal
-                Quaternion.AngleAxis(180, plane.normal),  // aka Quat(plane.normal, 0)
+                plane.ReflectPoint(Vector3.zero),        // aka 2 * plane.distance * plane.normal
+                Quaternion.AngleAxis(180, plane.normal), // aka Quat(plane.normal, 0)
                 -1);
         }
     }

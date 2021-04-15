@@ -46,7 +46,7 @@ namespace TiltBrush
             ICollection<GrabWidget> widgetsFlipped,
             Plane flipPlane,
             BaseCommand parent = null)
-          : base(parent)
+            : base(parent)
         {
             if (strokesFlipped != null)
             {
@@ -84,7 +84,7 @@ namespace TiltBrush
                 {
                     var xf_CS = m_FlipPlane_CS.ReflectPoseKeepHandedness(
                         TrTransform.TR(stroke.m_ControlPoints[i].m_Pos,
-                                       stroke.m_ControlPoints[i].m_Orient));
+                            stroke.m_ControlPoints[i].m_Orient));
                     stroke.m_ControlPoints[i].m_Pos = xf_CS.translation;
                     stroke.m_ControlPoints[i].m_Orient = xf_CS.rotation;
                 }
@@ -113,8 +113,8 @@ namespace TiltBrush
 #endif
                 }
                 widget.LocalTransform = widget.SupportsNegativeSize
-                  ? m_FlipPlane_CS.ToTrTransform() * widget.LocalTransform
-                  : m_FlipPlane_CS.ReflectPoseKeepHandedness(widget.LocalTransform);
+                    ? m_FlipPlane_CS.ToTrTransform() * widget.LocalTransform
+                    : m_FlipPlane_CS.ReflectPoseKeepHandedness(widget.LocalTransform);
             }
 
             // Update the bounds for the selection widget

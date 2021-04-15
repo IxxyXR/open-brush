@@ -260,10 +260,10 @@ namespace TiltBrush
             {
                 case Cloud.Sketchfab:
                     return (m_SketchfabUserName,
-  m_SketchfabLoggedInObjects, m_SketchfabLoggedOutObjects, m_SketchfabPhoto);
+                            m_SketchfabLoggedInObjects, m_SketchfabLoggedOutObjects, m_SketchfabPhoto);
                 case Cloud.Poly:
                     return (m_PolyUserName, m_PolyLoggedInObjects,
-       m_PolyLoggedOutObjects, m_GooglePhoto);
+                            m_PolyLoggedOutObjects, m_GooglePhoto);
                 default: throw new InvalidOperationException($"{cloud}");
             }
         }
@@ -344,4 +344,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

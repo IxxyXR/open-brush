@@ -76,8 +76,8 @@ namespace TiltBrush
             get
             {
                 return m_bQuickLoad
-                  ? float.MaxValue
-                  : SketchMemoryScript.m_Instance.PlaybackMetersPerSecond;
+                    ? float.MaxValue
+                    : SketchMemoryScript.m_Instance.PlaybackMetersPerSecond;
             }
         }
 
@@ -141,7 +141,7 @@ namespace TiltBrush
                 playback.Init(stroke, pointer, targetCanvas);
                 while (!playback.IsDone())
                 {
-                    playback.Update();  // mutates m_metersRemaining and m_OutOfMeters
+                    playback.Update(); // mutates m_metersRemaining and m_OutOfMeters
                     if (m_OutOfMeters)
                     {
                         yield return null;

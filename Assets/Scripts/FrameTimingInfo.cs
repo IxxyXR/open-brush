@@ -77,4 +77,4 @@ namespace TiltBrush
 
         public event Action OnDroppedFrames = delegate { };
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

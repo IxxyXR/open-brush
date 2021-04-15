@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using UnityEngine;
-
 using System.IO;
 
 namespace TiltBrush
@@ -161,12 +160,12 @@ namespace TiltBrush
                     if (m_ReferenceImage.ImageAspect > 1)
                     {
                         m_Size = Mathf.Clamp(2 / m_ReferenceImage.ImageAspect / Coords.CanvasPose.scale,
-                          sizeRange.x, sizeRange.y);
+                            sizeRange.x, sizeRange.y);
                     }
                     else
                     {
                         m_Size = Mathf.Clamp(2 * m_ReferenceImage.ImageAspect / Coords.CanvasPose.scale,
-                          sizeRange.x, sizeRange.y);
+                            sizeRange.x, sizeRange.y);
                     }
                     UpdateScale();
 

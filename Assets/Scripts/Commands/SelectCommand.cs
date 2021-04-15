@@ -80,7 +80,7 @@ namespace TiltBrush
             bool deselect = false, bool initial = false, bool checkForClearedSelection = false,
             bool isGrabbingGroup = false, bool isEndGrabbingGroup = false,
             BaseCommand parent = null)
-          : base(parent)
+            : base(parent)
         {
             var selectedGroups = new HashSet<SketchGroupTag>();
 

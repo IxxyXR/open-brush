@@ -62,7 +62,7 @@ namespace TiltBrush
         private void Update()
         {
             if (m_animator != null)
-            {  // animator should never be null any more
+            { // animator should never be null any more
                 ControllerInfo controller = Controller;
 
                 // Animation

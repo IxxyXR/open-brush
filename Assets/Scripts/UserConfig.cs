@@ -48,7 +48,7 @@ namespace TiltBrush
                 get
                 {
 #if EXPERIMENTAL_ENABLED || UNITY_EDITOR
-        return m_ShowDangerousBrushes ?? true;
+                    return m_ShowDangerousBrushes ?? true;
 #else
                     return m_ShowDangerousBrushes ?? false;
 #endif
@@ -142,7 +142,7 @@ namespace TiltBrush
                     {
                         OutputWindowScript.Error(string.Format("FOV of '{0}' not supported.", value),
                             string.Format("FOV must be between {0} and {1}.\nFOV set to {2}.",
-                            CameraConfig.kFovMin, CameraConfig.kFovMax, m_Fov));
+                                CameraConfig.kFovMin, CameraConfig.kFovMax, m_Fov));
                     }
                 }
             }
@@ -241,14 +241,16 @@ namespace TiltBrush
             private const int kMaxRes = 2560;
             private const int kMaxOfflineRes = 8000;
             private const string kDefaultContainer = "mp4";
-            private static readonly List<string> kSupportedContainers = new List<string> {
-      "mp4", "mov", "avi", "mpeg", "ogv", "ogx",
-    };
+            private static readonly List<string> kSupportedContainers = new List<string>
+            {
+                "mp4", "mov", "avi", "mpeg", "ogv", "ogx",
+            };
 
             private const string kDefaultVideoEncoder = "h.264";
-            private static readonly List<string> kSupportedVideoEncoders = new List<string> {
-      "h.264", "h.265",
-    };
+            private static readonly List<string> kSupportedVideoEncoders = new List<string>
+            {
+                "h.264", "h.265",
+            };
 
             private const float kDefaultSmoothing = 0.98f;
             private const float kDefaultOdsPoleCollapsing = 1.0f;
@@ -280,9 +282,9 @@ namespace TiltBrush
                     if (OfflineFPS != value)
                     {
                         OutputWindowScript.Error(string.Format("Offline Video FPS of '{0}' not supported.", value),
-                          string.Format("FPS must be between {0} and {1}.\nFPS set to {2}.",
-                            UnityEngine.Mathf.RoundToInt(kMinFps),
-                            UnityEngine.Mathf.RoundToInt(kMaxOfflineFps), OfflineFPS));
+                            string.Format("FPS must be between {0} and {1}.\nFPS set to {2}.",
+                                UnityEngine.Mathf.RoundToInt(kMinFps),
+                                UnityEngine.Mathf.RoundToInt(kMaxOfflineFps), OfflineFPS));
                     }
                 }
             }
@@ -299,7 +301,7 @@ namespace TiltBrush
                     {
                         OutputWindowScript.Error(string.Format("FOV of '{0}' not supported.", value),
                             string.Format("FOV must be between {0} and {1}.\nFOV set to {2}.",
-                            CameraConfig.kFovMin, CameraConfig.kFovMax, m_Fov));
+                                CameraConfig.kFovMin, CameraConfig.kFovMax, m_Fov));
                     }
                 }
             }
@@ -314,8 +316,8 @@ namespace TiltBrush
                     if (m_Resolution != value)
                     {
                         OutputWindowScript.Error(string.Format("Video Resolution of '{0}' not supported.", value),
-                          string.Format("Resolution must be between {0} and {1}.\nResolution set to {2}.",
-                                        kMinRes, kMaxRes, m_Resolution));
+                            string.Format("Resolution must be between {0} and {1}.\nResolution set to {2}.",
+                                kMinRes, kMaxRes, m_Resolution));
                     }
                 }
             }
@@ -331,7 +333,7 @@ namespace TiltBrush
                     {
                         OutputWindowScript.Error(string.Format("Video Resolution of '{0}' not supported.", value),
                             string.Format("Resolution must be between {0} and {1}.\nResolution set to {2}.",
-                                           kMinRes, kMaxOfflineRes, m_OfflineResolution));
+                                kMinRes, kMaxOfflineRes, m_OfflineResolution));
                     }
                 }
             }
@@ -363,8 +365,8 @@ namespace TiltBrush
                         OutputWindowScript.Error(
                             $"VideoEncoder '{lowered}' not supported in {App.kConfigFileName}",
                             string.Format("Supported: {0}.\nContainer type set to {1}.",
-                                          string.Join(", ", kSupportedVideoEncoders.ToArray()),
-                                                            kDefaultVideoEncoder));
+                                string.Join(", ", kSupportedVideoEncoders.ToArray()),
+                                kDefaultVideoEncoder));
                     }
                 }
             }
@@ -386,7 +388,7 @@ namespace TiltBrush
                         OutputWindowScript.Error(
                             $"ContainerType '{lowered}' not supported in {App.kConfigFileName}",
                             string.Format("Supported: {0}.\nContainer type set to {1}.",
-                                          string.Join(", ", kSupportedContainers.ToArray()), kDefaultContainer));
+                                string.Join(", ", kSupportedContainers.ToArray()), kDefaultContainer));
                     }
                 }
             }
@@ -403,7 +405,7 @@ namespace TiltBrush
                     {
                         OutputWindowScript.Error(string.Format("Camera smoothing of '{0}' not supported.", value),
                             string.Format("Smoothing must be between 0 and 1.\nSmoothing set to {0}.",
-                                          m_CameraSmoothing));
+                                m_CameraSmoothing));
                     }
                 }
             }
@@ -418,8 +420,8 @@ namespace TiltBrush
                     if (m_OdsPoleCollapsing != value)
                     {
                         OutputWindowScript.Error(string.Format("Pole Collapsing of '{0}' not supported.", value),
-                          string.Format("Smoothing must be between 0 and 1.\nPole Collapsing set to {0}.",
-                            m_OdsPoleCollapsing));
+                            string.Format("Smoothing must be between 0 and 1.\nPole Collapsing set to {0}.",
+                                m_OdsPoleCollapsing));
                     }
                 }
             }
@@ -437,28 +439,38 @@ namespace TiltBrush
                 {
                     Dictionary<Guid, Guid> results = new Dictionary<Guid, Guid>();
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-        if (Config.IsExperimental) {
-          if (string.IsNullOrEmpty(BrushReplacements)) {
-            return results;
-          }
-          var replacements = BrushReplacements.Split(',');
-          foreach (string replacement in replacements) {
-            string[] pair = replacement.Split('=');
-            if (pair.Length == 2) {
-              if (pair[0] == "*") {
-                Guid guid = new Guid(pair[1]);
-                foreach (var brush in App.Instance.m_Manifest.Brushes) {
-                  results.Add(brush.m_Guid, guid);
-                }
-              } else {
-                results.Add(new Guid(pair[0]), new Guid(pair[1]));
-              }
-            } else {
-              OutputWindowScript.Error("BrushReplacement should be of the form:\n" +
-                                       "brushguidA=brushguidB,brushguidC=brushguidD");
-            }
-          }
-        }
+                    if (Config.IsExperimental)
+                    {
+                        if (string.IsNullOrEmpty(BrushReplacements))
+                        {
+                            return results;
+                        }
+                        var replacements = BrushReplacements.Split(',');
+                        foreach (string replacement in replacements)
+                        {
+                            string[] pair = replacement.Split('=');
+                            if (pair.Length == 2)
+                            {
+                                if (pair[0] == "*")
+                                {
+                                    Guid guid = new Guid(pair[1]);
+                                    foreach (var brush in App.Instance.m_Manifest.Brushes)
+                                    {
+                                        results.Add(brush.m_Guid, guid);
+                                    }
+                                }
+                                else
+                                {
+                                    results.Add(new Guid(pair[0]), new Guid(pair[1]));
+                                }
+                            }
+                            else
+                            {
+                                OutputWindowScript.Error("BrushReplacement should be of the form:\n" +
+                                    "brushguidA=brushguidB,brushguidC=brushguidD");
+                            }
+                        }
+                    }
 #endif
                     return results;
                 }
@@ -536,7 +548,7 @@ namespace TiltBrush
                 get
                 {
                     return m_screenshotResolution.HasValue ?
-                           m_screenshotResolution.Value : kDefaultScreenshotResolution;
+                        m_screenshotResolution.Value : kDefaultScreenshotResolution;
                 }
                 set { m_screenshotResolution = value; }
             }

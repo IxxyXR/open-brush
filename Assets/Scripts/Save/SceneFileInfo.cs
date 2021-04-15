@@ -66,4 +66,4 @@ namespace TiltBrush
         Stream GetReadStream(string subfileName);
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

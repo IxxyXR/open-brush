@@ -306,9 +306,9 @@ namespace TiltBrush
     m_HighPassFilter = new Filter();
 #else
             m_LowPassFilter = new VisualizerCSCoreFilter(VisualizerCSCoreFilter.FilterType.Low,
-                                                         m_SampleRate, m_LowPassFreq);
+                m_SampleRate, m_LowPassFreq);
             m_HighPassFilter = new VisualizerCSCoreFilter(VisualizerCSCoreFilter.FilterType.High,
-                                                          m_SampleRate, m_HighPassFreq);
+                m_SampleRate, m_HighPassFreq);
 #endif
         }
 
@@ -451,4 +451,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

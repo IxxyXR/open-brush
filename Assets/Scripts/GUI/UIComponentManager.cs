@@ -45,7 +45,7 @@ namespace TiltBrush
             get
             {
                 return transform.parent ?
-              transform.parent.GetComponentInParent<UIComponentManager>() : null;
+                    transform.parent.GetComponentInParent<UIComponentManager>() : null;
             }
         }
 
@@ -234,11 +234,18 @@ namespace TiltBrush
             {
                 switch (type)
                 {
-                    case UIComponent.ComponentMessage.NextPage: parentPopUp.AdvancePage(1); break;
-                    case UIComponent.ComponentMessage.PrevPage: parentPopUp.AdvancePage(-1); break;
-                    case UIComponent.ComponentMessage.GotoPage: parentPopUp.GotoPage(param); break;
+                    case UIComponent.ComponentMessage.NextPage:
+                        parentPopUp.AdvancePage(1);
+                        break;
+                    case UIComponent.ComponentMessage.PrevPage:
+                        parentPopUp.AdvancePage(-1);
+                        break;
+                    case UIComponent.ComponentMessage.GotoPage:
+                        parentPopUp.GotoPage(param);
+                        break;
                     case UIComponent.ComponentMessage.ClosePopup:
-                        parentPopUp.RequestClose(bForceClose: true); break;
+                        parentPopUp.RequestClose(bForceClose: true);
+                        break;
                 }
             }
             else
@@ -248,9 +255,15 @@ namespace TiltBrush
                 {
                     switch (type)
                     {
-                        case UIComponent.ComponentMessage.NextPage: parentPanel.AdvancePage(1); break;
-                        case UIComponent.ComponentMessage.PrevPage: parentPanel.AdvancePage(-1); break;
-                        case UIComponent.ComponentMessage.GotoPage: parentPanel.GotoPage(param); break;
+                        case UIComponent.ComponentMessage.NextPage:
+                            parentPanel.AdvancePage(1);
+                            break;
+                        case UIComponent.ComponentMessage.PrevPage:
+                            parentPanel.AdvancePage(-1);
+                            break;
+                        case UIComponent.ComponentMessage.GotoPage:
+                            parentPanel.GotoPage(param);
+                            break;
                     }
                 }
                 else

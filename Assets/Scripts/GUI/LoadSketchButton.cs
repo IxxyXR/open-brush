@@ -151,7 +151,7 @@ namespace TiltBrush
         override protected void OnButtonPressed()
         {
             if (!m_SketchSet.GetSketchSceneFileInfo(m_SketchIndex).Available &&
-              m_SketchSet.Type != SketchSetType.Drive)
+                m_SketchSet.Type != SketchSetType.Drive)
             {
                 return;
             }
@@ -165,7 +165,7 @@ namespace TiltBrush
         }
 
         override public bool UpdateStateWithInput(bool inputValid, Ray inputRay,
-              GameObject parentActiveObject, Collider parentCollider)
+                                                  GameObject parentActiveObject, Collider parentCollider)
         {
             // TODO : This is a bit backwards.  We need to pipe input to the bottom of a
             // UIComponent stack, and then invalidate input as we come back up.  This logic is a
@@ -228,4 +228,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

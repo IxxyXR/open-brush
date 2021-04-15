@@ -26,7 +26,7 @@ namespace TiltBrush
         private bool m_Final;
 
         public ModifyLightCommand(LightMode light, Color endColor, Quaternion endRot,
-            bool final = false, BaseCommand parent = null) : base(parent)
+                                  bool final = false, BaseCommand parent = null) : base(parent)
         {
             m_ModifiedLight = light;
             if (light == LightMode.Ambient)

@@ -51,7 +51,7 @@ namespace TiltBrush
         [SerializeField] private Vector2 m_AnimalRulerShrinkRange;
         [SerializeField] private float m_AnimalRulerScaleSpeed = 8.0f;
 
-        private float m_AnimalRulerTextureRatio;  // Aspect ratio, that is
+        private float m_AnimalRulerTextureRatio; // Aspect ratio, that is
 
         private Renderer m_LineRenderer;
         private Renderer m_LineOutlineRenderer;
@@ -375,7 +375,7 @@ namespace TiltBrush
                 m_AnimalRuler.material.SetTextureScale("_MainTex", new Vector2(quadWidthU, 1.0f));
 
                 // Scene size is 1/(user size); thus the negative.
-                float logUserSize = -Mathf.Log(App.Scene.Pose.scale, 10.0f);  // currently -1 to 1
+                float logUserSize = -Mathf.Log(App.Scene.Pose.scale, 10.0f); // currently -1 to 1
                 float quadLeftU = m_AnimalRulerUZeroPoint + (logUserSize * m_AnimalRulerUExtent)
                     - (quadWidthU * 0.5f);
                 m_AnimalRuler.material.SetTextureOffset("_MainTex", new Vector2(quadLeftU, 0));
@@ -383,7 +383,7 @@ namespace TiltBrush
                 // Chase scale.
                 float rulerScale = (fControllerSpanMag > m_AnimalRulerShrinkRange.y) ? 1.0f :
                     ((fControllerSpanMag - m_AnimalRulerShrinkRange.x) /
-                     (m_AnimalRulerShrinkRange.y - m_AnimalRulerShrinkRange.x));
+                    (m_AnimalRulerShrinkRange.y - m_AnimalRulerShrinkRange.x));
 
                 float fCurrentScale = m_AnimalRulerAnchor.localScale.x;
                 float fScaleDiff = rulerScale - fCurrentScale;
@@ -417,4 +417,4 @@ namespace TiltBrush
             m_AnimalRulerAnchor.localScale = Vector3.one * fScale;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

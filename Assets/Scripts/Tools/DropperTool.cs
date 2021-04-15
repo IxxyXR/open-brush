@@ -60,7 +60,7 @@ namespace TiltBrush
             m_DescriptionRenderers = m_DropperDescription.GetComponentsInChildren<Renderer>();
 
             m_DropperColorDescriptionSwatchRenderer =
-              m_DropperColorDescriptionSwatch.GetComponent<Renderer>();
+                m_DropperColorDescriptionSwatch.GetComponent<Renderer>();
 
             m_OffsetTransformBaseScale = m_OffsetTransform.localScale;
             SetState(State.Off);
@@ -157,14 +157,14 @@ namespace TiltBrush
             // Check for reference widget intersection first because it's cheap.
             Vector3 dropperCoords = Vector3.zero; // x and y valid from [-0.5, 0.5]
             ImageWidget image = WidgetManager.m_Instance.GetNearestImage(
-              m_DropperTransform.position, m_ReferenceImageCollisionDepth, ref dropperCoords);
+                m_DropperTransform.position, m_ReferenceImageCollisionDepth, ref dropperCoords);
             if (image != null)
             {
                 // Treat intersection with widget as if it were an intersection with a stroke.
                 Color pixelColor;
                 bool success = image.GetPixel(dropperCoords.x + 0.5f,
-                                              dropperCoords.y + 0.5f,
-                                              out pixelColor);
+                    dropperCoords.y + 0.5f,
+                    out pixelColor);
                 if (success)
                 {
                     m_SelectionColor = pixelColor;
@@ -250,7 +250,7 @@ namespace TiltBrush
         override protected void SnapIntersectionObjectToController()
         {
             Vector3 vPos = InputManager.Brush.Geometry.ToolAttachPoint.position +
-                  InputManager.Brush.Geometry.ToolAttachPoint.forward * m_PointerForwardOffset;
+                InputManager.Brush.Geometry.ToolAttachPoint.forward * m_PointerForwardOffset;
             m_DropperTransform.position = vPos;
             m_DropperTransform.rotation = InputManager.Brush.Geometry.ToolAttachPoint.rotation;
         }
@@ -285,10 +285,11 @@ namespace TiltBrush
             {
                 sBrushDescription = rBrush.m_Description;
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-      if (Config.IsExperimental && !string.IsNullOrEmpty(rBrush.m_DescriptionExtra)) {
-        sBrushDescription = string.Format(
-            "{0} ({1})", rBrush.m_Description, rBrush.m_DescriptionExtra);
-      }
+                if (Config.IsExperimental && !string.IsNullOrEmpty(rBrush.m_DescriptionExtra))
+                {
+                    sBrushDescription = string.Format(
+                        "{0} ({1})", rBrush.m_Description, rBrush.m_DescriptionExtra);
+                }
 #endif
                 m_SelectionColor = rColor;
                 m_SelectionBrush = rBrush;
@@ -305,4 +306,4 @@ namespace TiltBrush
             m_DropperBrushDescriptionText.text = sBrushDescription;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -28,7 +28,7 @@ namespace TiltBrush
         private bool m_Final;
 
         public ModifySkyboxCommand(Color endColorA, Color endColorB, Quaternion endOrient,
-            bool final = false, BaseCommand parent = null) : base(parent)
+                                   bool final = false, BaseCommand parent = null) : base(parent)
         {
             m_StartColorA = SceneSettings.m_Instance.SkyColorA;
             m_StartColorB = SceneSettings.m_Instance.SkyColorB;

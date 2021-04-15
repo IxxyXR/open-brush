@@ -54,18 +54,22 @@ namespace TiltBrush
 
             public vec3(double x, double y, double z)
             {
-                this.x = x; this.y = y; this.z = z;
+                this.x = x;
+                this.y = y;
+                this.z = z;
             }
 
             public vec3(Vector3 v)
             {
-                this.x = v.x; this.y = v.y; this.z = v.z;
+                this.x = v.x;
+                this.y = v.y;
+                this.z = v.z;
             }
 
             public vec3 sign() => new vec3(Math.Sign(x), Math.Sign(y), Math.Sign(z));
 
             public double mag2() => sum(this * this);
         }
-    }  // namespace ComponentwiseVectors
+    } // namespace ComponentwiseVectors
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

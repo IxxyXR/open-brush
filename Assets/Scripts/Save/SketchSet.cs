@@ -85,4 +85,4 @@ namespace TiltBrush
         event Action OnSketchRefreshingChanged;
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

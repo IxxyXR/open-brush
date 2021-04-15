@@ -22,4 +22,4 @@ namespace TiltBrush
         // Used to help identify collision surfaces
         public Vector3 m_RaycastHint;
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

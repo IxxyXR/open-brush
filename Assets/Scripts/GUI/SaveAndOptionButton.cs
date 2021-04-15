@@ -24,4 +24,4 @@ namespace TiltBrush
             base.OnButtonPressed();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

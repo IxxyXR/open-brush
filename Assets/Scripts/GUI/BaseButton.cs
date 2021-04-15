@@ -71,7 +71,7 @@ namespace TiltBrush
         {
             m_ButtonRenderer.material =
                 SketchControlsScript.m_Instance.IconTextureAtlas.GetAppropriateMaterial(
-                  m_AtlasFlag_Activated, m_AtlasFlag_Focus);
+                    m_AtlasFlag_Activated, m_AtlasFlag_Focus);
         }
 
         protected bool AssignAtlasedTexture(Texture2D tex)
@@ -140,11 +140,12 @@ namespace TiltBrush
             bool selfDestruct = m_AddOverlay;
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (m_AddOverlay && Config.IsExperimental) {
-      GameObject overlay = Instantiate(App.Config.m_LabsButtonOverlayPrefab);
-      overlay.transform.SetParent(transform, false);
-      selfDestruct = false;
-    }
+            if (m_AddOverlay && Config.IsExperimental)
+            {
+                GameObject overlay = Instantiate(App.Config.m_LabsButtonOverlayPrefab);
+                overlay.transform.SetParent(transform, false);
+                selfDestruct = false;
+            }
 #endif
 
             if (selfDestruct)
@@ -186,10 +187,11 @@ namespace TiltBrush
                 {
                     string textureName = rTexture == null ? "null" : rTexture.name;
 #if UNITY_EDITOR
-        string assetName = UnityEditor.AssetDatabase.GetAssetPath(rTexture);
-        if (assetName != null) {
-          textureName = assetName;
-        }
+                    string assetName = UnityEditor.AssetDatabase.GetAssetPath(rTexture);
+                    if (assetName != null)
+                    {
+                        textureName = assetName;
+                    }
 #endif
                     if (this is BrushTypeButton)
                     {
@@ -322,7 +324,7 @@ namespace TiltBrush
         }
 
         public override bool UpdateStateWithInput(bool inputValid, Ray inputRay,
-              GameObject parentActiveObject, Collider parentCollider)
+                                                  GameObject parentActiveObject, Collider parentCollider)
         {
             if (base.UpdateStateWithInput(inputValid, inputRay, parentActiveObject, parentCollider))
             {

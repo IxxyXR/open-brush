@@ -72,9 +72,9 @@ namespace TiltBrush
         public TubeBrush() : this(true) { }
 
         public TubeBrush(bool bCanBatch)
-          : base(bCanBatch: bCanBatch,
-                  upperBoundVertsPerKnot: kUpperBoundVertsPerKnot * 2,
-                  bDoubleSided: false)
+            : base(bCanBatch: bCanBatch,
+                upperBoundVertsPerKnot: kUpperBoundVertsPerKnot * 2,
+                bDoubleSided: false)
         {
         }
 
@@ -283,14 +283,14 @@ namespace TiltBrush
                         if (m_EndCaps)
                         {
                             MakeCapVerts(
-                              ref cur, m_PointsInClosedCircle,
-                              prev.smoothedPos - fwd * prevRadius * m_CapAspect,
-                              prev.smoothedPos, prevRadius,
-                              u0, v0, v1, -prevURate,
-                              up, rt, fwd);
+                                ref cur, m_PointsInClosedCircle,
+                                prev.smoothedPos - fwd * prevRadius * m_CapAspect,
+                                prev.smoothedPos, prevRadius,
+                                u0, v0, v1, -prevURate,
+                                up, rt, fwd);
                         }
                         MakeClosedCircle(ref cur, prev.smoothedPos, prevRadius,
-                                          m_PointsInClosedCircle, up, rt, fwd, u0, v0, v1);
+                            m_PointsInClosedCircle, up, rt, fwd, u0, v0, v1);
                     }
                     else
                     {
@@ -335,7 +335,7 @@ namespace TiltBrush
                         u1 = u0 + cur.length * uRate;
 
                         MakeClosedCircle(ref cur, cur.smoothedPos, radius,
-                                          m_PointsInClosedCircle, up, rt, fwd, u1, v0, v1);
+                            m_PointsInClosedCircle, up, rt, fwd, u1, v0, v1);
 
                         if (isEnd && m_EndCaps)
                         {
@@ -899,7 +899,7 @@ namespace TiltBrush
         /// Resizes arrays if necessary, appends data, mutates knot's vtx count. The
         /// incoming normal n should be normalized.
         void AppendVert(ref Knot k, Vector3 v, Vector3 n, Color32 c,
-            Vector3 tan, Vector2 uv, float radius)
+                        Vector3 tan, Vector2 uv, float radius)
         {
             int i = k.iVert + k.nVert++;
             Vector3 uv3 = new Vector3(uv.x, uv.y, radius);
@@ -961,4 +961,4 @@ namespace TiltBrush
             return (iKnot + 1 == m_knots.Count || !m_knots[iKnot + 1].HasGeometry);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -291,7 +291,7 @@ namespace TiltBrush
             {
                 int iRandIndex = UnityEngine.Random.Range(0, m_ModifyStrokeSounds.Length);
                 AudioManager.m_Instance.TriggerOneShot(m_ModifyStrokeSounds[iRandIndex],
-                  m_ToolTransform.position, 1.0f);
+                    m_ToolTransform.position, 1.0f);
                 m_ModifyStrokeTimestamp = Time.realtimeSinceStartup;
             }
         }
@@ -301,4 +301,4 @@ namespace TiltBrush
             return !IsHot;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

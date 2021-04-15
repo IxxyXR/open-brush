@@ -23,9 +23,9 @@ namespace TiltBrush
         [System.Serializable]
         protected enum IntersectionResetBehavior
         {
-            None,               // Don't reset anything on intersection
-            ResetPosition,      // Set position of intersection object, but don't reset detection
-            ResetDetection,     // Start searching strokes from the beginning (also resets position)
+            None,           // Don't reset anything on intersection
+            ResetPosition,  // Set position of intersection object, but don't reset detection
+            ResetDetection, // Start searching strokes from the beginning (also resets position)
         }
 
         [SerializeField]
@@ -199,10 +199,10 @@ namespace TiltBrush
                 // TODO: use a pool of List<BatchResult> instead of being so stateful
                 m_GpuFutureResult = App.Instance.GpuIntersector
                     .RequestBatchIntersections(vDetectionCenter_GS,
-                                          size_GS,
-                                          m_GpuFutureResultList,
-                                          255,
-                                          intersectionLayer);
+                        size_GS,
+                        m_GpuFutureResultList,
+                        255,
+                        intersectionLayer);
             }
             else if (m_GpuFutureResult.IsReady)
             {
@@ -347,7 +347,7 @@ namespace TiltBrush
                     {
                         Batch tmpBatch = rPool.m_Batches[m_BatchObjectIndex];
                         Debug.LogErrorFormat("Stroke while loop error.  NumPools({0}) BatchPoolIndex({1}) NumBatchStrokes({2}) BatchStrokeIndex({3}) NumStrokeGroups({4})",
-                          iNumBatchPools, m_BatchPoolIndex, rPool.m_Batches.Count, m_BatchObjectIndex, tmpBatch.m_Groups.Count);
+                            iNumBatchPools, m_BatchPoolIndex, rPool.m_Batches.Count, m_BatchObjectIndex, tmpBatch.m_Groups.Count);
                     }
 
                     Batch batch = rPool.m_Batches[m_BatchObjectIndex];
@@ -361,8 +361,10 @@ namespace TiltBrush
                         {
                             //bounds valid, check triangle intersections with sphere
                             int nTriIndices = subset.m_nTriIndex;
-                            Vector3[] aVerts; int nVerts;
-                            int[] aTris; int nTris;
+                            Vector3[] aVerts;
+                            int nVerts;
+                            int[] aTris;
+                            int nTris;
                             batch.GetTriangles(out aVerts, out nVerts, out aTris, out nTris);
                             while (m_BatchTriIndexIndex < nTriIndices - 2)
                             {
@@ -702,4 +704,4 @@ namespace TiltBrush
         }
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -111,9 +111,10 @@ namespace TiltBrush
             InputManager.OnSwapControllers += AttachToBrush;
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      m_AutosaveIcon.gameObject.SetActive(true);
-    }
+            if (Config.IsExperimental)
+            {
+                m_AutosaveIcon.gameObject.SetActive(true);
+            }
 #endif
         }
 
@@ -406,12 +407,13 @@ namespace TiltBrush
             m_Clock.localPosition = vClockAnchorPos;
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      //position autosave dot on the right hand side.
-      Vector3 vAutosavePos = m_AutosaveIcon.localPosition;
-      vAutosavePos.x = fBGWidth;
-      m_AutosaveIcon.localPosition = vAutosavePos;
-    }
+            if (Config.IsExperimental)
+            {
+                //position autosave dot on the right hand side.
+                Vector3 vAutosavePos = m_AutosaveIcon.localPosition;
+                vAutosavePos.x = fBGWidth;
+                m_AutosaveIcon.localPosition = vAutosavePos;
+            }
 #endif
         }
 
@@ -439,4 +441,4 @@ namespace TiltBrush
                 m_ActivationAngle_LogitechPen : m_ActivationAngle_Default;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

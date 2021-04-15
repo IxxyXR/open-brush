@@ -14,7 +14,6 @@
 
 using System;
 using UnityEngine;
-
 #if !OCULUS_SUPPORTED
 using OVRInput_Controller = System.Int32;
 #else // !OCULUS_SUPPORTED
@@ -62,7 +61,7 @@ namespace TiltBrush
                 OculusControllerInfo info = baseInfo as OculusControllerInfo;
                 if (info == null)
                 {
-                    continue;  // should never happen
+                    continue; // should never happen
                 }
 
                 info.UpdatePosesAndValidity();
@@ -75,4 +74,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -131,10 +131,26 @@ namespace TiltBrush
             {
                 File.WriteAllBytes(path, data);
             }
-            catch (DirectoryNotFoundException e) { Debug.Log(e); return false; }
-            catch (IOException e) { Debug.Log(e); return false; }
-            catch (UnauthorizedAccessException e) { Debug.Log(e); return false; }
-            catch (System.Security.SecurityException e) { Debug.Log(e); return false; }
+            catch (DirectoryNotFoundException e)
+            {
+                Debug.Log(e);
+                return false;
+            }
+            catch (IOException e)
+            {
+                Debug.Log(e);
+                return false;
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Debug.Log(e);
+                return false;
+            }
+            catch (System.Security.SecurityException e)
+            {
+                Debug.Log(e);
+                return false;
+            }
             return true;
         }
 
@@ -187,12 +203,12 @@ namespace TiltBrush
             if (Application.platform == RuntimePlatform.Android)
             {
                 AndroidJavaObject statFs = new AndroidJavaObject("android.os.StatFs",
-                                                                 Application.persistentDataPath);
+                    Application.persistentDataPath);
                 ulong freeBytes = (ulong)statFs.Call<long>("getAvailableBytes");
                 return freeBytes / 1024L / 1024L > spaceRequiredMb;
             }
             else if (Application.platform == RuntimePlatform.WindowsEditor
-                 || Application.platform == RuntimePlatform.WindowsPlayer)
+                || Application.platform == RuntimePlatform.WindowsPlayer)
             {
                 ulong lpFreeBytesAvailable,
                       lpTotalNumberOfBytes,
@@ -203,14 +219,14 @@ namespace TiltBrush
 
                 // DriveInfo is not implemented by Mono, we must resort to a platform-specific solution.
                 bool success = GetDiskFreeSpaceEx(drivePath,
-                                                  out lpFreeBytesAvailable,
-                                                  out lpTotalNumberOfBytes,
-                                                  out lpTotalNumberOfFreeBytes);
+                    out lpFreeBytesAvailable,
+                    out lpTotalNumberOfBytes,
+                    out lpTotalNumberOfFreeBytes);
                 if (!success)
                 {
                     int error = Marshal.GetLastWin32Error();
                     UnityEngine.Debug.LogException(new Exception(
-                      String.Format("HasFreeSpace: GetDiskFreeSpaceEx returned error code: {0}", error)));
+                        String.Format("HasFreeSpace: GetDiskFreeSpaceEx returned error code: {0}", error)));
 
                     // Something went wrong (perhaps in our own code), make sure we don't accidentally block the
                     // user.
@@ -345,9 +361,9 @@ namespace TiltBrush
                     FunctionCode = 0x3, // FO_DELETE
                     From = path + "\0\0",
                     Flags = 0x004 | // FOF_SILENT
-                            0x010 | // FOF_NOCONFIRMATION
-                            0x040 | // FOF_ALLOWUNDO
-                            0x400,  // FOF_NOERRORUI
+                        0x010 |     // FOF_NOCONFIRMATION
+                        0x040 |     // FOF_ALLOWUNDO
+                        0x400,      // FOF_NOERRORUI
                 };
                 bool deleted = SHFileOperation(ref operation) == 0;
                 if (!deleted && forceDelete)
@@ -364,5 +380,5 @@ namespace TiltBrush
             }
         }
 
-    }  // FileUtils
-}  // TiltBrush
+    } // FileUtils
+}     // TiltBrush

@@ -241,17 +241,17 @@ namespace TiltBrush
         [NonSerialized] public float m_OdsTurnTableDegrees = 0.0f;
 
 #if UNITY_EDITOR
-  [Header("Editor-only")]
-  // Force use of a particular controller geometry, for testing
-  [Tooltip("Set this to a prefab in Assets/Prefabs/VrSystems/VrControllers/OVR")]
-  public GameObject m_ControlsPrefabOverrideOvr;
-  [Tooltip("Set this to a prefab in Assets/Prefabs/VrSystems/VrControllers/SteamVr")]
-  public GameObject m_ControlsPrefabOverrideSteamVr;
+        [Header("Editor-only")]
+        // Force use of a particular controller geometry, for testing
+        [Tooltip("Set this to a prefab in Assets/Prefabs/VrSystems/VrControllers/OVR")]
+        public GameObject m_ControlsPrefabOverrideOvr;
+        [Tooltip("Set this to a prefab in Assets/Prefabs/VrSystems/VrControllers/SteamVr")]
+        public GameObject m_ControlsPrefabOverrideSteamVr;
 #endif
 
         [Header("Versioning")]
-        public string m_VersionNumber;  // eg "17.0b", "18.3"
-        public string m_BuildStamp;     // eg "f73783b61", "f73783b61-exp", "(menuitem)"
+        public string m_VersionNumber; // eg "17.0b", "18.3"
+        public string m_BuildStamp;    // eg "f73783b61", "f73783b61-exp", "(menuitem)"
 
         [Header("Misc")]
         public GameObject m_SteamVrRenderPrefab;
@@ -363,13 +363,13 @@ namespace TiltBrush
             get
             {
 #if UNITY_EDITOR
-      // Ignore m_PlatformConfig: we want whatever a build would give us.
-      // Should we cache this value?
-      var ret = EditTimeAssetReferences.Instance.GetConfigForBuildTarget(
-          UnityEditor.EditorUserBuildSettings.activeBuildTarget);
-      // This is just to keep the compiler from spewing a warning about this field
-      if (ret == null) { ret = m_PlatformConfig; }
-      return ret;
+                // Ignore m_PlatformConfig: we want whatever a build would give us.
+                // Should we cache this value?
+                var ret = EditTimeAssetReferences.Instance.GetConfigForBuildTarget(
+                    UnityEditor.EditorUserBuildSettings.activeBuildTarget);
+                // This is just to keep the compiler from spewing a warning about this field
+                if (ret == null) { ret = m_PlatformConfig; }
+                return ret;
 #else
                 return m_PlatformConfig;
 #endif
@@ -379,9 +379,9 @@ namespace TiltBrush
         // ------------------------------------------------------------
         // Private data
         // ------------------------------------------------------------
-        private VrHardware m_VrHardware = VrHardware.Unset;  // This should not be used outside of
-                                                             // VrHardware as it is lazily set inside
-                                                             // VrHardware.
+        private VrHardware m_VrHardware = VrHardware.Unset; // This should not be used outside of
+        // VrHardware as it is lazily set inside
+        // VrHardware.
         private Dictionary<Guid, Guid> m_BrushReplacement = null;
         private List<UserConfigChange> m_UserConfigChanges = new List<UserConfigChange>();
         private string m_HeadsetModelName;
@@ -484,7 +484,7 @@ namespace TiltBrush
                     if (!float.TryParse(args[++i], out m_OdsTurnTableDegrees))
                     {
                         throw new ApplicationException("Invalid turnTable rotation argument, " +
-                                                       "angle in degrees expected");
+                            "angle in degrees expected");
                     }
                     Debug.LogFormat("Enable: Turntable {0}", m_OdsTurnTableDegrees);
 
@@ -498,7 +498,7 @@ namespace TiltBrush
                     if (!int.TryParse(args[++i], out m_OdsNumFrames))
                     {
                         throw new ApplicationException("Invalid numFrames argument, " +
-                                                       "integer frame count expected");
+                            "integer frame count expected");
                     }
                     Debug.LogFormat("ODS Num Frames: {0}", m_OdsNumFrames);
 
@@ -512,7 +512,7 @@ namespace TiltBrush
                     if (!float.TryParse(args[++i], out m_OdsFps))
                     {
                         throw new ApplicationException("Invalid fps argument, " +
-                                                        "floating point frame rate expected");
+                            "floating point frame rate expected");
                     }
                     Debug.LogFormat("ODS FPS: {0}", m_OdsFps);
 
@@ -586,9 +586,10 @@ namespace TiltBrush
         // ------------------------------------------------------------
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-  public static bool IsExperimental {
-    get { return App.Config.m_IsExperimental; }
-  }
+        public static bool IsExperimental
+        {
+            get { return App.Config.m_IsExperimental; }
+        }
 #endif
 
         void Awake()
@@ -596,20 +597,24 @@ namespace TiltBrush
             m_SingletonState = this;
 
 #if UNITY_EDITOR
-    if (!string.IsNullOrEmpty(m_FakeCommandLineArgsInEditor)) {
-      try {
-        // This splits the arguments by spaces, excepting arguments enclosed by quotes.
-        var args = ("TiltBrush.exe " + m_FakeCommandLineArgsInEditor).Split('"')
-          .Select((element, index) => index % 2 == 0
-            ? element.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-            : new string[] { element })
-          .SelectMany(element => element).ToArray();
-        ParseArgs(args);
-      } catch (Exception e) {
-        UnityEngine.Debug.LogException(e);
-        Application.Quit();
-      }
-    }
+            if (!string.IsNullOrEmpty(m_FakeCommandLineArgsInEditor))
+            {
+                try
+                {
+                    // This splits the arguments by spaces, excepting arguments enclosed by quotes.
+                    var args = ("TiltBrush.exe " + m_FakeCommandLineArgsInEditor).Split('"')
+                        .Select((element, index) => index % 2 == 0
+                            ? element.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                            : new string[] { element })
+                        .SelectMany(element => element).ToArray();
+                    ParseArgs(args);
+                }
+                catch (Exception e)
+                {
+                    UnityEngine.Debug.LogException(e);
+                    Application.Quit();
+                }
+            }
 #elif !UNITY_ANDROID
             try
             {
@@ -624,11 +629,13 @@ namespace TiltBrush
 
             m_BrushReplacement = new Dictionary<Guid, Guid>();
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (IsExperimental) {
-      foreach (var brush in m_BrushReplacementMap) {
-        m_BrushReplacement.Add(new Guid(brush.FromGuid), new Guid(brush.ToGuid));
-      }
-    }
+            if (IsExperimental)
+            {
+                foreach (var brush in m_BrushReplacementMap)
+                {
+                    m_BrushReplacement.Add(new Guid(brush.FromGuid), new Guid(brush.ToGuid));
+                }
+            }
 #endif
         }
 
@@ -723,7 +730,7 @@ namespace TiltBrush
             catch (Exception)
             {
                 throw new ApplicationException(string.Format(
-                  "User Config {0}.{1} cannot be set to '{2}'.", sectionName, settingName, value));
+                    "User Config {0}.{1} cannot be set to '{2}'.", sectionName, settingName, value));
             }
             m_UserConfigChanges.Add(change);
         }
@@ -763,54 +770,60 @@ namespace TiltBrush
         }
 
 #if UNITY_EDITOR
-  public void OnValidate() {
-    // This is now getting run when entering playmode.
-    // Unity doesn't allow VR SDKs to change at runtime.
-    if (UnityEditor.EditorApplication.isPlaying) {
-      return;
-    }
-    bool useVrSdk = m_SdkMode == SdkMode.Oculus
-                 || m_SdkMode == SdkMode.SteamVR
-                 || m_SdkMode == SdkMode.Gvr;
+        public void OnValidate()
+        {
+            // This is now getting run when entering playmode.
+            // Unity doesn't allow VR SDKs to change at runtime.
+            if (UnityEditor.EditorApplication.isPlaying)
+            {
+                return;
+            }
+            bool useVrSdk = m_SdkMode == SdkMode.Oculus
+                || m_SdkMode == SdkMode.SteamVR
+                || m_SdkMode == SdkMode.Gvr;
 
-    // Writing to this sets the scene-dirty flag, so don't do it unless necessary
-    if (UnityEditor.PlayerSettings.virtualRealitySupported != useVrSdk) {
-      UnityEditor.PlayerSettings.virtualRealitySupported = useVrSdk;
-    }
+            // Writing to this sets the scene-dirty flag, so don't do it unless necessary
+            if (UnityEditor.PlayerSettings.virtualRealitySupported != useVrSdk)
+            {
+                UnityEditor.PlayerSettings.virtualRealitySupported = useVrSdk;
+            }
 
-    // This hotswaps vr sdks based on selection.
-    var buildTargetGroups = new List<UnityEditor.BuildTargetGroup>();
-    string[] newDevices;
-    switch (m_SdkMode) {
-    case SdkMode.Gvr:
-      newDevices = new string[] { "daydream" };
-      buildTargetGroups.Add(UnityEditor.BuildTargetGroup.Android);
-      break;
-    case SdkMode.Oculus:
-      newDevices = new string[] { "Oculus" };
-      buildTargetGroups.Add(UnityEditor.BuildTargetGroup.Android);
-      buildTargetGroups.Add(UnityEditor.BuildTargetGroup.Standalone);
-      break;
-    case SdkMode.SteamVR:
-      newDevices = new string[] { "OpenVR" };
-      buildTargetGroups.Add(UnityEditor.BuildTargetGroup.Standalone);
-      break;
-    default:
-      newDevices = new string[] { "" };
-      break;
-    }
+            // This hotswaps vr sdks based on selection.
+            var buildTargetGroups = new List<UnityEditor.BuildTargetGroup>();
+            string[] newDevices;
+            switch (m_SdkMode)
+            {
+                case SdkMode.Gvr:
+                    newDevices = new string[] { "daydream" };
+                    buildTargetGroups.Add(UnityEditor.BuildTargetGroup.Android);
+                    break;
+                case SdkMode.Oculus:
+                    newDevices = new string[] { "Oculus" };
+                    buildTargetGroups.Add(UnityEditor.BuildTargetGroup.Android);
+                    buildTargetGroups.Add(UnityEditor.BuildTargetGroup.Standalone);
+                    break;
+                case SdkMode.SteamVR:
+                    newDevices = new string[] { "OpenVR" };
+                    buildTargetGroups.Add(UnityEditor.BuildTargetGroup.Standalone);
+                    break;
+                default:
+                    newDevices = new string[] { "" };
+                    break;
+            }
 
-    foreach (var group in buildTargetGroups) {
-      // TODO use the public api (see BuildTiltBrush)
-      UnityEditorInternal.VR.VREditor.SetVirtualRealitySDKs(group, newDevices);
-    }
-  }
+            foreach (var group in buildTargetGroups)
+            {
+                // TODO use the public api (see BuildTiltBrush)
+                UnityEditorInternal.VR.VREditor.SetVirtualRealitySDKs(group, newDevices);
+            }
+        }
 
-  /// Called at build time, just before this Config instance is saved to Main.unity
-  public void DoBuildTimeConfiguration(UnityEditor.BuildTarget target) {
-    m_PlatformConfig = EditTimeAssetReferences.Instance.GetConfigForBuildTarget(target);
-  }
+        /// Called at build time, just before this Config instance is saved to Main.unity
+        public void DoBuildTimeConfiguration(UnityEditor.BuildTarget target)
+        {
+            m_PlatformConfig = EditTimeAssetReferences.Instance.GetConfigForBuildTarget(target);
+        }
 #endif
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

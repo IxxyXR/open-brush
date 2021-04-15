@@ -16,7 +16,6 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-
 using ControllerName = TiltBrush.InputManager.ControllerName;
 
 namespace TiltBrush
@@ -56,7 +55,7 @@ namespace TiltBrush
                 SketchWriter.ControlPointExtension.Pressure |
                 SketchWriter.ControlPointExtension.Timestamp);
             public float m_Pressure;
-            public uint m_TimestampMs;  // CurrentSketchTime of creation, in milliseconds
+            public uint m_TimestampMs; // CurrentSketchTime of creation, in milliseconds
         }
 
         // TODO: all this should be stored in the PointerScript instead of kept alongside
@@ -139,10 +138,10 @@ namespace TiltBrush
         }
         private StoredBrushInfo? m_StoredBrushInfo;
 
-        private bool m_StraightEdgeEnabled;  // whether the mode is enabled
-                                             // Brushes which return true for NeedsStraightEdgeProxy() use a proxy brush when displaying the
-                                             // initial straight edge and redraw the line with the real brush at the end. This specifies
-                                             // whether that proxy is currently active:
+        private bool m_StraightEdgeEnabled; // whether the mode is enabled
+        // Brushes which return true for NeedsStraightEdgeProxy() use a proxy brush when displaying the
+        // initial straight edge and redraw the line with the real brush at the end. This specifies
+        // whether that proxy is currently active:
         private bool m_StraightEdgeProxyActive;
         private CircleGesture m_StraightEdgeGesture;
 
@@ -678,10 +677,18 @@ namespace TiltBrush
             int active = m_NumActivePointers;
             switch (mode)
             {
-                case SymmetryMode.None: active = 1; break;
-                case SymmetryMode.SinglePlane: active = 2; break;
-                case SymmetryMode.FourAroundY: active = 4; break;
-                case SymmetryMode.DebugMultiple: active = DEBUG_MULTIPLE_NUM_POINTERS; break;
+                case SymmetryMode.None:
+                    active = 1;
+                    break;
+                case SymmetryMode.SinglePlane:
+                    active = 2;
+                    break;
+                case SymmetryMode.FourAroundY:
+                    active = 4;
+                    break;
+                case SymmetryMode.DebugMultiple:
+                    active = DEBUG_MULTIPLE_NUM_POINTERS;
+                    break;
             }
             int maxUserPointers = m_Pointers.Length;
             if (active > maxUserPointers)
@@ -696,7 +703,7 @@ namespace TiltBrush
             if (recordCommand)
             {
                 SketchMemoryScript.m_Instance.RecordCommand(
-                  new SymmetryWidgetVisibleCommand(m_SymmetryWidgetScript));
+                    new SymmetryWidgetVisibleCommand(m_SymmetryWidgetScript));
             }
 
             for (int i = 1; i < m_Pointers.Length; ++i)
@@ -810,7 +817,7 @@ namespace TiltBrush
                         TrTransform cur = TrTransform.identity;
                         for (int i = 1; i < m_NumActivePointers; ++i)
                         {
-                            cur = aboutY * cur;   // stack another rotation on top
+                            cur = aboutY * cur;         // stack another rotation on top
                             var tmp = (cur * pointer0); // Work around 2018.3.x Mono parse bug
                             tmp.ToTransform(m_Pointers[i].m_Script.transform);
                         }
@@ -960,7 +967,8 @@ namespace TiltBrush
                     switch (nextShape)
                     {
                         case StraightEdgeGuideScript.Shape.Line:
-                            nextShape = StraightEdgeGuideScript.Shape.Circle; break;
+                            nextShape = StraightEdgeGuideScript.Shape.Circle;
+                            break;
                         case StraightEdgeGuideScript.Shape.Circle:
                             {
                                 if (App.Config.IsMobileHardware)
@@ -974,7 +982,8 @@ namespace TiltBrush
                             }
                             break;
                         case StraightEdgeGuideScript.Shape.Sphere:
-                            nextShape = StraightEdgeGuideScript.Shape.Line; break;
+                            nextShape = StraightEdgeGuideScript.Shape.Line;
+                            break;
                     }
 
                     StraightEdgeGuide.SetTempShape(nextShape);
@@ -1121,7 +1130,7 @@ namespace TiltBrush
                             break;
                         case StraightEdgeGuideScript.Shape.Sphere:
                             currentCreator = new SphereCreator(xfPointer_CS, script.BrushSizeAbsolute,
-                              canvas.transform.GetUniformScale());
+                                canvas.transform.GetUniformScale());
                             break;
                     }
                 }
@@ -1183,4 +1192,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

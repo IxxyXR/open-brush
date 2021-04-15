@@ -85,12 +85,12 @@ namespace TiltBrush
         {
             m_targetCanvas = App.ActiveCanvas;
             m_unrenderedStrokes = new SortedLinkedList<Stroke>(
-              (a, b) => (a.HeadTimestampMs < b.HeadTimestampMs),
-              strokes);
+                (a, b) => (a.HeadTimestampMs < b.HeadTimestampMs),
+                strokes);
             m_strokeCount = m_unrenderedStrokes.Count;
             m_renderedStrokes = new SortedLinkedList<Stroke>(
-              (a, b) => (a.TailTimestampMs >= b.TailTimestampMs),
-              new Stroke[] { });
+                (a, b) => (a.TailTimestampMs >= b.TailTimestampMs),
+                new Stroke[] { });
             m_strokePlaybacks = new StrokePlaybackByTime[PointerManager.m_Instance.NumTransientPointers];
             for (int i = 0; i < m_strokePlaybacks.Length; ++i)
             {
@@ -120,7 +120,7 @@ namespace TiltBrush
                 }
                 // delete any stroke having final timestamp > new current time
                 while (m_renderedStrokes.Count > 0 &&
-                       m_renderedStrokes.First.Value.TailTimestampMs > currentTimeMs)
+                    m_renderedStrokes.First.Value.TailTimestampMs > currentTimeMs)
                 {
                     var node = m_renderedStrokes.PopFirst();
                     if (node.Value.IsVisibleForPlayback)
@@ -148,8 +148,8 @@ namespace TiltBrush
                     }
                     // grab and play available strokes, until one is left pending
                     while (stroke.IsDone() && m_unrenderedStrokes.Count > 0 &&
-                           (m_unrenderedStrokes.First.Value.HeadTimestampMs <= currentTimeMs ||
-                            !m_unrenderedStrokes.First.Value.IsVisibleForPlayback))
+                        (m_unrenderedStrokes.First.Value.HeadTimestampMs <= currentTimeMs ||
+                        !m_unrenderedStrokes.First.Value.IsVisibleForPlayback))
                     {
                         var node = m_unrenderedStrokes.PopFirst();
                         if (node.Value.IsVisibleForPlayback)
@@ -194,7 +194,7 @@ namespace TiltBrush
             }
 
             Debug.Assert(
-              m_renderedStrokes.Count + pendingStrokes + m_unrenderedStrokes.Count == m_strokeCount);
+                m_renderedStrokes.Count + pendingStrokes + m_unrenderedStrokes.Count == m_strokeCount);
             m_lastTimeMs = currentTimeMs;
             return !(m_unrenderedStrokes.Count == 0 && pendingStrokes == 0);
         }
@@ -212,11 +212,11 @@ namespace TiltBrush
             // Only allowed for strokes in rendered or unrendered list.  In current use from ClearRedo,
             // it will always be unrendered.
             Debug.Assert(stroke.m_PlaybackNode.List != null);
-            stroke.m_PlaybackNode.List.Remove(stroke.m_PlaybackNode);  // O(1)
+            stroke.m_PlaybackNode.List.Remove(stroke.m_PlaybackNode); // O(1)
             --m_strokeCount;
         }
 
         public void QuickLoadRemaining() { App.Instance.CurrentSketchTime = float.MaxValue; }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -83,7 +83,7 @@ namespace TiltBrush
                 return m_Videos[index];
             }
             throw new ArgumentException(
-                  $"Reference Video Catalog has {m_Videos.Count} videos. Video {index} requested.");
+                $"Reference Video Catalog has {m_Videos.Count} videos. Video {index} requested.");
         }
 
         // Directory scanning works in the following manner:
@@ -135,8 +135,7 @@ namespace TiltBrush
 
             var existing = new HashSet<string>(m_Videos.Select(x => x.AbsolutePath));
             var detected = new HashSet<string>(
-                Directory.GetFiles(App.VideoLibraryPath(), "*.*", SearchOption.AllDirectories).
-                    Where(x => m_supportedVideoExtensions.Contains(Path.GetExtension(x))));
+                Directory.GetFiles(App.VideoLibraryPath(), "*.*", SearchOption.AllDirectories).Where(x => m_supportedVideoExtensions.Contains(Path.GetExtension(x))));
             var toDelete = existing.Except(detected).Concat(changedSet).ToArray();
             var toScan = detected.Except(existing).Concat(changedSet).ToArray();
 

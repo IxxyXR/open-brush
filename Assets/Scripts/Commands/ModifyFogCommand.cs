@@ -25,7 +25,7 @@ namespace TiltBrush
         private bool m_Final;
 
         public ModifyFogCommand(Color endColor, float endDensity, bool final = false,
-            BaseCommand parent = null) : base(parent)
+                                BaseCommand parent = null) : base(parent)
         {
             m_StartColor = SceneSettings.m_Instance.FogColor;
             m_StartDensity = SceneSettings.m_Instance.FogDensity;

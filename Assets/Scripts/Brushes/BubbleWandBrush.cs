@@ -86,7 +86,7 @@ namespace TiltBrush
             for (int i = 1; i < numCircles; i++)
             {
                 volume += Vector3.Distance(tubeCenters[i], tubeCenters[i - 1]) *
-                  Mathf.PI * (radii[i] + radii[i - 1]);
+                    Mathf.PI * (radii[i] + radii[i - 1]);
             }
             float radius = Mathf.Pow(0.75f * volume / Mathf.PI, 1.0f / 3.0f);
             GetComponent<MeshRenderer>().material.SetFloat("_Radius", radius);
@@ -160,4 +160,4 @@ namespace TiltBrush
         }
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

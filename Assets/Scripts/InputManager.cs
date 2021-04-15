@@ -16,10 +16,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
-
 using KeyMap = System.Collections.Generic.Dictionary<
-  int,
-  UnityEngine.KeyCode[]>;
+    int,
+    UnityEngine.KeyCode[]>;
 
 namespace TiltBrush
 {
@@ -38,8 +37,8 @@ namespace TiltBrush
         const float kSwapDistMeters = 0.04f;
         const float kSwapResetDistMeters = 0.16f;
         const float kSwapForwardAngle = 130f;  // degrees
-        const float kSwapVelocityAngle = 150f;  // degrees
-        const float kSwapAcceleration = 10f;  // decimeters / second^2
+        const float kSwapVelocityAngle = 150f; // degrees
+        const float kSwapAcceleration = 10f;   // decimeters / second^2
 
         public enum ControllerName
         {
@@ -163,69 +162,71 @@ namespace TiltBrush
         // The keycodes are an "or", not an "and". Just one of the keycodes
         // in the keycode collections has to be registered for the shortcut to be
         // active.
-        private static readonly KeyMap m_KeyMap = new KeyMap {
-    { (int)KeyboardShortcut.LockToHead,                   new[] { KeyCode.LeftShift } },
-    { (int)KeyboardShortcut.PivotRotation,                new[] { KeyCode.LeftControl } },
-    { (int)KeyboardShortcut.Scale,                        new[] { KeyCode.Tab } },
+        private static readonly KeyMap m_KeyMap = new KeyMap
+        {
+            { (int)KeyboardShortcut.LockToHead, new[] { KeyCode.LeftShift } },
+            { (int)KeyboardShortcut.PivotRotation, new[] { KeyCode.LeftControl } },
+            { (int)KeyboardShortcut.Scale, new[] { KeyCode.Tab } },
 
-    { (int)KeyboardShortcut.RewindTimeline,               new[] { KeyCode.Minus } },
-    { (int)KeyboardShortcut.AdvanceTimeline,              new[] { KeyCode.Plus } },
-    { (int)KeyboardShortcut.TimelineHome,                 new[] { KeyCode.Home } },
-    { (int)KeyboardShortcut.TimelineEnd,                  new[] { KeyCode.End } },
-    { (int)KeyboardShortcut.Reset,                        new[] { KeyCode.Space } },
-    { (int)KeyboardShortcut.Undo,                         new[] { KeyCode.Z } },
-    { (int)KeyboardShortcut.Redo,                         new[] { KeyCode.X } },
-    { (int)KeyboardShortcut.Delete,                       new[] { KeyCode.Delete } },
-    { (int)KeyboardShortcut.Abort,                        new[] { KeyCode.Escape } },
+            { (int)KeyboardShortcut.RewindTimeline, new[] { KeyCode.Minus } },
+            { (int)KeyboardShortcut.AdvanceTimeline, new[] { KeyCode.Plus } },
+            { (int)KeyboardShortcut.TimelineHome, new[] { KeyCode.Home } },
+            { (int)KeyboardShortcut.TimelineEnd, new[] { KeyCode.End } },
+            { (int)KeyboardShortcut.Reset, new[] { KeyCode.Space } },
+            { (int)KeyboardShortcut.Undo, new[] { KeyCode.Z } },
+            { (int)KeyboardShortcut.Redo, new[] { KeyCode.X } },
+            { (int)KeyboardShortcut.Delete, new[] { KeyCode.Delete } },
+            { (int)KeyboardShortcut.Abort, new[] { KeyCode.Escape } },
 
-    { (int)KeyboardShortcut.SaveNew,                      new[] { KeyCode.S } },
-    { (int)KeyboardShortcut.ExportAll,                    new[] { KeyCode.A } },
-    { (int)KeyboardShortcut.ToggleProfile,                new[] { KeyCode.K } },
-    // Context-dependent
-    { (int)KeyboardShortcut.SwitchCamera,                 new[] { KeyCode.C } },
-    { (int)KeyboardShortcut.CycleCanvas,                  new[] { KeyCode.C } },
-    { (int)KeyboardShortcut.ViewOnly,                     new[] { KeyCode.H } },
-    { (int)KeyboardShortcut.ToggleScreenMirroring,        new[] { KeyCode.M } },
-    { (int)KeyboardShortcut.PreviousTool,                 new[] { KeyCode.LeftArrow } },
-    { (int)KeyboardShortcut.NextTool,                     new[] { KeyCode.RightArrow } },
-    { (int)KeyboardShortcut.CycleSymmetryMode,            new[] { KeyCode.F2 } },
-    { (int)KeyboardShortcut.Export,                       new[] { KeyCode.E } },
-    { (int)KeyboardShortcut.StoreHeadTransform,           new[] { KeyCode.O } }, // Also checks for shift
-    { (int)KeyboardShortcut.RecallHeadTransform,          new[] { KeyCode.O } },
-    { (int)KeyboardShortcut.ToggleLightType,              new[] { KeyCode.P } },
+            { (int)KeyboardShortcut.SaveNew, new[] { KeyCode.S } },
+            { (int)KeyboardShortcut.ExportAll, new[] { KeyCode.A } },
+            { (int)KeyboardShortcut.ToggleProfile, new[] { KeyCode.K } },
+            // Context-dependent
+            { (int)KeyboardShortcut.SwitchCamera, new[] { KeyCode.C } },
+            { (int)KeyboardShortcut.CycleCanvas, new[] { KeyCode.C } },
+            { (int)KeyboardShortcut.ViewOnly, new[] { KeyCode.H } },
+            { (int)KeyboardShortcut.ToggleScreenMirroring, new[] { KeyCode.M } },
+            { (int)KeyboardShortcut.PreviousTool, new[] { KeyCode.LeftArrow } },
+            { (int)KeyboardShortcut.NextTool, new[] { KeyCode.RightArrow } },
+            { (int)KeyboardShortcut.CycleSymmetryMode, new[] { KeyCode.F2 } },
+            { (int)KeyboardShortcut.Export, new[] { KeyCode.E } },
+            { (int)KeyboardShortcut.StoreHeadTransform, new[] { KeyCode.O } }, // Also checks for shift
+            { (int)KeyboardShortcut.RecallHeadTransform, new[] { KeyCode.O } },
+            { (int)KeyboardShortcut.ToggleLightType, new[] { KeyCode.P } },
 
-    { (int)KeyboardShortcut.CheckStrokes,                 new[] { KeyCode.V } },
+            { (int)KeyboardShortcut.CheckStrokes, new[] { KeyCode.V } },
 
-    { (int)KeyboardShortcut.ResetScene,                   new[] { KeyCode.Return } },
-    { (int)KeyboardShortcut.StraightEdge,                 new[] { KeyCode.CapsLock } },
+            { (int)KeyboardShortcut.ResetScene, new[] { KeyCode.Return } },
+            { (int)KeyboardShortcut.StraightEdge, new[] { KeyCode.CapsLock } },
 
-    { (int)KeyboardShortcut.Save,                         new[] { KeyCode.S } },
-    { (int)KeyboardShortcut.Load,                         new[] { KeyCode.L } },
+            { (int)KeyboardShortcut.Save, new[] { KeyCode.S } },
+            { (int)KeyboardShortcut.Load, new[] { KeyCode.L } },
 
-    { (int)KeyboardShortcut.Forward,                      new[] { KeyCode.N } },
-    { (int)KeyboardShortcut.Backward,                     new[] { KeyCode.M } },
+            { (int)KeyboardShortcut.Forward, new[] { KeyCode.N } },
+            { (int)KeyboardShortcut.Backward, new[] { KeyCode.M } },
 
-    { (int)KeyboardShortcut.PositionMonoCamera,           new[] { KeyCode.LeftAlt, KeyCode.RightAlt } },
+            { (int)KeyboardShortcut.PositionMonoCamera, new[] { KeyCode.LeftAlt, KeyCode.RightAlt } },
 
-    { (int)KeyboardShortcut.ToggleHeadStationaryOrWobble, new[] { KeyCode.Q } },
-    { (int)KeyboardShortcut.ToggleHeadStationaryOrFollow, new[] { KeyCode.W } },
+            { (int)KeyboardShortcut.ToggleHeadStationaryOrWobble, new[] { KeyCode.Q } },
+            { (int)KeyboardShortcut.ToggleHeadStationaryOrFollow, new[] { KeyCode.W } },
 
-    { (int)KeyboardShortcut.DecreaseSlowFollowSmoothing,  new[] { KeyCode.E } },
-    { (int)KeyboardShortcut.IncreaseSlowFollowSmoothing,  new[] { KeyCode.R } },
+            { (int)KeyboardShortcut.DecreaseSlowFollowSmoothing, new[] { KeyCode.E } },
+            { (int)KeyboardShortcut.IncreaseSlowFollowSmoothing, new[] { KeyCode.R } },
 
-    { (int)KeyboardShortcut.ToggleGVRAudio,               new[] { KeyCode.BackQuote } },
+            { (int)KeyboardShortcut.ToggleGVRAudio, new[] { KeyCode.BackQuote } },
 
-    { (int)KeyboardShortcut.TossWidget,                   new[] { KeyCode.Y } },
-  };
+            { (int)KeyboardShortcut.TossWidget, new[] { KeyCode.Y } },
+        };
 
         // Separate keymap for when demo mode is enabled.
         // Determined by DemoManager.m_Instance.DemoModeEnabled == true
-        private static readonly KeyMap m_DemoKeyMap = new KeyMap {
-    { (int)KeyboardShortcut.ResetEverything, new KeyCode[] { KeyCode.Delete, KeyCode.Backspace } },
-    { (int)KeyboardShortcut.GotoInitialPosition, new KeyCode[] { KeyCode.P } },
-    { (int)KeyboardShortcut.ExtendDemoTimer, new KeyCode[] { KeyCode.E } },
-    { (int)KeyboardShortcut.InstantUpload, new KeyCode[] { KeyCode.U } },
-  };
+        private static readonly KeyMap m_DemoKeyMap = new KeyMap
+        {
+            { (int)KeyboardShortcut.ResetEverything, new KeyCode[] { KeyCode.Delete, KeyCode.Backspace } },
+            { (int)KeyboardShortcut.GotoInitialPosition, new KeyCode[] { KeyCode.P } },
+            { (int)KeyboardShortcut.ExtendDemoTimer, new KeyCode[] { KeyCode.E } },
+            { (int)KeyboardShortcut.InstantUpload, new KeyCode[] { KeyCode.U } },
+        };
 
         private KeyMap ActiveKeyMap
         {
@@ -409,8 +410,8 @@ namespace TiltBrush
                 if (behaviors.Length != (int)ControllerName.Num)
                 {
                     Debug.LogErrorFormat("Expected {0} controllers, have {1}",
-                                         (int)ControllerName.Num,
-                                         behaviors.Length);
+                        (int)ControllerName.Num,
+                        behaviors.Length);
                 }
                 m_ControllerInfos = new ControllerInfo[behaviors.Length];
 
@@ -653,8 +654,8 @@ namespace TiltBrush
                 try
                 {
                     value = (KeyboardShortcut)Enum.Parse(typeof(KeyboardShortcut),
-                                                         rCommand.ToString(),
-                                                         ignoreCase: false);
+                        rCommand.ToString(),
+                        ignoreCase: false);
                 }
                 catch (ArgumentException)
                 {
@@ -728,7 +729,7 @@ namespace TiltBrush
                     if (SketchControlsScript.m_Instance.OneHandGrabController != InputManager.ControllerName.None)
                     {
                         return Controllers[(int)SketchControlsScript.m_Instance.OneHandGrabController]
-                          .GetCommandHeld(rCommand);
+                            .GetCommandHeld(rCommand);
                     }
                     else
                     {
@@ -762,9 +763,9 @@ namespace TiltBrush
 
                 case SketchCommands.DuplicateSelection:
                     return (SketchControlsScript.m_Instance.OneHandGrabController != ControllerName.None &&
-                      Controllers[(int)SketchControlsScript.m_Instance.OneHandGrabController]
-                        .GetCommandDown(rCommand)) ||
-                      Brush.GetCommandDown(rCommand);
+                        Controllers[(int)SketchControlsScript.m_Instance.OneHandGrabController]
+                            .GetCommandDown(rCommand)) ||
+                        Brush.GetCommandDown(rCommand);
 
                 // Keyboard only:
                 case SketchCommands.Delete:
@@ -812,12 +813,12 @@ namespace TiltBrush
                     Vector3.Angle(Wand.m_Velocity, Brush.m_Velocity) > kSwapVelocityAngle;
                 bool minControllerAccelerationReached =
                     (Brush.m_Acceleration.magnitude > kSwapAcceleration ||
-                     Wand.m_Acceleration.magnitude > kSwapAcceleration);
+                    Wand.m_Acceleration.magnitude > kSwapAcceleration);
                 bool closeEnough = (meters < kSwapDistMeters);
                 bool shouldSwap = !bActiveInput
-                                  && forwardsOpposed && velocitiesOpposed
-                                  && minControllerAccelerationReached
-                                  && closeEnough;
+                    && forwardsOpposed && velocitiesOpposed
+                    && minControllerAccelerationReached
+                    && closeEnough;
                 if (shouldSwap)
                 {
                     m_InhibitControllerSwap = true;
@@ -838,7 +839,7 @@ namespace TiltBrush
         {
             Vector2 mv = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
             return new Vector2(Mathf.Abs(mv.x) > m_InputThreshold ? mv.x : 0f,
-                               Mathf.Abs(mv.y) > m_InputThreshold ? mv.y : 0f);
+                Mathf.Abs(mv.y) > m_InputThreshold ? mv.y : 0f);
         }
 
         public float GetMouseWheel()
@@ -935,7 +936,7 @@ namespace TiltBrush
         }
 
         public void TriggerHaptics(ControllerName eName, float durationInSeconds,
-            float minTimeBetweenPulses)
+                                   float minTimeBetweenPulses)
         {
             int iMappedIndex = (int)eName;
             if (m_ControllerInfos[iMappedIndex].m_TimeSinceHapticTrigger > minTimeBetweenPulses)
@@ -946,7 +947,7 @@ namespace TiltBrush
         }
 
         public void TriggerHapticsPulse(ControllerName eName, int iNumPulses, float fInterval,
-            float durationInSeconds)
+                                        float durationInSeconds)
         {
             int iIndex = (int)eName;
             m_ControllerInfos[iIndex].m_HapticPulseCount = iNumPulses;
@@ -1107,4 +1108,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

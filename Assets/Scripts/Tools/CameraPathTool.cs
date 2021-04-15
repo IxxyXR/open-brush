@@ -248,7 +248,7 @@ namespace TiltBrush
                                 CameraPathPositionKnot pk = m_LastPlacedKnot.knot as CameraPathPositionKnot;
                                 float tangentMag = pk.GetTangentMagnitudeFromControlXf(inputXf);
                                 Vector3 knotFwd =
-                                  (inputXf.translation - m_LastPlacedKnot.knot.transform.position).normalized;
+                                    (inputXf.translation - m_LastPlacedKnot.knot.transform.position).normalized;
                                 if ((CameraPathPositionKnot.ControlType)m_LastPlacedKnot.control ==
                                     CameraPathPositionKnot.ControlType.TangentControlBack)
                                 {
@@ -257,8 +257,8 @@ namespace TiltBrush
 
                                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                                     new ModifyPositionKnotCommand(
-                                      m_LastPlacedKnotPath.Path, m_LastPlacedKnot, tangentMag, knotFwd,
-                                      mergesWithCreateCommand: true));
+                                        m_LastPlacedKnotPath.Path, m_LastPlacedKnot, tangentMag, knotFwd,
+                                        mergesWithCreateCommand: true));
                             }
                             break;
                         case CameraPathKnot.Type.Rotation:
@@ -268,7 +268,7 @@ namespace TiltBrush
                                 m_LastPlacedKnot.knot.PathT);
                             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                                 new MoveConstrainedKnotCommand(m_LastPlacedKnotPath.Path, m_LastPlacedKnot,
-                                  inputXf.rotation, mergesWithCreateCommand: true));
+                                    inputXf.rotation, mergesWithCreateCommand: true));
                             break;
                         case CameraPathKnot.Type.Speed:
                             CameraPathSpeedKnot sk = m_LastPlacedKnot.knot as CameraPathSpeedKnot;
@@ -376,9 +376,9 @@ namespace TiltBrush
                                 // set our extend type to looping.
                                 if (widget.Path.NumPositionKnots > 1 &&
                                     (m_ExtendPathType == ExtendPathType.ExtendAtHead &&
-                                     end == CameraPath.EndType.Tail) ||
+                                    end == CameraPath.EndType.Tail) ||
                                     (m_ExtendPathType == ExtendPathType.ExtendAtTail &&
-                                     end == CameraPath.EndType.Head))
+                                    end == CameraPath.EndType.Head))
                                 {
                                     m_ExtendPathType = ExtendPathType.Loop;
                                 }
@@ -516,5 +516,4 @@ namespace TiltBrush
             return CurrentMode != Mode.Recording;
         }
     }
-}  // namespace TiltBrush
-
+} // namespace TiltBrush

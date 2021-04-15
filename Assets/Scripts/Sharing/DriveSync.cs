@@ -248,7 +248,7 @@ namespace TiltBrush
                 if (m_SyncEnabled == null)
                 {
                     if (value && !m_DriveAccess.Ready && !m_DriveAccess.Initializing
-                              && m_GoogleIdentity.LoggedIn)
+                        && m_GoogleIdentity.LoggedIn)
                     {
                         // It seems like Drive Access initialization failed. Let's try again.
                         m_DriveAccess.InitializeDriveLinkAsync();
@@ -292,7 +292,7 @@ namespace TiltBrush
         }
 
         public bool DriveIsLowOnSpace => m_DriveAccess.HasSpaceQuota &&
-                                         (m_DriveAccess.DriveFreeSpace < kMinimumFreeSpace);
+            (m_DriveAccess.DriveFreeSpace < kMinimumFreeSpace);
 
         public void InitUserSyncOptions()
         {
@@ -380,8 +380,8 @@ namespace TiltBrush
                 if (m_DriveAccess.HasSpaceQuota)
                 {
                     Debug.Log($"User has {m_DriveAccess.DriveFreeSpace} free space on Drive.\n" +
-                              $"That's {m_DriveAccess.DriveFreeSpace - kMinimumFreeSpace} " +
-                              "before hitting low free space.");
+                        $"That's {m_DriveAccess.DriveFreeSpace - kMinimumFreeSpace} " +
+                        "before hitting low free space.");
                 }
                 else
                 {
@@ -445,52 +445,52 @@ namespace TiltBrush
             if (IsFolderOfTypeSynced(SyncedFolderType.Sketches))
             {
                 folderSyncs.Add(AddSyncedFolderAsync(
-                                     "Sketches",
-                                     App.UserSketchPath(),
-                                     deviceRootId,
-                                     SyncType.Upload,
-                                     SyncedFolderType.Sketches,
-                                     token));
+                    "Sketches",
+                    App.UserSketchPath(),
+                    deviceRootId,
+                    SyncType.Upload,
+                    SyncedFolderType.Sketches,
+                    token));
             }
             if (IsFolderOfTypeSynced(SyncedFolderType.MediaLibrary))
             {
                 var mediaLibrary =
                     await m_DriveAccess.CreateFolderAsync("Media Library", deviceRootId, token);
                 folderSyncs.Add(AddSyncedFolderAsync(
-                                    "Images",
-                                    App.ReferenceImagePath(),
-                                    mediaLibrary.Id,
-                                    SyncType.Upload,
-                                    SyncedFolderType.MediaLibrary,
-                                    token));
+                    "Images",
+                    App.ReferenceImagePath(),
+                    mediaLibrary.Id,
+                    SyncType.Upload,
+                    SyncedFolderType.MediaLibrary,
+                    token));
                 if (!App.Config.IsMobileHardware)
                 {
                     folderSyncs.Add(AddSyncedFolderAsync(
-                                      "Models",
-                                      App.ModelLibraryPath(),
-                                      mediaLibrary.Id,
-                                      SyncType.Upload,
-                                      SyncedFolderType.MediaLibrary,
-                                      token,
-                                      recursive: true));
+                        "Models",
+                        App.ModelLibraryPath(),
+                        mediaLibrary.Id,
+                        SyncType.Upload,
+                        SyncedFolderType.MediaLibrary,
+                        token,
+                        recursive: true));
                 }
                 folderSyncs.Add(AddSyncedFolderAsync(
-                                    "Videos",
-                                    App.VideoLibraryPath(),
-                                    mediaLibrary.Id,
-                                    SyncType.Upload,
-                                    SyncedFolderType.MediaLibrary,
-                                    token));
+                    "Videos",
+                    App.VideoLibraryPath(),
+                    mediaLibrary.Id,
+                    SyncType.Upload,
+                    SyncedFolderType.MediaLibrary,
+                    token));
             }
             if (IsFolderOfTypeSynced(SyncedFolderType.Snapshots))
             {
                 folderSyncs.Add(AddSyncedFolderAsync(
-                                    "Snapshots",
-                                    App.SnapshotPath(),
-                                    deviceRootId,
-                                    SyncType.Upload,
-                                    SyncedFolderType.Snapshots,
-                                    token));
+                    "Snapshots",
+                    App.SnapshotPath(),
+                    deviceRootId,
+                    SyncType.Upload,
+                    SyncedFolderType.Snapshots,
+                    token));
             }
 
             if (!App.Config.IsMobileHardware)
@@ -498,33 +498,33 @@ namespace TiltBrush
                 if (IsFolderOfTypeSynced(SyncedFolderType.Videos))
                 {
                     folderSyncs.Add(AddSyncedFolderAsync(
-                                      "Videos",
-                                      App.VideosPath(),
-                                      deviceRootId,
-                                      SyncType.Upload,
-                                      SyncedFolderType.Videos,
-                                      token,
-                                      excludeExtensions: new[] { ".bat", ".usda" }));
+                        "Videos",
+                        App.VideosPath(),
+                        deviceRootId,
+                        SyncType.Upload,
+                        SyncedFolderType.Videos,
+                        token,
+                        excludeExtensions: new[] { ".bat", ".usda" }));
                     folderSyncs.Add(AddSyncedFolderAsync(
-                                      "VrVideos",
-                                      App.VrVideosPath(),
-                                      deviceRootId,
-                                      SyncType.Upload,
-                                      SyncedFolderType.Videos,
-                                      token));
+                        "VrVideos",
+                        App.VrVideosPath(),
+                        deviceRootId,
+                        SyncType.Upload,
+                        SyncedFolderType.Videos,
+                        token));
                 }
             }
 
             if (IsFolderOfTypeSynced(SyncedFolderType.Exports))
             {
                 folderSyncs.Add(AddSyncedFolderAsync(
-                                    "Exports",
-                                    App.UserExportPath(),
-                                    deviceRootId,
-                                    SyncType.Upload,
-                                    SyncedFolderType.Exports,
-                                    token,
-                                    recursive: true));
+                    "Exports",
+                    App.UserExportPath(),
+                    deviceRootId,
+                    SyncType.Upload,
+                    SyncedFolderType.Exports,
+                    token,
+                    recursive: true));
             }
             await m_DriveAccess.RefreshFreeSpaceAsync(token);
             await Task.WhenAll(folderSyncs);
@@ -556,8 +556,8 @@ namespace TiltBrush
                 // anyway and hope everything is fine.
                 var maxWait = Task.Delay(TimeSpan.FromSeconds(5));
                 var allTasks = Task.WhenAll(m_Transfers.Keys.Select(x => x.TaskAndCts)
-                                                .Concat(new[] { m_InitTask, m_SyncTask, m_UpdateTask })
-                                                .Select(CancelTaskCts));
+                    .Concat(new[] { m_InitTask, m_SyncTask, m_UpdateTask })
+                    .Select(CancelTaskCts));
                 await Task.WhenAny(allTasks, maxWait);
                 m_Initialized = false;
                 m_Transfers.Clear();
@@ -628,14 +628,14 @@ namespace TiltBrush
 
         /// Adds a folder to the list of synced folders.
         private async Task AddSyncedFolderAsync(
-              string name,
-              string localPath,
-              string parentId,
-              SyncType syncType,
-              SyncedFolderType folderType,
-              CancellationToken token,
-              bool recursive = false,
-              string[] excludeExtensions = null)
+            string name,
+            string localPath,
+            string parentId,
+            SyncType syncType,
+            SyncedFolderType folderType,
+            CancellationToken token,
+            bool recursive = false,
+            string[] excludeExtensions = null)
         {
             var folder = new SyncedFolder()
             {
@@ -667,7 +667,7 @@ namespace TiltBrush
             m_ToTransfer.Clear();
             // Cancel any transfers to folders we no longer want to backup
             var toRemove = m_Transfers.Where(x => !IsFolderOfTypeSynced(x.Key.Item.FolderType))
-                                      .Select(x => x.Key).ToArray();
+                .Select(x => x.Key).ToArray();
             foreach (var transfer in toRemove)
             {
                 m_Transfers.TryRemove(transfer, out _);
@@ -718,7 +718,7 @@ namespace TiltBrush
             {
                 Debug.Log($"Creating new Drive folder called {folder.Name}.");
                 folder.Drive = await m_DriveAccess.CreateFolderAsync(
-                                               folder.Name, folder.ParentDriveId, CancellationToken.None);
+                    folder.Name, folder.ParentDriveId, CancellationToken.None);
             }
 
             if (folder.Drive == null || folder.Local == null || m_IsCancelling)
@@ -728,7 +728,7 @@ namespace TiltBrush
 
             var driveContents =
                 await m_DriveAccess.GetFolderContentsAsync(folder.Drive.Id, true, true,
-                                                           CancellationToken.None);
+                    CancellationToken.None);
             var driveFiles = new Dictionary<string, DriveData.File>();
             foreach (var item in driveContents
                 .Where(x => x.MimeType != "application/vnd.google-apps.folder"))
@@ -767,7 +767,7 @@ namespace TiltBrush
                 foreach (var file in toDownload)
                 {
                     if (m_Transfers.Keys.Any(x => x.Item.Name == file.Name &&
-                                                  x.Item.AbsoluteLocalPath == folder.Local.FullName))
+                        x.Item.AbsoluteLocalPath == folder.Local.FullName))
                     {
                         continue;
                     }
@@ -794,7 +794,7 @@ namespace TiltBrush
                 foreach (var file in toUpload)
                 {
                     if (m_Transfers.Keys.Any(x => x.Item.Name == file.Name &&
-                                                  x.Item.AbsoluteLocalPath == folder.Local.FullName))
+                        x.Item.AbsoluteLocalPath == folder.Local.FullName))
                     {
                         continue;
                     }
@@ -862,7 +862,7 @@ namespace TiltBrush
 
                 // Clear out completed transfer tasks
                 foreach (var task in m_Transfers.Keys.Where(x => x.Task.IsCompleted &&
-                                                                 x.Task.Exception != null))
+                    x.Task.Exception != null))
                 {
                     Debug.LogException(task.Task.Exception);
                 }
@@ -1070,7 +1070,7 @@ namespace TiltBrush
             string name = Path.GetFileName(filename);
             string path = Path.GetDirectoryName(filename);
             var transfer = m_Transfers.Keys.FirstOrDefault(x => x.Item.Name == name &&
-                                                                x.Item.AbsoluteLocalPath == path);
+                x.Item.AbsoluteLocalPath == path);
             if (transfer != null)
             {
                 transfer.TaskAndCts.Cancel();

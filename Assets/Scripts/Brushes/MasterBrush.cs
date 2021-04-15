@@ -143,4 +143,4 @@ namespace TiltBrush
             Reset();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

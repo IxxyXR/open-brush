@@ -155,7 +155,7 @@ namespace TiltBrush
                     {
                         m_State = DragState.Hover;
                         SketchMemoryScript.m_Instance.PerformAndRecordCommand(new ModifyLightCommand(
-                          (LightMode)m_LightID, m_Light.color, m_Light.transform.localRotation, final: true));
+                            (LightMode)m_LightID, m_Light.color, m_Light.transform.localRotation, final: true));
                         UpdateTint();
                     }
                     else
@@ -167,7 +167,7 @@ namespace TiltBrush
                         // Dampen the rotation near the center as it changes too rapidly with small movements.
                         float dist = (m_ParentPanel.PreviewCenter - newXf.translation).magnitude;
                         Quaternion newRot =
-                          Quaternion.LookRotation(m_ParentPanel.PreviewCenter - newXf.translation);
+                            Quaternion.LookRotation(m_ParentPanel.PreviewCenter - newXf.translation);
                         if (dist > m_DampenDeadRadius)
                         {
                             if (dist < m_DampenRadius)
@@ -176,8 +176,8 @@ namespace TiltBrush
                                 newRot = Quaternion.Slerp(transform.rotation, newRot, t);
                             }
                             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                              new ModifyLightCommand((LightMode)m_LightID, m_Light.color,
-                              Quaternion.Inverse(App.Scene.Pose.rotation) * newRot));
+                                new ModifyLightCommand((LightMode)m_LightID, m_Light.color,
+                                    Quaternion.Inverse(App.Scene.Pose.rotation) * newRot));
                         }
                     }
                     break;
@@ -202,8 +202,8 @@ namespace TiltBrush
                 Quaternion rotation = m_Light.transform.rotation;
                 transform.position = m_ParentPanel.LightWidgetPosition(rotation);
                 transform.rotation =
-                  Quaternion.LookRotation(rotation * Vector3.forward,
-                    (ViewpointScript.Head.position - transform.position).normalized);
+                    Quaternion.LookRotation(rotation * Vector3.forward,
+                        (ViewpointScript.Head.position - transform.position).normalized);
             }
         }
     }

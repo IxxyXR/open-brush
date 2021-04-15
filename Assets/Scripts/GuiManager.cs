@@ -93,7 +93,7 @@ namespace TiltBrush
                         m_SlideTimer = m_SlideDuration;
                     }
                     m_Sidebar.position = new Vector2(
-                      2 * m_SidebarPosX * m_SlideTimer / m_SlideDuration - m_SidebarPosX, m_Sidebar.position.y);
+                        2 * m_SidebarPosX * m_SlideTimer / m_SlideDuration - m_SidebarPosX, m_Sidebar.position.y);
                     break;
                 case SlideState.MovingOut:
                     m_SlideTimer -= Time.deltaTime;
@@ -103,7 +103,7 @@ namespace TiltBrush
                         m_SlideTimer = 0;
                     }
                     m_Sidebar.position = new Vector2(
-                      2 * m_SidebarPosX * m_SlideTimer / m_SlideDuration - m_SidebarPosX, m_Sidebar.position.y);
+                        2 * m_SidebarPosX * m_SlideTimer / m_SlideDuration - m_SidebarPosX, m_Sidebar.position.y);
                     break;
             }
         }

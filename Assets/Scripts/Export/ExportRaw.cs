@@ -144,8 +144,8 @@ namespace TiltBrush
 
                 Mesh tempMesh = new Mesh();
                 geom.CopyToMesh(tempMesh,
-                                subset.m_StartVertIndex, subset.m_VertLength,
-                                subset.m_iTriIndex, subset.m_nTriIndex);
+                    subset.m_StartVertIndex, subset.m_VertLength,
+                    subset.m_iTriIndex, subset.m_nTriIndex);
                 WriteMesh(json, tempMesh, geom.Layout);
                 tempMesh.Clear();
                 UnityEngine.Object.Destroy(tempMesh);

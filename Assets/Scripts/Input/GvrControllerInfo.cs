@@ -208,32 +208,32 @@ namespace TiltBrush
         {
             if (GetControllerGrip()) { return false; }
             return m_isLeftHand ? GvrControllerInput.TriggerButtonLeft
-                                : GvrControllerInput.TriggerButtonRight;
+                : GvrControllerInput.TriggerButtonRight;
         }
 
         private bool GetTriggerButtonDown()
         {
             if (GetControllerGrip()) { return false; }
             return m_isLeftHand ? GvrControllerInput.TriggerButtonDownLeft
-                                : GvrControllerInput.TriggerButtonDownRight;
+                : GvrControllerInput.TriggerButtonDownRight;
         }
 
         private bool GetIsTouching()
         {
             return m_isLeftHand ? GvrControllerInput.IsTouchingLeft
-                                : GvrControllerInput.IsTouchingRight;
+                : GvrControllerInput.IsTouchingRight;
         }
 
         private bool GetTouchDown()
         {
             return m_isLeftHand ? GvrControllerInput.TouchDownLeft
-                                : GvrControllerInput.TouchDownRight;
+                : GvrControllerInput.TouchDownRight;
         }
 
         private Vector2 GetTouchPos()
         {
             var value = m_isLeftHand ? GvrControllerInput.TouchPosLeft
-                                : GvrControllerInput.TouchPosRight;
+                : GvrControllerInput.TouchPosRight;
             return value * 2f - Vector2.one;
         }
 
@@ -241,26 +241,26 @@ namespace TiltBrush
         {
             if (GetControllerGrip()) { return false; }
             return m_isLeftHand ? GvrControllerInput.ClickButtonLeft
-                                : GvrControllerInput.ClickButtonRight;
+                : GvrControllerInput.ClickButtonRight;
         }
 
         private bool GetClickButtonDown()
         {
             if (GetControllerGrip()) { return false; }
             return m_isLeftHand ? GvrControllerInput.ClickButtonDownLeft
-                                : GvrControllerInput.ClickButtonDownRight;
+                : GvrControllerInput.ClickButtonDownRight;
         }
 
         private bool GetAppButton()
         {
             return m_isLeftHand ? GvrControllerInput.AppButtonLeft
-                                : GvrControllerInput.AppButtonRight;
+                : GvrControllerInput.AppButtonRight;
         }
 
         private bool GetAppButtonDown()
         {
             return m_isLeftHand ? GvrControllerInput.AppButtonDownLeft
-                                : GvrControllerInput.AppButtonDownRight;
+                : GvrControllerInput.AppButtonDownRight;
         }
     }
 } // namespace TiltBrush

@@ -122,7 +122,7 @@ namespace TiltBrush
                 var iterator = new ProfilerFrameDataIterator();
                 iterator.SetRoot(frame, 0);
                 m_root.frameData.Add(frame,
-                  new FrameData { totalMilliseconds = iterator.durationMS, sampleCount = 1 });
+                    new FrameData { totalMilliseconds = iterator.durationMS, sampleCount = 1 });
 
                 // A stack is used to keep a track of the functions further up the call stack.
                 Stack<SampledFunction> stack = new Stack<SampledFunction>();
@@ -213,7 +213,7 @@ namespace TiltBrush
 
                 // Sort the frames to get min, max, and median.
                 FrameData[] sortedFrames =
-                  current.frameData.Values.OrderBy(x => x.totalMilliseconds).ToArray();
+                    current.frameData.Values.OrderBy(x => x.totalMilliseconds).ToArray();
                 current.min = sortedFrames[0].totalMilliseconds;
                 current.max = sortedFrames[sortedFrames.Length - 1].totalMilliseconds;
                 // The median is the average of two middle frames.
@@ -231,7 +231,7 @@ namespace TiltBrush
                 //          \/             n-1
                 //
                 current.medianStdDev = Mathf.Sqrt(
-                  sortedFrames.Average(x => Mathf.Pow(x.totalMilliseconds - current.median, 2f)));
+                    sortedFrames.Average(x => Mathf.Pow(x.totalMilliseconds - current.median, 2f)));
                 current.medianStdDevPc = (current.medianStdDev / current.median) * 100f;
             }
         }

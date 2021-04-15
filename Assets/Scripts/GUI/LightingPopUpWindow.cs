@@ -91,4 +91,4 @@ namespace TiltBrush
             SceneSettings.m_Instance.FadingToDesiredEnvironment -= OnFadingToDesiredEnvironment;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

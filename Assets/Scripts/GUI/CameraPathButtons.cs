@@ -73,7 +73,7 @@ namespace TiltBrush
         }
 
         override public bool UpdateStateWithInput(bool inputValid, Ray inputRay,
-              GameObject parentActiveObject, Collider parentCollider)
+                                                  GameObject parentActiveObject, Collider parentCollider)
         {
             if (base.UpdateStateWithInput(inputValid, inputRay, parentActiveObject, parentCollider))
             {
@@ -121,9 +121,9 @@ namespace TiltBrush
             // another path.
             m_NoPathText.text = anyPathsActive ||
                 SketchSurfacePanel.m_Instance.GetCurrentToolType() == BaseTool.ToolType.CameraPathTool ?
-                m_NonFirstPathMessage : m_FirstPathMessage;
+                    m_NonFirstPathMessage : m_FirstPathMessage;
 
             m_RecordButton.UpdateVisuals();
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

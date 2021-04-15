@@ -46,7 +46,7 @@ namespace TiltBrush
             ICollection<GrabWidget> widgetsOn,
             ICollection<GrabWidget> widgetsOff,
             BaseCommand parent = null)
-          : base(parent)
+            : base(parent)
         {
             if (strokesOn != null)
             {

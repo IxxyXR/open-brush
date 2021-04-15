@@ -73,7 +73,7 @@ namespace TiltBrush
                 SketchControlsScript.m_Instance.IsUserIntersectingWithSelectionWidget())
             {
                 return InputManager.Brush.GetLastHeldInput() == null ? 0 :
-                  InputManager.Brush.GetCommandHoldProgress();
+                    InputManager.Brush.GetCommandHoldProgress();
             }
             return base.GetSizeRatio(controller, input);
         }
@@ -107,14 +107,14 @@ namespace TiltBrush
                         InputManager.SketchCommands.DuplicateSelection))
                     {
                         InputManager.Brush.LastHeldInput =
-                          InputManager.Brush.GetCommandHoldInput(InputManager.SketchCommands.DuplicateSelection);
+                            InputManager.Brush.GetCommandHoldInput(InputManager.SketchCommands.DuplicateSelection);
                     }
 
                     if (InputManager.Brush.LastHeldInput != null &&
-                      InputManager.m_Instance.GetCommandHeld(InputManager.SketchCommands.DuplicateSelection))
+                        InputManager.m_Instance.GetCommandHeld(InputManager.SketchCommands.DuplicateSelection))
                     {
                         SketchControlsScript.m_Instance.IssueGlobalCommand(
-                          SketchControlsScript.GlobalCommands.Duplicate);
+                            SketchControlsScript.GlobalCommands.Duplicate);
                     }
 
                     // If not hot, but intersecting, show higlight mesh
@@ -183,10 +183,10 @@ namespace TiltBrush
 
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                 new SelectCommand(null,
-                                  new[] { widget },
-                                  SelectionManager.m_Instance.SelectionTransform,
-                                  initial: !m_ActiveSelectionHasAtLeastOneObject,
-                                  deselect: removeFromSelection));
+                    new[] { widget },
+                    SelectionManager.m_Instance.SelectionTransform,
+                    initial: !m_ActiveSelectionHasAtLeastOneObject,
+                    deselect: removeFromSelection));
             m_ActiveSelectionHasAtLeastOneObject = true;
             m_LastIntersectionTime = Time.realtimeSinceStartup;
 
@@ -220,10 +220,10 @@ namespace TiltBrush
 
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                 new SelectCommand(new[] { stroke },
-                                  null,
-                                  SelectionManager.m_Instance.SelectionTransform,
-                                  initial: !m_ActiveSelectionHasAtLeastOneObject,
-                                  deselect: removeFromSelection));
+                    null,
+                    SelectionManager.m_Instance.SelectionTransform,
+                    initial: !m_ActiveSelectionHasAtLeastOneObject,
+                    deselect: removeFromSelection));
             m_ActiveSelectionHasAtLeastOneObject = true;
             m_LastIntersectionTime = Time.realtimeSinceStartup;
 
@@ -282,4 +282,4 @@ namespace TiltBrush
             }
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

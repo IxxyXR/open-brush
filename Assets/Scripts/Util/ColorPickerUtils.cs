@@ -55,7 +55,7 @@ namespace TiltBrush
         public Shader shader;
         public Texture icon;
         public bool cylindrical;
-        public bool experimental;  // if true, don't show in demo mode
+        public bool experimental; // if true, don't show in demo mode
         public bool hdr;
     }
 
@@ -105,10 +105,11 @@ namespace TiltBrush
                     n++;
                 }
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-      if (Config.IsExperimental && ModeToPickerInfo[i].info.experimental &&
-          ModeToPickerInfo[i].info.hdr == hdr) {
-        n++;
-      }
+                if (Config.IsExperimental && ModeToPickerInfo[i].info.experimental &&
+                    ModeToPickerInfo[i].info.hdr == hdr)
+                {
+                    n++;
+                }
 #endif
             }
             return n;
@@ -185,7 +186,7 @@ namespace TiltBrush
                         HSLColor color = (HSLColor)rgb;
                         var angle = color.HueDegrees * Mathf.Deg2Rad;
                         var vector = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * color.s / 2 +
-                          new Vector2(0.5f, 0.5f);
+                            new Vector2(0.5f, 0.5f);
                         return new Vector3(vector.x, vector.y, color.l);
                     }
                 case ColorPickerMode.HL_S_Polar:
@@ -195,7 +196,7 @@ namespace TiltBrush
                         var angle = color.HueDegrees * Mathf.Deg2Rad;
                         float radius = 1 - color.l;
                         var vector = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius / 2 +
-                          new Vector2(0.5f, 0.5f);
+                            new Vector2(0.5f, 0.5f);
                         return new Vector3(vector.x, vector.y, 1 - color.s);
                     }
                 case ColorPickerMode.SL_H_Triangle:
@@ -419,7 +420,7 @@ namespace TiltBrush
         // Examples of brush constraint: lum >= epsilon
         // Examples of geometric constraint: radius <= 1
         public static Vector3 ApplyPlanarConstraint(Vector3 value, ColorPickerMode mode,
-            float luminanceMin, float saturationMax)
+                                                    float luminanceMin, float saturationMax)
         {
             switch (mode)
             {
@@ -463,7 +464,8 @@ namespace TiltBrush
                             flat *= (maxRadius / radius);
                             // Assign back
                             flat = flat / 2 + offset;
-                            value.x = flat.x; value.y = flat.y;
+                            value.x = flat.x;
+                            value.y = flat.y;
                         }
                         break;
                     }
@@ -483,9 +485,10 @@ namespace TiltBrush
                 return false;
             }
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-    if (Config.IsExperimental) {
-      return true;
-    }
+            if (Config.IsExperimental)
+            {
+                return true;
+            }
 #endif
             if (info.experimental)
             {
@@ -571,7 +574,7 @@ namespace TiltBrush
         }
 
         static void MakeLogValueRamp(float hue01, float saturation,
-            int width, int height, Color[] buf)
+                                     int width, int height, Color[] buf)
         {
             Debug.Assert(buf.Length == width * height);
             for (int iy = 0; iy < height; ++iy)
@@ -588,7 +591,7 @@ namespace TiltBrush
         }
 
         public static void MakeRamp(ColorPickerMode mode,
-            int width, int height, Color[] buf, Vector3? raw = null)
+                                    int width, int height, Color[] buf, Vector3? raw = null)
         {
             switch (mode)
             {

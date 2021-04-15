@@ -88,7 +88,7 @@ namespace TiltBrush
             }
 
             bool panelClick = SketchControlsScript.m_Instance.IsUserInteractingWithUI() &&
-              InputManager.m_Instance.GetCommand(InputManager.SketchCommands.Activate);
+                InputManager.m_Instance.GetCommand(InputManager.SketchCommands.Activate);
             if (PromoManager.m_Instance.ShouldPausePromos &&
                 (!SketchControlsScript.m_Instance.IsUserInteractingWithUI() || panelClick))
             {

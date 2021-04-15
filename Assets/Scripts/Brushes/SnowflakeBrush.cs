@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -29,11 +28,11 @@ namespace TiltBrush
     {
         protected class PbChildKnotBasedMirror : PbChildWithKnotBasedFrame
         {
-            protected Plane m_plane;  // in knot space
+            protected Plane m_plane; // in knot space
 
             /// Plane is in the frame of the knot
             public PbChildKnotBasedMirror(int frameKnot, AttachFrame frame, Plane plane)
-              : base(frameKnot, frame)
+                : base(frameKnot, frame)
             {
                 m_plane = plane;
             }

@@ -119,7 +119,7 @@ namespace TiltBrush
                         {
                             ControllerConsoleScript.m_Instance.AddNewLine(
                                 string.Format("Error detected in sketch '{0}'.\nTry re-saving.",
-                                              m_FileInfo.HumanName));
+                                    m_FileInfo.HumanName));
                             Debug.LogWarning(string.Format("Error reading metadata for {0}.\n{1}",
                                 m_FileInfo.FullPath, SaveLoadScript.m_Instance.LastMetadataError));
                         }
@@ -357,7 +357,7 @@ namespace TiltBrush
         /// Takes ownership of the list.
         public void RequestOnlyLoadedMetadata(List<int> requests)
         {
-            DumpIconTextures();  // This clears out any pending requests
+            DumpIconTextures(); // This clears out any pending requests
             m_RequestedLoads.Clear();
 
             requests.Reverse();
@@ -424,7 +424,7 @@ namespace TiltBrush
             }
 
             // Grab a few units of work
-            var working = Update__working;  // = new Stack<int>();
+            var working = Update__working; // = new Stack<int>();
             Debug.Assert(working.Count == 0);
             for (int i = 0; i < ICON_LOAD_PER_FRAME && m_RequestedLoads.Count > 0; ++i)
             {

@@ -17,12 +17,11 @@
 # define FEATURE_MOBILE_SELECTION
 #else
 # define FEATURE_CUSTOM_MESH_RENDER
-# undef  FEATURE_MOBILE_SELECTION
+# undef FEATURE_MOBILE_SELECTION
 #endif
 
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -224,10 +223,10 @@ namespace TiltBrush
             for (int iSubMesh = 0; iSubMesh < mesh.subMeshCount; iSubMesh++)
             {
                 Graphics.DrawMesh(
-                  mesh, xf.localToWorldMatrix,
-                  selectMaterial,
-                  xf.gameObject.layer,
-                  null, iSubMesh);
+                    mesh, xf.localToWorldMatrix,
+                    selectMaterial,
+                    xf.gameObject.layer,
+                    null, iSubMesh);
             }
         }
 
@@ -302,6 +301,6 @@ namespace TiltBrush
             Graphics.Blit(source, destination, postEffect, (int)SelectionEffectPass.OutlineComposite);
             RenderTexture.ReleaseTemporary(rt);
         }
-#endif  // FEATURE_CUSTOM_MESH_RENDER
+#endif // FEATURE_CUSTOM_MESH_RENDER
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

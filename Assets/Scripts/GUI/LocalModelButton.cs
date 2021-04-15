@@ -35,4 +35,4 @@ namespace TiltBrush
             // So just let it keep going.
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -23,31 +23,39 @@ namespace TiltBrush
 
 #if UNITY_EDITOR
 // See http://docs.unity3d.com/ScriptReference/PropertyDrawer.html
-[CustomPropertyDrawer(typeof(SerializableGuid))]
-public class SerializableGuidDrawer : PropertyDrawer {
-  static bool DO_VALIDATION = true;
-  public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-    EditorGUI.BeginProperty(position, label, property);
-    position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-    var indent = EditorGUI.indentLevel;
-    EditorGUI.indentLevel = 0;
+    [CustomPropertyDrawer(typeof(SerializableGuid))]
+    public class SerializableGuidDrawer : PropertyDrawer
+    {
+        static bool DO_VALIDATION = true;
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUI.BeginProperty(position, label, property);
+            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+            var indent = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
 
-    var storageProp = property.FindPropertyRelative("m_storage");
-    if (DO_VALIDATION) {
-      var oldval = storageProp.stringValue;
-      var newval = EditorGUI.DelayedTextField(position, oldval);
-      if (oldval != newval) {
-        try {
-          storageProp.stringValue = new System.Guid(newval).ToString("D");
-        } catch (System.FormatException) {}
-      }
-    } else {
-      EditorGUI.PropertyField(position, storageProp, GUIContent.none);
+            var storageProp = property.FindPropertyRelative("m_storage");
+            if (DO_VALIDATION)
+            {
+                var oldval = storageProp.stringValue;
+                var newval = EditorGUI.DelayedTextField(position, oldval);
+                if (oldval != newval)
+                {
+                    try
+                    {
+                        storageProp.stringValue = new System.Guid(newval).ToString("D");
+                    }
+                    catch (System.FormatException) { }
+                }
+            }
+            else
+            {
+                EditorGUI.PropertyField(position, storageProp, GUIContent.none);
+            }
+            EditorGUI.indentLevel = indent;
+            EditorGUI.EndProperty();
+        }
     }
-    EditorGUI.indentLevel = indent;
-    EditorGUI.EndProperty();
-  }
-}
 #endif
 
     /// Mostly a drop-in replacement for System.Guid.
@@ -92,4 +100,4 @@ public class SerializableGuidDrawer : PropertyDrawer {
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

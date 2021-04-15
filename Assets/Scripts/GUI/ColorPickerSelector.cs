@@ -49,11 +49,11 @@ namespace TiltBrush
             {
                 m_RawValue = value;
                 m_CurrentValueTransform.localPosition = new Vector3(Mathf.Clamp01(value.x) * 2 - 1,
-                                                                    m_FixedSelectorPlane ? 0 : Mathf.Clamp01(value.z) * 2 - 1,
-                                                                    Mathf.Clamp01(value.y) * 2 - 1);
+                    m_FixedSelectorPlane ? 0 : Mathf.Clamp01(value.z) * 2 - 1,
+                    Mathf.Clamp01(value.y) * 2 - 1);
                 transform.localPosition = new Vector3(transform.localPosition.x,
-                                                      m_CurrentValueTransform.localPosition.y,
-                                                      transform.localPosition.z);
+                    m_CurrentValueTransform.localPosition.y,
+                    transform.localPosition.z);
                 m_Renderer.material.SetFloat("_Slider01", value.z);
             }
         }
@@ -70,19 +70,22 @@ namespace TiltBrush
             m_StandardMesh = GetComponent<MeshFilter>().sharedMesh;
             Mesh m = new Mesh();
             Vector3 lowerleft = new Vector3(-0.5f, -0.5f, 0);
-            m.vertices = new Vector3[] {
-      lowerleft + new Vector3(0,0,0),
-      lowerleft + new Vector3(0,1,0),
-      lowerleft + new Vector3(SQRT3/2, .5f, 0),
-    };
-            m.uv = new Vector2[] {
-      new Vector2(0,0),
-      new Vector2(0,1),
-      new Vector2(1, .5f),
-    };
-            m.triangles = new int[] {
-      0, 1, 2
-    };
+            m.vertices = new Vector3[]
+            {
+                lowerleft + new Vector3(0, 0, 0),
+                lowerleft + new Vector3(0, 1, 0),
+                lowerleft + new Vector3(SQRT3 / 2, .5f, 0),
+            };
+            m.uv = new Vector2[]
+            {
+                new Vector2(0, 0),
+                new Vector2(0, 1),
+                new Vector2(1, .5f),
+            };
+            m.triangles = new int[]
+            {
+                0, 1, 2
+            };
             m_TriangleMesh = m;
             CustomColorPaletteStorage.m_Instance.ModeChanged += OnModeChanged;
         }
@@ -105,15 +108,15 @@ namespace TiltBrush
             {
                 GetComponent<MeshFilter>().sharedMesh = m_StandardMesh;
             }
-            RawValue = RawValue;        // force update of material param
+            RawValue = RawValue; // force update of material param
         }
 
         public Vector3 GetValueFromHit(RaycastHit hit)
         {
             var localHitPoint = transform.InverseTransformPoint(hit.point);
             return new Vector3(localHitPoint.x + 0.5f,
-                               localHitPoint.y + 0.5f,
-                               RawValue.z);
+                localHitPoint.y + 0.5f,
+                RawValue.z);
         }
 
         public void SetTintColor(Color rColor)
@@ -122,4 +125,4 @@ namespace TiltBrush
             m_HighlightMesh.material.SetColor("_Color", rColor);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

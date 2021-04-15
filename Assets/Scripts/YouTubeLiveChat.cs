@@ -247,17 +247,17 @@ namespace TiltBrush
             if (m_NextPageToken != null)
             {
                 sLiveChatURL = string.Format(sLiveChatURL +
-                  "liveChatId={0}&" +
-                  "pageToken={1}&" +
-                  "key={2}",
-                  m_ActiveLiveChatId, m_NextPageToken, kYouTubeApiKey);
+                    "liveChatId={0}&" +
+                    "pageToken={1}&" +
+                    "key={2}",
+                    m_ActiveLiveChatId, m_NextPageToken, kYouTubeApiKey);
             }
             else
             {
                 sLiveChatURL = string.Format(sLiveChatURL +
-                  "liveChatId={0}&" +
-                  "key={1}",
-                  m_ActiveLiveChatId, kYouTubeApiKey);
+                    "liveChatId={0}&" +
+                    "key={1}",
+                    m_ActiveLiveChatId, kYouTubeApiKey);
             }
 
             var messagesRequest = UnityWebRequest.Get(sLiveChatURL);

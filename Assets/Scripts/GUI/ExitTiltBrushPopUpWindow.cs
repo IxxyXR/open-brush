@@ -37,4 +37,4 @@ namespace TiltBrush
                 m_SaveButtonDescription_NoSaving);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

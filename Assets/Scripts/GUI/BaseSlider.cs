@@ -135,4 +135,4 @@ namespace TiltBrush
 
         virtual protected void OnPositionSliderNobUpdated() { }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

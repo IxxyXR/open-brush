@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.Text;
-
 using UnityEngine;
 
 namespace TiltBrush
@@ -57,10 +56,10 @@ namespace TiltBrush
                 foreach (var brushMeshPayload in group.brushMeshes)
                 {
                     var pool = brushMeshPayload.geometry;
-                    Color32 lastColor = pool.m_Colors[0];  // Set to color of first vert initially
-                    int j = 0;                           // An index marking current position in pool.m_Tris
-                    int numVerts = 0;           // Number of verts appended
-                    int firstVertInchunk = 0;  // So chunks starts triangle-indexing verts at 0 in the wrl
+                    Color32 lastColor = pool.m_Colors[0]; // Set to color of first vert initially
+                    int j = 0;                            // An index marking current position in pool.m_Tris
+                    int numVerts = 0;                     // Number of verts appended
+                    int firstVertInchunk = 0;             // So chunks starts triangle-indexing verts at 0 in the wrl
 
                     AppendchunkHeader(ref buffer);
                     AppendchunkVerticesHeader(ref buffer);
@@ -75,20 +74,20 @@ namespace TiltBrush
                         Color32 curColor = pool.m_Colors[i];
 
                         if (curColor.Equals(lastColor))
-                        {  // In the same chunk
+                        { // In the same chunk
 
                             AppendVertex(ref buffer, pool, i);
                             numVerts += 1;
 
                             if (i == pool.NumVerts - 1)
-                            {  // last vertex
+                            { // last vertex
 
                                 AppendchunkVerticesFooter(ref buffer);
 
                                 AppendchunkTrianglesHeader(ref buffer);
 
                                 while (j < pool.NumTriIndices)
-                                {  // Append all remaining triangles
+                                { // Append all remaining triangles
                                     AppendTriangle(ref buffer, pool, j, firstVertInchunk);
                                     j += 3;
                                 }
@@ -104,7 +103,7 @@ namespace TiltBrush
                             }
                         }
                         else
-                        {  // New color, so new chunk
+                        { // New color, so new chunk
 
                             AppendchunkVerticesFooter(ref buffer);
 
@@ -136,7 +135,7 @@ namespace TiltBrush
 
                             AppendchunkFooter(ref buffer);
 
-                            AppendchunkHeader(ref buffer);  // Starting the next chunk
+                            AppendchunkHeader(ref buffer); // Starting the next chunk
 
                             AppendchunkVerticesHeader(ref buffer);
 
@@ -159,24 +158,24 @@ namespace TiltBrush
         private static void AppendVertex(ref StringBuilder buffer, GeometryPool pool, int i)
         {
             buffer.Append("\t\t\t" + pool.m_Vertices[i].x + " "
-                                   + pool.m_Vertices[i].y + " "
-                                   + pool.m_Vertices[i].z + ",\n");
+                + pool.m_Vertices[i].y + " "
+                + pool.m_Vertices[i].z + ",\n");
         }
 
         private static void AppendTriangle(ref StringBuilder buffer, GeometryPool pool,
                                            int j, int chunkStartingVertex)
         {
             buffer.Append("\t\t\t" + (pool.m_Tris[j + 0] - chunkStartingVertex) + " "
-                                    + (pool.m_Tris[j + 1] - chunkStartingVertex) + " "
-                                    + (pool.m_Tris[j + 2] - chunkStartingVertex) + " "
-                                    + "-1,\n");
+                + (pool.m_Tris[j + 1] - chunkStartingVertex) + " "
+                + (pool.m_Tris[j + 2] - chunkStartingVertex) + " "
+                + "-1,\n");
         }
 
         private static void AppendColorRGB(ref StringBuilder buffer, Color32 lastColor)
         {
             buffer.Append("\t\t\t" + "diffuseColor " + lastColor.r + " "
-                                                      + lastColor.g + " "
-                                                      + lastColor.b + "\n");
+                + lastColor.g + " "
+                + lastColor.b + "\n");
         }
 
         private static void AppendColorA(ref StringBuilder buffer, Color32 lastColor)

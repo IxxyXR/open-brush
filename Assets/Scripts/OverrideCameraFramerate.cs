@@ -42,4 +42,4 @@ namespace TiltBrush
             frameCount++;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -31,8 +31,8 @@ namespace TiltBrush
         private bool m_Final;
 
         public ModifyPositionKnotCommand(CameraPath path, KnotDescriptor knotDesc, float endSpeed,
-            Vector3 endForward_GS, bool mergesWithCreateCommand = false, bool final = false,
-            BaseCommand parent = null)
+                                         Vector3 endForward_GS, bool mergesWithCreateCommand = false, bool final = false,
+                                         BaseCommand parent = null)
             : base((CameraPathPositionKnot)knotDesc.knot, mergesWithCreateCommand, parent)
         {
             m_Path = path;

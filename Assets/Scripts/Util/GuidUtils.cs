@@ -46,7 +46,7 @@ namespace TiltBrush
 
             {
                 byte[] nsBytesBigEndian = ns.ToByteArray();
-                ByteswapGuid(nsBytesBigEndian);   // from little- to big- since the RFC uses big-
+                ByteswapGuid(nsBytesBigEndian); // from little- to big- since the RFC uses big-
                 hasher.TransformBlock(nsBytesBigEndian, 0, nsBytesBigEndian.Length, null, 0);
             }
 
@@ -65,7 +65,7 @@ namespace TiltBrush
             // most-significant 4 bits of time_hi_and_version (octets 6-7)
             hash16[6] = (byte)((hash16[6] & ~0xf0) | (version << 4));
 
-            ByteswapGuid(hash16);  // from big- to little- so it can be consumed by System.Guid
+            ByteswapGuid(hash16); // from big- to little- so it can be consumed by System.Guid
             return new Guid(hash16);
         }
 
@@ -76,10 +76,18 @@ namespace TiltBrush
         {
             // The layout is 4-2-2-1-1-1-1-1-1-1-1
             byte tmp;
-            tmp = guid[0]; guid[0] = guid[3]; guid[3] = tmp;
-            tmp = guid[1]; guid[1] = guid[2]; guid[2] = tmp;
-            tmp = guid[4]; guid[4] = guid[5]; guid[5] = tmp;
-            tmp = guid[6]; guid[6] = guid[7]; guid[7] = tmp;
+            tmp = guid[0];
+            guid[0] = guid[3];
+            guid[3] = tmp;
+            tmp = guid[1];
+            guid[1] = guid[2];
+            guid[2] = tmp;
+            tmp = guid[4];
+            guid[4] = guid[5];
+            guid[5] = tmp;
+            tmp = guid[6];
+            guid[6] = guid[7];
+            guid[7] = tmp;
         }
 
         /// Returns a deterministic RFC4122 "version 3" uuid.
@@ -133,4 +141,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

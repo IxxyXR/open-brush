@@ -151,7 +151,7 @@ namespace TiltBrush
                 // Snap to 45 degree cone.
                 Vector3 line = new Vector3(v.x, 0, v.z).normalized;
                 line.y = Mathf.Sign(v.y);
-                line = line.normalized;  // or could multiply by sqrt(2)/2
+                line = line.normalized; // or could multiply by sqrt(2)/2
                 return Vector3.Dot(v, line) * line;
             }
         }
@@ -196,7 +196,7 @@ namespace TiltBrush
                 var brushSize = PointerManager.m_Instance.MainPointer.BrushSizeAbsolute;
                 m_MeterDisplay.transform.rotation = Quaternion.LookRotation(vPlaneProj, vUp);
                 m_MeterDisplay.transform.position += vUp *
-                  (m_MeterDisplay.rectTransform.rect.height * m_MeterYOffset + brushSize * 0.5f);
+                    (m_MeterDisplay.rectTransform.rect.height * m_MeterYOffset + brushSize * 0.5f);
                 m_MeterDisplay.gameObject.SetActive(true);
             }
             else
@@ -230,4 +230,4 @@ namespace TiltBrush
             m_TargetPos_CS = xfWorldFromCanvas.inverse * vTarget;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

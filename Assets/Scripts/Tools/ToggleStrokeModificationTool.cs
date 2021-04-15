@@ -334,4 +334,4 @@ namespace TiltBrush
             return !m_CurrentlyHot;
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

@@ -17,7 +17,6 @@ using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.IO;
-
 using Newtonsoft.Json.Linq;
 
 namespace TiltBrush
@@ -179,18 +178,18 @@ namespace TiltBrush
         private UnityWebRequest InitResumableUpload(string filename, long size)
         {
             string uri = String.Format("{0}?uploadType=resumable&part=snippet,status,contentDetails",
-              m_UploadUri);
+                m_UploadUri);
             string title = String.Format("{0} {1}", m_DefaultTitle, DateTime.Now.ToString("g"));
             string json = String.Format("{{\n"
-              + "  \"snippet\": {{\n"
-              + "    \"title\": \"{0}\",\n"
-              + "    \"description\": \"{1}\",\n"
-              + "    \"tags\": [\"tiltbrush\"]\n"
-              + "  }},\n"
-              + "  \"status\": {{\n"
-              + "    \"privacyStatus\": \"private\"\n"
-              + "  }}\n"
-              + "}}", title, m_DefaultDescription);
+                + "  \"snippet\": {{\n"
+                + "    \"title\": \"{0}\",\n"
+                + "    \"description\": \"{1}\",\n"
+                + "    \"tags\": [\"tiltbrush\"]\n"
+                + "  }},\n"
+                + "  \"status\": {{\n"
+                + "    \"privacyStatus\": \"private\"\n"
+                + "  }}\n"
+                + "}}", title, m_DefaultDescription);
             UnityWebRequest www = new UnityWebRequest(uri);
             www.method = UnityWebRequest.kHttpVerbPOST;
             UploadHandler uploader = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
@@ -204,4 +203,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

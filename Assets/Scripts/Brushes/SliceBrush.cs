@@ -38,9 +38,9 @@ namespace TiltBrush
         const float kSolidAspectRatio = 0.2f;
 
         public SliceBrush()
-          : base(bCanBatch: true,
-                 upperBoundVertsPerKnot: kVertsInQuad * 2,
-                 bDoubleSided: true)
+            : base(bCanBatch: true,
+                upperBoundVertsPerKnot: kVertsInQuad * 2,
+                bDoubleSided: true)
         {
         }
 
@@ -68,7 +68,7 @@ namespace TiltBrush
         override public float GetSpawnInterval(float pressure01)
         {
             return kSolidMinLengthMeters_PS * App.METERS_TO_UNITS * POINTER_TO_LOCAL +
-              (PressuredSize(pressure01) * kSolidAspectRatio);
+                (PressuredSize(pressure01) * kSolidAspectRatio);
         }
 
         override protected void ControlPointsChanged(int iKnot0)
@@ -86,7 +86,7 @@ namespace TiltBrush
 
         // This approximates parallel transport.
         static Quaternion ComputeMinimalRotationFrame(
-          Vector3 nTangent, Quaternion qPrevFrame)
+            Vector3 nTangent, Quaternion qPrevFrame)
         {
             Vector3 nPrevTangent = qPrevFrame * Vector3.forward;
             Quaternion minimal = Quaternion.FromToRotation(nPrevTangent, nTangent);
@@ -264,4 +264,4 @@ namespace TiltBrush
             return (iKnot + 1 == m_knots.Count || !m_knots[iKnot + 1].HasGeometry);
         }
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush
