@@ -1,5 +1,15 @@
 
-[*]
+# https://EditorConfig.org
+
+root = true
+
+[*.{cs,py,json,cfg}]
+indent_style = space
+indent_size = 2
+
+# Based on Google's C# style guide
+[*.cs]
+indent_size = 4
 
 # Microsoft .NET properties
 csharp_new_line_before_members_in_object_initializers = false
