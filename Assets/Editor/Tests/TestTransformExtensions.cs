@@ -66,7 +66,7 @@ namespace TiltBrush
             // Assert.AreEqual(child.lossyScale.x, actual);
             AssertAlmostEqual(child.lossyScale.x, actual);
             // This succeeds because GetUniformScale() tries to be more precise
-            Assert.AreEqual(desired, actual);  // not almost equal; exactly equal
+            Assert.AreEqual(desired, actual); // not almost equal; exactly equal
 
             float CHILD_LOCAL_SCALE2 = 3;
             float CHILD_GLOBAL_SCALE2 = CHILD_LOCAL_SCALE2 * PARENT_LOCAL_SCALE;
@@ -158,7 +158,7 @@ namespace TiltBrush
             AsParent[child] = xf;
             VeryLooseEqual(AsParent[child], xf);
             VeryLooseEqual(TrTransform.FromTransform(child),
-                           TrTransform.FromTransform(child.parent) * xf);
+                TrTransform.FromTransform(child.parent) * xf);
             UnityEngine.Object.DestroyImmediate(root.gameObject);
         }
 
@@ -169,8 +169,8 @@ namespace TiltBrush
             var child = RandomTransform(root, 2);
             var AsAncestor = new TransformExtensions.RelativeAccessor(child.parent.parent);
             VeryLooseEqual(TrTransform.FromLocalTransform(child.parent) *
-                           TrTransform.FromLocalTransform(child),
-                           AsAncestor[child]);
+                TrTransform.FromLocalTransform(child),
+                AsAncestor[child]);
             UnityEngine.Object.DestroyImmediate(root.gameObject);
         }
 
@@ -184,7 +184,7 @@ namespace TiltBrush
             AsAncestor[child] = xf;
             VeryLooseEqual(AsAncestor[child], xf);
             VeryLooseEqual(TrTransform.FromTransform(child.parent.parent) * xf,
-                           TrTransform.FromTransform(child));
+                TrTransform.FromTransform(child));
             UnityEngine.Object.DestroyImmediate(root.gameObject);
         }
 
@@ -196,7 +196,7 @@ namespace TiltBrush
             var right = RandomTransform(root);
             var AsRight = new TransformExtensions.RelativeAccessor(right);
             VeryLooseEqual(TrTransform.FromTransform(right) * AsRight[left],
-                           TrTransform.FromTransform(left));
+                TrTransform.FromTransform(left));
         }
 
         [Test]
@@ -210,7 +210,7 @@ namespace TiltBrush
             AsRight[left] = xf;
             VeryLooseEqual(AsRight[left], xf);
             VeryLooseEqual(TrTransform.FromTransform(right) * xf,
-                           TrTransform.FromTransform(left));
+                TrTransform.FromTransform(left));
         }
 
     }

@@ -140,8 +140,7 @@ namespace TiltBrush
             }
             m_Components = components.ToArray();
             m_ComponentNames = compopnentNames.ToArray();
-            m_selectedComponent = m_Components.Select(x => x.GetInstanceID()).
-                IndexOf(componentProperty.objectReferenceInstanceIDValue);
+            m_selectedComponent = m_Components.Select(x => x.GetInstanceID()).IndexOf(componentProperty.objectReferenceInstanceIDValue);
             if (m_selectedComponent == -1)
             {
                 m_selectedComponent = 0;

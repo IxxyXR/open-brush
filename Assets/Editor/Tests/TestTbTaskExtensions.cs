@@ -21,14 +21,15 @@ using System.Threading;
 using UnityEngine;
 using NUnit.Framework;
 using UnityEngine.TestTools;
-
 using static TiltBrush.AsyncTestUtils;
 
 namespace TiltBrush
 {
     internal class TestTbTaskExtensions
     {
-        class MyException : Exception { }
+        class MyException : Exception
+        {
+        }
 
         [UnityTest]
         public IEnumerator TestAsIeNullRethrows()
@@ -160,7 +161,7 @@ namespace TiltBrush
             {
                 throw new MyException();
             }).AsAsyncVoid(success: () => { success = true; },
-                           failure: () => { success = false; });
+                failure: () => { success = false; });
             for (int i = 0; i < 100; ++i)
             {
                 Thread.Sleep(10);

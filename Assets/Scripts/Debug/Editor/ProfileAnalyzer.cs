@@ -259,7 +259,7 @@ namespace TiltBrush
         private void AnalyzeProfile()
         {
             m_Data = new ProfileDataset();
-            Action<float> progressBar = delegate(float f)
+            Action<float> progressBar = delegate (float f)
             {
                 string message = (f < 0.75f) ? "Reading profile data" : "Analyzing profile data";
                 EditorUtility.DisplayProgressBar("Loading Profile", message, f);

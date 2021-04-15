@@ -33,9 +33,9 @@ namespace TiltBrush
 
                 AudioCaptureManager a = AudioCaptureManager.m_Instance;
                 InspectorUtils.LayoutCustomLabel(string.Format("Status: <color={0}>{1}</color>",
-                  (a != null && a.CaptureRequested ? (a.IsCapturingAudio ? "green" : "orange") : "brown"),
-                  (a != null && a.CaptureRequested ? (a.IsCapturingAudio ? "Capturing" : "Waiting for Audio") : "Inactive")),
-                  11, FontStyle.Bold, TextAnchor.MiddleLeft
+                        (a != null && a.CaptureRequested ? (a.IsCapturingAudio ? "green" : "orange") : "brown"),
+                        (a != null && a.CaptureRequested ? (a.IsCapturingAudio ? "Capturing" : "Waiting for Audio") : "Inactive")),
+                    11, FontStyle.Bold, TextAnchor.MiddleLeft
                 );
 
                 EditorGUILayout.Space();

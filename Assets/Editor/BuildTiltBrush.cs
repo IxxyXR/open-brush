@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
 using JetBrains.Annotations;
 using TiltBrush;
 using UnityEditor;
@@ -30,7 +29,6 @@ using UnityEditor.iOS.Xcode;
 #endif
 using UnityEditor.SceneManagement;
 using UnityEngine;
-
 using Environment = System.Environment;
 
 // All output from this class is prefixed with "_btb_" to facilitate extracting
@@ -57,7 +55,9 @@ static class BuildTiltBrush
     {
         // The << >> markers help the build script parse the message
         public BuildFailedException(string message)
-          : base(string.Format("<<{0}>>", message)) { }
+            : base(string.Format("<<{0}>>", message))
+        {
+        }
     }
 
     const string kMenuBackgroundBuild = "Tilt/Build/Background Build";
@@ -81,36 +81,40 @@ static class BuildTiltBrush
     private static string[] kBuildDirs = { "Assets", "Packages", "ProjectSettings", "Support" };
 
     private static readonly List<KeyValuePair<SdkMode, BuildTarget>> kValidSdkTargets
-        = new List<KeyValuePair<SdkMode, BuildTarget>>() {
-    new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Monoscopic, BuildTarget.StandaloneWindows64),
-    new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Monoscopic, BuildTarget.StandaloneOSX),
-    new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Monoscopic, BuildTarget.Android),
-    new KeyValuePair<SdkMode, BuildTarget>(SdkMode.SteamVR, BuildTarget.StandaloneWindows64),
-    new KeyValuePair<SdkMode, BuildTarget>(SdkMode.SteamVR, BuildTarget.StandaloneLinux64),
-    new KeyValuePair<SdkMode, BuildTarget>(SdkMode.SteamVR, BuildTarget.StandaloneOSX),
+        = new List<KeyValuePair<SdkMode, BuildTarget>>()
+        {
+            new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Monoscopic, BuildTarget.StandaloneWindows64),
+            new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Monoscopic, BuildTarget.StandaloneOSX),
+            new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Monoscopic, BuildTarget.Android),
+            new KeyValuePair<SdkMode, BuildTarget>(SdkMode.SteamVR, BuildTarget.StandaloneWindows64),
+            new KeyValuePair<SdkMode, BuildTarget>(SdkMode.SteamVR, BuildTarget.StandaloneLinux64),
+            new KeyValuePair<SdkMode, BuildTarget>(SdkMode.SteamVR, BuildTarget.StandaloneOSX),
 #if OCULUS_SUPPORTED
     new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Oculus, BuildTarget.StandaloneWindows64),
     new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Oculus, BuildTarget.Android),
 #endif // OCULUS_SUPPORTED
-    new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Gvr, BuildTarget.Android),
-    };
+            new KeyValuePair<SdkMode, BuildTarget>(SdkMode.Gvr, BuildTarget.Android),
+        };
 
-    static readonly List<CopyRequest> kToCopy = new List<CopyRequest> {
-    // Non-Android because this file is now hosted at
-    // https://docs.google.com/document/d/1L70mH-vmrLMxZX4525qpffAyqVcg770I74Pw_RGN8Ic
-    // TODO: Find a way to view the generated file from disk on Android so we
-    // don't have to keep the hosted file in sync.
-    new CopyRequest("Support/ThirdParty/GeneratedThirdPartyNotices.txt", "NOTICE") {
-        omitForAndroid=true },
-    new CopyRequest(FfmpegPipe.kFfmpegDir) { omitForAndroid=true },
-    new CopyRequest("Support/tiltasaurus.json"),
-    new CopyRequest("Support/README.txt") { omitForAndroid=true },
-    new CopyRequest("Support/exportManifest.json"),
-    new CopyRequest("Support/bin/renderVideo.cmd") { omitForAndroid=true },
-    new CopyRequest("Support/whiteTextureMap.png"),
-    // No longer needed, now that these are hosted
-    // new CopyRequest("Support/GlTFShaders"),
-  };
+    static readonly List<CopyRequest> kToCopy = new List<CopyRequest>
+    {
+        // Non-Android because this file is now hosted at
+        // https://docs.google.com/document/d/1L70mH-vmrLMxZX4525qpffAyqVcg770I74Pw_RGN8Ic
+        // TODO: Find a way to view the generated file from disk on Android so we
+        // don't have to keep the hosted file in sync.
+        new CopyRequest("Support/ThirdParty/GeneratedThirdPartyNotices.txt", "NOTICE")
+        {
+            omitForAndroid = true
+        },
+        new CopyRequest(FfmpegPipe.kFfmpegDir) { omitForAndroid = true },
+        new CopyRequest("Support/tiltasaurus.json"),
+        new CopyRequest("Support/README.txt") { omitForAndroid = true },
+        new CopyRequest("Support/exportManifest.json"),
+        new CopyRequest("Support/bin/renderVideo.cmd") { omitForAndroid = true },
+        new CopyRequest("Support/whiteTextureMap.png"),
+        // No longer needed, now that these are hosted
+        // new CopyRequest("Support/GlTFShaders"),
+    };
 
     // Used to transfer information from DoBuild() to the post-build callback
     class PostBuildInfo
@@ -187,7 +191,7 @@ static class BuildTiltBrush
         get
         {
             return AsEnum(EditorPrefs.GetString(kMenuPlatformPref, "StandaloneWindows64"),
-                          BuildTarget.StandaloneWindows64);
+                BuildTarget.StandaloneWindows64);
         }
         set
         {
@@ -298,8 +302,8 @@ static class BuildTiltBrush
             Location = GetAppPathForGuiBuild(),
             Stamp = "(menuitem)",
             UnityOptions = GuiDevelopment
-            ? (BuildOptions.AllowDebugging | BuildOptions.Development)
-            : BuildOptions.None,
+                ? (BuildOptions.AllowDebugging | BuildOptions.Development)
+                : BuildOptions.None,
             Github = false,
         };
     }
@@ -844,8 +848,8 @@ static class BuildTiltBrush
         }
         tiltOptions.Target = target.Value;
         using (var unused = new TempSetCommandLineOnlyPlayerSettings(
-                   keystoreName, keystorePass,
-                   keyaliasName, keyaliasPass))
+            keystoreName, keystorePass,
+            keyaliasName, keyaliasPass))
         {
             DoBuild(tiltOptions);
         }
@@ -862,11 +866,11 @@ static class BuildTiltBrush
         {
             m_group = BuildTiltBrush.ToGroup(target);
             m_prevSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(m_group);
-            var newSymbols = m_prevSymbols.Split(';')   // might be [""]
-              .Concat(symbols.Where(elt => elt != null))
-              .Select(elt => elt.Trim())
-              .Where(elt => elt != "")
-              .ToArray();
+            var newSymbols = m_prevSymbols.Split(';') // might be [""]
+                .Concat(symbols.Where(elt => elt != null))
+                .Select(elt => elt.Trim())
+                .Where(elt => elt != "")
+                .ToArray();
             PlayerSettings.SetScriptingDefineSymbolsForGroup(
                 m_group, string.Join(";", newSymbols));
         }
@@ -1045,7 +1049,7 @@ static class BuildTiltBrush
             if (!string.IsNullOrEmpty(m_scene))
             {
                 m_backup = Path.Combine(Path.GetDirectoryName(sceneName),
-                                        "Temp_" + Path.GetFileName(sceneName));
+                    "Temp_" + Path.GetFileName(sceneName));
                 FileUtil.DeleteFileOrDirectory(m_backup);
                 FileUtil.CopyFileOrDirectory(m_scene, m_backup);
                 // force reload
@@ -1216,9 +1220,9 @@ static class BuildTiltBrush
         BuildOptions options = tiltOptions.UnityOptions;
         string[] scenes = { "Assets/Scenes/Loading.unity", "Assets/Scenes/Main.unity" };
         Note("BuildTiltBrush: Start target:{0} mode:{1} exp:{2} profile:{3} options:{4}",
-             target, vrSdk, tiltOptions.Experimental, tiltOptions.AutoProfile,
-             // For some reason, "None" comes through as "CompressTextures"
-             options == BuildOptions.None ? "None" : options.ToString());
+            target, vrSdk, tiltOptions.Experimental, tiltOptions.AutoProfile,
+            // For some reason, "None" comes through as "CompressTextures"
+            options == BuildOptions.None ? "None" : options.ToString());
 
         var copyRequests = new List<CopyRequest>(kToCopy);
 
@@ -1230,18 +1234,18 @@ static class BuildTiltBrush
         using (var unused11 = new TempSetStereoRenderPath(target == BuildTarget.Android
             ? StereoRenderingPath.SinglePass : StereoRenderingPath.MultiPass))
         using (var unused3 = new TempDefineSymbols(
-                   target,
-                   tiltOptions.Il2Cpp ? "DISABLE_AUDIO_CAPTURE" : null,
-                   tiltOptions.Experimental ? "EXPERIMENTAL_ENABLED" : null,
-                   tiltOptions.AutoProfile ? "AUTOPROFILE_ENABLED" : null))
+            target,
+            tiltOptions.Il2Cpp ? "DISABLE_AUDIO_CAPTURE" : null,
+            tiltOptions.Experimental ? "EXPERIMENTAL_ENABLED" : null,
+            tiltOptions.AutoProfile ? "AUTOPROFILE_ENABLED" : null))
         using (var unused4 = new TempHookUpSingletons())
         using (var unused5 = new TempSetScriptingBackend(target, tiltOptions.Il2Cpp))
         using (var unused6 = new TempSetBundleVersion(App.Config.m_VersionNumber, stamp))
         using (var unused10 = new TempSetAppNames(target == BuildTarget.Android, tiltOptions.Github))
         using (var unused7 = new RestoreVrSdks())
         using (var unused9 = new RestoreFileContents(
-                   Path.Combine(Path.GetDirectoryName(Application.dataPath),
-                                "ProjectSettings/GraphicsSettings.asset")))
+            Path.Combine(Path.GetDirectoryName(Application.dataPath),
+                "ProjectSettings/GraphicsSettings.asset")))
         {
             var config = App.Config;
             config.m_SdkMode = vrSdk;
@@ -1279,8 +1283,8 @@ static class BuildTiltBrush
                     catch (ArgumentException)
                     {
                         errors.Add(string.Format(
-                                       "Brush {0} and {1} have same LUID {2}",
-                                       desc.name, locallyUniqueIds[luid].name, luid));
+                            "Brush {0} and {1} have same LUID {2}",
+                            desc.name, locallyUniqueIds[luid].name, luid));
                     }
                     try
                     {
@@ -1289,8 +1293,8 @@ static class BuildTiltBrush
                     catch (ArgumentException)
                     {
                         errors.Add(string.Format(
-                                       "Brush {0} and {1} have same GUID {2}",
-                                       desc.name, globallyUniqueIds[desc.m_Guid].name, desc.m_Guid));
+                            "Brush {0} and {1} have same GUID {2}",
+                            desc.name, globallyUniqueIds[desc.m_Guid].name, desc.m_Guid));
                     }
                 }
 
@@ -1315,14 +1319,15 @@ static class BuildTiltBrush
                 {
                     throw new BuildFailedException(
                         string.Format("Build sanity checks failed:\n{0}",
-                                      string.Join("\n", errors.ToArray())));
+                            string.Join("\n", errors.ToArray())));
                 }
                 // b/139746720
                 {
-                    foreach (var asset in new[] {
-              "Assets/ThirdParty/Oculus/LipSync/Scripts/OVRLipSyncMicInput.cs",
-              "Assets/ThirdParty/Oculus/Platform/Scripts/MicrophoneInput.cs",
-            })
+                    foreach (var asset in new[]
+                    {
+                        "Assets/ThirdParty/Oculus/LipSync/Scripts/OVRLipSyncMicInput.cs",
+                        "Assets/ThirdParty/Oculus/Platform/Scripts/MicrophoneInput.cs",
+                    })
                     {
                         // For some reason AssetPathToGUID() still returns a guid even after the
                         // files are deleted :-P. So use the filesystem I guess?
@@ -1432,27 +1437,33 @@ static class BuildTiltBrush
     }
 
 #if UNITY_2018_3_OR_NEWER
-  // Returns null if no errors; otherwise a string with what went wrong.
-  private static string FormatBuildStep(BuildStep step) {
-    var errors = step.messages
-        .Where(m => (m.type == LogType.Error || m.type == LogType.Exception))
-        .Select(m => m.content)
-        .ToArray();
-    if (errors.Length > 0) {
-      return step.name + "\n" + string.Join("\n", errors.Select(s => "  "+s).ToArray());
-    } else {
-      return null;
+    // Returns null if no errors; otherwise a string with what went wrong.
+    private static string FormatBuildStep(BuildStep step)
+    {
+        var errors = step.messages
+            .Where(m => (m.type == LogType.Error || m.type == LogType.Exception))
+            .Select(m => m.content)
+            .ToArray();
+        if (errors.Length > 0)
+        {
+            return step.name + "\n" + string.Join("\n", errors.Select(s => "  " + s).ToArray());
+        }
+        else
+        {
+            return null;
+        }
     }
-  }
 
-  // Returns null if no errors; otherwise a string with what went wrong.
-  private static string FormatBuildReport(BuildReport report) {
-    if (report.summary.result == BuildResult.Succeeded) {
-      return null;
+    // Returns null if no errors; otherwise a string with what went wrong.
+    private static string FormatBuildReport(BuildReport report)
+    {
+        if (report.summary.result == BuildResult.Succeeded)
+        {
+            return null;
+        }
+        var steps = report.steps.Select(FormatBuildStep).Where(s => s != null);
+        return "Errors:\n" + string.Join("\n", steps.ToArray());
     }
-    var steps = report.steps.Select(FormatBuildStep).Where(s => s != null);
-    return "Errors:\n" + string.Join("\n", steps.ToArray());
-  }
 #else
     // Returns null if no errors; otherwise a string with what went wrong.
     private static string FormatBuildReport(string report)
@@ -1469,7 +1480,7 @@ static class BuildTiltBrush
         PostBuildInfo info = m_forPostBuild;
         m_forPostBuild = null;
 
-        string dataDir = path.Replace(".exe", "_Data");  // eg TiltBrush_Data
+        string dataDir = path.Replace(".exe", "_Data"); // eg TiltBrush_Data
         string looseFilesDest;
         switch (target)
         {
@@ -1681,9 +1692,9 @@ static class BuildTiltBrush
     private static void SyncDirectoryTo(string source, string destination, bool subdirs = true)
     {
 #if UNITY_EDITOR_WIN
-    string args = string.Format("\"{0}\" \"{1}\" {2} /PURGE",
-                                source, destination, subdirs ? "/E" : "");
-    string copyexe = "robocopy.exe";
+        string args = string.Format("\"{0}\" \"{1}\" {2} /PURGE",
+            source, destination, subdirs ? "/E" : "");
+        string copyexe = "robocopy.exe";
 #else
         string args = string.Format("\"{0}/\" \"{1}/\" {2} --delete",
                                     source, destination, subdirs ? "-a" : "-d");

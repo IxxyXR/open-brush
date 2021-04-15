@@ -19,12 +19,10 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-
 using static TiltBrush.AsyncTestUtils;
 
 namespace TiltBrush
@@ -205,14 +203,15 @@ namespace TiltBrush
         [Test]
         public void TestGetRelativePath()
         {
-            var testCases = new[] {
-        ("/storage/emulated/0/Android/data/com.google.tiltbrush/cache/Upload/sketch.gltf",
-         "/storage/emulated/0/Android/data/com.google.tiltbrush/cache/Upload",
-         "sketch.gltf"),
-        ("c:/src/tb/Support/somefile.txt",
-         "c:\\src/tb",
-         "Support\\somefile.txt")
-    };
+            var testCases = new[]
+            {
+                ("/storage/emulated/0/Android/data/com.google.tiltbrush/cache/Upload/sketch.gltf",
+                 "/storage/emulated/0/Android/data/com.google.tiltbrush/cache/Upload",
+                 "sketch.gltf"),
+                ("c:/src/tb/Support/somefile.txt",
+                 "c:\\src/tb",
+                 "Support\\somefile.txt")
+            };
             foreach (var tuple in testCases)
             {
                 var (toFile, fromDir, desired) = tuple;
@@ -221,4 +220,4 @@ namespace TiltBrush
         }
 
     }
-}  // namespace TiltBrush
+} // namespace TiltBrush

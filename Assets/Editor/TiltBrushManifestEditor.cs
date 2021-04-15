@@ -15,7 +15,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
 using UnityEditor;
 using UnityEngine;
 using ReorderableList = UnityEditorInternal.ReorderableList;
@@ -78,7 +77,7 @@ namespace TiltBrush
         {
             // Everything that's not already in the list
             var notInList = new HashSet<string>(AssetDatabase.FindAssets("t:" + assetType)
-                                                .Select(AssetDatabase.GUIDToAssetPath));
+                .Select(AssetDatabase.GUIDToAssetPath));
             notInList.ExceptWith(AssetPathsIn(list));
 
             // notInList & ~experimental

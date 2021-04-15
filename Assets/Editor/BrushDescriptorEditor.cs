@@ -47,7 +47,7 @@ namespace TiltBrush
                 else
                 {
                     Debug.LogError(
-                      $"This doesn't look like an in-development build of {App.kAppDisplayName}");
+                        $"This doesn't look like an in-development build of {App.kAppDisplayName}");
                     return;
                 }
             }
@@ -229,11 +229,11 @@ namespace TiltBrush
         private static void ShowReadmeText()
         {
             EditorUtility.DisplayDialog(
-              "Locked Brush Fields",
-              "Most brush fields only affect new art created with that brush. Other fields affect existing art if they're changed. For safety, these fields are read-only if a brush has already been released, t\n\n" +
-              "Use the 'Unlock' button to bypass these safety checks, but definitely have someone review your change.\n\n" +
-              "Alternatively use the 'Duplicate' button and modify a copy.",
-              "OK");
+                "Locked Brush Fields",
+                "Most brush fields only affect new art created with that brush. Other fields affect existing art if they're changed. For safety, these fields are read-only if a brush has already been released, t\n\n" +
+                "Use the 'Unlock' button to bypass these safety checks, but definitely have someone review your change.\n\n" +
+                "Alternatively use the 'Duplicate' button and modify a copy.",
+                "OK");
         }
     }
 
@@ -247,7 +247,7 @@ namespace TiltBrush
         {
             m_GuidToBrush = AssetDatabase.FindAssets("t:BrushDescriptor")
                 .Select(name => AssetDatabase.LoadAssetAtPath<BrushDescriptor>(
-                            AssetDatabase.GUIDToAssetPath(name)))
+                    AssetDatabase.GUIDToAssetPath(name)))
                 .ToDictionary(desc => (Guid)desc.m_Guid);
         }
 
@@ -264,7 +264,7 @@ namespace TiltBrush
             }
             catch (Exception)
             {
-                return null;  // Guid parse error
+                return null; // Guid parse error
             }
         }
 
@@ -272,8 +272,10 @@ namespace TiltBrush
         {
             position = EditorGUI.PrefixLabel(position, label);
 
-            Rect leftPos = position; leftPos.width /= 2;
-            Rect rightPos = leftPos; rightPos.x = leftPos.xMax;
+            Rect leftPos = position;
+            leftPos.width /= 2;
+            Rect rightPos = leftPos;
+            rightPos.x = leftPos.xMax;
 
             var indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;

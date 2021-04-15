@@ -166,8 +166,8 @@ internal class MathTestUtils
                                    float abseps, float releps)
     {
         return (AlmostEqual(lhs.x, rhs.x, abseps, releps) &&
-                AlmostEqual(lhs.y, rhs.y, abseps, releps) &&
-                AlmostEqual(lhs.z, rhs.z, abseps, releps));
+            AlmostEqual(lhs.y, rhs.y, abseps, releps) &&
+            AlmostEqual(lhs.z, rhs.z, abseps, releps));
     }
 
     public static void CheckAlmostEqual(Vector3 lhs, Vector3 rhs,
@@ -197,9 +197,9 @@ internal class MathTestUtils
         catch (NotAlmostEqual e)
         {
             Assert.Fail("({0} {1} {2}) !~ ({3} {4} {5}) {7} {6}",
-                        lhs.x, lhs.y, lhs.z,
-                        rhs.x, rhs.y, rhs.z,
-                        e.Message, message ?? "");
+                lhs.x, lhs.y, lhs.z,
+                rhs.x, rhs.y, rhs.z,
+                e.Message, message ?? "");
         }
     }
 
@@ -213,9 +213,9 @@ internal class MathTestUtils
                                      float abseps, float releps)
     {
         return (AlmostEqual(lhs.x, rhs.x, abseps, releps) &&
-                AlmostEqual(lhs.y, rhs.y, abseps, releps) &&
-                AlmostEqual(lhs.z, rhs.z, abseps, releps) &&
-                AlmostEqual(lhs.w, rhs.w, abseps, releps));
+            AlmostEqual(lhs.y, rhs.y, abseps, releps) &&
+            AlmostEqual(lhs.z, rhs.z, abseps, releps) &&
+            AlmostEqual(lhs.w, rhs.w, abseps, releps));
     }
 
     public static void CheckAlmostEqualV4(Vector4 lhs, Vector4 rhs,
@@ -246,9 +246,9 @@ internal class MathTestUtils
         catch (NotAlmostEqual e)
         {
             Assert.Fail("({0} {1} {2} {3}) !~ ({4} {5} {6} {7}) {9} {8}",
-                        lhs.x, lhs.y, lhs.z, lhs.w,
-                        rhs.x, rhs.y, rhs.z, rhs.w,
-                        e.Message, message ?? "");
+                lhs.x, lhs.y, lhs.z, lhs.w,
+                rhs.x, rhs.y, rhs.z, rhs.w,
+                e.Message, message ?? "");
         }
     }
 
@@ -261,13 +261,15 @@ internal class MathTestUtils
     {
         if (allowFlip && Quaternion.Dot(lhs, rhs) < 0)
         {
-            rhs.x *= -1; rhs.y *= -1;
-            rhs.z *= -1; rhs.w *= -1;
+            rhs.x *= -1;
+            rhs.y *= -1;
+            rhs.z *= -1;
+            rhs.w *= -1;
         }
         return (AlmostEqual(lhs.x, rhs.x, abseps, releps) &&
-                AlmostEqual(lhs.y, rhs.y, abseps, releps) &&
-                AlmostEqual(lhs.z, rhs.z, abseps, releps) &&
-                AlmostEqual(lhs.w, rhs.w, abseps, releps));
+            AlmostEqual(lhs.y, rhs.y, abseps, releps) &&
+            AlmostEqual(lhs.z, rhs.z, abseps, releps) &&
+            AlmostEqual(lhs.w, rhs.w, abseps, releps));
     }
 
     public static void CheckAlmostEqual(
@@ -278,8 +280,10 @@ internal class MathTestUtils
     {
         if (allowFlip && Quaternion.Dot(lhs, rhs) < 0)
         {
-            rhs.x *= -1; rhs.y *= -1;
-            rhs.z *= -1; rhs.w *= -1;
+            rhs.x *= -1;
+            rhs.y *= -1;
+            rhs.z *= -1;
+            rhs.w *= -1;
         }
         try
         {
@@ -319,9 +323,9 @@ internal class MathTestUtils
         catch (NotAlmostEqual e)
         {
             Assert.Fail("aa({0}  {1} {2} {3}) !~ aa({4}  {5} {6} {7}) {8}",
-                        lhsAngle, lhsAxis.x, lhsAxis.y, lhsAxis.z,
-                        rhsAngle, rhsAxis.x, rhsAxis.y, rhsAxis.z,
-                        e.Message);
+                lhsAngle, lhsAxis.x, lhsAxis.y, lhsAxis.z,
+                rhsAngle, rhsAxis.x, rhsAxis.y, rhsAxis.z,
+                e.Message);
         }
     }
 
@@ -336,9 +340,9 @@ internal class MathTestUtils
         catch (NotAlmostEqual e)
         {
             Assert.Fail("q({0} {1} {2}  {3}) !~ q({4} {5} {6}  {7}) {8}",
-                        lhs.x, lhs.y, lhs.z, lhs.w,
-                        rhs.x, rhs.y, rhs.z, rhs.w,
-                        e.Message);
+                lhs.x, lhs.y, lhs.z, lhs.w,
+                rhs.x, rhs.y, rhs.z, rhs.w,
+                e.Message);
         }
     }
 
@@ -351,8 +355,8 @@ internal class MathTestUtils
                                    bool allowFlip)
     {
         return (AlmostEqual(lhs.rotation, rhs.rotation, abseps, releps, allowFlip) &&
-                AlmostEqual(lhs.translation, rhs.translation, abseps, releps) &&
-                AlmostEqual(lhs.scale, rhs.scale, abseps, releps));
+            AlmostEqual(lhs.translation, rhs.translation, abseps, releps) &&
+            AlmostEqual(lhs.scale, rhs.scale, abseps, releps));
     }
 
     public static void CheckAlmostEqual(
@@ -396,7 +400,7 @@ internal class MathTestUtils
         catch (NotAlmostEqual)
         {
             Assert.Fail("{0} {1}  !~  {2} {3}",
-                        lhs.normal, lhs.distance, rhs.normal, rhs.distance);
+                lhs.normal, lhs.distance, rhs.normal, rhs.distance);
         }
     }
 
@@ -417,8 +421,8 @@ internal class MathTestUtils
         }
 
         return TrTransform.TRS(Random.insideUnitSphere * 10,
-                               Random.rotationUniform,
-                               scale);
+            Random.rotationUniform,
+            scale);
     }
 
     public static List<Color32> RandomColor32List(int size)
@@ -451,7 +455,7 @@ internal class MathTestUtils
         for (int i = 0; i < size; i++)
         {
             list.Add(new Vector2(Random.Range(-100f, 100f),
-                                 Random.Range(-100f, 100f)));
+                Random.Range(-100f, 100f)));
         }
         return list;
     }
@@ -462,8 +466,8 @@ internal class MathTestUtils
         for (int i = 0; i < size; i++)
         {
             list.Add(new Vector3(Random.Range(-100f, 100f),
-                                 Random.Range(-100f, 100f),
-                                 Random.Range(-100f, 100f)));
+                Random.Range(-100f, 100f),
+                Random.Range(-100f, 100f)));
         }
         return list;
     }
@@ -474,9 +478,9 @@ internal class MathTestUtils
         for (int i = 0; i < size; i++)
         {
             list.Add(new Vector4(Random.Range(-100f, 100f),
-                                 Random.Range(-100f, 100f),
-                                 Random.Range(-100f, 100f),
-                                 Random.Range(-100f, 100f)));
+                Random.Range(-100f, 100f),
+                Random.Range(-100f, 100f),
+                Random.Range(-100f, 100f)));
         }
         return list;
     }

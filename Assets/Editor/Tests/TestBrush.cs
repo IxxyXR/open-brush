@@ -108,8 +108,8 @@ namespace TiltBrush
             var file = new DiskSceneFileInfo(path, readOnly: true);
             SketchMetadata metadata;
             using (var jsonReader = new JsonTextReader(
-                       new StreamReader(
-                           SaveLoadScript.GetMetadataReadStream(file))))
+                new StreamReader(
+                    SaveLoadScript.GetMetadataReadStream(file))))
             {
                 // TODO: should cache this?
                 var serializer = new JsonSerializer();

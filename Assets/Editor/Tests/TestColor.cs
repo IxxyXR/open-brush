@@ -166,17 +166,17 @@ namespace TiltBrush
             Assert.IsTrue(ok, "Mode {0}: {1} -> {2} -> fail", mode, Repr(rgb), raw);
             // RawValueToColor should always return colors with a=1
             Assert.AreEqual(1, rgb2.a, "RawValueToColor alpha");
-            rgb.a = 1;  // Don't check incoming alpha
+            rgb.a = 1; // Don't check incoming alpha
             AssertNearlyEqualRGB(rgb, rgb2);
         }
 
         [Test]
         public void TestColorPickerRoundTripFromColor(
             [Values(ColorPickerMode.HS_L_Polar,
-              ColorPickerMode.SV_H_Rect,
-              ColorPickerMode.SL_H_Triangle,
-              ColorPickerMode.HL_S_Polar)]
-      ColorPickerMode mode)
+                ColorPickerMode.SV_H_Rect,
+                ColorPickerMode.SL_H_Triangle,
+                ColorPickerMode.HL_S_Polar)]
+            ColorPickerMode mode)
         {
             foreach (HSLColor hsl in HslTestCases(30))
             {
@@ -233,10 +233,10 @@ namespace TiltBrush
         [Test]
         public void TestColorPickerRoundTripFromValue(
             [Values(ColorPickerMode.HS_L_Polar,
-              ColorPickerMode.SV_H_Rect,
-              ColorPickerMode.SL_H_Triangle,
-              ColorPickerMode.HL_S_Polar)]
-      ColorPickerMode mode)
+                ColorPickerMode.SV_H_Rect,
+                ColorPickerMode.SL_H_Triangle,
+                ColorPickerMode.HL_S_Polar)]
+            ColorPickerMode mode)
         {
             foreach (var pos in ColorPickerPositions())
             {

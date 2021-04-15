@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using NUnit.Framework;
 using UnityEngine;
 using UnityEditor;

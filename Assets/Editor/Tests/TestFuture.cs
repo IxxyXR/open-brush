@@ -16,10 +16,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-
 using NUnit.Framework;
 using UnityEngine.TestTools;
-
 using static TiltBrush.AsyncTestUtils;
 
 namespace TiltBrush
@@ -30,7 +28,9 @@ namespace TiltBrush
     {
         public bool IsDone { get { return m_state == State.Done; } }
         public MyFuture(Func<List<int>> computation, Action<List<int>> cleanupFunction = null)
-          : base(computation, cleanupFunction) { }
+            : base(computation, cleanupFunction)
+        {
+        }
     }
 
     internal class TestFuture
@@ -148,15 +148,21 @@ namespace TiltBrush
         {
 
             const int kValue = 3;
-            var slowFuture = new Future<int>(() => { Thread.Sleep(20); return kValue; });
+            var slowFuture = new Future<int>(() =>
+            {
+                Thread.Sleep(20);
+                return kValue;
+            });
             Assert.AreEqual(kValue, await slowFuture);
             var fastFuture = new Future<int>(() => kValue);
-            Thread.Sleep(50);  // plenty of time for fastFuture to complete
+            Thread.Sleep(50); // plenty of time for fastFuture to complete
             Assert.AreEqual(kValue, await fastFuture);
 
         });
 
-        class CustomException : Exception { }
+        class CustomException : Exception
+        {
+        }
         // Checks that Future.Awaiter throws the proper exception whether or not
         // the Future has completed at the time of the await.
         [UnityTest]
@@ -177,7 +183,7 @@ namespace TiltBrush
             var failFast = new Future<int>(() => throw new CustomException());
             try
             {
-                Thread.Sleep(50);  // Give it time to complete
+                Thread.Sleep(50); // Give it time to complete
                 Assert.Fail($"Got {await failFast} instead of exception");
             }
             catch (CustomException) { }

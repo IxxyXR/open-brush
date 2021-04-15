@@ -46,7 +46,7 @@ namespace TiltBrush
             using (Stream instream = GetReadStream(zipfile, "data.bin", useSharpZipLib))
             {
                 SketchBinaryReader reader = new SketchBinaryReader(instream);
-                reader.UInt32();          // start test at non-zero offset
+                reader.UInt32(); // start test at non-zero offset
                 bool ok = reader.Skip(amount);
                 Assert.IsTrue(ok);
                 a = reader.UInt32();
@@ -99,9 +99,17 @@ namespace TiltBrush
 
                 aw.Write(0x7123abcd);
                 aw.Write(0xdb1f117eu);
-                aw.Write(-0f); aw.Write(-1f); aw.Write(1e27f);
-                aw.Write(q1.x); aw.Write(q1.y); aw.Write(q1.z); aw.Write(q1.w);
-                aw.Write(q2.x); aw.Write(q2.y); aw.Write(q2.z); aw.Write(q2.w);
+                aw.Write(-0f);
+                aw.Write(-1f);
+                aw.Write(1e27f);
+                aw.Write(q1.x);
+                aw.Write(q1.y);
+                aw.Write(q1.z);
+                aw.Write(q1.w);
+                aw.Write(q2.x);
+                aw.Write(q2.y);
+                aw.Write(q2.z);
+                aw.Write(q2.w);
                 aw.Flush();
                 astr.Write(b0, 0, b0.Length);
                 astr.Write(b10, 0, b10.Length);

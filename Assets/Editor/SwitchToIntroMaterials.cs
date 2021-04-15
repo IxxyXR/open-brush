@@ -28,9 +28,9 @@ namespace TiltBrush
         {
             string instance = " (Instance)";
             var introMaterials =
-              AssetDatabase.FindAssets("t:Material", new[] { "Assets/Materials/IntroMaterials" })
-                .Select(x => AssetDatabase.GUIDToAssetPath(x))
-                .Select(x => AssetDatabase.LoadAssetAtPath<Material>(x)).ToArray();
+                AssetDatabase.FindAssets("t:Material", new[] { "Assets/Materials/IntroMaterials" })
+                    .Select(x => AssetDatabase.GUIDToAssetPath(x))
+                    .Select(x => AssetDatabase.LoadAssetAtPath<Material>(x)).ToArray();
             int succeeded = 0;
             int failed = 0;
             foreach (var batch in App.ActiveCanvas.BatchManager.AllBatches())

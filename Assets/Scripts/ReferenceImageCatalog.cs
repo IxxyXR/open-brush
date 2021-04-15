@@ -137,7 +137,7 @@ namespace TiltBrush
                 // We can't set it ourselves because there's a frame of latency between
                 // caller calling StartCoroutine and us getting control.
                 yield return null; // Give the compositor time to spool up
-                restart:
+            restart:
                 m_ResetImageEnumeration = false;
                 foreach (var image in m_Images)
                 {

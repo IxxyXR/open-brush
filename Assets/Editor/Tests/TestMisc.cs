@@ -15,11 +15,9 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
-
 using UnityEngine;
 using NUnit.Framework;
 using UnityEngine.TestTools;
-
 using static TiltBrush.AsyncTestUtils;
 
 namespace TiltBrush
@@ -38,17 +36,17 @@ namespace TiltBrush
         // Embedded
         [TestCase(.1f, .1f, .1f, 3, .1f, .1f, 1, 0, 0)]
         // Face tests
-        [TestCase(4, 1, 1, 3, 1, 1, 1, 0, 0)]  // +x face
-        [TestCase(-4, 1, 1, -3, 1, 1, -1, 0, 0)]  // -x face
-        [TestCase(1, 8, 2, 1, 4, 2, 0, 1, 0)]  // +y face
-        [TestCase(1, -8, 2, 1, -4, 2, 0, -1, 0)]  // -y face
-        [TestCase(-1, -2, 8, -1, -2, 5, 0, 0, 1)]  // +z face
-        [TestCase(-1, -2, -8, -1, -2, -5, 0, 0, -1)]  // -z face
-                                                      // Edge tests
-        [TestCase(8, 8, 2, 3, 4, 2, 0, 0, 0)]  // +x+y edge
-        [TestCase(-8, 8, 2, -3, 4, 2, 0, 0, 0)]  // -x+y edge
-                                                 // Vert tests
-        [TestCase(8, -8, -8, 3, -4, -5, 0, 0, 0)]  // +x-y-z vert
+        [TestCase(4, 1, 1, 3, 1, 1, 1, 0, 0)]        // +x face
+        [TestCase(-4, 1, 1, -3, 1, 1, -1, 0, 0)]     // -x face
+        [TestCase(1, 8, 2, 1, 4, 2, 0, 1, 0)]        // +y face
+        [TestCase(1, -8, 2, 1, -4, 2, 0, -1, 0)]     // -y face
+        [TestCase(-1, -2, 8, -1, -2, 5, 0, 0, 1)]    // +z face
+        [TestCase(-1, -2, -8, -1, -2, -5, 0, 0, -1)] // -z face
+        // Edge tests
+        [TestCase(8, 8, 2, 3, 4, 2, 0, 0, 0)]   // +x+y edge
+        [TestCase(-8, 8, 2, -3, 4, 2, 0, 0, 0)] // -x+y edge
+        // Vert tests
+        [TestCase(8, -8, -8, 3, -4, -5, 0, 0, 0)] // +x-y-z vert
         public void TestClosestPointOnBox(
             float px, float py, float pz,
             float spx, float spy, float spz,
@@ -91,8 +89,8 @@ namespace TiltBrush
                         // Only care about running tests where the point is on 2 or 3 faces (ie edge, or vert)
                         if (numFaces <= 1) { continue; }
                         var pos = new Vector3(xsign * halfWidth.x,
-                                              ysign * halfWidth.y,
-                                              zsign * halfWidth.z);
+                            ysign * halfWidth.y,
+                            zsign * halfWidth.z);
 
                         Vector3 surfacePos, surfaceNorm;
                         CubeStencil.FindClosestPointOnBoxSurface(pos, halfWidth,
@@ -131,9 +129,9 @@ namespace TiltBrush
         {
             // Test values computed using python uuid.uuid3
             Assert.AreEqual(GuidUtils.Uuid3(Guid.Empty, "fancy"),
-                            new Guid("e033f80d-b580-3145-8f4b-3d90f8c0da30"));
+                new Guid("e033f80d-b580-3145-8f4b-3d90f8c0da30"));
             Assert.AreEqual(GuidUtils.Uuid3(GuidUtils.kNamespaceDns, "fancy"),
-                            new Guid("5d5c7347-4e4b-3a86-a58e-3615d4aa6b2e"));
+                new Guid("5d5c7347-4e4b-3a86-a58e-3615d4aa6b2e"));
         }
 
         [Test]
@@ -141,9 +139,9 @@ namespace TiltBrush
         {
             // Test values computed using python uuid.uuid5
             Assert.AreEqual(GuidUtils.Uuid5(Guid.Empty, "fancy"),
-                            new Guid("f8893632-dedc-566d-83f1-afda8c3bbd31"));
+                new Guid("f8893632-dedc-566d-83f1-afda8c3bbd31"));
             Assert.AreEqual(GuidUtils.Uuid5(GuidUtils.kNamespaceDns, "fancy"),
-                            new Guid("750c4490-5470-5f19-a5e9-98c1ce534c7e"));
+                new Guid("750c4490-5470-5f19-a5e9-98c1ce534c7e"));
         }
 
         static void TestUnityGuidHelper(string rfcGuid_, string unityGuid)
@@ -224,7 +222,7 @@ namespace TiltBrush
             await Awaiters.NextFrame;
             for (int i = 0; i < kNumFrames; ++i)
             {
-                dt -= Time.realtimeSinceStartup;  // ...and this will throw if we're not.
+                dt -= Time.realtimeSinceStartup; // ...and this will throw if we're not.
                 await Awaiters.NextFrame;
                 dt += Time.realtimeSinceStartup;
             }

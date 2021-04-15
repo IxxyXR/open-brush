@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using NUnit.Framework;
-
 using StrokeFlags = TiltBrush.SketchMemoryScript.StrokeFlags;
 
 namespace TiltBrush
@@ -28,10 +27,12 @@ namespace TiltBrush
         public void TestMemoryListForSave()
         {
             var input = new List<Stroke>();
-            foreach (var flags in new[] {
-        StrokeFlags.None,
-        StrokeFlags.None, StrokeFlags.IsGroupContinue, StrokeFlags.IsGroupContinue,
-        StrokeFlags.None, StrokeFlags.IsGroupContinue })
+            foreach (var flags in new[]
+            {
+                StrokeFlags.None,
+                StrokeFlags.None, StrokeFlags.IsGroupContinue, StrokeFlags.IsGroupContinue,
+                StrokeFlags.None, StrokeFlags.IsGroupContinue
+            })
             {
                 var stroke = new Stroke();
                 stroke.m_Flags = flags;
@@ -46,27 +47,33 @@ namespace TiltBrush
             var output = SketchWriter.EnumerateAdjustedSnapshots(input).ToList();
             CollectionAssert.AreEqual(
                 output.ConvertAll(x => x.adjustedStrokeFlags),
-                new[] {
-          StrokeFlags.None,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue, StrokeFlags.IsGroupContinue,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue });
+                new[]
+                {
+                    StrokeFlags.None,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue, StrokeFlags.IsGroupContinue,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue
+                });
 
             CollectionAssert.AreEqual(
                 output.ConvertAll(x => x.adjustedStrokeFlags),
-                new[] {
-          StrokeFlags.None,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue, StrokeFlags.IsGroupContinue,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue });
+                new[]
+                {
+                    StrokeFlags.None,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue, StrokeFlags.IsGroupContinue,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue
+                });
 
             // head stroke of group erased
             input[1].m_Object.SetActive(false);
             output = SketchWriter.EnumerateAdjustedSnapshots(input).ToList();
             CollectionAssert.AreEqual(
                 output.ConvertAll(x => x.adjustedStrokeFlags),
-                new[] {
-          StrokeFlags.None,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue });
+                new[]
+                {
+                    StrokeFlags.None,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue
+                });
 
             // secondary stroke of group erased
             input[1].m_Object.SetActive(true);
@@ -74,20 +81,24 @@ namespace TiltBrush
             output = SketchWriter.EnumerateAdjustedSnapshots(input).ToList();
             CollectionAssert.AreEqual(
                 output.ConvertAll(x => x.adjustedStrokeFlags),
-                new[] {
-          StrokeFlags.None,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue });
+                new[]
+                {
+                    StrokeFlags.None,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue
+                });
 
             // orphaned group (head stroke remaining)
             input[3].m_Object.SetActive(false);
             output = SketchWriter.EnumerateAdjustedSnapshots(input).ToList();
             CollectionAssert.AreEqual(
                 output.ConvertAll(x => x.adjustedStrokeFlags),
-                new[] {
-          StrokeFlags.None,
-          StrokeFlags.None,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue });
+                new[]
+                {
+                    StrokeFlags.None,
+                    StrokeFlags.None,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue
+                });
 
             // orphaned group (1 secondary stroke remaining)
             input[1].m_Object.SetActive(false);
@@ -95,19 +106,23 @@ namespace TiltBrush
             output = SketchWriter.EnumerateAdjustedSnapshots(input).ToList();
             CollectionAssert.AreEqual(
                 output.ConvertAll(x => x.adjustedStrokeFlags),
-                new[] {
-          StrokeFlags.None,
-          StrokeFlags.None,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue });
+                new[]
+                {
+                    StrokeFlags.None,
+                    StrokeFlags.None,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue
+                });
 
             // orphaned group (0 strokes remaining)
             input[3].m_Object.SetActive(false);
             output = SketchWriter.EnumerateAdjustedSnapshots(input).ToList();
             CollectionAssert.AreEqual(
                 output.ConvertAll(x => x.adjustedStrokeFlags),
-                new[] {
-          StrokeFlags.None,
-          StrokeFlags.None, StrokeFlags.IsGroupContinue });
+                new[]
+                {
+                    StrokeFlags.None,
+                    StrokeFlags.None, StrokeFlags.IsGroupContinue
+                });
         }
     }
 }

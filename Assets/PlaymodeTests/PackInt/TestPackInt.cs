@@ -290,7 +290,7 @@ namespace TiltBrush
         /// Material containing the shader(s) implementing the test
         [SerializeField] private Material m_testMaterial;
 
-        private RenderTexture m_debugRt = null;  // lazily-created
+        private RenderTexture m_debugRt = null; // lazily-created
 
         void Awake()
         {
@@ -342,4 +342,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

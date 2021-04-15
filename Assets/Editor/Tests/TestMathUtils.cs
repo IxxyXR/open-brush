@@ -40,15 +40,15 @@ namespace TiltBrush
     // I am so sorry about these class names.
     internal class TestMathUtils : MathTestUtils
     {
-        [TestCase(1, 11, 0)]      // Result is -period
-        [TestCase(0, 8, 2)]      // Result in (-period, -period/2)
-        [TestCase(2, 7, -5)]      // Result is -period/2
-        [TestCase(4, 8, -4)]      // Result in (-period/2, 0)
-        [TestCase(4, 4, 0)]      // Result is 0
-        [TestCase(8, 4, 4)]      // Result in (0, period/2)
-        [TestCase(7, 2, -5)]      // Result is period/2
-        [TestCase(8, 0, -2)]      // Result in (period/2, period)
-        [TestCase(11, 1, 0)]      // Result is period
+        [TestCase(1, 11, 0)] // Result is -period
+        [TestCase(0, 8, 2)]  // Result in (-period, -period/2)
+        [TestCase(2, 7, -5)] // Result is -period/2
+        [TestCase(4, 8, -4)] // Result in (-period/2, 0)
+        [TestCase(4, 4, 0)]  // Result is 0
+        [TestCase(8, 4, 4)]  // Result in (0, period/2)
+        [TestCase(7, 2, -5)] // Result is period/2
+        [TestCase(8, 0, -2)] // Result in (period/2, period)
+        [TestCase(11, 1, 0)] // Result is period
         public void TestPeriodicDifference(float lhs, float rhs, float expected)
         {
             float PERIOD = 10;
@@ -145,7 +145,9 @@ namespace TiltBrush
 
                 var m4 = Matrix4x4.TRS(translation, rotation, new Vector3(scale, scale, scale));
 
-                Vector3 t2; Quaternion r2; float s2;
+                Vector3 t2;
+                Quaternion r2;
+                float s2;
                 MathUtils.DecomposeMatrix4x4(m4, out t2, out r2, out s2);
                 AssertAlmostEqual(translation, t2, abseps: 1e-5f, releps: 1e-5f);
                 AssertAlmostEqual(rotation, r2, abseps: 1e-5f, releps: 1e-5f, allowFlip: true);
@@ -233,53 +235,53 @@ namespace TiltBrush
 
         // Movement, rotation, and scale. No scale clamping.
         [TestCase(-1, 1, 0, 3, -1, 0,
-                  -1, -2, 1, 1, 6, 1,
-                  -1, -1, 2,
-                  0, 0, 1,
-                  90, 0, 0, 1,
-                  TestName = "TRS no clamp")]
+            -1, -2, 1, 1, 6, 1,
+            -1, -1, 2,
+            0, 0, 1,
+            90, 0, 0, 1,
+            TestName = "TRS no clamp")]
         // No movement or rotation. Clamp to min scale; controllers on opposite sides.
         [TestCase(-4, 0, 0, 4, 0, 0,
-                  -1, 0, 0, 1, 0, 0,
-                  .5f, 2, .5f,
-                  0, 0, 0,
-                  0, 0, 0, 0,
-                  TestName = "S, min, opposite")]
+            -1, 0, 0, 1, 0, 0,
+            .5f, 2, .5f,
+            0, 0, 0,
+            0, 0, 0, 0,
+            TestName = "S, min, opposite")]
         // No movement or rotation. Clamp to max scale; controllers on opposite sides.
         [TestCase(-1, 0, 0, 1, 0, 0,
-                  -4, 0, 0, 4, 0, 0,
-                  .5f, 2, 2,
-                  0, 0, 0,
-                  0, 0, 0, 0,
-                  TestName = "S, max, opposite")]
+            -4, 0, 0, 4, 0, 0,
+            .5f, 2, 2,
+            0, 0, 0,
+            0, 0, 0, 0,
+            TestName = "S, max, opposite")]
         // No movement or rotation. Clamp to min scale; controllers on same sides.
         [TestCase(-16, 0, 0, 0, 0, 0,
-                  -2, 0, 0, 0, 0, 0,
-                  .5f, 2, .5f,
-                  0, 0, 0,
-                  0, 0, 0, 0,
-                  TestName = "S, min, same")]
+            -2, 0, 0, 0, 0, 0,
+            .5f, 2, .5f,
+            0, 0, 0,
+            0, 0, 0, 0,
+            TestName = "S, min, same")]
         // No movement or rotation. Clamp to max scale; controllers on same sides.
         [TestCase(-12, 0, 0, -10, 0, 0,
-                  -16, 0, 0, -6, 0, 0,
-                  .5f, 2, 2,
-                  11, 0, 0,
-                  0, 0, 0, 0,
-                  TestName = "S, max, same")]
+            -16, 0, 0, -6, 0, 0,
+            .5f, 2, 2,
+            11, 0, 0,
+            0, 0, 0, 0,
+            TestName = "S, max, same")]
         // No movement or rotation. Clamp to min scale starting at min scale; controllers on same sides.
         [TestCase(-16, 0, 0, -1, 0, 0,
-                  -2, 0, 0, -1, 0, 0,
-                  1, 2, 1,
-                  0, 0, 0,
-                  0, 0, 0, 0,
-                  TestName = "S, min from min, same")]
+            -2, 0, 0, -1, 0, 0,
+            1, 2, 1,
+            0, 0, 0,
+            0, 0, 0, 0,
+            TestName = "S, min from min, same")]
         // No movement or rotation. Clamp to max scale starting at max scale; controllers on same sides.
         [TestCase(-12, 0, 0, -10, 0, 0,
-                  -16, 0, 0, -6, 0, 0,
-                  0.5f, 1, 1,
-                  0, 0, 0,
-                  0, 0, 0, 0,
-                  TestName = "S, max from max, same")]
+            -16, 0, 0, -6, 0, 0,
+            0.5f, 1, 1,
+            0, 0, 0,
+            0, 0, 0, 0,
+            TestName = "S, max from max, same")]
         public void TestTwoPointNonUniformScale(
             float l0x, float l0y, float l0z, float r0x, float r0y, float r0z,
             float l1x, float l1y, float l1z, float r1x, float r1y, float r1z,
@@ -290,7 +292,7 @@ namespace TiltBrush
         {
             float deltaScale;
             var obj1 = MathUtils.TwoPointObjectTransformationNonUniformScale(
-                new Vector3(1, 0, 0),  // axis
+                new Vector3(1, 0, 0), // axis
                 TrTransform.T(new Vector3(l0x, l0y, l0z)),
                 TrTransform.T(new Vector3(r0x, r0y, r0z)),
                 TrTransform.T(new Vector3(l1x, l1y, l1z)),
@@ -304,17 +306,17 @@ namespace TiltBrush
         }
 
         [TestCase(-1, 0, 0, 1, 0, 0,
-                  -2, 0, 0, 2, 0, 0,
-                  0.5f,
-                  0, 0, 0,
-                  0, 0, 0, 0,
-                  TestName = "scale, constraint at 0.5")]
+            -2, 0, 0, 2, 0, 0,
+            0.5f,
+            0, 0, 0,
+            0, 0, 0, 0,
+            TestName = "scale, constraint at 0.5")]
         [TestCase(-1, 0, 0, 1, 0, 0,
-                  -2, 0, 0, 2, 0, 0,
-                  2,
-                  3, 0, 0,
-                  0, 0, 0, 0,
-                  TestName = "scale, constraint at 2")]
+            -2, 0, 0, 2, 0, 0,
+            2,
+            3, 0, 0,
+            0, 0, 0, 0,
+            TestName = "scale, constraint at 2")]
         public void TestTwoPointObjectTransformationNoScale(
             float l0x, float l0y, float l0z, float r0x, float r0y, float r0z,
             float l1x, float l1y, float l1z, float r1x, float r1y, float r1z,
@@ -339,8 +341,8 @@ namespace TiltBrush
             // TRS.inv = (T * R * S).inv
             //   = S.inv * R.inv * T.inv
             return Matrix4x4.Scale(new Vector3(1 / s.x, 1 / s.y, 1 / s.z))
-              * Matrix4x4.TRS(Vector3.zero, Quaternion.Inverse(r), Vector3.one)
-              * Matrix4x4.TRS(-t, Quaternion.identity, Vector3.one);
+                * Matrix4x4.TRS(Vector3.zero, Quaternion.Inverse(r), Vector3.one)
+                * Matrix4x4.TRS(-t, Quaternion.identity, Vector3.one);
         }
 
         [Test]
@@ -461,8 +463,8 @@ namespace TiltBrush
             float sinTheta = Mathf.Sin(theta), cosTheta = Mathf.Cos(theta);
             float sinPhi = Mathf.Sin(phi), cosPhi = Mathf.Cos(phi);
             return new Vector3(abc.x * sinTheta * cosPhi,
-                               abc.y * sinTheta * sinPhi,
-                               abc.z * cosTheta);
+                abc.y * sinTheta * sinPhi,
+                abc.z * cosTheta);
         }
 
         private static int GetOctant(Vector3 v)
@@ -756,7 +758,7 @@ namespace TiltBrush
             transformedVert = new Vector3[list.GetBackingArray().Length];
             list.GetBackingArray().CopyTo(transformedVert, 0);
             MathUtils.TransformVector3AsPoint(xf.ToMatrix4x4(), iVert, iVertEnd,
-                                              transformedVert);
+                transformedVert);
             float minX = transformedVert[iVert].x;
             float maxX = minX;
             float minY = transformedVert[iVert].y;
@@ -791,11 +793,11 @@ namespace TiltBrush
                 }
             }
             Vector3 center = new Vector3(0.5f * (minX + maxX),
-                                         0.5f * (minY + maxY),
-                                         0.5f * (minZ + maxZ));
+                0.5f * (minY + maxY),
+                0.5f * (minZ + maxZ));
             Vector3 size = new Vector3(maxX - minX,
-                                       maxY - minY,
-                                       maxZ - minZ);
+                maxY - minY,
+                maxZ - minZ);
 
             // Do the math utils version.
             Vector3 centerTest = new Vector3();
@@ -818,7 +820,7 @@ namespace TiltBrush
             float kInvRadius = 1 / kRadius;
 
             Vector3 radius = new Vector3(kRadius, 0, 0);
-            Vector3 axis = new Vector3(0, 1, 0);  // should be perpendicular to radius
+            Vector3 axis = new Vector3(0, 1, 0); // should be perpendicular to radius
 
             TrTransform arbitrary = TrTransform.TR(
                 new Vector3(5, 8, -10),

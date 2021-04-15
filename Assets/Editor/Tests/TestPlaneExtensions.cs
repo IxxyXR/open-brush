@@ -15,7 +15,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
-
 using Mtu = MathTestUtils;
 
 namespace TiltBrush
@@ -48,7 +47,7 @@ namespace TiltBrush
         [Test]
         public void TestReflectPointSimple()
         {
-            var p = new Plane(new Vector3(1, 0, 0), -1);  // plane is at x=1
+            var p = new Plane(new Vector3(1, 0, 0), -1); // plane is at x=1
             var v = new Vector3(3, 0, 0);
             var v2 = p.ReflectPoint(v);
             Assert.AreEqual(new Vector3(-1, 0, 0), v2);

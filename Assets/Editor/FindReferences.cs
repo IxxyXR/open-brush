@@ -16,7 +16,6 @@ using System.Reflection;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
-
 using UObject = UnityEngine.Object;
 
 // Select one or more objects in the Hierarchy.
@@ -80,7 +79,7 @@ public class ReferenceFinder : EditorWindow
         foreach (Component c in allComponents)
         {
             FieldInfo[] fields = c.GetType().GetFields((
-                  BindingFlags.NonPublic
+                BindingFlags.NonPublic
                 | BindingFlags.Public
                 | BindingFlags.Instance
                 | BindingFlags.Static));

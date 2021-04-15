@@ -263,7 +263,7 @@ namespace TiltBrush
 
         Action<Color> OnColorPicked(LightMode mode)
         {
-            return delegate(Color c)
+            return delegate (Color c)
             {
                 SetLightColor(mode, c);
                 if (mode == LightMode.Shadow || mode == LightMode.NoShadow)
@@ -503,7 +503,7 @@ namespace TiltBrush
             popup.transform.localPosition += new Vector3(0, m_ColorPickerPopUpHeightOffset, 0);
             ColorPickerUtils.SetLogVRangeForMode(mode);
             popup.ColorPicker.ColorPicked += OnColorPicked(mode);
-            popup.ColorPicker.ColorPicked += delegate(Color c)
+            popup.ColorPicker.ColorPicked += delegate (Color c)
             {
                 m_LightButtons[(int)mode + 1].SetDescriptionText(LightModeToString(mode),
                     ColorTable.m_Instance.NearestColorTo(c));
@@ -546,7 +546,7 @@ namespace TiltBrush
 
         Action<Color> MakeLightColorPickedAsFinal(LightMode mode)
         {
-            return delegate(Color c)
+            return delegate (Color c)
             {
                 SetLightColor(mode, c);
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(mode == LightMode.Ambient ?

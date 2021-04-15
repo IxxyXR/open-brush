@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using NUnit.Framework;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -44,7 +43,7 @@ namespace TiltBrush
             public static float GetCorrelation(IEnumerable<Vector2> vals)
             {
                 // https://www.mathsisfun.com/data/correlation.html
-                float x = 0, y = 0, xx = 0, yy = 0, xy = 0;  // sums
+                float x = 0, y = 0, xx = 0, yy = 0, xy = 0; // sums
                 int n = 0;
                 foreach (var v in vals)
                 {
@@ -117,7 +116,7 @@ namespace TiltBrush
                 float histUniformity;
                 {
                     float d = histogram.Length;
-                    float n = Mathf.Sqrt(histogram.Select(v => v * v).Sum());  // euclidean norm
+                    float n = Mathf.Sqrt(histogram.Select(v => v * v).Sum()); // euclidean norm
                     histUniformity = (n * Mathf.Sqrt(d) - 1) / (Mathf.Sqrt(d) - 1);
                     Assert.Less(histUniformity, 6e-4f, "{0} histogram uniformity", name);
                 }
@@ -145,14 +144,14 @@ namespace TiltBrush
                 var valsA = vals.ToArray();
                 for (int j = 0; j < kDims; ++j)
                 {
-                    int index = j;  // index into the Vector; make a copy for the closure
+                    int index = j; // index into the Vector; make a copy for the closure
                     IEnumerable<float> subvals = valsA.Select(v => v[index]);
                     CheckUniformity(paramNames[index], subvals);
                 }
 
                 var correlation = GetCorrelation(valsA);
                 Assert.Less(correlation, kCorrelationBound,
-                            "Correlation {0} vs {1}", paramNames[0], paramNames[1]);
+                    "Correlation {0} vs {1}", paramNames[0], paramNames[1]);
             }
 
             /// Checks that 1D sub-distributions of the passed N-D distribution are uniform,
@@ -164,7 +163,7 @@ namespace TiltBrush
                 var valsA = vals.ToArray();
                 for (int j = 0; j < kDims; ++j)
                 {
-                    int index = j;  // index into the Vector; make a copy for the closure
+                    int index = j; // index into the Vector; make a copy for the closure
                     IEnumerable<float> subvals = valsA.Select(v => v[index]);
                     CheckUniformity(paramNames[index], subvals);
                 }
@@ -176,11 +175,11 @@ namespace TiltBrush
                     int idx1 = (i + 1) % kDims;
                     var correlation = GetCorrelation(valsA.Select(v3 => new Vector2(v3[idx0], v3[idx1])));
                     Assert.Less(correlation, kCorrelationBound,
-                                "Correlation {0} vs {1}", paramNames[idx0], paramNames[idx1]);
+                        "Correlation {0} vs {1}", paramNames[idx0], paramNames[idx1]);
 
                 }
             }
         }
 
-    }  // namespace Test
-}  // namespace TiltBrush
+    } // namespace Test
+}     // namespace TiltBrush

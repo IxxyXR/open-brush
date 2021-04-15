@@ -114,5 +114,5 @@ namespace TiltBrush
             Assert.IsTrue(qZero.TrueNotEquals(qNan));
             Assert.IsTrue(qNan.TrueNotEquals(qZero));
         }
-    }  // Test
-}  // TiltBrush
+    } // Test
+}     // TiltBrush

@@ -162,7 +162,7 @@ namespace TiltBrush
                 {
                     GUILayout.Label(
                         string.Format("{0} {1} at {2}",
-                                      shortName, Succeeded ? "Succeeded" : "Failed", FinishTime));
+                            shortName, Succeeded ? "Succeeded" : "Failed", FinishTime));
                 }
                 else if (Running)
                 {
@@ -285,13 +285,15 @@ namespace TiltBrush
 
         private void BuildSetupGui()
         {
-            GUILayoutOption[] options = new GUILayoutOption[] {
-        GUILayout.ExpandHeight(true),
-      };
+            GUILayoutOption[] options = new GUILayoutOption[]
+            {
+                GUILayout.ExpandHeight(true),
+            };
 
-            GUILayoutOption[] toggleOpt = new GUILayoutOption[] {
-        GUILayout.Width(150),
-      };
+            GUILayoutOption[] toggleOpt = new GUILayoutOption[]
+            {
+                GUILayout.Width(150),
+            };
 
             using (var changeScope = new EditorGUI.ChangeCheckScope())
             {
@@ -654,8 +656,7 @@ namespace TiltBrush
             process.StartInfo.RedirectStandardError = true;
             process.Start();
             process.WaitForExit();
-            return process.StandardOutput.ReadToEnd().Split('\n').
-                Concat(process.StandardError.ReadToEnd().Split('\n')).ToArray();
+            return process.StandardOutput.ReadToEnd().Split('\n').Concat(process.StandardError.ReadToEnd().Split('\n')).ToArray();
         }
 
         private void Update()
@@ -688,7 +689,7 @@ namespace TiltBrush
                 }
 
                 var fileStream = new FileStream(BuildTiltBrush.BackgroundBuildLogPath, FileMode.Open,
-                                                FileAccess.Read, FileShare.ReadWrite);
+                    FileAccess.Read, FileShare.ReadWrite);
                 if (fileStream == null)
                 {
                     return;
@@ -780,36 +781,36 @@ namespace TiltBrush
         }
 
 #if UNITY_EDITOR_WIN
-    [System.Runtime.InteropServices.DllImport("user32.dll")]
-    private static extern Int32 FlashWindowEx(ref FLASHWINFO pwfi);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern Int32 FlashWindowEx(ref FLASHWINFO pwfi);
 
-    [System.Runtime.InteropServices.DllImport("user32.dll")]
-    private static extern System.IntPtr GetActiveWindow();
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern System.IntPtr GetActiveWindow();
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FLASHWINFO
-    {
-      public UInt32 cbSize;
-      public IntPtr hwnd;
-      public Int32 dwFlags;
-      public UInt32 uCount;
-      public Int32 dwTimeout;
-    }
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FLASHWINFO
+        {
+            public UInt32 cbSize;
+            public IntPtr hwnd;
+            public Int32 dwFlags;
+            public UInt32 uCount;
+            public Int32 dwTimeout;
+        }
 #endif
 
         public enum FlashFlags
         {
-            Stop = 0,                      // Stop flashing
-            Titlebar = 1,                  // Flash the window title
-            Tray = 2,                      // Flash the taskbar button
-            Continuously = 4,              // Flash continuously
-            NoForeground = 8,              // Stop flashing if window comes to the foreground
+            Stop = 0,         // Stop flashing
+            Titlebar = 1,     // Flash the window title
+            Tray = 2,         // Flash the taskbar button
+            Continuously = 4, // Flash continuously
+            NoForeground = 8, // Stop flashing if window comes to the foreground
         }
 
         private IntPtr GetActiveWindowHandle()
         {
 #if UNITY_EDITOR_WIN
-      return GetActiveWindow();
+            return GetActiveWindow();
 #else
             return IntPtr.Zero;
 #endif
@@ -819,13 +820,13 @@ namespace TiltBrush
         private void NotifyFlash(uint numFlashes, params FlashFlags[] flags)
         {
 #if UNITY_EDITOR_WIN
-      int flagInt = flags.Cast<int>().Sum();
-      FLASHWINFO fw = new FLASHWINFO();
-      fw.cbSize = Convert.ToUInt32(Marshal.SizeOf(typeof(FLASHWINFO)));
-      fw.hwnd = m_hwnd;
-      fw.dwFlags = flagInt;
-      fw.uCount = numFlashes;
-      FlashWindowEx(ref fw);
+            int flagInt = flags.Cast<int>().Sum();
+            FLASHWINFO fw = new FLASHWINFO();
+            fw.cbSize = Convert.ToUInt32(Marshal.SizeOf(typeof(FLASHWINFO)));
+            fw.hwnd = m_hwnd;
+            fw.dwFlags = flagInt;
+            fw.uCount = numFlashes;
+            FlashWindowEx(ref fw);
 #endif
         }
     }

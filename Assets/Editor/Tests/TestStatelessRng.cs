@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using NUnit.Framework;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -68,7 +67,7 @@ namespace TiltBrush
             Assert.AreNotEqual(1f, StatelessRng.kLargestFloatLessThanOne);
             Assert.AreNotEqual(1f, StatelessRng.UInt32ToFloat01(0xffffffffu));
             Assert.AreEqual(StatelessRng.kLargestFloatLessThanOne,
-                            StatelessRng.UInt32ToFloat01(0xffffffffu));
+                StatelessRng.UInt32ToFloat01(0xffffffffu));
         }
 
         // A quick test that CheckUniformity actually detects non-uniformity.
@@ -81,7 +80,7 @@ namespace TiltBrush
             Func<Vector2, Vector2?> Parametrize = v => new Vector2((v.x + 1) / 2, (v.y + 1) / 2);
             Assert.Throws<AssertionException>(() =>
                 S.CheckUniformity(new[] { "x", "y" },
-                                  Gen(i => Parametrize(rng.InUnitCircle(i)))));
+                    Gen(i => Parametrize(rng.InUnitCircle(i)))));
         }
 
         [Test]
@@ -161,8 +160,8 @@ namespace TiltBrush
             // Treat it as a cylinder, taking advantage of Archimedes
             // https://en.wikipedia.org/wiki/On_the_Sphere_and_Cylinder
             // http://mathcentral.uregina.ca/qq/database/QQ.09.99/wilkie1.html
-            float param0 = ToAngle01(Mathf.Atan2(v3.x, v3.y));  // theta
-            float param1 = (v3.z + 1) / 2;  // z
+            float param0 = ToAngle01(Mathf.Atan2(v3.x, v3.y)); // theta
+            float param1 = (v3.z + 1) / 2;                     // z
             return new Vector2(param0, param1);
         }
 
@@ -204,7 +203,7 @@ namespace TiltBrush
 
             Func<Quaternion, Vector2> ParametrizeAxisAndAngle = q =>
             {
-                Vector3 axis;             // a unit vector
+                Vector3 axis; // a unit vector
                 float angleRad;
                 q.ToAngleAxis(out angleRad, out axis);
                 Vector2 param01 = ParametrizeSphereSurfaceThetaZ(axis);
@@ -235,5 +234,5 @@ namespace TiltBrush
     }
   }
 #endif
-    }  // Test
-}  // TiltBrush
+    } // Test
+}     // TiltBrush

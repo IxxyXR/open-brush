@@ -1308,7 +1308,7 @@ namespace TiltBrush
             string fullpath;
             int lower = 0;
             int upper = 1024;
-            for (int i = 1;; i *= 2)
+            for (int i = 1; ; i *= 2)
             {
                 upper = i;
                 fullpath = string.Format(basename, upper - 1);

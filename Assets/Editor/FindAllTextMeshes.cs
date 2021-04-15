@@ -49,7 +49,7 @@ namespace TiltBrush
         public static void FindAllPrefabs()
         {
             var prefabs = AssetDatabase.FindAssets("t:prefab")
-              .Select(x => AssetDatabase.GUIDToAssetPath(x)).ToArray();
+                .Select(x => AssetDatabase.GUIDToAssetPath(x)).ToArray();
             foreach (var prefabPath in prefabs)
             {
                 var gobj = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
@@ -69,7 +69,7 @@ namespace TiltBrush
         }
 
         public static IEnumerable<(string, string)>
-          FindTextInGameObject<T>(GameObject gobj, Func<T, string> extractor) where T : Component
+            FindTextInGameObject<T>(GameObject gobj, Func<T, string> extractor) where T : Component
         {
             var components = gobj.GetComponentsInChildren<T>();
             foreach (var component in components)

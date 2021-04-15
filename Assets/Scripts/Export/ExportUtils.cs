@@ -842,7 +842,7 @@ namespace TiltBrush
                 }
             }
 
-            for (int i = 0;; ++i)
+            for (int i = 0; ; ++i)
             {
                 string subscript = (i == 0 ? "" : $"_{i}");
                 string attempt = $"{baseName}{subscript}{ext}";

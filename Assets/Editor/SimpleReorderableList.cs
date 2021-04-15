@@ -48,12 +48,12 @@ namespace TiltBrush
         public int? m_elementsPerPage;
 
         public SimpleReorderableList(SerializedObject so, string propertyName)
-          : base(so, so.FindProperty(propertyName),
-                 true,  // draggable
-                 true,  // displayHeader
-                 true,  // displayAddButton
-                 true   // displayRemoveButton
-                 )
+            : base(so, so.FindProperty(propertyName),
+                true, // draggable
+                true, // displayHeader
+                true, // displayAddButton
+                true  // displayRemoveButton
+            )
         {
             this.drawElementCallback = OnDrawElement;
             this.drawHeaderCallback = OnDrawHeader;
@@ -81,4 +81,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

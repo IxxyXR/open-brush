@@ -417,7 +417,7 @@ namespace TiltBrush
             // TODO: Consider having an outer controller managing the retry logic because
             // in-lining the checks may be error prone.
             int retries = kNumRetries;
-            for (int retryIndex = 0;; ++retryIndex)
+            for (int retryIndex = 0; ; ++retryIndex)
             {
                 using (UnityWebRequest www = new UnityWebRequest(m_Uri, m_Method))
                 {

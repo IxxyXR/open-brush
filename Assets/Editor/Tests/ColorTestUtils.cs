@@ -15,7 +15,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
-
 using HSLColor = TiltBrush.HSLColor;
 
 class ColorTestUtils
@@ -62,7 +61,7 @@ class ColorTestUtils
         if (Mathf.Abs(delta) > eps)
         {
             Assert.Fail("Expected: {0}+n*{1} +/- {2}\n  But was: {3} (delta {4})",
-                        lhs, period, eps, rhs, delta);
+                lhs, period, eps, rhs, delta);
         }
     }
 
@@ -94,8 +93,8 @@ class ColorTestUtils
         radius = radius * hsl.s;
         float angle = hsl.HueDegrees * Mathf.Deg2Rad;
         return new Vector3(radius * Mathf.Cos(angle),
-                           radius * Mathf.Sin(angle),
-                           hsl.l);
+            radius * Mathf.Sin(angle),
+            hsl.l);
     }
 
     /// Assert that the two HSLs represent the same-looking color

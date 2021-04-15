@@ -56,12 +56,13 @@ namespace TiltBrush
             CreateTestDirectory();
 
             // Start with known difficult cases.
-            List<string> testFilenames = new List<string>(new string[] {
-        "!@#$%^&*()_+-=?.,\":;'/",
-        "C:\\absolute\\path",
-        "relative/path",
-        "http://google.com/",
-    });
+            List<string> testFilenames = new List<string>(new string[]
+            {
+                "!@#$%^&*()_+-=?.,\":;'/",
+                "C:\\absolute\\path",
+                "relative/path",
+                "http://google.com/",
+            });
 
             // Add random test cases.
             for (int i = 0; i < 100; i++)
@@ -98,18 +99,19 @@ namespace TiltBrush
         {
             CreateTestDirectory();
 
-            string[] similarFilenames = {
-        "foobar.txt",
-        "barfoo.txt",
-        "foo_bar.txt",
-        "foo/bar.txt",
-        "foo\\bar.txt",
-        "フーバー.txt",
-        "バーフー.txt",
-        "フー_バー.txt",
-        "フー/バー.txt",
-        "フー\\バー.txt",
-    };
+            string[] similarFilenames =
+            {
+                "foobar.txt",
+                "barfoo.txt",
+                "foo_bar.txt",
+                "foo/bar.txt",
+                "foo\\bar.txt",
+                "フーバー.txt",
+                "バーフー.txt",
+                "フー_バー.txt",
+                "フー/バー.txt",
+                "フー\\バー.txt",
+            };
 
             Dictionary<string, string> mapFromSanitizedToOriginal = new Dictionary<string, string>();
 
@@ -132,9 +134,9 @@ namespace TiltBrush
                 if (mapFromSanitizedToOriginal.ContainsKey(sanitizedFilename))
                 {
                     Assert.Fail("\"{0}\" and \"{1}\" both sanitize to \"{2}\".",
-                                filename,
-                                mapFromSanitizedToOriginal[sanitizedFilename],
-                                sanitizedFilename);
+                        filename,
+                        mapFromSanitizedToOriginal[sanitizedFilename],
+                        sanitizedFilename);
                 }
                 else
                 {
@@ -146,4 +148,4 @@ namespace TiltBrush
         }
     }
 
-}  // namespace TiltBrush
+} // namespace TiltBrush

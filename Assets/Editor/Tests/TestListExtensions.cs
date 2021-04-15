@@ -36,7 +36,8 @@ namespace TiltBrush
             // warm up JIT
             for (int i = 0; i < warmup; ++i)
             {
-                a(); b();
+                a();
+                b();
             }
             var watch = new System.Diagnostics.Stopwatch();
             watch.Reset();
@@ -58,9 +59,9 @@ namespace TiltBrush
             var tb = watch.Elapsed;
 
             Debug.LogFormat("{0}: x{3:f4}   {1:e5} vs {2:e5}", label,
-                            ta.TotalSeconds,
-                            tb.TotalSeconds,
-                            ta.TotalSeconds / tb.TotalSeconds);
+                ta.TotalSeconds,
+                tb.TotalSeconds,
+                ta.TotalSeconds / tb.TotalSeconds);
             Assert.IsTrue(ta < tb, "{2}: Expected {0} < {1}", ta, tb, label);
         }
 
@@ -298,5 +299,5 @@ namespace TiltBrush
             TestConvertHelperGeneric<Vector3>();
         }
 
-    }  // class TestListExtensions
-}  // namespace TiltBrush
+    } // class TestListExtensions
+}     // namespace TiltBrush

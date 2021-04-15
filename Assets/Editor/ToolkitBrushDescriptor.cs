@@ -64,7 +64,7 @@ namespace TiltBrush
             result.name = desc.name;
             result.m_Guid = desc.m_Guid;
             result.m_DurableName = desc.m_DurableName;
-            result.m_Material = null;  // will be filled in by hand after serialization
+            result.m_Material = null; // will be filled in by hand after serialization
             result.m_IsParticle = (desc.m_BrushPrefab.GetComponent<GeniusParticlesBrush>() != null);
 
             var layout = desc.VertexLayout;

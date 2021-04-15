@@ -15,10 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
 using NUnit.Framework;
 using UnityEngine;
-
 using Object = UnityEngine.Object;
 using VertexLayout = TiltBrush.GeometryPool.VertexLayout;
 using TexcoordInfo = TiltBrush.GeometryPool.TexcoordInfo;
@@ -211,13 +209,26 @@ namespace TiltBrush
                 texcoord2 = new TexcoordInfo { size = 4, semantic = Semantic.Position }
             };
             VertexLayout vl2;
-            vl2 = vl; Assert.AreEqual(vl, vl2);
-            vl2 = vl; vl2.texcoord0.size += 1; Assert.AreNotEqual(vl, vl2);
-            vl2 = vl; vl2.texcoord1.size += 1; Assert.AreNotEqual(vl, vl2);
-            vl2 = vl; vl2.texcoord2.size += 1; Assert.AreNotEqual(vl, vl2);
-            vl2 = vl; vl2.texcoord0.semantic = Semantic.Unspecified; Assert.AreNotEqual(vl, vl2);
-            vl2 = vl; vl2.texcoord1.semantic = Semantic.Unspecified; Assert.AreNotEqual(vl, vl2);
-            vl2 = vl; vl2.texcoord2.semantic = Semantic.Unspecified; Assert.AreNotEqual(vl, vl2);
+            vl2 = vl;
+            Assert.AreEqual(vl, vl2);
+            vl2 = vl;
+            vl2.texcoord0.size += 1;
+            Assert.AreNotEqual(vl, vl2);
+            vl2 = vl;
+            vl2.texcoord1.size += 1;
+            Assert.AreNotEqual(vl, vl2);
+            vl2 = vl;
+            vl2.texcoord2.size += 1;
+            Assert.AreNotEqual(vl, vl2);
+            vl2 = vl;
+            vl2.texcoord0.semantic = Semantic.Unspecified;
+            Assert.AreNotEqual(vl, vl2);
+            vl2 = vl;
+            vl2.texcoord1.semantic = Semantic.Unspecified;
+            Assert.AreNotEqual(vl, vl2);
+            vl2 = vl;
+            vl2.texcoord2.semantic = Semantic.Unspecified;
+            Assert.AreNotEqual(vl, vl2);
         }
 
         [Test]

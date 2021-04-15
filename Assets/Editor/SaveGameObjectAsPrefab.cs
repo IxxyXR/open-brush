@@ -37,7 +37,7 @@ namespace TiltBrush
         //   unless we implement it manually (eg by mutating the mesh sub-assets)
         //
         static void SaveGameObjectAsPrefab(
-          GameObject targetGameObject, string prefabPath)
+            GameObject targetGameObject, string prefabPath)
         {
 
             Directory.CreateDirectory(Path.GetDirectoryName(prefabPath));

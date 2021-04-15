@@ -30,9 +30,13 @@ namespace TiltBrush
     public class ExportFailedException : System.Exception
     {
         public ExportFailedException(string message)
-          : base(message) { }
+            : base(message)
+        {
+        }
         public ExportFailedException(string fmt, params object[] args)
-          : base(string.Format(fmt, args)) { }
+            : base(string.Format(fmt, args))
+        {
+        }
     }
 
     static class ToolkitUtils
@@ -46,124 +50,130 @@ namespace TiltBrush
         // Scraped from TBT14 release, which is the last release that used
         // stateful/nondeterminstic methods when creating .meta files.
         // Verified that these are the same as the PT1.0 release
-        static Dictionary<Guid, string> kLegacyBrushGuidToTbtAssetGuidMapping = new Dictionary<Guid, string>() {
-    { new Guid("89d104cd-d012-426b-b5b3-bbaee63ac43c"), "cadc04d18daae874aa63168911a19ba6"}, // Bubbles
-    { new Guid("0f0ff7b2-a677-45eb-a7d6-0cd7206f4816"), "58575cce2727fec449fd95b38f249b39"}, // ChromaticWave
-    { new Guid("79168f10-6961-464a-8be1-57ed364c5600"), "07ab675df8bcbd148809e406fcd485fd"}, // CoarseBristles
-    { new Guid("4391aaaa-df73-4396-9e33-31e4e4930b27"), "d4d57e30cdd022945b067d76b7ded1c7"}, // Disco
-    { new Guid("d1d991f2-e7a0-4cf1-b328-f57e915e6260"), "89d06e0e0a68a1c488e9eb9bc2ca3abc"}, // DotMarker
-    { new Guid("6a1cf9f9-032c-45ec-9b1d-a6680bee30f7"), "7f2dcdb5c7d9fc94db14b323331d5860"}, // Dots
-    { new Guid("0d3889f3-3ede-470c-8af4-f44813306126"), "f4ed52160dfaf694ea666a6294e38f42"}, // DoubleTaperedFlat
-    { new Guid("0d3889f3-3ede-470c-8af4-de4813306126"), "c2b9f7e0f4fb54b41b7dbeb23b117551"}, // DoubleTaperedMarker
-    { new Guid("3ca16e2f-bdcd-4da2-8631-dcef342f40f1"), "6d014762200f4014fa8a87bcfaa038fe"}, // DuctTape
-    { new Guid("f6e85de3-6dcc-4e7f-87fd-cee8c3d25d51"), "6e268406bbadd084a825dda73d24387a"}, // Electricity
-    { new Guid("02ffb866-7fb2-4d15-b761-1012cefb1360"), "9f45a29bbed9af6479948c03267fe239"}, // Embers
-    { new Guid("cb92b597-94ca-4255-b017-0e3f42f12f9e"), "3c7ec9f584dd60e4a9308abe95b9f22e"}, // Fire
-    { new Guid("280c0a7a-aad8-416c-a7d2-df63d129ca70"), "a97674f9669261b48a61cfed32378345"}, // Flat
-    { new Guid("55303bc4-c749-4a72-98d9-d23e68e76e18"), "969b71c814f75e9408602593d4e10e3e"}, // FlatDeprecated
-    { new Guid("cf019139-d41c-4eb0-a1d0-5cf54b0a42f3"), "0cfb52fb947fb6e4786ed9f2bdc5328c"}, // Highlighter
-    { new Guid("e8ef32b1-baa8-460a-9c2c-9cf8506794f5"), "3251442494b7f6c43aa51c2ede6c409e"}, // Hypercolor
-    { new Guid("6a1cf9f9-032c-45ec-9b6e-a6680bee32e9"), "88ecf340d7ce92a4bada6eac937e887a"}, // HyperGrid
-    { new Guid("c0012095-3ffd-4040-8ee1-fc180d346eaa"), "6c27caca67a732d4f9d59b028c4dd9a8"}, // Ink
-    { new Guid("ea19de07-d0c0-4484-9198-18489a3c1487"), "362043fe9dab1704fa0f912c4f1e0d09"}, // Leaves
-    { new Guid("2241cd32-8ba2-48a5-9ee7-2caef7e9ed62"), "54a30b55c2e961643a7701bedc663c88"}, // Light
-    { new Guid("4391aaaa-df81-4396-9e33-31e4e4930b27"), "4f55fba4b64913b419cf4a17ba5d489b"}, // LightWire
-    { new Guid("429ed64a-4e97-4466-84d3-145a861ef684"), "3fd505f4dc669fe4c86c80d009ec2efd"}, // Marker
-    { new Guid("b2ffef01-eaaa-4ab5-aa64-95a2c4f5dbc6"), "71228caab923caf46a89c3275938564a"}, // NeonPulse
-    { new Guid("c515dad7-4393-4681-81ad-162ef052241b"), "d7ada22e6a436e742910a7553f159550"}, // OilPaint
-    { new Guid("759f1ebd-20cd-4720-8d41-234e0da63716"), "9b77a7cd7bb6c0244bca8ab8221af846"}, // Paper
-    { new Guid("c33714d1-b2f9-412e-bd50-1884c9d46336"), "7e6a9b8a0ad82cf4da20e86f1a326040"}, // Plasma
-    { new Guid("ad1ad437-76e2-450d-a23a-e17f8310b960"), "d75833fb286458e468c00cc5b0ac5f4d"}, // Rainbow
-    { new Guid("70d79cca-b159-4f35-990c-f02193947fe8"), "84e07a49ce756cf44ab7ea2dbdc064c4"}, // Smoke
-    { new Guid("d902ed8b-d0d1-476c-a8de-878a79e3a34c"), "7ccf5a61af1914e409b526a98d43354b"}, // Snow
-    { new Guid("accb32f5-4509-454f-93f8-1df3fd31df1b"), "bf5c0e36bc63d7b418af3ac347cfdcfd"}, // SoftHighlighter
-    { new Guid("7a1c8107-50c5-4b70-9a39-421576d6617e"), "402a078d5db9ad0468dda690396443bc"}, // Splatter
-    { new Guid("0eb4db27-3f82-408d-b5a1-19ebd7d5b711"), "b1626af60ae7a31419a1c40afb39c5ed"}, // Stars
-    { new Guid("44bb800a-fbc3-4592-8426-94ecb05ddec3"), "12b98790c761f47429559af03b6669d2"}, // Streamers
-    { new Guid("0077f88c-d93a-42f3-b59b-b31c50cdb414"), "38f5be2edab11fa429b090756d26d000"}, // Taffy
-    { new Guid("c8ccb53d-ae13-45ef-8afb-b730d81394eb"), "e7ec06c48c590ea4ebe400ce6a278efe"}, // TaperedFlat
-    { new Guid("d90c6ad8-af0f-4b54-b422-e0f92abe1b3c"), "b39f584eb1440404289d9461a0973e35"}, // TaperedMarker
-    { new Guid("1a26b8c0-8a07-4f8a-9fac-d2ef36e0cad0"), "26d7464425c0b84479a8a21a695b194c"}, // TaperedMarker_Flat
-    { new Guid("fdf0326a-c0d1-4fed-b101-9db0ff6d071f"), "94cb84ebeec44c540bb15b32797e5a98"}, // ThickPaint
-    { new Guid("4391385a-df73-4396-9e33-31e4e4930b27"), "b8a2349e67797ea4593639454ef74543"}, // Toon
-    { new Guid("d229d335-c334-495a-a801-660ac8a87360"), "5398e778cce3fdf469bbfa388aa46d5d"}, // VelvetInk
-    { new Guid("10201aa3-ebc2-42d8-84b7-2e63f6eeb8ab"), "ebe8a9d99afbd6b46909ea24a9896258"}, // Waveform
-    { new Guid("4391385a-cf83-4396-9e33-31e4e4930b27"), "3a72bd3c1fe3d784ab8896ec9fdfd058"}, // Wire
-    // Scraped from TBT14, but idential to deterministic-style meta files
-    // { new Guid("232998f8-d357-47a2-993a-53415df9be10"), "71dc5ead67382b75789dd72c8058d553"}, // BlocksGem
-    // { new Guid("3d813d82-5839-4450-8ddc-8e889ecd96c7"), "185ca6407d6d6095e95d6695d994a12b"}, // BlocksGlass
-    // { new Guid("0e87b49c-6546-3a34-3a44-8a556d7d6c3e"), "d6f6de76308b4b05386f187491479d94"}, // BlocksPaper
-  };
+        static Dictionary<Guid, string> kLegacyBrushGuidToTbtAssetGuidMapping = new Dictionary<Guid, string>()
+        {
+            { new Guid("89d104cd-d012-426b-b5b3-bbaee63ac43c"), "cadc04d18daae874aa63168911a19ba6" }, // Bubbles
+            { new Guid("0f0ff7b2-a677-45eb-a7d6-0cd7206f4816"), "58575cce2727fec449fd95b38f249b39" }, // ChromaticWave
+            { new Guid("79168f10-6961-464a-8be1-57ed364c5600"), "07ab675df8bcbd148809e406fcd485fd" }, // CoarseBristles
+            { new Guid("4391aaaa-df73-4396-9e33-31e4e4930b27"), "d4d57e30cdd022945b067d76b7ded1c7" }, // Disco
+            { new Guid("d1d991f2-e7a0-4cf1-b328-f57e915e6260"), "89d06e0e0a68a1c488e9eb9bc2ca3abc" }, // DotMarker
+            { new Guid("6a1cf9f9-032c-45ec-9b1d-a6680bee30f7"), "7f2dcdb5c7d9fc94db14b323331d5860" }, // Dots
+            { new Guid("0d3889f3-3ede-470c-8af4-f44813306126"), "f4ed52160dfaf694ea666a6294e38f42" }, // DoubleTaperedFlat
+            { new Guid("0d3889f3-3ede-470c-8af4-de4813306126"), "c2b9f7e0f4fb54b41b7dbeb23b117551" }, // DoubleTaperedMarker
+            { new Guid("3ca16e2f-bdcd-4da2-8631-dcef342f40f1"), "6d014762200f4014fa8a87bcfaa038fe" }, // DuctTape
+            { new Guid("f6e85de3-6dcc-4e7f-87fd-cee8c3d25d51"), "6e268406bbadd084a825dda73d24387a" }, // Electricity
+            { new Guid("02ffb866-7fb2-4d15-b761-1012cefb1360"), "9f45a29bbed9af6479948c03267fe239" }, // Embers
+            { new Guid("cb92b597-94ca-4255-b017-0e3f42f12f9e"), "3c7ec9f584dd60e4a9308abe95b9f22e" }, // Fire
+            { new Guid("280c0a7a-aad8-416c-a7d2-df63d129ca70"), "a97674f9669261b48a61cfed32378345" }, // Flat
+            { new Guid("55303bc4-c749-4a72-98d9-d23e68e76e18"), "969b71c814f75e9408602593d4e10e3e" }, // FlatDeprecated
+            { new Guid("cf019139-d41c-4eb0-a1d0-5cf54b0a42f3"), "0cfb52fb947fb6e4786ed9f2bdc5328c" }, // Highlighter
+            { new Guid("e8ef32b1-baa8-460a-9c2c-9cf8506794f5"), "3251442494b7f6c43aa51c2ede6c409e" }, // Hypercolor
+            { new Guid("6a1cf9f9-032c-45ec-9b6e-a6680bee32e9"), "88ecf340d7ce92a4bada6eac937e887a" }, // HyperGrid
+            { new Guid("c0012095-3ffd-4040-8ee1-fc180d346eaa"), "6c27caca67a732d4f9d59b028c4dd9a8" }, // Ink
+            { new Guid("ea19de07-d0c0-4484-9198-18489a3c1487"), "362043fe9dab1704fa0f912c4f1e0d09" }, // Leaves
+            { new Guid("2241cd32-8ba2-48a5-9ee7-2caef7e9ed62"), "54a30b55c2e961643a7701bedc663c88" }, // Light
+            { new Guid("4391aaaa-df81-4396-9e33-31e4e4930b27"), "4f55fba4b64913b419cf4a17ba5d489b" }, // LightWire
+            { new Guid("429ed64a-4e97-4466-84d3-145a861ef684"), "3fd505f4dc669fe4c86c80d009ec2efd" }, // Marker
+            { new Guid("b2ffef01-eaaa-4ab5-aa64-95a2c4f5dbc6"), "71228caab923caf46a89c3275938564a" }, // NeonPulse
+            { new Guid("c515dad7-4393-4681-81ad-162ef052241b"), "d7ada22e6a436e742910a7553f159550" }, // OilPaint
+            { new Guid("759f1ebd-20cd-4720-8d41-234e0da63716"), "9b77a7cd7bb6c0244bca8ab8221af846" }, // Paper
+            { new Guid("c33714d1-b2f9-412e-bd50-1884c9d46336"), "7e6a9b8a0ad82cf4da20e86f1a326040" }, // Plasma
+            { new Guid("ad1ad437-76e2-450d-a23a-e17f8310b960"), "d75833fb286458e468c00cc5b0ac5f4d" }, // Rainbow
+            { new Guid("70d79cca-b159-4f35-990c-f02193947fe8"), "84e07a49ce756cf44ab7ea2dbdc064c4" }, // Smoke
+            { new Guid("d902ed8b-d0d1-476c-a8de-878a79e3a34c"), "7ccf5a61af1914e409b526a98d43354b" }, // Snow
+            { new Guid("accb32f5-4509-454f-93f8-1df3fd31df1b"), "bf5c0e36bc63d7b418af3ac347cfdcfd" }, // SoftHighlighter
+            { new Guid("7a1c8107-50c5-4b70-9a39-421576d6617e"), "402a078d5db9ad0468dda690396443bc" }, // Splatter
+            { new Guid("0eb4db27-3f82-408d-b5a1-19ebd7d5b711"), "b1626af60ae7a31419a1c40afb39c5ed" }, // Stars
+            { new Guid("44bb800a-fbc3-4592-8426-94ecb05ddec3"), "12b98790c761f47429559af03b6669d2" }, // Streamers
+            { new Guid("0077f88c-d93a-42f3-b59b-b31c50cdb414"), "38f5be2edab11fa429b090756d26d000" }, // Taffy
+            { new Guid("c8ccb53d-ae13-45ef-8afb-b730d81394eb"), "e7ec06c48c590ea4ebe400ce6a278efe" }, // TaperedFlat
+            { new Guid("d90c6ad8-af0f-4b54-b422-e0f92abe1b3c"), "b39f584eb1440404289d9461a0973e35" }, // TaperedMarker
+            { new Guid("1a26b8c0-8a07-4f8a-9fac-d2ef36e0cad0"), "26d7464425c0b84479a8a21a695b194c" }, // TaperedMarker_Flat
+            { new Guid("fdf0326a-c0d1-4fed-b101-9db0ff6d071f"), "94cb84ebeec44c540bb15b32797e5a98" }, // ThickPaint
+            { new Guid("4391385a-df73-4396-9e33-31e4e4930b27"), "b8a2349e67797ea4593639454ef74543" }, // Toon
+            { new Guid("d229d335-c334-495a-a801-660ac8a87360"), "5398e778cce3fdf469bbfa388aa46d5d" }, // VelvetInk
+            { new Guid("10201aa3-ebc2-42d8-84b7-2e63f6eeb8ab"), "ebe8a9d99afbd6b46909ea24a9896258" }, // Waveform
+            { new Guid("4391385a-cf83-4396-9e33-31e4e4930b27"), "3a72bd3c1fe3d784ab8896ec9fdfd058" }, // Wire
+            // Scraped from TBT14, but idential to deterministic-style meta files
+            // { new Guid("232998f8-d357-47a2-993a-53415df9be10"), "71dc5ead67382b75789dd72c8058d553"}, // BlocksGem
+            // { new Guid("3d813d82-5839-4450-8ddc-8e889ecd96c7"), "185ca6407d6d6095e95d6695d994a12b"}, // BlocksGlass
+            // { new Guid("0e87b49c-6546-3a34-3a44-8a556d7d6c3e"), "d6f6de76308b4b05386f187491479d94"}, // BlocksPaper
+        };
 
         const string kManifestAssetPath = "Assets/Manifest.asset";
 
 #if UNITY_EDITOR_WIN
-  const string kAbsoluteUri = "C:/";
+        const string kAbsoluteUri = "C:/";
 #else
         const string kAbsoluteUri = "/";
 #endif
 
         // Files that should not be copied
-        static readonly HashSet<string> kIgnoredFiles = new HashSet<string> {
-    "Assets/Shaders/Include/Hdr.cginc",
-    "Assets/Shaders/Include/Ods.cginc"
-  };
+        static readonly HashSet<string> kIgnoredFiles = new HashSet<string>
+        {
+            "Assets/Shaders/Include/Hdr.cginc",
+            "Assets/Shaders/Include/Ods.cginc"
+        };
 
         // Files that should override their path and instead be copied to a specific folder
         // These are relative to the UnitySDK folder
-        static Dictionary<string, string> kPatOverrides = new Dictionary<string, string> {
-    { "Noise.cginc", "Assets/ThirdParty/Noise/Shaders/Noise.cginc" }
-  };
+        static Dictionary<string, string> kPatOverrides = new Dictionary<string, string>
+        {
+            { "Noise.cginc", "Assets/ThirdParty/Noise/Shaders/Noise.cginc" }
+        };
 
         // Replace these regexps in the shaders
-        static Dictionary<string, string> kShaderReplacements = new Dictionary<string, string> {
-    // HDR
+        static Dictionary<string, string> kShaderReplacements = new Dictionary<string, string>
+        {
+            // HDR
 
-    { @".*pragma multi_compile __ HDR_EMULATED.*\n", "" },
-    { @".*include.*Hdr\.cginc.*\n",                  "" },
-    { @"encodeHdr\s*\((.*)\)",                        "float4($1, 1.0)" },
+            { @".*pragma multi_compile __ HDR_EMULATED.*\n", "" },
+            { @".*include.*Hdr\.cginc.*\n", "" },
+            { @"encodeHdr\s*\((.*)\)", "float4($1, 1.0)" },
 
-    // ODS
+            // ODS
 
-    { @".*include.*Ods\.cginc.*\n",                  "" },
-    // TBT_LINEAR_TARGET and ODS_RENDER have no real connection with each other,
-    // but it's convenient to be able to swap one for the other. Every TB brush
-    // multi-compiles ODS, and every TBT brush needs to multi-compile TBT_LINEAR_TARGET
-    // { ".*pragma multi_compile __ ODS_RENDER.*\\n",   "" },
-    { @"multi_compile __ ODS_RENDER ODS_RENDER_CM",  "multi_compile __ TBT_LINEAR_TARGET" },
-    { @".*PrepForOdsWorldSpace.*\n",                 "" },
-    { @".*PrepForOds.*\n",                           "" },
-    // Temporary fix for broken shaders
-    //{ @"(.*)(v\.texcoord1|v\.tangent\.w)(.*)\r\n", "//$0${1}0.0${3} // Additional coordinates are unsupported for the time being\r\n"}
+            { @".*include.*Ods\.cginc.*\n", "" },
+            // TBT_LINEAR_TARGET and ODS_RENDER have no real connection with each other,
+            // but it's convenient to be able to swap one for the other. Every TB brush
+            // multi-compiles ODS, and every TBT brush needs to multi-compile TBT_LINEAR_TARGET
+            // { ".*pragma multi_compile __ ODS_RENDER.*\\n",   "" },
+            { @"multi_compile __ ODS_RENDER ODS_RENDER_CM", "multi_compile __ TBT_LINEAR_TARGET" },
+            { @".*PrepForOdsWorldSpace.*\n", "" },
+            { @".*PrepForOds.*\n", "" },
+            // Temporary fix for broken shaders
+            //{ @"(.*)(v\.texcoord1|v\.tangent\.w)(.*)\r\n", "//$0${1}0.0${3} // Additional coordinates are unsupported for the time being\r\n"}
 
-    // Toolkit
+            // Toolkit
 
-    // Lines tagged "// NOTOOLKIT" get removed, and lines taged "// TOOLKIT: ..." get uncommented
-    { @".* // NOTOOLKIT.*\n", "" },
-    { @"// TOOLKIT: (.*\n)", "$1"}
-  };
+            // Lines tagged "// NOTOOLKIT" get removed, and lines taged "// TOOLKIT: ..." get uncommented
+            { @".* // NOTOOLKIT.*\n", "" },
+            { @"// TOOLKIT: (.*\n)", "$1" }
+        };
 
-        static string kLicenseText = string.Join("\n", new string[] {
-    "// Copyright 2017 Google Inc.",
-    "//",
-    "// Licensed under the Apache License, Version 2.0 (the \"License\");",
-    "// you may not use this file except in compliance with the License.",
-    "// You may obtain a copy of the License at",
-    "//",
-    "//     http://www.apache.org/licenses/LICENSE-2.0",
-    "//",
-    "// Unless required by applicable law or agreed to in writing, software",
-    "// distributed under the License is distributed on an \"AS IS\" BASIS,",
-    "// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.",
-    "// See the License for the specific language governing permissions and",
-    "// limitations under the License.",
-    ""
-  });
+        static string kLicenseText = string.Join("\n", new string[]
+        {
+            "// Copyright 2017 Google Inc.",
+            "//",
+            "// Licensed under the Apache License, Version 2.0 (the \"License\");",
+            "// you may not use this file except in compliance with the License.",
+            "// You may obtain a copy of the License at",
+            "//",
+            "//     http://www.apache.org/licenses/LICENSE-2.0",
+            "//",
+            "// Unless required by applicable law or agreed to in writing, software",
+            "// distributed under the License is distributed on an \"AS IS\" BASIS,",
+            "// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.",
+            "// See the License for the specific language governing permissions and",
+            "// limitations under the License.",
+            ""
+        });
 
         // Which file extensions need a license
-        static HashSet<string> kLicensedFileExtensions = new HashSet<string> {
-    ".shader", ".cs", ".cginc"
-  };
+        static HashSet<string> kLicensedFileExtensions = new HashSet<string>
+        {
+            ".shader", ".cs", ".cginc"
+        };
 
         #endregion
 
@@ -507,7 +517,7 @@ namespace TiltBrush
             if (!File.Exists(targetMetaPath))
             {
                 Warning("New brush {0}: Uncomment and run BrushManifest.MenuItem_UpdateManifest() in TBT",
-                        descriptor.m_DurableName);
+                    descriptor.m_DurableName);
             }
             else
             {
@@ -707,7 +717,7 @@ namespace TiltBrush
                 });
                 // "Singleline" makes "." match all characters, even newline
                 str = Regex.Replace(str, @"// NOTOOLKIT {.*?// } NOTOOLKIT\r?\n", "",
-                                    RegexOptions.Singleline);
+                    RegexOptions.Singleline);
                 foreach (var r in kShaderReplacements.Keys)
                 {
                     str = Regex.Replace(str, r, kShaderReplacements[r]);

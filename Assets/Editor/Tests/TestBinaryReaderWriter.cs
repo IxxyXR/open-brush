@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
 using UnityEngine;
 using NUnit.Framework;
 
@@ -99,7 +98,7 @@ namespace TiltBrush
             // Tests that we detect invalid element size properly
             UnityEngine.TestTools.LogAssert.ignoreFailingMessages = true;
 
-            MemoryStream stream = GetStreamWithData(0, 3);  // 0 elements, 3 bytes per element
+            MemoryStream stream = GetStreamWithData(0, 3); // 0 elements, 3 bytes per element
             Assert.IsFalse(new SketchBinaryReader(stream).ReadIntoExact(new List<int>(), 0));
 
             stream.Position = 0;
@@ -115,7 +114,7 @@ namespace TiltBrush
             UnityEngine.TestTools.LogAssert.ignoreFailingMessages = true;
             MemoryStream stream = GetStreamWithData(kAbsurdNumElements, 4);
             Assert.IsFalse(new SketchBinaryReader(stream).ReadIntoExact(
-                               new List<int>(), kAbsurdNumElements));
+                new List<int>(), kAbsurdNumElements));
         }
 
         [Test]

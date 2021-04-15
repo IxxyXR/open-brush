@@ -97,7 +97,7 @@ namespace TiltBrush
                 App.Scene.GetLight(i).shadows = LightShadows.None;
             }
 
-            for (int i = 0;; ++i)
+            for (int i = 0; ; ++i)
             {
                 string o = string.Format("{0}_{1:00}", m_outputBasename, i);
                 string outVid = Path.Combine(m_outputFolder, o + ".mp4");

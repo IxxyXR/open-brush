@@ -27,7 +27,7 @@ namespace TiltBrush
             if (tex == null)
             {
                 EditorUtility.DisplayDialog("No texture selected", "Please select a texture.",
-                                            "Cancel");
+                    "Cancel");
                 return;
             }
 
