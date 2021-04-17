@@ -47,6 +47,7 @@ namespace TiltBrush
             EmptyTool,
             CameraPathTool,
             FlyTool,
+            PolyhydraTool
         }
         public ToolType m_Type;
 

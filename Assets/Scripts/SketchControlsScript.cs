@@ -140,6 +140,14 @@ namespace TiltBrush
             LoadWaitOnDownload,
             SignOutConfirm,
             ReadOnlyNotice,
+            
+            PolyhydraOpenShapeTypesPopup, 	  	 
+            PolyhydraOpenUniformsPopup, 	  	 
+            PolyhydraGridTypesPopup, 	  	 
+            PolyhydraGridShapesPopup, 	  	 
+            PolyhydraJohnsonTypesPopup, 	  	 
+            PolyhydraOtherTypesPopup, 	  	 
+            PolyhydraConwayOpTypesPopup,
         }
 
         public enum ControlsType
@@ -4839,6 +4847,18 @@ namespace TiltBrush
                     }
                     CameraPathCaptureRig.RecordPath();
                     EatGazeObjectInput();
+                    break;
+                case GlobalCommands.PolyhydraOpenShapeTypesPopup: 	 
+                case GlobalCommands.PolyhydraOpenUniformsPopup: 	  	 
+                case GlobalCommands.PolyhydraGridTypesPopup: 	  	 
+                case GlobalCommands.PolyhydraGridShapesPopup: 	  	 
+                case GlobalCommands.PolyhydraJohnsonTypesPopup: 	  	 
+                case GlobalCommands.PolyhydraOtherTypesPopup: 	  	 
+                case GlobalCommands.PolyhydraConwayOpTypesPopup: 	  	 
+                    // TODO we don't really need to use commands at all here 	  	 
+                    // As we can take action in the popup script 	  	 
+                    // But is it better to use commands? 	  	 
+                    Debug.Log($"{rEnum}: iParam1={iParam1} iParam2={iParam2}"); 	  	 
                     break;
                 case GlobalCommands.Null: break; // Intentionally blank.
                 default:
