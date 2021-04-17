@@ -1774,7 +1774,7 @@ public partial class App : MonoBehaviour {
       }
     }
 
-    // Poplulate the reference images folder exactly once.
+    // Populate the reference images folder exactly once.
     int seeded = PlayerPrefs.GetInt(kReferenceImagesSeeded);
     if (seeded == 0) {
       foreach (string fileName in defaultImages) {
