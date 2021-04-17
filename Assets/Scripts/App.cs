@@ -456,11 +456,14 @@ public class App : MonoBehaviour {
   }
 
   void CreateIntroSketch() {
-    m_IntroSketch = Instantiate(PlatformConfig.IntroSketchPrefab);
-    m_IntroSketchRenderers = m_IntroSketch.GetComponentsInChildren<Renderer>();
-    for (int i = 0; i < m_IntroSketchRenderers.Length; ++i) {
-      m_IntroSketchRenderers[i].material.SetFloat("_IntroDissolve", 1);
-      m_IntroSketchRenderers[i].material.SetFloat("_GreyScale", 0);
+    // Load intro if not already cached.
+    if (m_IntroSketch == null && PlatformConfig.IntroSketchPrefab != null) {
+      m_IntroSketch = Instantiate(PlatformConfig.IntroSketchPrefab);
+      m_IntroSketchRenderers = m_IntroSketch.GetComponentsInChildren<Renderer>();
+      for (int i = 0; i < m_IntroSketchRenderers.Length; ++i) {
+        m_IntroSketchRenderers[i].material.SetFloat("_IntroDissolve", 1);
+        m_IntroSketchRenderers[i].material.SetFloat("_GreyScale", 0);
+      }
     }
   }
 
@@ -1770,7 +1773,7 @@ public class App : MonoBehaviour {
       }
     }
 
-    // Poplulate the reference images folder exactly once.
+    // Populate the reference images folder exactly once.
     int seeded = PlayerPrefs.GetInt(kReferenceImagesSeeded);
     if (seeded == 0) {
       foreach (string fileName in defaultImages) {

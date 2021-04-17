@@ -620,7 +620,10 @@ public class InputManager : MonoBehaviour {
     case SketchCommands.Undo:
     case SketchCommands.Redo:
       return Wand.GetCommand(rCommand);
+    case SketchCommands.Fly:
+      return Brush.GetCommand(rCommand);
     }
+    
 
     return false;
   }
