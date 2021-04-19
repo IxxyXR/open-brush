@@ -29,5 +29,13 @@ namespace TiltBrush
             parentPopup.PolyhydraThingButtonPressed(ButtonIndex);
             parentPopup.RequestClose();
         }
+        
+        public void SetPreset(int index) {
+
+          ButtonIndex = index;
+          var buttonLabels = parentPopup.GetButtonLabels();
+          SetButtonTexture(parentPopup.GetButtonIcon(index));
+          SetDescriptionText(buttonLabels[index]);
+        }
     }
 } // namespace TiltBrush

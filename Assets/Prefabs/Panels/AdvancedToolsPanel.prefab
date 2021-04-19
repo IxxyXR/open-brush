@@ -1902,6 +1902,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5528323124350178624, guid: 64be8f5b74cba87488af4b3facd888d8,
         type: 3}
+      propertyPath: m_Tool
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528323124350178624, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
       propertyPath: m_DescriptionText
       value: Polyhydra
       objectReference: {fileID: 0}

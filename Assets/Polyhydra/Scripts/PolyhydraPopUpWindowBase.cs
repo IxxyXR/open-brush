@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TiltBrush
 {
-    public abstract class PolyhydraPopUpWindowBase : PopUpWindow
+    public abstract class PolyhydraPopUpWindowBase : PagingPopUpWindow
     {
         [SerializeField] protected float m_ColorTransitionDuration;
         [SerializeField] protected GameObject ButtonPrefab;
@@ -13,6 +13,7 @@ namespace TiltBrush
         protected float m_ColorTransitionValue;
         protected Material m_ColorBackground;
         protected PolyhydraPanel ParentPanel;
+        private int m_CurrentButtonIndex;
         
         override protected void BaseUpdate() {
             
@@ -31,6 +32,20 @@ namespace TiltBrush
                 float greyVal = 1 - m_ColorTransitionValue / m_ColorTransitionDuration;
                 m_ColorBackground.color = new Color(greyVal, greyVal, greyVal);
             }
+        }
+        
+        protected override int m_DataCount {
+          get { return GetButtonLabels().Count(); }
+        }
+        
+        protected override void InitIcon(ImageIcon icon) {
+          icon.m_Valid = true;
+        }
+        
+        protected override void RefreshIcon(ImageIcon icon, int index) {
+          PolyhydraThingButton iconButton = icon.m_IconScript as PolyhydraThingButton;
+          iconButton.SetPreset(index);
+          iconButton.SetButtonSelected(m_CurrentButtonIndex == index);
         }
 
         protected override void UpdateOpening() {
@@ -53,7 +68,7 @@ namespace TiltBrush
             m_ColorBackground = m_Background.GetComponent<MeshRenderer>().material;
             base.Init(rParent, sText);
             ParentPanel = FindObjectOfType<PolyhydraPanel>();
-            CreateButtons();
+            //CreateButtons();
         }
 
         protected abstract string[] GetButtonList();
@@ -77,7 +92,7 @@ namespace TiltBrush
                 rButton.transform.localScale = Vector3.one * .3f;
                 
                 Renderer rButtonRenderer = rButton.GetComponent<Renderer>();
-                rButtonRenderer.material.mainTexture = Resources.Load<Texture2D>(GetButtonTexturePath(buttonIndex));
+                rButtonRenderer.material.mainTexture = GetButtonIcon(buttonIndex);
 
                 PolyhydraThingButton rButtonScript = rButton.GetComponent<PolyhydraThingButton>();
                 rButtonScript.ButtonIndex = buttonIndex;
@@ -85,6 +100,11 @@ namespace TiltBrush
                 rButtonScript.SetDescriptionText(buttonLabels[buttonIndex]);
                 rButtonScript.RegisterComponent();
             }
+        }
+
+        internal Texture2D GetButtonIcon(int buttonIndex)
+        {
+          return Resources.Load<Texture2D>(GetButtonTexturePath(buttonIndex));
         }
 
         protected abstract string GetButtonTexturePath(int i);
@@ -108,6 +128,7 @@ namespace TiltBrush
         public void PolyhydraThingButtonPressed(int ButtonIndex)
         {
             HandleButtonPress(ButtonIndex);
+            m_CurrentButtonIndex = ButtonIndex;
             ParentPanel.RebuildPoly();
         }
         
