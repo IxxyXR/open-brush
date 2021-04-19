@@ -578,8 +578,7 @@ public class PointerManager : MonoBehaviour {
     UpdateSymmetryPointerTransforms();
   }
 
-  public void SetSymmetryMode(SymmetryMode mode, bool recordCommand = true)
-  {
+  public void SetSymmetryMode(SymmetryMode mode, bool recordCommand = true) {
     VrUiPoly vrPoly = null;
     int active = m_NumActivePointers;
     switch (mode) {

@@ -96,7 +96,6 @@ public class BasePanel : MonoBehaviour {
     ReferenceMobile,
     CameraPath,
     BrushLab,
-
     Polyhydra
   }
 
