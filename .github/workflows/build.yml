@@ -1,7 +1,8 @@
+# yamllint disable rule:line-length
 ---
 name: Builds
 
-on:
+on:  # yamllint disable-line rule:truthy
   pull_request: {}
   push:
     branches:
@@ -10,6 +11,7 @@ on:
       - "v*"
 
 env:
+  UNITY_VERSION: "2019.4.18f1"
   UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
   UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
   UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
@@ -57,7 +59,7 @@ jobs:
             echo "Formal version: $MAJOR_MINOR.$PATCH_VERSION"
             echo "::set-output name=prerelease::false"
           else
-            echo "Prerelease version $MAJOR_MINOR.PATCH_VERSION $STAMP"
+            echo "Prerelease version $MAJOR_MINOR.$PATCH_VERSION $STAMP"
             echo "::set-output name=prerelease::true"
           fi
           VERSION=$(echo "$MAJOR_MINOR.$PATCH_VERSION" | sed -e 's/^v//')
@@ -65,12 +67,14 @@ jobs:
           echo "::set-output name=stamp::$STAMP"
       - name: Calculate Changelog
         id: changelog
+        env:
+          PRERELEASE: ${{ steps.version.outputs.prerelease }}
         run: |
-          if [ $(git describe --tags --abbrev=0) == $(git describe --tags) ]
+          if [ "$PRERELEASE" == "true" ]
           then
             PREV=$(git describe --tags --abbrev=0 HEAD^)
           else
-            PREV=$(git describe --tags --abbrev=0)
+            PREV=$(git describe --tags --match "v[0-9]*.[0-9]*" --abbrev=0 HEAD^)
           fi
           CHANGELOG=$(git log --pretty=oneline $PREV..HEAD)
           CHANGELOG="${CHANGELOG//'%'/'%25'}"
@@ -79,16 +83,16 @@ jobs:
           echo "::set-output name=changelog::$CHANGELOG"
       - name: Set github suffix if relevant
         id: github
+        env:
+          PRERELEASE: ${{ steps.version.outputs.prerelease }}
         run: |
-          MAJOR_MINOR=$(git describe --tags --abbrev=0 --match "v[0-9]*.[0-9]*" ${{ github.event.pull_request.head.sha }})
-          PATCH_VERSION=$(git describe --tags --match "v[0-9]*.[0-9]*" ${{ github.event.pull_request.head.sha }} | cut -d'-' -f2)
-          if [ $PATCH_VERSION == $MAJOR_MINOR ]
+          if [ "$PRERELEASE" == "true" ]
           then
-            echo "::set-output name=btbgithub::"
-            echo "::set-output name=basename::OpenBrush"
-          else
             echo "::set-output name=btbgithub::-btb-github"
             echo "::set-output name=basename::OpenBrush-github"
+          else
+            echo "::set-output name=btbgithub::"
+            echo "::set-output name=basename::OpenBrush"
           fi
   build:
     name: ${{ matrix.name }}
@@ -106,10 +110,10 @@ jobs:
             targetPlatform: StandaloneWindows64
             vrsdk: SteamVR
             extraoptions: -btb-experimental
-          - name: Windows Monoscopic
+          - name: Windows Monoscopic Experimental
             targetPlatform: StandaloneWindows64
             vrsdk: Monoscopic
-            extraoptions:
+            extraoptions: -btb-experimental
           - name: Linux SteamVR
             targetPlatform: StandaloneLinux64
             vrsdk: SteamVR
@@ -117,13 +121,14 @@ jobs:
             targetPlatform: StandaloneLinux64
             vrsdk: SteamVR
             extraoptions: -btb-experimental
-          - name: Linux Monoscopic
+          - name: Linux Monoscopic Experimental
             targetPlatform: StandaloneLinux64
             vrsdk: Monoscopic
-            extraoptions:
-          - name: OSX Monoscopic
+            extraoptions: -btb-experimental
+          - name: OSX Monoscopic Experimental
             targetPlatform: StandaloneOSX  # SteamVR was removed in Mar 2020
             vrsdk: Monoscopic
+            extraoptions: -btb-experimental
           - name: Oculus Quest
             targetPlatform: Android
             vrsdk: Oculus
@@ -143,9 +148,9 @@ jobs:
       - name: Install Oculus unity package
         if: matrix.vrsdk == 'Oculus'
         run: |
-          # version 23.1
+          # version 27.0
           # Code courtesy of Jonathan Perret, released freely. Download the package and manually extract it to Assets/Oculus. We only need VR and Platform.
-          wget -q https://securecdn.oculus.com/binaries/download/?id=3884880558189851 -O package.tmp
+          wget -q https://securecdn.oculus.com/binaries/download/?id=4231499270194643 -O package.tmp
           mkdir tmp
           tar -C tmp -xzf package.tmp
           find tmp -type f | xargs chmod a-x
@@ -189,18 +194,16 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: Library
-          # Adding the sha ensures that we always save it (by default cache hits are not saved, even if it's just a base and it's updated, which is not what we want)
-          key: Library-${{ matrix.targetPlatform }}-${{ github.sha }}
-          # When we load, take the 'latest' one that matches. Worst case, it's slightly out of date. Still better than nothing.
+          # We only use the targetPlatform for caching; saving a cache for each commit is far too expensive. Worst case, it's a few commits out of date.
+          key: Library-${{ matrix.targetPlatform }}-${{ env.UNITY_VERSION }}
           restore-keys: |
             Library-${{ matrix.targetPlatform }}-
-            Library-
 
       - name: Update Oculus OVR Plugin
         uses: game-ci/unity-builder@v2.0-alpha-6
         if: matrix.vrsdk == 'Oculus'
         with:
-          unityVersion: 2019.4.18f1
+          unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: ${{ matrix.targetPlatform }}
           versioning: Custom
           version: ${{ needs.configuration.outputs.version }}
@@ -281,7 +284,7 @@ jobs:
           VERSION: ${{ needs.configuration.outputs.version}}
         with:
           allowDirtyBuild: true  # Because of the OVR Update, the build tree might be dirty
-          unityVersion: 2019.4.18f1
+          unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: ${{ matrix.targetPlatform }}
           customParameters: -btb-target ${{ matrix.targetPlatform }} -btb-display ${{ matrix.vrsdk }} -btb-out /github/workspace/build/${{ matrix.targetPlatform }}-${{ matrix.vrsdk }}/${{ env.filename }} ${{ needs.configuration.outputs.btbgithub }} ${{ env.stamp }} ${{ matrix.extraoptions }}
           versioning: Custom
