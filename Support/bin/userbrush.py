@@ -16,10 +16,12 @@
 
 
 import argparse
+import collections.abc
 import json
 import os
 import uuid
 import sys
+from pprint import pprint
 
 properties_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.path.join('Brushes', 'ExportedProperties'))
 
@@ -29,6 +31,40 @@ def list_brushes(args):
   for file in os.listdir(properties_dir):
     print(os.path.splitext(file)[0])
 
+def recursive_update(d, u):
+  for k, v in u.items():
+    if isinstance(v, collections.abc.Mapping):
+      d[k] = recursive_update(d.get(k, {}), v)
+    else:
+      d[k] = v
+  return d
+
+def analyze_brushes(args):
+  master_dict = {}
+  for file in os.listdir(properties_dir):
+    properties_filename = os.path.join(properties_dir, file)
+    with open(properties_filename, "r") as properties_file:
+      src_brush_data = json.load(properties_file)
+      recursive_update(master_dict, src_brush_data)
+  pprint(master_dict)
+  
+  # for file in os.listdir(properties_dir):
+  #   properties_filename = os.path.join(properties_dir, file)
+  #   with open(properties_filename, "r") as properties_file:
+  #     has_anything = False
+  #     src_brush_data = json.load(properties_file)
+  #     name = src_brush_data["Name"]
+  #     for section_key in master_dict['Material']:
+  #       section = master_dict['Material'][section_key]
+  #       if isinstance(section, collections.abc.Mapping):
+  #         for prop in section:
+  #           result = (prop in src_brush_data['Material']['ColorProperties'])
+  #           if result:
+  #             has_anything = True
+  #             print("{} has {}/{}?: {}".format(name, section_key, prop, result))
+  #     if not has_anything:
+  #       print("{} has no props".format(name))
+  #   print()
 
 def create(args):
   properties_filename = os.path.join(properties_dir, args.brush + ".txt")
@@ -63,11 +99,14 @@ def main():
   subparsers = parser.add_subparsers(help='command help', dest='subparser_name')
   parser_list = subparsers.add_parser('list', help='List available base brushes')
   parser_list.set_defaults(func=list_brushes)
+  parser_analyze = subparsers.add_parser('analyze', help='Analyze available base brushes')
+  parser_analyze.set_defaults(func=analyze_brushes)
   parser_create = subparsers.add_parser('create', help='Create a new user brush')
   parser_create.add_argument('name', help='Name of the new brush')
   parser_create.add_argument('brush', help='Brush to base the new one off')
   parser_create.set_defaults(func=create)
   args = parser.parse_args()
+
 
   args.func(args)
 

@@ -239,6 +239,42 @@ public class UserVariantBrush {
     }
     return null;
   }
+  
+  // public static void Copy(string sourceBrushName, string newBrushName)
+  // {
+  //
+  //   var sourcePropertiesFilename = Path.Combine(App.UserBrushesPath(), $"{sourceBrushName}.txt");
+  //   if (!File.Exists(sourcePropertiesFilename)) {
+  //     Debug.LogError($"Error - '{sourceBrushName}' is not a valid base brush - use userbrush list to list valid brushes.");
+  //     return;
+  //   }
+  //
+  //   var guid = new Guid();
+  //   var destinationFolder = Path.Combine(new[] {Application.persistentDataPath, "Brushes", $"{newBrushName}_{guid}"});
+  //   var destinationConfig = Path.Combine(destinationFolder, "Brush.cfg");
+  //   Directory.CreateDirectory(destinationFolder);
+  //   File.Copy(sourcePropertiesFilename, destinationConfig);
+  //   UserVariantBrush brushData = UserVariantBrush.Create(destinationFolder);
+  //   // var sourcePropertiesFile = File.OpenRead(sourcePropertiesFilename);
+  //   // var sourceBrushData = JsonUtility.FromJson(sourcePropertiesFile);
+  //   // var brushData = sourceBrushData.Copy();
+  //   brushData.m_BrushProperties.VariantOf = brushData.m_BrushProperties.GUID;
+  //   brushData.m_BrushProperties.GUID = new Guid();
+  //   brushData.m_BrushProperties.Name = newBrushName;
+  //   brushData.m_BrushProperties.Description = newBrushName;
+  //   brushData.m_BrushProperties.Author = "";
+  //   brushData.m_BrushProperties.ButtonIcon = "";
+  //   var brushJson = JsonUtility.ToJson(brushData);
+  //   brushJson.com
+  //   brushJson.Original_Base_Brush_Values = sourceBrushData;
+  //   var configFile = File.OpenWrite(destinationConfig);
+  //   var bytes = Encoding.ASCII.GetBytes(jsonString);
+  //   configFile.Write(bytes, 0, bytes.Length);
+  //   configFile.Close();
+  //   sourcePropertiesFile.Close();
+  //   Debug.Log($"Created brush config at {destinationConfig}.");
+  // }
+
 
   /// <summary>
   /// Initialize a brush from a file or folder.
@@ -480,7 +516,7 @@ public class UserVariantBrush {
   [MenuItem("Tilt/Brushes/Export Standard Brush Properties")]
   public static void ExportDescriptorDetails() {
     TiltBrushManifest manifest =
-      AssetDatabase.LoadAssetAtPath<TiltBrushManifest>("Assets/Manifest.asset");
+      AssetDatabase.LoadAssetAtPath<TiltBrushManifest>("Assets/Manifest_Experimental.asset");
 
     string destination = Path.GetFullPath(
       Path.Combine(Application.dataPath, "../Support/Brushes/ExportedProperties"));
