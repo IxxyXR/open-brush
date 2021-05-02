@@ -67,8 +67,8 @@ namespace TiltBrush
                 Vector3 position = new Vector3(xOffset * xSpacing, -yOffset * ySpacing, 0);
                 rButton.transform.localPosition = new Vector3(-0.52f, 0.15f, -0.08f) + (position * .35f);
 
-                // rButton.transform.localScale = new Vector3(2, .2f, 1);
-                //
+                rButton.transform.localScale = Vector3.one;
+                
                 Renderer rButtonRenderer = rButton.GetComponent<Renderer>();
                 // rButtonRenderer.material.mainTexture = GetButtonTexture(buttonIndex);
 
