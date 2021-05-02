@@ -57,7 +57,6 @@ namespace TiltBrush
             int columns = 2;
             for (int buttonIndex = 0; buttonIndex < buttonLabels.Length; buttonIndex++)
             {
-
                 GameObject rButton = Instantiate(ButtonPrefab);
                 rButton.transform.parent = transform;
                 rButton.transform.localRotation = Quaternion.identity;
