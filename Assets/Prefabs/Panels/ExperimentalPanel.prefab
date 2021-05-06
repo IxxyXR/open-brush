@@ -1257,7 +1257,7 @@ MonoBehaviour:
   m_HoverScale: 1.1
   m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
-  m_Command: 100
+  m_Command: 5000
   m_CommandParam: -1
   m_CommandParam2: -1
   m_RequiresPopup: 0
@@ -1329,6 +1329,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528323124350178624, guid: 64be8f5b74cba87488af4b3facd888d8,
+        type: 3}
+      propertyPath: m_Tool
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 5770946463766476050, guid: 64be8f5b74cba87488af4b3facd888d8,
         type: 3}

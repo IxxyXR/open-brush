@@ -49,7 +49,7 @@ namespace TiltBrush
             FourAroundY,
             DebugMultiple,
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-            CustomSymmetryMode,
+            CustomSymmetryMode = 5000,
 #endif
         }
 

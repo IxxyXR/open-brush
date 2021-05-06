@@ -140,16 +140,16 @@ namespace TiltBrush
             LoadWaitOnDownload,
             SignOutConfirm,
             ReadOnlyNotice,
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)            
-            CustomSymmetryCommand,
-            PolyhydraOpenShapeTypesPopup,
-            PolyhydraOpenUniformsPopup,
-            PolyhydraGridTypesPopup,
-            PolyhydraGridShapesPopup,
-            PolyhydraJohnsonTypesPopup,
-            PolyhydraOtherTypesPopup,
-            PolyhydraConwayOpTypesPopup,
-            PolyhydraConwayOpFaceSelPopup
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+            CustomSymmetryCommand = 5000,
+            PolyhydraOpenShapeTypesPopup = 5001,
+            PolyhydraOpenUniformsPopup = 5002,
+            PolyhydraGridTypesPopup = 5003,
+            PolyhydraGridShapesPopup = 5004,
+            PolyhydraJohnsonTypesPopup = 5005,
+            PolyhydraOtherTypesPopup = 5006,
+            PolyhydraConwayOpTypesPopup = 5007,
+            PolyhydraConwayOpFaceSelPopup = 5008
 #endif
         }
 

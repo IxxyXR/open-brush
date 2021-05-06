@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c92f5ae4cd10a4aaa1d00f5840bef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PanelType: 34
+  m_PanelType: 5000
   m_Collider: {fileID: 6526338}
   m_Mesh: {fileID: 177340}
   m_Border: {fileID: 23000011669290354}
@@ -140,21 +140,21 @@ MonoBehaviour:
   m_ParticleBounds: {x: 1.8, y: 2.2, z: 0}
   m_PanelPopUpMap:
   - m_PopUpPrefab: {fileID: 197348, guid: 26667b296adb05b43910a15be55b0f01, type: 3}
-    m_Command: 107
+    m_Command: 5007
   - m_PopUpPrefab: {fileID: 197348, guid: df6ace17f91fd744897f451d31c470e9, type: 3}
-    m_Command: 104
+    m_Command: 5004
   - m_PopUpPrefab: {fileID: 197348, guid: d62c8b907fbf59242bc477b35f729d2f, type: 3}
-    m_Command: 103
+    m_Command: 5003
   - m_PopUpPrefab: {fileID: 197348, guid: 62263c156f822614d9315edd90ed4f73, type: 3}
-    m_Command: 105
+    m_Command: 5005
   - m_PopUpPrefab: {fileID: 197348, guid: 5e1064581f1d0264a81098b350b07e32, type: 3}
-    m_Command: 106
+    m_Command: 5006
   - m_PopUpPrefab: {fileID: 197348, guid: 5eab800b7e1118e46a516d9c94deacab, type: 3}
-    m_Command: 101
+    m_Command: 5001
   - m_PopUpPrefab: {fileID: 197348, guid: 328fc82a268fc6f439af97fe53f8a1e2, type: 3}
-    m_Command: 102
+    m_Command: 5002
   - m_PopUpPrefab: {fileID: 197348, guid: bc75736d9bb05b44b863a577c9174afe, type: 3}
-    m_Command: 108
+    m_Command: 5008
   m_PanelDescription: Polyhydra
   m_PanelDescriptionPrefab: {fileID: 160918, guid: 3491f4f01ba6cac47b1633f36d7c6c84,
     type: 3}
@@ -477,7 +477,7 @@ MonoBehaviour:
   m_HoverScale: 1.1
   m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
-  m_Command: 101
+  m_Command: 5001
   m_CommandParam: -1
   m_CommandParam2: -1
   m_RequiresPopup: 1
@@ -703,7 +703,7 @@ MonoBehaviour:
   m_HoverScale: 1.1
   m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
-  m_Command: 102
+  m_Command: 5002
   m_CommandParam: -1
   m_CommandParam2: -1
   m_RequiresPopup: 1
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_HoverScale: 1.1
   m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
-  m_Command: 106
+  m_Command: 5006
   m_CommandParam: -1
   m_CommandParam2: -1
   m_RequiresPopup: 1
@@ -1141,7 +1141,7 @@ MonoBehaviour:
   m_HoverScale: 1.1
   m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
-  m_Command: 103
+  m_Command: 5003
   m_CommandParam: -1
   m_CommandParam2: -1
   m_RequiresPopup: 1
@@ -1274,7 +1274,7 @@ MonoBehaviour:
   m_HoverScale: 1.1
   m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
-  m_Command: 105
+  m_Command: 5005
   m_CommandParam: -1
   m_CommandParam2: -1
   m_RequiresPopup: 1
@@ -1407,7 +1407,7 @@ MonoBehaviour:
   m_HoverScale: 1.1
   m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
-  m_Command: 104
+  m_Command: 5004
   m_CommandParam: -1
   m_CommandParam2: -1
   m_RequiresPopup: 1

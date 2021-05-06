@@ -109,7 +109,7 @@ MonoBehaviour:
   m_HoverScale: 1.1
   m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
-  m_Command: 107
+  m_Command: 5007
   m_CommandParam: 0
   m_CommandParam2: -1
   m_RequiresPopup: 1
@@ -242,7 +242,7 @@ MonoBehaviour:
   m_HoverScale: 1.1
   m_HoverBoxColliderGrow: 0.2
   m_AddOverlay: 0
-  m_Command: 108
+  m_Command: 5008
   m_CommandParam: 0
   m_CommandParam2: -1
   m_RequiresPopup: 1
