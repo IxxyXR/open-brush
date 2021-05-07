@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Conway;
 using Johnson;
+using TiltBrush;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Wythoff;
@@ -46,11 +47,32 @@ public class VrUiPoly : MonoBehaviour
 
     void Init()
     {
+        ColorSetup();
         meshFilter = gameObject.GetComponent<MeshFilter>();
-        previewColors = Enumerable.Range(0,8).Select(x => colors.Evaluate(((x / 8f) * ColorRange + ColorOffset) % 1)).ToArray();
         MakePolyhedron();
     }
 
+    private void ColorSetup()
+    {
+        var colorButtons = FindObjectsOfType<CustomColorButton>();
+        if (colorButtons.Length > 1)
+        {
+            var colorSet = new List<Color>();
+            while (colorSet.Count < 10)
+            {
+                for (var i = 0; i < colorButtons.Length; i++)
+                {
+                    var color = colorButtons[i].CustomColor;
+                    colorSet.Add(color);
+                }
+            }
+            previewColors = colorSet.ToArray();
+        }
+        else
+        {
+            previewColors = Enumerable.Range(0,8).Select(x => colors.Evaluate(((x / 8f) * ColorRange + ColorOffset) % 1)).ToArray();
+        }
+    }
 
     [Serializable]
     public struct ConwayOperator
@@ -116,6 +138,9 @@ public class VrUiPoly : MonoBehaviour
 
     public void Validate()
     {
+
+        ColorSetup();
+        
         if (ShapeType == PolyHydraEnums.ShapeTypes.Uniform)
         {
             if (PrismP < 3) { PrismP = 3; }

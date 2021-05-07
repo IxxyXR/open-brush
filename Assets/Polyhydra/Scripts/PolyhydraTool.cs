@@ -148,7 +148,6 @@ namespace TiltBrush.AndyB
                     float minPressure = PointerManager.m_Instance.MainPointer.CurrentBrush.PressureSizeMin(false);
                     float pressure = Mathf.Lerp(minPressure, 1f, 0.5f);
 
-                    var strokes = new List<Stroke>();
                     var group = App.GroupManager.NewUnusedGroup();
 
                     foreach (var (face, faceIndex) in poly.Faces.WithIndex())
@@ -196,7 +195,7 @@ namespace TiltBrush.AndyB
                         if (faceIndex!=0) stroke.m_Flags = SketchMemoryScript.StrokeFlags.IsGroupContinue;
                         SketchMemoryScript.m_Instance.MemoryListAdd(stroke);
                         SketchMemoryScript.m_Instance.PerformAndRecordCommand(
-                            new BrushStrokeCommand(stroke, WidgetManager.m_Instance.ActiveStencil, 123)
+                            new BrushStrokeCommand(stroke, WidgetManager.m_Instance.ActiveStencil, 123) // TODO calc length
                         );
                     }
                 }
