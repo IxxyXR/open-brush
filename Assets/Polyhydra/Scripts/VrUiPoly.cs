@@ -6,6 +6,7 @@ using Johnson;
 using TiltBrush;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Valve.Newtonsoft.Json.Utilities;
 using Wythoff;
 
 
@@ -31,6 +32,8 @@ public class VrUiPoly : MonoBehaviour
     public bool Rescale;
     private MeshFilter meshFilter;
     private Color[] previewColors;
+    public Color MainColor;
+    public float ColorBlend = 0.5f;
     public PolyHydraEnums.ColorMethods PreviewColorMethod;
 
     public Material SymmetryWidgetMaterial;
@@ -54,11 +57,13 @@ public class VrUiPoly : MonoBehaviour
 
     private void ColorSetup()
     {
+        int numColors = 12; // What is the maximum colour index we want to support? 
         var colorButtons = FindObjectsOfType<CustomColorButton>();
+        // Use custom colors if they are present
         if (colorButtons.Length > 1)
         {
             var colorSet = new List<Color>();
-            while (colorSet.Count < 10)
+            while (colorSet.Count < numColors)
             {
                 for (var i = 0; i < colorButtons.Length; i++)
                 {
@@ -67,11 +72,27 @@ public class VrUiPoly : MonoBehaviour
                 }
             }
             previewColors = colorSet.ToArray();
+            // Custom color buttons are right to left so reverse them
+            previewColors.Reverse();
+            // Intuitively the first face role isn't often seen so move it to the end
+            var firstColor = previewColors[0];
+            previewColors = previewColors.Skip(1).ToArray();
+            previewColors.Append(firstColor);
         }
+        // Otherwise use the default palette
         else
         {
-            previewColors = Enumerable.Range(0,8).Select(x => colors.Evaluate(((x / 8f) * ColorRange + ColorOffset) % 1)).ToArray();
+            previewColors = Enumerable.Range(0, numColors).Select(x => colors.Evaluate(((x / 8f) * ColorRange + ColorOffset) % 1)).ToArray();
         }
+        Debug.Log($"Color Blend: {ColorBlend} MainColor: {MainColor}");
+        previewColors = previewColors.Select(col => Color.Lerp(MainColor, col, ColorBlend)).ToArray();
+    }
+
+    public void UpdateColorBlend(float blend)
+    {
+        MainColor = PointerManager.m_Instance.PointerColor;
+        ColorBlend = blend;
+        RebuildPoly();
     }
 
     [Serializable]
@@ -135,6 +156,32 @@ public class VrUiPoly : MonoBehaviour
         }
     }
     public List<ConwayOperator> ConwayOperators;
+
+    public void RebuildPoly()
+    {
+        Validate();
+        PreviewColorMethod = (ShapeType == PolyHydraEnums.ShapeTypes.Waterman)
+            ? PolyHydraEnums.ColorMethods.ByFaceDirection
+            : PolyHydraEnums.ColorMethods.ByRole;
+        MakePolyhedron();
+
+        Mesh polyMesh;
+        if (meshFilter == null)
+        {
+            meshFilter = GetComponent<MeshFilter>();
+        }
+        if (Application.isPlaying)
+        {
+            polyMesh = GetComponent<MeshFilter>().mesh;
+            meshFilter.mesh = polyMesh;
+        }
+        else
+        {
+            polyMesh = GetComponent<MeshFilter>().sharedMesh;
+            meshFilter.sharedMesh = polyMesh;
+        }
+        PointerManager.m_Instance.SetSymmetryMode(PointerManager.m_Instance.CurrentSymmetryMode);
+    }
 
     public void Validate()
     {

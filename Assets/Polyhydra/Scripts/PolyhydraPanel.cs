@@ -52,13 +52,13 @@ namespace TiltBrush
         public void HandleSliderP(Vector3 value)
         {
             PolyhydraModel.PrismP = Mathf.FloorToInt(value.z);
-            RebuildPoly();
+            PolyhydraModel.RebuildPoly();
         }
 
         public void HandleSliderQ(Vector3 value)
         {
             PolyhydraModel.PrismQ = Mathf.FloorToInt(value.z);
-            RebuildPoly();
+            PolyhydraModel.RebuildPoly();
         }
 
         public void HandleOpAmountSlider(Vector3 value)
@@ -77,35 +77,10 @@ namespace TiltBrush
                     break;
             }
             PolyhydraModel.ConwayOperators[opStackIndex] = op;
-            RebuildPoly();
+            PolyhydraModel.RebuildPoly();
         }
 
-        public void RebuildPoly()
-        {
-            PolyhydraModel.Validate();
-            PolyhydraModel.PreviewColorMethod = (PolyhydraModel.ShapeType == PolyHydraEnums.ShapeTypes.Waterman)
-                ? PolyHydraEnums.ColorMethods.ByFaceDirection
-                : PolyHydraEnums.ColorMethods.ByRole;
-            PolyhydraModel.MakePolyhedron();
-
-            Mesh polyMesh;
-            if (meshFilter == null)
-            {
-                meshFilter = PolyhydraModel.GetComponent<MeshFilter>();
-            }
-            if (Application.isPlaying)
-            {
-                polyMesh = PolyhydraModel.GetComponent<MeshFilter>().mesh;
-                meshFilter.mesh = polyMesh;
-            }
-            else
-            {
-                polyMesh = PolyhydraModel.GetComponent<MeshFilter>().sharedMesh;
-                meshFilter.sharedMesh = polyMesh;
-            }
-            PointerManager.m_Instance.SetSymmetryMode(PointerManager.m_Instance.CurrentSymmetryMode);
-        }
-
+        
         void Update()
         {
             BaseUpdate();

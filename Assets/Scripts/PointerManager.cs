@@ -766,11 +766,23 @@ namespace TiltBrush
                         // We could scale brushes by face size?
                         // pointer.m_Script.BrushSizeAbsolute *= (faceMax * (face.Centroid - face.GetBestEdge().Midpoint).magnitude);
                         if (vrPoly)
-                            pointer.m_Script.SetColor(MainPointer.GetCurrentColor() + new Color(Random.value,Random.value,Random.value));
+                        {
+                            var color = vrPoly.GetFaceColor(i);
+                            pointer.m_Script.SetColor(color);
+                        }
                     }
                 }
 #endif                
             }
+
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+            // Custom symmetry mode overrides main pointer color as well
+            if (mode == SymmetryMode.CustomSymmetryMode)
+            {
+                var color = vrPoly.GetFaceColor(0);
+                m_Pointers[0].m_Script.SetColor(color);
+            }
+#endif                
 
             App.Switchboard.TriggerMirrorVisibilityChanged();
         }

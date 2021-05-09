@@ -147,6 +147,7 @@ namespace TiltBrush
                     m_LeftRightMesh.enabled = false;
                     m_SymmetryGuideMeshRenderer.enabled = true;
                     m_SymmetryGuideMeshFilter.mesh = vrUiPoly.GetComponent<MeshFilter>().mesh;
+                    m_SymmetryGuideMeshFilter.transform.localScale = Vector3.one * 2.0f;
                     m_SymmetryGuideMeshRenderer.material = vrUiPoly.SymmetryWidgetMaterial;
                     for (int i = 0; i < m_GuideBeams.Length; ++i)
                     {
