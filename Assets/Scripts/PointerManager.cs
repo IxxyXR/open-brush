@@ -777,11 +777,13 @@ namespace TiltBrush
 
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
             // Custom symmetry mode overrides main pointer color as well
-            if (mode == SymmetryMode.CustomSymmetryMode)
-            {
-                var color = vrPoly.GetFaceColor(0);
-                m_Pointers[0].m_Script.SetColor(color);
-            }
+            // TODO Disabled this because it overwrites the current main brush color.
+            // Need some way to "save and restore"
+            // if (mode == SymmetryMode.CustomSymmetryMode)
+            // {
+            //     var color = vrPoly.GetFaceColor(0);
+            //     m_Pointers[0].m_Script.SetColor(color);
+            // }
 #endif                
 
             App.Switchboard.TriggerMirrorVisibilityChanged();
