@@ -21,7 +21,6 @@ namespace TiltBrush
 
     public class PolyhydraPanel : BasePanel
     {
-
         [NonSerialized] public VrUiPoly PolyhydraModel;
         [NonSerialized] public VrUi.ShapeCategories CurrentShapeCategory;
 
