@@ -8673,6 +8673,7 @@ Transform:
   - {fileID: 1504500865}
   - {fileID: 1956944149}
   - {fileID: 1251041024}
+  - {fileID: 1005784025}
   - {fileID: 8282789105019930893}
   m_Father: {fileID: 1796800572}
   m_RootOrder: 0
@@ -13167,6 +13168,86 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2300000, guid: 5ef960ddf11c1fd4983638f56f6a8be0,
     type: 3}
   m_PrefabInstance: {fileID: 148029601}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1005784024
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 593121476}
+    m_Modifications:
+    - target: {fileID: 5613725442812470859, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_Name
+      value: PolyhydraTool
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470859, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7a27a11733f068248b6137d124e53cb5, type: 3}
+--- !u!4 &1005784025 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5613725442812470860, guid: 7a27a11733f068248b6137d124e53cb5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1005784024}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1011848215
 PrefabInstance:
@@ -27487,6 +27568,14 @@ MonoBehaviour:
     m_ModeGvr: 0
     m_Basic: 0
     m_Advanced: 1
+  - m_PanelPrefab: {fileID: 159900, guid: 3b3f1e1277e63dd44987818705e0821b, type: 3}
+    m_ModeVr: 1
+    m_ModeVrExperimental: 1
+    m_ModeMono: 1
+    m_ModeQuest: 0
+    m_ModeGvr: 0
+    m_Basic: 0
+    m_Advanced: 1
   m_WandPanelsRotationFeedbackInterval: 20
   m_WandPanelsRotationScalar: 200
   m_WandPanelsRotationVelocityScalar: 7500
@@ -32969,7 +33058,7 @@ Transform:
   m_Children:
   - {fileID: 8282789105211234563}
   m_Father: {fileID: 593121476}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8282789105019930894
 GameObject:

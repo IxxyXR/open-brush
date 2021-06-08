@@ -24,7 +24,6 @@ using System.Linq;
 using Conway;
 using Wythoff;
 using Face = Conway.Face;
-using Random = UnityEngine.Random;
 #endif
 
 namespace TiltBrush
