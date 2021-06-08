@@ -103,7 +103,10 @@ namespace TiltBrush
             LabsMobile,
             ReferenceMobile,
             CameraPath,
-            BrushLab
+            BrushLab,
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+            Polyhydra = 5000
+#endif
         }
 
         private enum FixedTransitionState
