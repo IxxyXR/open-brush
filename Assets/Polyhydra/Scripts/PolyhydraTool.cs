@@ -20,18 +20,18 @@ namespace TiltBrush.AndyB
 
         //the controller that this tool is attached to
         private Transform m_BrushController;
-        
+
         // Set true when the tool is activated so we can detect when it's released
         private bool m_WasClicked = false;
-        
+
         // The position of the pointed when m_ClickedLastUpdate was set to true;
         private TrTransform m_FirstPositionClicked_CS;
         private Vector3 m_FirstPositionClicked_GS;
 
         private Mesh previewMesh;
         private Material previewMaterial;
-        
-        
+
+
         private float[] angleSnaps;
         private int currentSnap;
         private float angleSnappingAngle;
@@ -41,7 +41,7 @@ namespace TiltBrush.AndyB
         {
             base.Init();
             m_toolDirectionIndicator = transform.GetChild(0).gameObject;
-            angleSnaps = new[] {0f, 15f, 30f, 45f, 60f, 75f, 90f};
+            angleSnaps = new[] { 0f, 15f, 30f, 45f, 60f, 75f, 90f };
         }
 
         //What to do when the tool is enabled or disabled
@@ -93,7 +93,7 @@ namespace TiltBrush.AndyB
                 GetComponentInChildren<TextMeshPro>().text = angleSnappingAngle.ToString();
             }
             bool angleSnap = !(currentSnap == 0);
-            
+
             if (InputManager.m_Instance.GetCommandDown(InputManager.SketchCommands.Activate))
             {
                 m_WasClicked = true;
@@ -105,27 +105,27 @@ namespace TiltBrush.AndyB
                 previewMesh = uiPoly.GetComponent<MeshFilter>().mesh;
                 previewMaterial = uiPoly.GetComponent<MeshRenderer>().material;
             }
-            
+
             if (InputManager.m_Instance.GetCommand(InputManager.SketchCommands.Activate))
             {
                 var drawnVector_CS = rAttachPoint_CS.translation - m_FirstPositionClicked_CS.translation;
                 var drawnVector_GS = rAttachPoint_GS - m_FirstPositionClicked_GS;
                 var rotation_CS = Quaternion.LookRotation(drawnVector_CS, Vector3.up);
                 var rotation_GS = Quaternion.LookRotation(drawnVector_GS, Vector3.up);
-                
+
                 // Snapping needs compensating for the different rotation between global space and canvas space
                 var CS_GS_offset = rotation_GS.eulerAngles - rotation_CS.eulerAngles;
                 rotation_CS *= Quaternion.Euler(-CS_GS_offset);
                 rotation_CS = angleSnap ? QuantizeAngle(rotation_CS) : rotation_CS;
                 rotation_CS *= Quaternion.Euler(CS_GS_offset);
-                
+
                 Matrix4x4 transform_GS = Matrix4x4.TRS(
                     m_FirstPositionClicked_GS,
                     rotation_CS,
                     Vector3.one * drawnVector_GS.magnitude
                 );
                 Graphics.DrawMesh(previewMesh, transform_GS, previewMaterial, 0);
-                
+
             }
             else if (!InputManager.m_Instance.GetCommand(InputManager.SketchCommands.Activate))
             {
@@ -140,7 +140,7 @@ namespace TiltBrush.AndyB
                     var scale_CS = drawnVector_CS.magnitude;
                     var rotation_CS = Quaternion.LookRotation(drawnVector_CS, Vector3.up);
                     rotation_CS = angleSnap ? QuantizeAngle(rotation_CS) : rotation_CS;
-                    
+
                     var poly = uiPoly._conwayPoly;
 
                     var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
@@ -192,7 +192,7 @@ namespace TiltBrush.AndyB
                         stroke.m_ControlPointsToDrop = Enumerable.Repeat(false, stroke.m_ControlPoints.Length).ToArray();
                         stroke.Group = group;
                         stroke.Recreate(null, App.Scene.ActiveCanvas);
-                        if (faceIndex!=0) stroke.m_Flags = SketchMemoryScript.StrokeFlags.IsGroupContinue;
+                        if (faceIndex != 0) stroke.m_Flags = SketchMemoryScript.StrokeFlags.IsGroupContinue;
                         SketchMemoryScript.m_Instance.MemoryListAdd(stroke);
                         SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                             new BrushStrokeCommand(stroke, WidgetManager.m_Instance.ActiveStencil, 123) // TODO calc length
@@ -203,8 +203,8 @@ namespace TiltBrush.AndyB
         }
         private Quaternion QuantizeAngle(Quaternion rotation)
         {
-            float round(float val) {return Mathf.Round(val / angleSnappingAngle) * angleSnappingAngle;}
-            
+            float round(float val) { return Mathf.Round(val / angleSnappingAngle) * angleSnappingAngle; }
+
             Vector3 euler = rotation.eulerAngles;
             euler = new Vector3(round(euler.x), round(euler.y), round(euler.z));
             return Quaternion.Euler(euler);

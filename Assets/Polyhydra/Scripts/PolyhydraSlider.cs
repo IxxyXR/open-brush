@@ -22,7 +22,8 @@ using UnityEngine.Events;
 namespace TiltBrush
 {
 
-    [Serializable] public class sliderEvent : UnityEvent<Vector3>
+    [Serializable]
+    public class sliderEvent : UnityEvent<Vector3>
     {
     }
 

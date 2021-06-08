@@ -736,7 +736,7 @@ namespace TiltBrush
                 SketchMemoryScript.m_Instance.RecordCommand(
                     new SymmetryWidgetVisibleCommand(m_SymmetryWidgetScript));
             }
-            
+
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
             // Get a max face size to use as a scaling factor later.
             // float faceMax = 1;
@@ -833,8 +833,8 @@ namespace TiltBrush
                         }
                         return aboutY * xfMain;
                     }
-                
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)                
+
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
                 case SymmetryMode.CustomSymmetryMode:
                     {
                         var vrPoly = (VrUiPoly)FindObjectOfType(typeof(VrUiPoly));
@@ -850,7 +850,7 @@ namespace TiltBrush
                         return aboutY * xfMain;
                     }
 #endif
-                
+
                 case SymmetryMode.DebugMultiple:
                     {
                         var xfLift = TrTransform.T(m_SymmetryDebugMultipleOffset * child);

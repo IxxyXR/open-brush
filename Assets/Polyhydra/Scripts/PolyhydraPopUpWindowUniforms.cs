@@ -37,10 +37,10 @@ namespace TiltBrush
                     return Uniform.Prismatic;
                 case VrUi.ShapeCategories.KeplerPoinsot:
                     return Uniform.KeplerPoinsot;
-                // case VrUi.ShapeCategories.UniformConvex:
-                //   return Uniform.Convex;
-                // case VrUi.ShapeCategories.UniformStar:
-                //   return Uniform.Star;
+                    // case VrUi.ShapeCategories.UniformConvex:
+                    //   return Uniform.Convex;
+                    // case VrUi.ShapeCategories.UniformStar:
+                    //   return Uniform.Star;
             }
 
             return null;

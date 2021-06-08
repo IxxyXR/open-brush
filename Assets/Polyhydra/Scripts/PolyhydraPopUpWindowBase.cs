@@ -8,7 +8,7 @@ namespace TiltBrush
     public abstract class PolyhydraPopUpWindowBase : PopUpWindow
     {
         public int ButtonsPerPage = 16;
-        
+
         [SerializeField] protected float m_ColorTransitionDuration;
         [SerializeField] protected GameObject ButtonPrefab;
         [NonSerialized] public int FirstButtonIndex = 0;
@@ -76,7 +76,7 @@ namespace TiltBrush
         {
             foreach (var btn in _buttons)
             {
-                Destroy(btn);  
+                Destroy(btn);
             }
             _buttons = new List<GameObject>();
             string[] buttonLabels = GetButtonList();
@@ -139,6 +139,6 @@ namespace TiltBrush
             HandleButtonPress(ButtonIndex);
             ParentPanel.PolyhydraModel.RebuildPoly();
         }
-        
+
     }
 }

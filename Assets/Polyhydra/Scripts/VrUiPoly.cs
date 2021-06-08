@@ -27,7 +27,7 @@ public class VrUiPoly : MonoBehaviour
     public Gradient colors;
     public float ColorRange;
     public float ColorOffset;
-    
+
     public ConwayPoly _conwayPoly;
     public bool Rescale;
     private MeshFilter meshFilter;
@@ -187,7 +187,7 @@ public class VrUiPoly : MonoBehaviour
     {
 
         ColorSetup();
-        
+
         if (ShapeType == PolyHydraEnums.ShapeTypes.Uniform)
         {
             if (PrismP < 3) { PrismP = 3; }
@@ -320,8 +320,8 @@ public class VrUiPoly : MonoBehaviour
     {
 
         if (_conwayPoly == null) return;
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
         GizmoHelper.DrawGizmos(_conwayPoly, transform, vertexGizmos, faceGizmos, edgeGizmos, faceCenterGizmos, false, 0.3f);
-            #endif
+#endif
     }
 }

@@ -50,7 +50,7 @@ namespace TiltBrush
         {
             foreach (var btn in _buttons)
             {
-                Destroy(btn);  
+                Destroy(btn);
             }
             _buttons = new List<GameObject>();
             string[] buttonLabels = GetButtonList();
@@ -67,7 +67,7 @@ namespace TiltBrush
                 rButton.transform.localPosition = new Vector3(-0.52f, 0.15f, -0.08f) + (position * .35f);
 
                 rButton.transform.localScale = Vector3.one;
-                
+
                 Renderer rButtonRenderer = rButton.GetComponent<Renderer>();
                 // rButtonRenderer.material.mainTexture = GetButtonTexture(buttonIndex);
 
@@ -85,7 +85,7 @@ namespace TiltBrush
         {
             int absoluteButtonIndex = relativeButtonIndex + FirstButtonIndex;
             var ops = ParentPanel.PolyhydraModel.ConwayOperators;
-            
+
             var op = ops[OpStackIndex];
             op.faceSelections = (FaceSelections)absoluteButtonIndex;
             ops[OpStackIndex] = op;

@@ -79,7 +79,7 @@ namespace TiltBrush
             PolyhydraModel.RebuildPoly();
         }
 
-        
+
         void Update()
         {
             BaseUpdate();

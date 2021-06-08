@@ -46,7 +46,7 @@ namespace TiltBrush
         {
             int absoluteButtonIndex = relativeButtonIndex + FirstButtonIndex;
             var ops = ParentPanel.PolyhydraModel.ConwayOperators;
-            
+
             PolyHydraEnums.OpConfig opConfig = PolyHydraEnums.OpConfigs[(Ops)absoluteButtonIndex];
 
             var op = ops[OpStackIndex];
@@ -58,7 +58,7 @@ namespace TiltBrush
             ParentPanel.PolyhydraModel.ConwayOperators = ops;
             ParentPanel.ButtonsConwayOps[OpStackIndex].SetButtonTexture(GetButtonTexture(relativeButtonIndex));
             ParentPanel.ButtonsConwayOps[OpStackIndex].SetDescriptionText(GetButtonList()[relativeButtonIndex]);
-            
+
             if (opConfig.usesFaces)
             {
                 ParentPanel.ButtonsFaceSel[OpStackIndex].gameObject.SetActive(true);
@@ -67,7 +67,7 @@ namespace TiltBrush
             {
                 ParentPanel.ButtonsFaceSel[OpStackIndex].gameObject.SetActive(false);
             }
-            
+
             if (opConfig.usesAmount)
             {
                 ParentPanel.SlidersConwayOps[OpStackIndex * 2].gameObject.SetActive(true);
@@ -99,7 +99,7 @@ namespace TiltBrush
             {
                 FirstButtonIndex += ButtonsPerPage;
                 CreateButtons();
-                
+
             }
         }
         public void PrevPage()

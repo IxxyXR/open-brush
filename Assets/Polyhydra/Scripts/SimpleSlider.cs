@@ -23,7 +23,8 @@ namespace TiltBrush
 {
 
 
-    [Serializable] public class simpleSliderEvent : UnityEvent<float>
+    [Serializable]
+    public class simpleSliderEvent : UnityEvent<float>
     {
     }
 
