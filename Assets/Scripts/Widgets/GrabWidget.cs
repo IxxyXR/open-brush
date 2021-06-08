@@ -215,7 +215,7 @@ namespace TiltBrush
             m_SnapEnabledTimeStamp = 0.0f;
         }
 
-        protected bool SnapEnabled
+        protected virtual bool SnapEnabled
         {
             get
             {
@@ -1306,7 +1306,8 @@ namespace TiltBrush
         virtual protected TrTransform GetDesiredTransform(TrTransform xf_GS)
         {
             TrTransform outXf_GS = xf_GS;
-            if (m_AllowSnapping && SnapEnabled)
+
+            if (AllowSnapping())
             {
                 outXf_GS = GetSnappedTransform(xf_GS);
 
@@ -1351,6 +1352,11 @@ namespace TiltBrush
                 }
             }
             return outXf_GS;
+        }
+
+        protected virtual bool AllowSnapping()
+        {
+            return m_AllowSnapping && SnapEnabled;
         }
 
         // Extension point for RecordAndSet*.
