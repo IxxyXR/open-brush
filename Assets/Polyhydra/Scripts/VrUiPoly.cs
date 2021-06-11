@@ -84,13 +84,12 @@ public class VrUiPoly : MonoBehaviour
         {
             previewColors = Enumerable.Range(0, numColors).Select(x => colors.Evaluate(((x / 8f) * ColorRange + ColorOffset) % 1)).ToArray();
         }
-        Debug.Log($"Color Blend: {ColorBlend} MainColor: {MainColor}");
         previewColors = previewColors.Select(col => Color.Lerp(MainColor, col, ColorBlend)).ToArray();
     }
 
     public void UpdateColorBlend(float blend)
     {
-        MainColor = PointerManager.m_Instance.PointerColor;
+        MainColor = PointerManager.m_Instance.LastChosenColor;
         ColorBlend = blend;
         RebuildPoly();
     }

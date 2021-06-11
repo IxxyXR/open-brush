@@ -204,6 +204,29 @@ namespace TiltBrush
             }
         }
 
+        private void ChangeAllPointerColorsToPolyColors(VrUiPoly vrPoly)
+        {
+            for (int i = 0; i < m_Pointers.Length; ++i)
+            {
+                var pointer = m_Pointers[i];
+                if (i < vrPoly._conwayPoly.Faces.Count)
+                {
+                    if (vrPoly)
+                    {
+                        var color = vrPoly.GetFaceColor(i);
+                        float h, s, v;
+                        Color.RGBToHSV(color, out h, out s, out v);
+                        color = Random.ColorHSV(
+                            h - colorJitter.x, h + colorJitter.x,
+                            s - colorJitter.y, h + colorJitter.y,
+                            v - colorJitter.z, h + colorJitter.z
+                        );
+                        pointer.m_Script.SetColor(color);
+                    }
+                }
+            }
+        }
+
         public Color PointerColor
         {
             get { return m_MainPointerData.m_Script.GetCurrentColor(); }
@@ -294,6 +317,7 @@ namespace TiltBrush
                 PlayerPrefs.SetFloat(PLAYER_PREFS_POINTER_ANGLE, m_FreePaintPointerAngle);
             }
         }
+        public Color LastChosenColor => m_lastChosenColor;
 
         static public void ClearPlayerPrefs()
         {
@@ -767,25 +791,12 @@ namespace TiltBrush
                 {
                     pointer.m_Script.CopyInternals(m_Pointers[0].m_Script);
                 }
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-                if (vrPoly != null && vrPoly._conwayPoly!=null)
-                {
-                    if (i < vrPoly._conwayPoly.Faces.Count)
-                    {
-                        var face = vrPoly._conwayPoly.Faces[i];
-                        // We could scale brushes by face size?
-                        // pointer.m_Script.BrushSizeAbsolute *= (faceMax * (face.Centroid - face.GetBestEdge().Midpoint).magnitude);
-                        if (vrPoly)
-                        {
-                            var color = vrPoly.GetFaceColor(i);
-                            pointer.m_Script.SetColor(color);
-                        }
-                    }
-                }
-#endif                
             }
-
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+            if (vrPoly != null && vrPoly._conwayPoly != null)
+            {
+                ChangeAllPointerColorsToPolyColors(vrPoly);
+            }
             // Custom symmetry mode overrides main pointer color as well
             // TODO Disabled this because it overwrites the current main brush color.
             // Need some way to "save and restore"
@@ -794,7 +805,7 @@ namespace TiltBrush
             //     var color = vrPoly.GetFaceColor(0);
             //     m_Pointers[0].m_Script.SetColor(color);
             // }
-#endif                
+#endif
 
             App.Switchboard.TriggerMirrorVisibilityChanged();
         }
@@ -1170,16 +1181,25 @@ namespace TiltBrush
             {
                 m_lastChosenColor = PointerColor;
             }
+            
+            VrUiPoly vrPoly = (VrUiPoly) FindObjectOfType(typeof(VrUiPoly));
+            if (vrPoly != null && vrPoly._conwayPoly!=null)
+            {
+                ChangeAllPointerColorsToPolyColors(vrPoly);
+            }
+            else
+            {
+                float h, s, v;
+                Color.RGBToHSV(m_lastChosenColor, out h, out s, out v);
 
-            float h, s, v;
-            Color.RGBToHSV(m_lastChosenColor, out h, out s, out v);
+                // Bypass the code in the PointerColor setter
+                ChangeAllPointerColorsDirectly(Random.ColorHSV(
+                    h - colorJitter.x, h + colorJitter.x,
+                    s - colorJitter.y, h + colorJitter.y,
+                    v - colorJitter.z, h + colorJitter.z
+                ));
+            }
 
-            // Bypass the code in the PointerColor setter
-            ChangeAllPointerColorsDirectly(Random.ColorHSV(
-                h - colorJitter.x, h + colorJitter.x,
-                s - colorJitter.y, h + colorJitter.y,
-                v - colorJitter.z, h + colorJitter.z
-            ));
 
             if (m_StraightEdgeEnabled)
             {
