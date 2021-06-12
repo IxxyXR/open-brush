@@ -211,9 +211,9 @@ namespace TiltBrush
                 var pointer = m_Pointers[i];
                 if (i < vrPoly._conwayPoly.Faces.Count)
                 {
-                    if (vrPoly)
+                    var color = vrPoly.GetFaceColor(i);
+                    if (colorJitter.x > 0 || colorJitter.y > 0 || colorJitter.z > 0)
                     {
-                        var color = vrPoly.GetFaceColor(i);
                         float h, s, v;
                         Color.RGBToHSV(color, out h, out s, out v);
                         color = Random.ColorHSV(
@@ -221,8 +221,8 @@ namespace TiltBrush
                             s - colorJitter.y, h + colorJitter.y,
                             v - colorJitter.z, h + colorJitter.z
                         );
-                        pointer.m_Script.SetColor(color);
                     }
+                    pointer.m_Script.SetColor(color);
                 }
             }
         }
