@@ -105,7 +105,8 @@ namespace TiltBrush
             CameraPath,
             BrushLab,
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-            Polyhydra = 5000
+            Polyhydra = 5000,
+            Scripts = 6000,
 #endif
         }
 

@@ -150,6 +150,9 @@ namespace TiltBrush
             PolyhydraOtherTypesPopup = 5006,
             PolyhydraConwayOpTypesPopup = 5007,
             PolyhydraConwayOpFaceSelPopup = 5008,
+            OpenScriptsCommandsList = 6000,
+            OpenScriptsList = 6001,
+            OpenExampleScriptsList = 6002,
             OpenColorOptionsPopup = 7000,
             ChangeSnapAngle = 8000,
 #endif
@@ -4884,12 +4887,36 @@ namespace TiltBrush
                     // But is it better to use commands?
                     // Debug.Log($"{rEnum}: iParam1={iParam1} iParam2={iParam2}");
                     break;
+                case GlobalCommands.OpenScriptsCommandsList:
+                    // TODO refactor code above to use this method
+                    OpenUrl("http://localhost:40074/help/commands");
+                    break;
+                case GlobalCommands.OpenScriptsList:
+                    // TODO refactor code above to use this method
+                    OpenUrl("http://localhost:40074/scripts");
+                    break;
+                case GlobalCommands.OpenExampleScriptsList:
+                    // TODO refactor code above to use this method
+                    OpenUrl("http://localhost:40074/examples");
+                    break;
 #endif                
                 case GlobalCommands.Null: break; // Intentionally blank.
                 default:
                     Debug.LogError($"Unrecognized command {rEnum}");
                     break;
             }
+        }
+        private void OpenUrl(string url)
+        {
+            if (!App.Config.IsMobileHardware)
+            {
+                OutputWindowScript.m_Instance.CreateInfoCardAtController(
+                    InputManager.ControllerName.Brush,
+                    kRemoveHeadsetFyi, fPopScalar: 0.5f);
+            }
+
+            App.OpenURL(url);
+            EatGazeObjectInput();
         }
 
         public bool IsCommandActive(GlobalCommands rEnum, int iParam = -1)
