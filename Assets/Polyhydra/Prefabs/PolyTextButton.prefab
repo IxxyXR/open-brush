@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4823051868940388711}
   m_LocalRotation: {x: -0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: -0.02, z: -0.000079998}
-  m_LocalScale: {x: 19.199999, y: 38.399998, z: 38.399998}
+  m_LocalScale: {x: 18.239998, y: 36.479996, z: 36.479996}
   m_Children: []
   m_Father: {fileID: 7631838532712089505}
   m_RootOrder: 2
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6ea491f82329b774d8b8af4a409d8d03, type: 3}
+  - {fileID: 2100000, guid: 40d29de2bdc11f04dbfa25059165916e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,8 +105,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5356554084342350155}
   m_LocalRotation: {x: -0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: -0.02, z: -0.000079998}
-  m_LocalScale: {x: 19.199999, y: 38.399998, z: 38.399998}
+  m_LocalPosition: {x: 0, y: -0.02, z: 0.000012705}
+  m_LocalScale: {x: 18.273024, y: 36.546047, z: 36.546047}
   m_Children: []
   m_Father: {fileID: 7631838532712089505}
   m_RootOrder: 0
@@ -137,7 +137,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6ea491f82329b774d8b8af4a409d8d03, type: 3}
+  - {fileID: 2100000, guid: 40d29de2bdc11f04dbfa25059165916e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -273,8 +273,8 @@ MonoBehaviour:
   m_DescriptionTextExtra: 
   m_DescriptionActivateSpeed: 12
   m_DescriptionZScale: 1
-  m_ButtonTexture: {fileID: 2800000, guid: 2c39131b4066bbc44b66b24c73158828, type: 3}
-  m_AtlasTexture: 1
+  m_ButtonTexture: {fileID: 0}
+  m_AtlasTexture: 0
   m_ToggleButton: 0
   m_LongPressReleaseButton: 0
   m_ButtonHasPressedAudio: 1
@@ -396,8 +396,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

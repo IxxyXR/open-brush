@@ -419,8 +419,8 @@ MonoBehaviour:
   m_ColorTransitionDuration: 0
   ButtonPrefab: {fileID: 7630606763700834929, guid: c14df42a7335deb4c8cea658ce158c06,
     type: 3}
-  xSpacing: 2.5
-  ySpacing: 0.5
+  xSpacing: 2.7
+  ySpacing: 0.7
 --- !u!114 &114242525141314656
 MonoBehaviour:
   m_ObjectHideFlags: 0
