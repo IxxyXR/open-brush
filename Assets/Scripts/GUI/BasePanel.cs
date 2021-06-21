@@ -107,6 +107,7 @@ namespace TiltBrush
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
             Polyhydra = 5000,
             Scripts = 6000,
+            EditBrush = 9000
 #endif
         }
 
