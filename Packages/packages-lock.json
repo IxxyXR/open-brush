@@ -1,10 +1,11 @@
 {
   "dependencies": {
     "com.ixxy.polyhydra": {
-      "version": "file:../../polyhydra-upm/packages/Polyhydra",
+      "version": "https://github.com/IxxyXR/polyhydra-upm.git#upm",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "21965d9b7bc5ec950ffdfc0121a3b6ff889370ef"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",

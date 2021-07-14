@@ -17,28 +17,48 @@ namespace TiltBrush
 
         public Transform SliderPrefab;
         public Transform VectorInputPrefab;
-        public Transform ColorPickerPrefab;
+        public Transform ColorPickerButtonPrefab;
         public Transform TexturePickerPrefab;
 
+        [NonSerialized] public bool m_needsSaving = false;
+        private List<Texture2D> m_AvailableTextures;
+        private List<string> m_TextureNames;
+        private List<string> m_TexturePaths;
+        Stroke currentStroke;
+        Stroke previousStroke;
+        
         public Material PreviewMaterial
+        {
+            get => StrokePreview.GetComponent<MeshRenderer>().material;
+            set => StrokePreview.GetComponent<MeshRenderer>().material = value;
+        }
+        
+        public List<Texture2D> AvailableTextures
         {
             get
             {
-                return StrokePreview.GetComponent<MeshRenderer>().material;
+                if (m_AvailableTextures == null) RegenerateTextureLists();
+                return m_AvailableTextures;
             }
-            set
-            {
-                StrokePreview.GetComponent<MeshRenderer>().material = value;
-            }
+            set => m_AvailableTextures = value;
         }
+        public List<string> TextureNames
+        {
+            get => m_TextureNames;
+            set => m_TextureNames = value;
+        }
+        public List<string> TexturePaths
+        {
+            get => m_TexturePaths;
+            set => m_TexturePaths = value;
+        }
+
         void Awake()
         {
             PointerManager.m_Instance.OnMainPointerBrushChange += OnMainPointerBrushChange;
-            // Nasty. We should construct a stroke mesh ourselves
-            // var mf = StrokePreview.GetComponent<MeshFilter>();
-            // mf.sharedMesh = App.ActiveCanvas.BatchManager.AllBatches().ToList()[0].GetComponent<MeshFilter>().sharedMesh;
             PreviewMaterial = StrokePreview.GetComponent<MeshRenderer>().material;
             OnMainPointerBrushChange(PointerManager.m_Instance.MainPointer.CurrentBrush);
+            RegenerateTextureLists();
         }
 
         private void OnDestroy()
@@ -46,37 +66,179 @@ namespace TiltBrush
             PointerManager.m_Instance.OnMainPointerBrushChange -= OnMainPointerBrushChange;
         }
 
+        private void OnDrawGizmosSelected()
+        {
+            // Debug.Log($"mesh has {StrokePreview.GetComponent<MeshFilter>().sharedMesh.vertexCount} verts and {StrokePreview.GetComponent<MeshFilter>().sharedMesh.triangles.Length} tris");
+        }
+
+        private Dictionary<string, string> TextureRefsFromPanelWidgets()
+        {
+            var textureRefs = new Dictionary<string, string>();
+            var btns = GetComponentsInChildren<BrushEditorTexturePickerButton>();
+            foreach (var textureButton in btns)
+            {
+                var texturePropertyName = textureButton.TexturePropertyName;
+                var textureFullPath = textureButton.TexturePath;
+                if (!textureFullPath.StartsWith("__Resources__"))
+                {
+                    textureFullPath = Path.Combine(UserVariantBrush.GetBrushesPath(), textureFullPath);
+                }
+                textureRefs[texturePropertyName] = textureFullPath;
+            }
+            return textureRefs;
+        }
+
+        private Dictionary<string, string> TextureRefsFromMaterial(Material material)
+        {
+            var textureRefs = new Dictionary<string, string>();
+            foreach (var texturePropertyName in material.GetTexturePropertyNames())
+            {
+                var tex = material.GetTexture(texturePropertyName);
+                if (tex == null)
+                {
+                    Debug.LogWarning($"No texture for {texturePropertyName}");
+                    continue;
+                }
+                var textureName = tex.name + ".png";  // This is fine as long as we always save as pngs
+                var textureDirectory = "__Resources__"; // Texture will be saved and path will be replaced later
+                textureRefs[texturePropertyName] = Path.Combine(textureDirectory, textureName);
+            }
+            return textureRefs;
+        }
+
         public void CloneCurrentBrush()
         {
-            var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
-            UserVariantBrush.ExportDuplicateDescriptor(brush, $"{brush.DurableName}Copy");
-            var newBrush = BrushCatalog.m_Instance.AllBrushes.Last();
+            var oldBrush = PointerManager.m_Instance.MainPointer.CurrentBrush;
+            var textureRefs = TextureRefsFromMaterial(oldBrush.Material);
+            
+            string newBrushPath = UserVariantBrush.ExportDuplicateDescriptor(oldBrush, $"{oldBrush.DurableName}Copy");
+            
+            BrushCatalog.m_Instance.UpdateCatalog(newBrushPath);
+            BrushCatalog.m_Instance.HandleChangedBrushes();
+            BrushDescriptor newBrush = BrushCatalog.m_Instance.AllBrushes.Last();
+            SaveNewBrush(newBrush, textureRefs);
+            
+            // BrushCatalog.m_Instance.UpdateCatalog(newBrushPath);
+            // BrushCatalog.m_Instance.HandleChangedBrushes();
+            // newBrush = BrushCatalog.m_Instance.AllBrushes.Last();
+
             PointerManager.m_Instance.MainPointer.SetBrush(newBrush);
         }
 
-        public void SaveEditedBrush()
+        private void AddUserTextures(string path)
         {
-            var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
-            // TODO - this probably doesn't work
-            var fileName = Path.Combine(brush.UserVariantBrush.Location, brush.name);
-            UserVariantBrush.ExportDescriptor(brush, fileName);
-            UpdateSceneMaterials();
+            var validExtensions = new List<string>
+            {
+                "jpg", "jpeg", "png",
+            };
+
+            path= Path.Combine(Application.persistentDataPath, path);
+            DirectoryInfo dataDir = new DirectoryInfo(path);
+            FileInfo[] fileinfo = dataDir.GetFiles();
+            
+            for (int i = 0; i < fileinfo.Length; i++)
+            {
+                if (!validExtensions.Contains(fileinfo[i].Extension.ToLower())) continue;
+                string textureName = fileinfo[i].Name;
+                TextureNames.Add(textureName);
+                TexturePaths.Add(fileinfo[i].FullName);
+                var bytes = File.ReadAllBytes(fileinfo[i].FullName);
+                Texture2D tex = new Texture2D(2, 2);
+                tex.LoadImage(bytes);
+                AvailableTextures.Add(tex);
+            }
+        }
+        
+        private void AddResourceTextures(string resourcePath)
+        {
+            var brushTextures = Resources.LoadAll<Texture2D>(resourcePath);
+            
+            foreach (var tex in brushTextures)
+            {
+                string textureName = tex.name;
+                if (textureName == "buttonimage") continue;
+                if (textureName.Contains("icon")) continue;  // This sucks. Need a better way to exclude built-in brush icons
+                if (!tex.isReadable)
+                {
+                    Debug.LogWarning($"Please make texture: {textureName} readable");
+                    continue;
+                }
+                TextureNames.Add(textureName);
+                TexturePaths.Add(Path.Combine("__Resources__", textureName + ".png"));
+                AvailableTextures.Add(tex);
+            }
+        }
+        
+        private void RegenerateTextureLists()
+        {
+            AvailableTextures = new List<Texture2D>();
+            TextureNames = new List<string>();
+            TexturePaths = new List<string>();
+
+            AddUserTextures(App.MediaLibraryPath());
+            AddUserTextures(App.UserBrushesPath());
+            AddResourceTextures("Brushes");
+            AddResourceTextures("X/Brushes");
         }
 
+        private void SaveNewBrush(BrushDescriptor newBrush, Dictionary<string, string> textureRefs)
+        {
+            var fileName = Path.Combine(UserVariantBrush.GetBrushesPath(), newBrush.UserVariantBrush.Location, "brush.cfg");
+            UserVariantBrush.SaveDescriptor(newBrush, fileName, textureRefs);
+            UpdateSceneMaterials();
+            m_needsSaving = false;
+            SaveButton.GetComponent<ActionButton>().SetButtonAvailable(false);
+        }
 
-        public void SliderChanged(string name, float value)
+        private void SaveEditedBrush()
         {
             var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
-            PreviewMaterial.SetFloat(name, value);
-            // TODO - do we set this here or on save?
-            // How are we handling unsaved changes?
-            brush.Material.SetFloat(name, value);
+            var fileName = Path.Combine(UserVariantBrush.GetBrushesPath(), brush.UserVariantBrush.Location, "brush.cfg");
+            var textureRefs = TextureRefsFromPanelWidgets();
+            UserVariantBrush.SaveDescriptor(brush, fileName, textureRefs);
+            UpdateSceneMaterials();
+            m_needsSaving = false;
+            SaveButton.GetComponent<ActionButton>().SetButtonAvailable(false);
+        }
+
+        public void SliderChanged(string propertyName, float value)
+        {
+            var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
+            PreviewMaterial.SetFloat(propertyName, value);
+            brush.Material.SetFloat(propertyName, value);
+        }
+        
+        public void TextureChanged(string propertyName, int textureIndex, BrushEditorTexturePickerButton btn)
+        {
+            if (textureIndex >= 0)
+            {
+                var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
+                var tex = AvailableTextures[textureIndex];
+                var texName = TextureNames[textureIndex];
+                var textureFullPath = TexturePaths[textureIndex];
+                PreviewMaterial.SetTexture(propertyName, tex);
+                brush.Material.SetTexture(propertyName, tex);
+                btn.UpdateValue(tex, propertyName, textureFullPath);
+            }
+        }
+
+        public void ColorChanged(string propertyName, Color color, BrushEditorColorPickerButton btn)
+        {
+            var brush = PointerManager.m_Instance.MainPointer.CurrentBrush;
+            PreviewMaterial.SetColor(propertyName, color);
+            brush.Material.SetColor(propertyName, color);
         }
 
         private void OnMainPointerBrushChange(BrushDescriptor brush)
         {
+            Debug.Log($"starting OnMainPointerBrushChange");
             if (brush == null) return;
+            // if (m_needsSaving) return;
+            
+            Debug.Log($"OnMainPointerBrushChange");
             GeneratePreviewMesh(brush);
+            if (AvailableTextures == null) RegenerateTextureLists();
+            
             if (ParameterWidgets != null)
             {
                 foreach (var widget in ParameterWidgets)
@@ -98,35 +260,65 @@ namespace TiltBrush
                 CloneMaterialButton.SetActive(false);
 
                 var shader = brush.Material.shader;
-                int index = 0;
+                int widgetIndex = 0;
                 for (int i = 0; i < shader.GetPropertyCount(); ++i)
                 {
-                    string name = shader.GetPropertyName(i);
+                    string propertyName = shader.GetPropertyName(i);
                     switch (shader.GetPropertyType(i))
                     {
                         case ShaderPropertyType.Float:
                         case ShaderPropertyType.Range:
-                            AddSlider(name, brush.Material.GetFloat(name), index);
-                            index++;
+                            AddSlider(propertyName, brush.Material.GetFloat(propertyName), widgetIndex);
+                            widgetIndex++;
                             break;
                         case ShaderPropertyType.Color:
-                            AddColorPicker(name, brush.Material.GetColor(name), index);
-                            // index++;
+                            AddColorPickerButton(propertyName, brush.Material.GetColor(propertyName), widgetIndex);
+                            widgetIndex++;
                             break;
                         case ShaderPropertyType.Vector:
-                            AddVectorInput(name, brush.Material.GetVector(name), index);
+                            AddVectorInput(propertyName, brush.Material.GetVector(propertyName), widgetIndex);
                             // index++;
                             break;
                         case ShaderPropertyType.Texture:
-                            AddTexturePicker(name, brush.Material.GetTexture(name), index);
-                            // index++;
+                            var tex = (Texture2D)brush.Material.GetTexture(propertyName);
+                            string textureName = "";
+                            string textureFullPath = "";
+                            if (tex != null)
+                            {
+                                textureName = tex.name + ".png"; // TODO - Really? what about jpgs? how do we track the original texture filename?
+                                textureFullPath = Path.Combine(
+                                    brush.UserVariantBrush.Location,
+                                    textureName
+                                );
+                            }
+                            AddTexturePicker(propertyName, tex, widgetIndex, textureName, textureFullPath);
+                            widgetIndex++;
                             break;
                         default:
-                            Debug.LogWarning($"Brush {brush.DurableName} has property {name} of unsupported type {shader.GetPropertyType(i)}.");
+                            Debug.LogWarning($"Brush {brush.DurableName} has property {propertyName} of unsupported type {shader.GetPropertyType(i)}.");
                             break;
                     }
                 }
+                m_needsSaving = true;
+                SaveButton.GetComponent<ActionButton>().SetButtonAvailable(true);
                 SaveButton.SetActive(true);
+            }
+        }
+
+        void Update()
+        {
+            BaseUpdate();
+            var previewMesh = StrokePreview.GetComponent<MeshFilter>().sharedMesh;
+            if (currentStroke!= null && (previewMesh == null || previewMesh.vertexCount < 3))
+            {
+                try
+                {
+                    StrokePreview.GetComponent<MeshFilter>().sharedMesh = currentStroke.m_BatchSubset.m_ParentBatch.gameObject.GetComponent<MeshFilter>().sharedMesh;
+                }
+                catch(Exception e)
+                {
+                    // TODO it's harmless NREs that fix themselves next call but should probably still do something better here.
+                }
             }
         }
 
@@ -138,62 +330,73 @@ namespace TiltBrush
             var pos = tr.localPosition;
             pos.x = 0;
             pos.z = -0.075f;
-            pos.y = initialY - (index * 0.25f);
+            pos.y = initialY - (index * 0.27f);
             tr.localPosition = pos;
         }
 
-        private void AddSlider(string name, float value, int index)
+        private void AddSlider(string propertyName, float value, int widgetIndex)
         {
-            var sliderTr = Instantiate(SliderPrefab);
+            var sliderTr = Instantiate(SliderPrefab, gameObject.transform, true);
             var slider = sliderTr.GetComponent<EditBrushSlider>();
-            sliderTr.parent = gameObject.transform;
             slider.ParentPanel = this;
-            slider.SetDescriptionText(name);
-            slider.ShaderPropertyName = name;
+            slider.SetDescriptionText(propertyName);
+            slider.FloatPropertyName = propertyName;
             slider.UpdateValue(value);
-            PositionWidgetByIndex(slider.transform, index);
+            slider.SetSliderPositionToReflectValue();
+            PositionWidgetByIndex(slider.transform, widgetIndex);
             ParameterWidgets.Add(slider.gameObject);
             slider.RegisterComponent();
-            Debug.Log($"float param: {name} = {value}");
         }
 
-        private void AddVectorInput(string name, Vector4 value, int index)
+        private void AddVectorInput(string propertyName, Vector4 value, int widgetIndex)
         {
+            // TODO
             // var vectorInputTr = Instantiate(VectorInputPrefab);
             // var vectorInput = vectorInputTr.GetComponent<>();
             // vectorInputTr.parent = gameObject.transform;
+            // vectorInput.ParentPanel = this;
             // vectorInput.SetDescriptionText(name);
             // vectorInput.ShaderPropertyName = name;
             // vectorInput.UpdateValue(value);
             // PositionWidgetByIndex(slider.transform, index);
             // ParameterWidgets.Add(vectorInput.gameObject);
-            Debug.Log($"Vector param: {name} = {value}");
+            Debug.Log($"Vector param: {propertyName} = {value}");
         }
 
-        private void AddColorPicker(string name, Color value, int index)
+        private void AddColorPickerButton(string propertyName, Color color, int widgetIndex)
         {
-            // var colorPickerTr = Instantiate(ColorPickerPrefab);
-            // var picker = colorPickerTr.GetComponent<>();
-            // colorPickerTr.parent = gameObject.transform;
-            // picker.SetDescriptionText(name);
-            // picker.ShaderPropertyName = name;
-            // picker.UpdateValue(value);
-            // PositionWidgetByIndex(picker.transform, index);
-            // ParameterWidgets.Add(picker.gameObject);
-            Debug.Log($"Color param: {name} = {value}");
+            var colorPickerButtonTr = Instantiate(ColorPickerButtonPrefab, gameObject.transform, true);
+            var pickerButton = colorPickerButtonTr.GetComponent<BrushEditorColorPickerButton>();
+            pickerButton.ParentPanel = this;
+            pickerButton.SetDescriptionText(propertyName);
+            pickerButton.ChosenColor = color;
+            pickerButton.ColorPropertyName = propertyName;
+            PositionWidgetByIndex(pickerButton.transform, widgetIndex);
+            ParameterWidgets.Add(pickerButton.gameObject);
+            pickerButton.RegisterComponent();
         }
 
-        private void AddTexturePicker(string name, Texture value, int index)
+        private void AddTexturePicker(string propertyName, Texture2D tex, int widgetIndex, string textureName, string textureFullPath)
         {
-            // var texturePickerTr = Instantiate(ColorPickerPrefab);
-            // var picker = texturePickerTr.GetComponent<>();
-            // texturePickerTr.parent = gameObject.transform;
-            // picker.SetDescriptionText(name);
-            // picker.ShaderPropertyName = name;
-            // picker.UpdateValue(value);
-            // PositionWidgetByIndex(picker.transform, index);
-            // ParameterWidgets.Add(picker.gameObject);
-            Debug.Log($"Texture param: {name} = {value}");
+            var texturePickerButtonTr = Instantiate(TexturePickerPrefab, gameObject.transform, true);
+            var pickerButton = texturePickerButtonTr.GetComponent<BrushEditorTexturePickerButton>();
+            pickerButton.ParentPanel = this;
+            pickerButton.UpdateValue(tex, propertyName, textureFullPath);
+            // textureIndex will become invalid if we refresh the texture list
+            // The panel should be refreshes whenever we do this
+            if (tex != null)
+            {
+                // TODO - how do we test for equality?
+                int textureIndex = AvailableTextures.IndexOf(x => (x.name == tex.name));
+                pickerButton.TextureIndex = textureIndex;
+            }
+            else
+            {
+                pickerButton.TextureIndex = -1;
+            }
+            PositionWidgetByIndex(pickerButton.transform, widgetIndex);
+            ParameterWidgets.Add(pickerButton.gameObject);
+            pickerButton.RegisterComponent();
         }
 
         private void UpdateSceneMaterials()
@@ -207,6 +410,7 @@ namespace TiltBrush
 
         public void GeneratePreviewMesh(BrushDescriptor brush)
         {
+            Debug.Log($"GeneratePreviewMesh");
             var origin = Vector3.zero;
             var scale = 2f;
             uint time = 0;
@@ -223,7 +427,6 @@ namespace TiltBrush
                 new Vector3(.5f, -.2f, 0),
                 new Vector3(1f, .2f, 0),
             };
-            float lineLength = 0;
             var controlPoints = new List<PointerManager.ControlPoint>();
             for (var vertexIndex = 0; vertexIndex < path.Count - 1; vertexIndex++)
             {
@@ -242,10 +445,9 @@ namespace TiltBrush
                         m_TimestampMs = time++
                     });
                 }
-
-                lineLength += (nextVert - vert).magnitude; // TODO Does this need scaling? Should be in Canvas space
             }
-            var stroke = new Stroke
+            
+            currentStroke = new Stroke
             {
                 m_Type = Stroke.Type.NotCreated,
                 m_IntendedCanvas = App.Scene.ActiveCanvas,
@@ -256,14 +458,19 @@ namespace TiltBrush
                 m_Seed = 0,
                 m_ControlPoints = controlPoints.ToArray(),
             };
-            stroke.m_ControlPointsToDrop = Enumerable.Repeat(false, stroke.m_ControlPoints.Length).ToArray();
-            stroke.Group = group;
-            stroke.Recreate(null, App.Scene.ActiveCanvas);
-            var mesh = stroke.m_BatchSubset.m_ParentBatch.gameObject.GetComponent<MeshFilter>().sharedMesh;
-            StrokePreview.GetComponent<MeshFilter>().mesh = mesh;
+            currentStroke.m_ControlPointsToDrop = Enumerable.Repeat(false, currentStroke.m_ControlPoints.Length).ToArray();
+            currentStroke.Group = group;
+            currentStroke.Recreate(null, App.Scene.ActiveCanvas);
+            
+            // TODO 
+            // Cheat and keep a stroke history as stroke geometry isn't created immediately
+            // so destroying the current stroke destroys the preview stroke mesh
+            // if (previousStroke != null) previousStroke.DestroyStroke();
+            
+            previousStroke = currentStroke;
             StrokePreview.GetComponent<MeshRenderer>().material = brush.Material;
-            Debug.Log($"Preview mesh: {mesh.vertices.Length} verts");
-            //stroke.DestroyStroke();
+            StrokePreview.GetComponent<MeshFilter>().sharedMesh = null; // And set it on Update
+
         }
     }
 }

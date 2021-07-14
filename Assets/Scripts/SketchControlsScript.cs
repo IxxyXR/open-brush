@@ -156,6 +156,8 @@ namespace TiltBrush
             OpenExampleScriptsList = 6002,
             OpenColorOptionsPopup = 7000,
             ChangeSnapAngle = 8000,
+            EditBrushOpenColorPicker = 9000,
+            EditBrushOpenTexturePicker = 9001,
 #endif
         }
 
