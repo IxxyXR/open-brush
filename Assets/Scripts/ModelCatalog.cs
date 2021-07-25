@@ -280,6 +280,7 @@ namespace TiltBrush
         public Model GetModel(string relativePath)
         {
             Model m;
+            if (relativePath == null) relativePath = "";
             m_ModelsByRelativePath.TryGetValue(relativePath, out m);
             return m;
         }

@@ -289,6 +289,7 @@ namespace TiltBrush
         public static void BrushMoveTo(Vector3 position)
         {
             ApiManager.Instance.BrushPosition = position;
+            Debug.Log($"Moved brush to {ApiManager.Instance.BrushPosition}");
         }
 
         [ApiEndpoint("brush.move.by", "Moves the brush by the given amount")]
@@ -596,18 +597,17 @@ namespace TiltBrush
             stroke.Recreate(null, stroke.Canvas);
         }
         
-
-        
-        [ApiEndpoint("import.model", "Imports a model from your media libraries Models folder")]
-        public static void ImportModel(string path)
+        [ApiEndpoint("import.test", "")]
+        public static void ImportTest()
         {
-            path = Path.Combine(App.MediaLibraryPath(), "Models", path);
-            var model = new Model(Model.Location.File(path));
+            var model = new Model(PrimitiveType.Cube);
             model.LoadModel();
 
-            var tr = new TrTransform();
-            tr.translation = ApiManager.Instance.BrushPosition;
-            tr.rotation = ApiManager.Instance.BrushRotation;
+            var tr = new TrTransform
+            {
+                translation = ApiManager.Instance.BrushPosition,
+                rotation = ApiManager.Instance.BrushRotation
+            };
             CreateWidgetCommand createCommand = new CreateWidgetCommand(
                 WidgetManager.m_Instance.ModelWidgetPrefab, tr);
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(createCommand);
@@ -615,7 +615,48 @@ namespace TiltBrush
             modelWidget.Model = model;
             modelWidget.Show(true);
             createCommand.SetWidgetCost(modelWidget.GetTiltMeterCost());
+
+            Debug.Log($"Widget at {modelWidget.transform.transform.position}");
+
+            WidgetManager.m_Instance.WidgetsDormant = false;
+            SketchControlsScript.m_Instance.EatGazeObjectInput();
+            SelectionManager.m_Instance.RemoveFromSelection(false);
+
+        }
+
+        
+        [ApiEndpoint("import.model", "Imports a model from your media libraries Models folder")]
+        public static void ImportModel(string path)
+        {
+            path = Path.Combine(App.MediaLibraryPath(), "Models", path);
+
+            if (File.Exists(path))
+            {
+                
+            }
+            else if (Directory.Exists(path))
+            {
+                
+            }
             
+            var model = new Model(Model.Location.File(path));
+            model.LoadModel();
+
+            var tr = new TrTransform();
+            tr.translation = ApiManager.Instance.BrushPosition;
+            tr.rotation = ApiManager.Instance.BrushRotation;
+            Debug.Log($"Brush at {ApiManager.Instance.BrushPosition}");
+            Debug.Log($"Creating model at {tr.translation}");
+            CreateWidgetCommand createCommand = new CreateWidgetCommand(
+                WidgetManager.m_Instance.ModelWidgetPrefab, tr);
+            SketchMemoryScript.m_Instance.PerformAndRecordCommand(createCommand);
+            ModelWidget modelWidget = createCommand.Widget as ModelWidget;
+            modelWidget.Model = model;
+            modelWidget.Show(true);
+            createCommand.SetWidgetCost(modelWidget.GetTiltMeterCost());
+
+            Debug.Log($"Widget at {modelWidget.transform.transform.position}");
+
             WidgetManager.m_Instance.WidgetsDormant = false;
             SketchControlsScript.m_Instance.EatGazeObjectInput();
             SelectionManager.m_Instance.RemoveFromSelection(false);

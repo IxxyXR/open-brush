@@ -415,6 +415,11 @@ namespace TiltBrush
                     FilePath = null;
                     AssetId = value.AssetId;
                 }
+                else if (value.GetLocationType() == Model.Location.Type.Primitive)
+                {
+                    FilePath = null;
+                    AssetId = value.AssetId;
+                }
             }
         }
 

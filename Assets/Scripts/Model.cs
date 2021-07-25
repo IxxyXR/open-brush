@@ -34,7 +34,9 @@ namespace TiltBrush
             {
                 Invalid,
                 LocalFile,
-                PolyAssetId
+                PolyAssetId,
+                SketchfabAssetId,
+                Primitive
             }
 
             private Type type;
@@ -52,11 +54,21 @@ namespace TiltBrush
 
             public static Location PolyAsset(string assetId, string path)
             {
+                Debug.Log($"Creating new PolyAsset location: {assetId} / {path}");
                 return new Location
                 {
                     type = Type.PolyAssetId,
                     path = path,
                     id = assetId
+                };
+            }
+            
+            public static Location Primitive(PrimitiveType type)
+            {
+                return new Location
+                {
+                    type = Type.Primitive,
+                    id = $"primitive:{type}"
                 };
             }
 
@@ -76,6 +88,8 @@ namespace TiltBrush
                             return Path.Combine(App.ModelLibraryPath(), path).Replace("\\", "/");
                         case Type.PolyAssetId:
                             return path.Replace("\\", "/");
+                        case Type.Primitive:
+                            return path.Replace("\\", "/");
                     }
                     return null;
                 }
@@ -94,7 +108,7 @@ namespace TiltBrush
             {
                 get
                 {
-                    if (type == Type.PolyAssetId) { return id; }
+                    if (type == Type.PolyAssetId || type == Type.Primitive) { return id; }
                     throw new Exception("Invalid Poly asset id request");
                 }
             }
@@ -108,7 +122,7 @@ namespace TiltBrush
 
             public override string ToString()
             {
-                if (type == Type.PolyAssetId)
+                if (type == Type.PolyAssetId || type == Type.Primitive)
                 {
                     return $"{type}:{id}";
                 }
@@ -232,6 +246,12 @@ namespace TiltBrush
         public Model(Location location)
         {
             m_Location = location;
+        }
+        
+        public Model(PrimitiveType primitiveType)
+        {
+            m_Location = Location.Primitive(primitiveType);
+            m_Valid = true;
         }
 
         public Location GetLocation() { return m_Location; }
@@ -645,7 +665,7 @@ namespace TiltBrush
                 // and bail at a higher level, and require as a precondition that error == null
                 m_LoadError = null;
 
-                string ext = Path.GetExtension(m_Location.AbsolutePath).ToLower();
+                string ext = Path.GetExtension(m_Location.AbsolutePath)?.ToLower();
                 if (m_Location.GetLocationType() == Location.Type.LocalFile &&
                     ext.StartsWith(".usd"))
                 {
@@ -661,6 +681,12 @@ namespace TiltBrush
                 else if (ext == ".fbx" || ext == ".obj")
                 {
                     go = LoadFbx(warnings);
+                }
+                else if (m_Location.GetLocationType() == Location.Type.Primitive)
+                {
+                    var primitiveTypeName = m_Location.AssetId.Split(':')[1];
+                    PrimitiveType primitiveType = (PrimitiveType)Enum.Parse(typeof(PrimitiveType), primitiveTypeName);
+                    go = GameObject.CreatePrimitive(primitiveType);
                 }
                 else
                 {

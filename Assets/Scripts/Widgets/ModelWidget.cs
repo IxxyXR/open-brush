@@ -468,14 +468,15 @@ namespace TiltBrush
                 "InSet should have been removed at load time");
 
             bool ok;
-            if (modelDatas.FilePath != null)
+            Debug.LogWarning($"modelDatas.AssetId: -{modelDatas.AssetId}-");
+            if (modelDatas.FilePath != null || modelDatas.AssetId.StartsWith("primitive:"))
             {
                 ok = CreateModelsFromRelativePath(
                     modelDatas.FilePath,
                     modelDatas.Transforms, modelDatas.RawTransforms, modelDatas.PinStates,
                     modelDatas.GroupIds);
             }
-            else if (modelDatas.AssetId != null)
+            else if (modelDatas.AssetId != null )
             {
                 CreateModelsFromAssetId(
                     modelDatas.AssetId,

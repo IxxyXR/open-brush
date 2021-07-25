@@ -1346,7 +1346,7 @@ namespace TiltBrush
                 if (App.Config.kModelWidgetsWaitForLoad)
                 {
                     var assetIds = m_loadingTiltModels75
-                        .Select(tm => tm.AssetId).Where(aid => aid != null).ToArray();
+                        .Select(tm => tm.AssetId).Where(aid => aid != null && !aid.StartsWith("primitive:")).ToArray();
                     // Kick off a bunch of loads...
                     foreach (var assetId in assetIds)
                     {
