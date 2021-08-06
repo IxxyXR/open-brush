@@ -20,7 +20,7 @@ namespace TiltBrush
             SketchControlsScript.m_Instance.IssueGlobalCommand(rEnum, -1, -1);
         }
 
-        [ApiEndpoint("save", "Saves the current scene in a new slot")]
+        [ApiEndpoint("save.new", "Saves the current scene in a new slot")]
         public static void SaveNew()
         {
             var rEnum = SketchControlsScript.GlobalCommands.SaveNew;
@@ -201,7 +201,7 @@ namespace TiltBrush
             SketchControlsScript.m_Instance.IssueGlobalCommand(rEnum);
         }
 
-        [ApiEndpoint("export", "Exports the current sketch to the user's Exports folder")]
+        [ApiEndpoint("export.current", "Exports the current sketch to the user's Exports folder")]
         public static void ExportRaw()
         {
             var rEnum = SketchControlsScript.GlobalCommands.ExportRaw;

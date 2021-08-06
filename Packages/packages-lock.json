@@ -1,11 +1,10 @@
 {
   "dependencies": {
-    "com.ixxy.polyhydra": {
-      "version": "https://github.com/IxxyXR/polyhydra-upm.git#upm",
+    "com.autodesk.fbx": {
+      "version": "file:com.autodesk.fbx",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "21965d9b7bc5ec950ffdfc0121a3b6ff889370ef"
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",

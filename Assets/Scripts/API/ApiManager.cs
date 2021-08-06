@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using TiltBrush;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 
 public class ApiManager : MonoBehaviour
@@ -120,6 +121,7 @@ public class ApiManager : MonoBehaviour
             {"load.drive", "0"}, 
             {"load.named", "mysketch.sketch"},
             {"showfolder.sketch", "0"},
+            {"import.model", "example.glb"}
         };
 
         App.Instance.StateChanged += RunStartupScript;
@@ -209,7 +211,7 @@ public class ApiManager : MonoBehaviour
                         {
                             paramList = $"({paramList})";
                         }
-                        builder.AppendLine($@"<dt>{key} {paramList}
+                        builder.AppendLine($@"<dt><strong>{key}</strong> {paramList}
  <a href=""http://localhost:40074/api/v1?{getCommandExample(key)}"" target=""_blank"">Try it</a></dt>
 <dd>{commandList[key].Item2}<br><br></dd>");
                     }
@@ -476,7 +478,11 @@ public class ApiManager : MonoBehaviour
 
     private string ScriptTemplateSubstitution(string html)
     {
-        string[] brushNameList = BrushCatalog.m_Instance.AllBrushes.Where(x => x.DurableName != "").Select(x => x.DurableName).ToArray();
+        string[] brushNameList = BrushCatalog.m_Instance.AllBrushes
+            .Where(x => x.m_Description != "")
+            .Where(x => x.m_SupersededBy == null)
+            .Select(x => x.m_Description.Replace(" ", "").Replace(".", "").Replace("(", "").Replace(")", ""))
+            .ToArray();
         string brushesJson = JsonConvert.SerializeObject(brushNameList);
         string commandsJson = JsonConvert.SerializeObject(ListApiCommands());
         html = html.Replace("{{brushesJson}}", brushesJson);
