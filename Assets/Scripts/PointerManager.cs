@@ -1200,6 +1200,18 @@ namespace TiltBrush
                 ));
             }
 
+            if (colorJitter.sqrMagnitude > 0)  // Is Jitter enabled?
+            {
+                float h, s, v;
+                Color.RGBToHSV(m_lastChosenColor, out h, out s, out v);
+
+                // Bypass the code in the PointerColor setter
+                ChangeAllPointerColorsDirectly(Random.ColorHSV(
+                    h - colorJitter.x, h + colorJitter.x,
+                    s - colorJitter.y, h + colorJitter.y,
+                    v - colorJitter.z, h + colorJitter.z
+                ));
+            }
 
             if (m_StraightEdgeEnabled)
             {
