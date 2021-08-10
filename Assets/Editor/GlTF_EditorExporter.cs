@@ -203,6 +203,14 @@ namespace TiltBrush
             {
                 cat.Add(desc.m_Guid, desc);
             }
+            
+            TiltBrushManifest experimentalManifest = AssetDatabase.LoadAssetAtPath<TiltBrushManifest>(
+                "Assets/Manifest_Experimental.asset");
+
+            foreach (BrushDescriptor desc in experimentalManifest.UniqueBrushes())
+            {
+                cat[desc.m_Guid] = desc;
+            }
 
             foreach (BrushDescriptor desc in
               BrushCatalog.m_Instance.AllBrushes.Where(x => x.UserVariantBrush != null))
@@ -324,12 +332,9 @@ namespace TiltBrush
             {
                 return null;
             }
-            else if (values.Count > 1)
-            {
-                throw new ExportException(
-                    "{0}: Too many cull modes: {1}", filename, values);
-            }
-
+            
+            // Only use the first value
+            // TODO TubeToonInverted has two cull values
             string value = values[0];
             if (value == "off")
             {
