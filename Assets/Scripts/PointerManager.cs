@@ -1213,6 +1213,7 @@ namespace TiltBrush
                 ));
             }
 
+
             if (m_StraightEdgeEnabled)
             {
                 StraightEdgeGuide.SetTempShape(StraightEdgeGuideScript.Shape.Line);
