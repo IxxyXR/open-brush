@@ -20,6 +20,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -35,7 +36,8 @@ namespace TiltBrush
     {
         None,
         Poly,
-        Sketchfab
+        Sketchfab,
+        Icosa
     }
 
     [Serializable]
@@ -53,15 +55,23 @@ namespace TiltBrush
 
         const string kGltfName = "sketch.gltf";
 
-        public const string kApiHost = "https://poly.googleapis.com";
-        private const string kAssetLandingPage = "https://vr.google.com/sketches/uploads/publish/";
+        private const string kApiHostPoly = "https://poly.googleapis.com";
+        private const string kAssetLandingPagePoly = "https://vr.google.com/sketches/uploads/publish/";
+        private const string kListAssetsUriPoly = "/v1/assets";
+        private const string kUserAssetsUriPoly = "/v1/users/me/assets";
+        private const string kUserLikesUriPoly = "/v1/users/me/likedassets";
+        private const string kGetVersionUriPoly = "/$discovery/rest?version=v1";
 
-        private const string kListAssetsUri = "/v1/assets";
-        private const string kUserAssetsUri = "/v1/users/me/assets";
-        private const string kUserLikesUri = "/v1/users/me/likedassets";
-        private const string kGetVersionUri = "/$discovery/rest?version=v1";
+        private const string kApiHostSketchfab = "https://poly.googleapis.com";
+        private const string kAssetLandingPageSketchfab = "https://vr.google.com/sketches/uploads/publish/";
+        private const string kListAssetsUriSketchfab = "/v1/assets";
+        private const string kUserAssetsUriSketchfab = "/v1/users/me/assets";
+        private const string kUserLikesUriSketchfab = "/v1/users/me/likedassets";
+        private const string kGetVersionUriSketchfab = "/$discovery/rest?version=v1";
 
+        
         public static string kPolyApiKey => App.Config.GoogleSecrets?.ApiKey;
+        public static string kSketchfabApiKey => App.Config.SketchfabSecrets?.ApiKey;
 
         public const string kCreativeCommonsLicense = "CREATIVE_COMMONS_BY";
 
@@ -231,13 +241,60 @@ namespace TiltBrush
         public static VrAssetService m_Instance;
 
         // Currently this always returns the standard API host when running unit tests
-        private static string ApiHost
+        [CanBeNull]
+        private static string ApiHost(Cloud cloud)
         {
-            get
+            // TODO Overrides per cloud?
+            string cfg = App.UserConfig?.Sharing.VrAssetServiceHostOverride;
+            if (!string.IsNullOrEmpty(cfg)) { return cfg; }
+            
+            switch (cloud)
             {
-                string cfg = App.UserConfig?.Sharing.VrAssetServiceHostOverride;
-                if (!string.IsNullOrEmpty(cfg)) { return cfg; }
-                return kApiHost;
+                case Cloud.Poly:
+                    return kApiHostPoly;
+                case Cloud.Sketchfab:
+                    return kApiHostPoly;
+                default:
+                    return null;  // TODO raise exception?
+            }
+        }
+        
+        private static string ListAssetsUri(Cloud cloud)
+        {
+            switch (cloud)
+            {
+                case Cloud.Poly:
+                    return kListAssetsUriPoly;
+                case Cloud.Sketchfab:
+                    return kListAssetsUriSketchfab;
+                default:
+                    return null; // TODO raise exception?
+            }
+        }
+        
+        private static string ApiKey(Cloud cloud)
+        {
+            switch (cloud)
+            {
+                case Cloud.Poly:
+                    return kPolyApiKey;
+                case Cloud.Sketchfab:
+                    return kSketchfabApiKey;
+                default:
+                    return null; // TODO raise exception?
+            }
+        }
+        
+        private static OAuth2Identity Identity(Cloud cloud)
+        {
+            switch (cloud)
+            {
+                case Cloud.Poly:
+                    return App.GoogleIdentity;
+                case Cloud.Sketchfab:
+                    return App.SketchfabIdentity;
+                default:
+                    return null; // TODO raise exception?
             }
         }
 
@@ -251,7 +308,7 @@ namespace TiltBrush
         ///   userId - Poly user id of the currently-logged-in OAuth user. Get it
         ///     with GetAccountIdAsync().
         public static async Task<bool> IsMutableAssetIdAsync(
-            FileInfoType type, string assetId, string userId, string apiHost)
+            FileInfoType type, string assetId, string userId, Cloud cloud)
         {
             if (assetId == null) { return false; }
             // There are too many assumptions here -- for both cloud and disk, the logic
@@ -275,8 +332,8 @@ namespace TiltBrush
                 {
                     // The null == null case is handled earlier
                     WebRequest request = new WebRequest(
-                        $"{apiHost}{kListAssetsUri}/{assetId}?key={kPolyApiKey}",
-                        App.GoogleIdentity, UnityWebRequest.kHttpVerbGET);
+                        $"{ApiHost(cloud)}{ListAssetsUri(cloud)}/{assetId}?key={ApiKey(cloud)}",
+                        Identity(cloud), UnityWebRequest.kHttpVerbGET);
                     return (await request.SendAsync()).JObject?["accountId"].ToString() == userId;
                 }
                 catch (VrAssetServiceException)
@@ -361,7 +418,7 @@ namespace TiltBrush
             {
                 string cfg = App.UserConfig.Sharing.VrAssetServiceUrlOverride;
                 if (!string.IsNullOrEmpty(cfg)) { return cfg; }
-                return kAssetLandingPage;
+                return kAssetLandingPagePoly;
             }
         }
 
@@ -384,8 +441,9 @@ namespace TiltBrush
             if (!string.IsNullOrEmpty(App.UserConfig.Sharing.VrAssetServiceHostOverride) ||
                 !string.IsNullOrEmpty(App.UserConfig.Sharing.VrAssetServiceUrlOverride))
             {
+                // TODO Make non-poly specific
                 Debug.LogFormat("Overriding VrAssetService Api Host: {0}  Landing Page: {1}",
-                    ApiHost, AssetLandingPage);
+                    kApiHostPoly, kAssetLandingPagePoly);
             }
 
             // If auto profiling is enabled, disable automatic Poly downloading.
@@ -525,41 +583,50 @@ namespace TiltBrush
             m_PolyStatus = await GetPolyStatus();
         }
 
-        private static async Task<PolyStatus> GetPolyStatus()
+        private static async Task<PolyStatus> GetPolyStatus(Cloud cloud)
         {
-            return PolyStatus.Disabled;
-
             // UserConfig override
             if (App.UserConfig.Flags.DisablePoly ||
                 string.IsNullOrEmpty(App.Config.GoogleSecrets?.ApiKey))
             {
                 return PolyStatus.Disabled;
             }
-
-            string uri = String.Format("{0}{1}", ApiHost, kGetVersionUri);
-            try
+            
+            switch (cloud)
             {
-                var result = (await new WebRequest(uri, App.GoogleIdentity).SendAsync()).JObject;
-                string version = result["version"].Value<string>();
-                if (version == kPolyApiVersion)
-                {
-                    return PolyStatus.Ok;
-                }
-                else
-                {
-                    Debug.LogWarning($"Poly requires API {version} > {kPolyApiVersion}");
+                case Cloud.Poly:
                     return PolyStatus.Disabled;
-                }
-            }
-            catch (VrAssetServiceException e)
-            {
-                Debug.LogWarning($"Error connecting to Poly: {e}");
-                return PolyStatus.NoConnection;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Internal error connecting to Poly: {e}");
-                return PolyStatus.NoConnection;
+                case Cloud.Icosa:
+                    return PolyStatus.Disabled;
+                case Cloud.Sketchfab:
+
+                    string uri = String.Format("{0}{1}", ApiHost(cloud), GetVersionUri(cloud));
+                    try
+                    {
+                        var result = (await new WebRequest(uri, App.GoogleIdentity).SendAsync()).JObject;
+                        string version = result["version"].Value<string>();
+                        if (version == kPolyApiVersion)
+                        {
+                            return PolyStatus.Ok;
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Poly requires API {version} > {kPolyApiVersion}");
+                            return PolyStatus.Disabled;
+                        }
+                    }
+                    catch (VrAssetServiceException e)
+                    {
+                        Debug.LogWarning($"Error connecting to Poly: {e}");
+                        return PolyStatus.NoConnection;
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError($"Internal error connecting to Poly: {e}");
+                        return PolyStatus.NoConnection;
+                    }
+                default:
+                    return PolyStatus.Disabled;
             }
         }
 
@@ -747,7 +814,7 @@ namespace TiltBrush
 
         public AssetGetter GetAsset(string assetId, VrAssetFormat type, string reason)
         {
-            string uri = String.Format("{0}{1}/{2}?key={3}", ApiHost, kListAssetsUri, assetId, kPolyApiKey);
+            string uri = String.Format("{0}{1}/{2}?key={3}", ApiHost, ListAssetsUri, assetId, ApiKey);
             return new AssetGetter(uri, assetId, type, reason);
         }
 
@@ -762,7 +829,7 @@ namespace TiltBrush
                     {
                         return null;
                     }
-                    filter = $"{kUserLikesUri}?format=TILT&orderBy=LIKED_TIME&key={kPolyApiKey}";
+                    filter = $"{UserLikesUri(Cloud, "TILT", "LIKED_TIME")}";
                     errorMessage = "Failed to access your liked sketches.";
                     break;
                 case SketchSetType.Curated:
@@ -770,7 +837,7 @@ namespace TiltBrush
                     {
                         return null;
                     }
-                    filter = $"{kListAssetsUri}?format=TILT&curated=true&orderBy=NEWEST&key={kPolyApiKey}";
+                    filter = $"{ListAssetsUri, format: "TILT", curated: true, order: "NEWEST"}";
                     errorMessage = "Failed to access featured sketches.";
                     break;
             }
@@ -783,8 +850,8 @@ namespace TiltBrush
         public IEnumerator<object> InsertSketchInfo(
             string assetId, int index, List<PolySceneFileInfo> infos)
         {
-            string uri = String.Format("{0}{1}/{2}?key={3}", ApiHost, kListAssetsUri, assetId, kPolyApiKey);
-            WebRequest request = new WebRequest(uri, App.GoogleIdentity, UnityWebRequest.kHttpVerbGET);
+            string uri = String.Format("{0}{1}/{2}?key={3}", ApiHost, ListAssetsUri, assetId, ApiKey);
+            WebRequest request = new WebRequest(uri, Identity, UnityWebRequest.kHttpVerbGET);
             using (var cr = request.SendAsync().AsIeNull())
             {
                 while (!request.Done)
@@ -809,20 +876,40 @@ namespace TiltBrush
             infos.Insert(index, new PolySceneFileInfo(json.Root));
         }
 
-        public AssetLister ListAssets(PolySetType type)
+        public AssetLister ListAssets(PolySetType type, Cloud cloud)
         {
             string uri = null;
-            switch (type)
+            switch (cloud)
             {
-                case PolySetType.Liked:
-                    uri = $"{ApiHost}{kUserLikesUri}?format=GLTF2&orderBy=LIKED_TIME&pageSize={m_AssetsPerPage}";
+                case Cloud.Poly:
+                    switch (type)
+                    {
+                        case PolySetType.Liked:
+                            uri = $"{ApiHost(cloud)}{UserLikesUri(cloud)}?format=GLTF2&orderBy=LIKED_TIME&pageSize={m_AssetsPerPage}";
+                            break;
+                        case PolySetType.User:
+                            uri = $"{ApiHost(cloud)}{UserAssetsUri(cloud)}?format=GLTF2&orderBy=NEWEST&pageSize={m_AssetsPerPage}";
+                            break;
+                        case PolySetType.Featured:
+                            uri = $"{ApiHost(cloud)}{ListAssetsUri(cloud)}?key={ApiKey}" +
+                                $"&format=GLTF2&curated=true&orderBy=NEWEST&pageSize={m_AssetsPerPage}";
+                            break;
+                    }
                     break;
-                case PolySetType.User:
-                    uri = $"{ApiHost}{kUserAssetsUri}?format=GLTF2&orderBy=NEWEST&pageSize={m_AssetsPerPage}";
-                    break;
-                case PolySetType.Featured:
-                    uri = $"{ApiHost}{kListAssetsUri}?key={kPolyApiKey}" +
-                        $"&format=GLTF2&curated=true&orderBy=NEWEST&pageSize={m_AssetsPerPage}";
+                case Cloud.Sketchfab:
+                    switch (type)
+                    {
+                        case PolySetType.Liked:
+                            uri = $"{ApiHost(cloud)}{UserLikesUri(cloud)}?format=GLTF2&orderBy=LIKED_TIME&pageSize={m_AssetsPerPage}";
+                            break;
+                        case PolySetType.User:
+                            uri = $"{ApiHost(cloud)}{UserAssetsUri(cloud)}?format=GLTF2&orderBy=NEWEST&pageSize={m_AssetsPerPage}";
+                            break;
+                        case PolySetType.Featured:
+                            uri = $"{ApiHost(cloud)}{ListAssetsUri(cloud)}?key={ApiKey}" +
+                                $"&format=GLTF2&curated=true&orderBy=NEWEST&pageSize={m_AssetsPerPage}";
+                            break;
+                    }
                     break;
             }
             return new AssetLister(uri, "Failed to connect to Poly.");
@@ -832,7 +919,7 @@ namespace TiltBrush
         public IEnumerator LoadTiltFile(string id)
         {
             string path = Path.GetTempFileName();
-            string uri = String.Format("{0}{1}/{2}?key={3}", ApiHost, kListAssetsUri, id, kPolyApiKey);
+            string uri = String.Format("{0}{1}/{2}?key={3}", ApiHost, ListAssetsUri, id, ApiKey);
             WebRequest request = new WebRequest(uri, App.GoogleIdentity, UnityWebRequest.kHttpVerbGET);
             using (var cr = request.SendAsync().AsIeNull())
             {

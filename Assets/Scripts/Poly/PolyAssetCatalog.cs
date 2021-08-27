@@ -863,7 +863,8 @@ namespace TiltBrush
             {
                 m_AssetSetByType[type].m_Models = models;
             }
-            AssetLister lister = VrAssetService.m_Instance.ListAssets(type);
+            // TODO UI switcher for cloud type
+            AssetLister lister = VrAssetService.m_Instance.ListAssets(type, Cloud.Sketchfab);
             while (lister.HasMore || models.Count == 0)
             {
                 using (var cr = lister.NextPage(models, m_ThumbnailSuffix))
@@ -908,7 +909,7 @@ namespace TiltBrush
 
         void RefreshFetchCoroutines()
         {
-            if (App.GoogleIdentity.Profile != null)
+            if (App.SketchfabIdentity.Profile != null)
             {
                 m_AssetSetByType[PolySetType.User].m_RefreshRequested = true;
                 m_AssetSetByType[PolySetType.Liked].m_RefreshRequested = true;
