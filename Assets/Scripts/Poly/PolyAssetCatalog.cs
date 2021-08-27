@@ -118,6 +118,7 @@ namespace TiltBrush
                 {
                     m_ThumbnailUrl = string.Format("{0}={1}", m_ThumbnailUrl, thumbnailSuffix);
                 }
+
                 if (!kLazyLoadThumbnail)
                 {
                     // Pre-emptive thumbnail fetch
