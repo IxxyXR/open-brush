@@ -598,7 +598,7 @@ namespace TiltBrush
                             yield return www.SendWebRequest();
                             if (www.isNetworkError || www.responseCode >= 400 || !string.IsNullOrEmpty(www.error))
                             {
-                                NotifyWriteError(sceneFileInfo, "icon", www);
+                                NotifyWriteError(sceneFileInfo, "icon", www);  
                             }
                             else
                             {
@@ -764,16 +764,31 @@ namespace TiltBrush
         {
             m_AssetId = json["name"].ToString().Substring(7); // strip 'assets/' from start
             m_HumanName = json["displayName"].ToString();
-
-            var format = json["formats"].First(x => x["formatType"].ToString() == "TILT")["root"];
-            m_TiltFileUrl = format["url"].ToString();
+            try
+            {
+                var format = json["formats"].First(x => x["formatType"].ToString() == "TILT")["root"];
+                m_TiltFileUrl = format["url"].ToString();
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.Log($"{m_AssetId} has no .tilt format");
+            }
             m_IconUrl = json["thumbnail"]?["url"]?.ToString();
             m_License = json["license"]?.ToString();
 
 
+            string gltfTriCount;
             // Some assets (old ones? broken ones?) are missing the "formatComplexity" field
-            var gltfFormat = json["formats"].First(x => x["formatType"].ToString() == "GLTF");
-            string gltfTriCount = gltfFormat?["formatComplexity"]?["triangleCount"]?.ToString();
+            try
+            {
+                var gltfFormat = json["formats"].First(x => x["formatType"].ToString() == "GLTF");
+                gltfTriCount = gltfFormat?["formatComplexity"]?["triangleCount"]?.ToString();
+            }
+            catch (InvalidOperationException e)
+            {
+                gltfTriCount = null;
+            }
+            
             if (gltfTriCount == null)
             {
                 Debug.Log($"{m_AssetId} has no tricount");

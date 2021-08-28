@@ -87,19 +87,30 @@ namespace TiltBrush
                 AssetId = json["name"].ToString().Substring(7); // strip out "assets/"
                 AccountName = accountName;
                 var rotation = json["presentationParams"]?["orientingRotation"];
-                if (rotation != null)
-                {
-                    ModelRotation = new Quaternion(
-                        rotation["x"]?.Value<float>() ?? 0,
-                        rotation["y"]?.Value<float>() ?? 0,
-                        rotation["z"]?.Value<float>() ?? 0,
-                        rotation["w"]?.Value<float>() ?? 0
-                    );
-                }
-                else
-                {
-                    ModelRotation = null;
-                }
+                
+                // TODO
+                ModelRotation = null;
+                // if (rotation != null)
+                // {
+                //     Debug.LogWarning($"{rotation["x"]} - {rotation["y"]} - {rotation["z"]} - {rotation["w"]}");
+                //     if (rotation["x"] == null || rotation["y"] == null || rotation["z"] == null || rotation["w"] == null)
+                //     {
+                //         ModelRotation = null;
+                //     }
+                //     else
+                //     {
+                //         ModelRotation = new Quaternion(
+                //             rotation["x"]?.Value<float>() ?? 0,
+                //             rotation["y"]?.Value<float>() ?? 0,
+                //             rotation["z"]?.Value<float>() ?? 0,
+                //             rotation["w"]?.Value<float>() ?? 0
+                //         );   
+                //     }
+                // }
+                // else
+                // {
+                //     ModelRotation = null;
+                // }
 
                 m_Thumbnail = new Texture2D(4, 4, TextureFormat.ARGB32, false);
                 m_ThumbnailUrl = json["thumbnail"]["url"].ToString();
@@ -107,6 +118,7 @@ namespace TiltBrush
                 {
                     m_ThumbnailUrl = string.Format("{0}={1}", m_ThumbnailUrl, thumbnailSuffix);
                 }
+
                 if (!kLazyLoadThumbnail)
                 {
                     // Pre-emptive thumbnail fetch
