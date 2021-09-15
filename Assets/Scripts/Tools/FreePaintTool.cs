@@ -60,6 +60,12 @@ namespace TiltBrush
             // Don't call base.UpdateTool() because we have a different 'stop eating input' check
             // for FreePaintTool.
             float brushTriggerRatio = InputManager.Brush.GetTriggerRatio();
+
+            if (App.Instance.IsMonoscopicMode() && InputManager.m_Instance.GetCommand(InputManager.SketchCommands.Activate))
+            {
+                brushTriggerRatio = 1.0f;
+            }
+
             if (m_EatInput)
             {
                 if (brushTriggerRatio <= 0.0f)
@@ -77,7 +83,7 @@ namespace TiltBrush
 
             m_PaintingActive = !m_EatInput && !m_ToolHidden && brushTriggerRatio > 0;
             PointerManager.m_Instance.EnableLine(m_PaintingActive);
-            PointerManager.m_Instance.PointerPressure = InputManager.Brush.GetTriggerRatio();
+            PointerManager.m_Instance.PointerPressure = brushTriggerRatio;
         }
 
         override public void LateUpdateTool()
@@ -116,6 +122,10 @@ namespace TiltBrush
 
         void PositionPointer()
         {
+            if (App.Instance.IsMonoscopicMode())
+            {
+                return;
+            }
             // Angle the pointer according to the user-defined pointer angle.
             Transform rAttachPoint = InputManager.m_Instance.GetBrushControllerAttachPoint();
             Vector3 pos = rAttachPoint.position;
