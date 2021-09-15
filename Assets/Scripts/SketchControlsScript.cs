@@ -140,6 +140,9 @@ namespace TiltBrush
             LoadWaitOnDownload,
             SignOutConfirm,
             ReadOnlyNotice,
+            OpenScriptsCommandsList = 6000,
+            OpenScriptsList = 6001,
+            OpenExampleScriptsList = 6002,
             OpenColorOptionsPopup = 7000
         }
 
@@ -3678,6 +3681,8 @@ namespace TiltBrush
 
         public void RequestPanelsVisibility(bool bVisible)
         {
+            // Always false in viewonly mode
+            bVisible = m_ViewOnly ? false : bVisible;
             m_PanelsVisibilityRequested = bVisible;
         }
 
@@ -4085,7 +4090,7 @@ namespace TiltBrush
             m_SaveIconTool.ProgrammaticCaptureSaveIcon(vNewCamPos, Quaternion.identity);
         }
 
-        private void LoadSketch(SceneFileInfo fileInfo, bool quickload = false)
+        private void LoadSketch(SceneFileInfo fileInfo, bool quickload = false, bool additive = false)
         {
             LightsControlScript.m_Instance.DiscoMode = false;
             m_WidgetManager.FollowingPath = false;
@@ -4094,7 +4099,7 @@ namespace TiltBrush
             m_PanelManager.ToggleSketchbookPanels(isLoadingSketch: true);
             ResetGrabbedPose(everything: true);
             PointerManager.m_Instance.EnablePointerStrokeGeneration(true);
-            if (SaveLoadScript.m_Instance.Load(fileInfo))
+            if (SaveLoadScript.m_Instance.Load(fileInfo, additive))
             {
                 SketchMemoryScript.m_Instance.SetPlaybackMode(m_SketchPlaybackMode, m_DefaultSketchLoadSpeed);
                 SketchMemoryScript.m_Instance.BeginDrawingFromMemory(bDrawFromStart: true);
@@ -4221,21 +4226,7 @@ namespace TiltBrush
                         break;
                     }
                 case GlobalCommands.LoadNamedFile:
-                    var fileInfo = new DiskSceneFileInfo(sParam);
-                    fileInfo.ReadMetadata();
-                    if (SaveLoadScript.m_Instance.LastMetadataError != null)
-                    {
-                        ControllerConsoleScript.m_Instance.AddNewLine(
-                            string.Format("Error detected in sketch '{0}'.\nTry re-saving.",
-                                fileInfo.HumanName));
-                        Debug.LogWarning(string.Format("Error reading metadata for {0}.\n{1}",
-                            fileInfo.FullPath, SaveLoadScript.m_Instance.LastMetadataError));
-                    }
-                    LoadSketch(fileInfo, iParam1 == (int)LoadSpeed.Quick);
-                    if (m_ControlsType != ControlsType.ViewingOnly)
-                    {
-                        EatGazeObjectInput();
-                    }
+                    LoadNamed(sParam, iParam1 == (int)LoadSpeed.Quick, iParam2 != -1);
                     break;
                 case GlobalCommands.NewSketch:
                     NewSketch(fade: true);
@@ -4315,7 +4306,10 @@ namespace TiltBrush
                     m_ViewOnly = !m_ViewOnly;
                     RequestPanelsVisibility(!m_ViewOnly);
                     PointerManager.m_Instance.RequestPointerRendering(!m_ViewOnly);
-                    m_SketchSurface.SetActive(!m_ViewOnly);
+                    // TODO - decide if this is a permanent change
+                    // With this line, you can't set a tool such as fly or teleport
+                    // and switch to View Only mode as the mode change disables all tools
+                    //m_SketchSurface.SetActive(!m_ViewOnly);
                     m_Decor.SetActive(!m_ViewOnly);
                     break;
                 case GlobalCommands.SaveGallery:
@@ -4841,11 +4835,55 @@ namespace TiltBrush
                     CameraPathCaptureRig.RecordPath();
                     EatGazeObjectInput();
                     break;
+                case GlobalCommands.OpenScriptsCommandsList:
+                    // TODO refactor code above to use this method
+                    OpenUrl("http://localhost:40074/help/commands");
+                    break;
+                case GlobalCommands.OpenScriptsList:
+                    // TODO refactor code above to use this method
+                    OpenUrl("http://localhost:40074/scripts");
+                    break;
+                case GlobalCommands.OpenExampleScriptsList:
+                    // TODO refactor code above to use this method
+                    OpenUrl("http://localhost:40074/examplescripts");
+                    break;
                 case GlobalCommands.Null: break; // Intentionally blank.
                 default:
                     Debug.LogError($"Unrecognized command {rEnum}");
                     break;
             }
+        }
+
+        private void LoadNamed(string path, bool quickload, bool additive)
+        {
+            var fileInfo = new DiskSceneFileInfo(path);
+            fileInfo.ReadMetadata();
+            if (SaveLoadScript.m_Instance.LastMetadataError != null)
+            {
+                ControllerConsoleScript.m_Instance.AddNewLine(
+                    string.Format("Error detected in sketch '{0}'.\nTry re-saving.",
+                        fileInfo.HumanName));
+                Debug.LogWarning(string.Format("Error reading metadata for {0}.\n{1}",
+                    fileInfo.FullPath, SaveLoadScript.m_Instance.LastMetadataError));
+            }
+            LoadSketch(fileInfo, quickload, additive);
+            if (m_ControlsType != ControlsType.ViewingOnly)
+            {
+                EatGazeObjectInput();
+            }
+        }
+
+        private void OpenUrl(string url)
+        {
+            if (!App.Config.IsMobileHardware)
+            {
+                OutputWindowScript.m_Instance.CreateInfoCardAtController(
+                    InputManager.ControllerName.Brush,
+                    kRemoveHeadsetFyi, fPopScalar: 0.5f);
+            }
+
+            App.OpenURL(url);
+            EatGazeObjectInput();
         }
 
         public bool IsCommandActive(GlobalCommands rEnum, int iParam = -1)

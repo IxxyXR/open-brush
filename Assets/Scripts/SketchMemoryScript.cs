@@ -193,6 +193,30 @@ namespace TiltBrush
             return m_Instance.m_MemoryList.ElementAt(index);
         }
 
+        public Stroke MostRecentStroke
+        {
+            get
+            {
+                return m_CurrentNodeByTime.Value;
+            }
+        }
+
+        public LinkedListNode<Stroke> FirstNodeByTime
+        {
+            get
+            {
+                return m_MemoryList.First;
+            }
+        }
+
+        public LinkedListNode<Stroke> CurrentNodeByTime
+        {
+            get
+            {
+                return m_CurrentNodeByTime;
+            }
+        }
+
         public void SetLastOperationStackCount()
         {
             m_LastOperationStackCount = m_OperationStack.Count;
@@ -568,12 +592,14 @@ namespace TiltBrush
             }
         }
 
-        public bool MemorizeStrokeRepaint(Stroke stroke, bool recolor, bool rebrush)
+        public bool MemorizeStrokeRepaint(Stroke stroke, bool recolor, bool rebrush, bool resize)
         {
             Guid brushGuid = PointerManager.m_Instance
                 .GetPointer(InputManager.ControllerName.Brush).CurrentBrush.m_Guid;
+            float brushSize = PointerManager.m_Instance.MainPointer.BrushSize01;
             if ((recolor && stroke.m_Color != PointerManager.m_Instance.PointerColor) ||
-                (rebrush && stroke.m_BrushGuid != brushGuid))
+                (rebrush && stroke.m_BrushGuid != brushGuid) ||
+                (resize && stroke.m_BrushSize != brushSize))
             {
                 if (m_RepaintStrokeParent == null)
                 {
@@ -582,18 +608,19 @@ namespace TiltBrush
 
                 Color newColor = recolor ? PointerManager.m_Instance.PointerColor : stroke.m_Color;
                 Guid newGuid = rebrush ? brushGuid : stroke.m_BrushGuid;
-                new RepaintStrokeCommand(stroke, newColor, newGuid, m_RepaintStrokeParent);
+                float newSize = resize ? brushSize : stroke.m_BrushSize;
+                new RepaintStrokeCommand(stroke, newColor, newGuid, newSize, m_RepaintStrokeParent);
                 return true;
             }
             return false;
         }
 
-        public bool MemorizeStrokeRepaint(GameObject rObject, bool recolor, bool rebrush)
+        public bool MemorizeStrokeRepaint(GameObject rObject, bool recolor, bool rebrush, bool resize)
         {
             var brush = rObject.GetComponent<BaseBrushScript>();
             if (brush)
             {
-                MemorizeStrokeRepaint(brush.Stroke, recolor, rebrush);
+                MemorizeStrokeRepaint(brush.Stroke, recolor, rebrush, resize);
                 return true;
             }
             return false;
@@ -1168,6 +1195,72 @@ namespace TiltBrush
             {
                 stroke.m_ControlPoints[iCp].m_TimestampMs = nowMs + offsetMs++;
             }
+        }
+
+        // Negative numbers count backwards from most recent stroke.
+        // -1 is most recent, -2 is next etc
+        public static LinkedListNode<Stroke> GetNodeAtIndex(int index)
+        {
+            LinkedListNode<Stroke> node;
+            if (index < 0)
+            {
+                index = m_Instance.StrokeCount - index;
+                node = m_Instance.m_MemoryList.ElementAt(index).m_NodeByTime;
+            }
+            else
+            {
+                node = m_Instance.m_MemoryList.ElementAt(index).m_NodeByTime;
+            }
+            return node;
+        }
+
+        public static List<Stroke> GetStrokesBetween(int start, int end)
+        {
+            int index0, index1;
+            int lastStrokeIndex = m_Instance.StrokeCount - 1;
+            if (start < 0)
+            {
+                // Counting backwards so subtract from last index
+                start += lastStrokeIndex;
+            }
+            if (end < 0)
+            {
+                // Counting backwards so subtract from last index
+                end += lastStrokeIndex;
+            }
+
+            if (start <= end)
+            {
+                index0 = start;
+                index1 = end;
+            }
+            else
+            {
+                index0 = end;
+                index1 = start;
+            }
+
+            // Clamp
+            index0 = Mathf.Min(index0, lastStrokeIndex);
+            index1 = Mathf.Min(index1, lastStrokeIndex);
+            index0 = Mathf.Max(index0, 0);
+            index1 = Mathf.Max(index1, 0);
+
+            var result = new List<Stroke>();
+            int i = index0;
+            var node = GetNodeAtIndex(index0);
+            while (i < index1)
+            {
+                result.Add(node.Value);
+                node = node.Next;
+                if (node == null)
+                {
+                    Debug.LogError($"Aborting early due to no next stroke in linked list");
+                    break;
+                }
+                i++;
+            }
+            return result;
         }
     }
 } // namespace TiltBrush
