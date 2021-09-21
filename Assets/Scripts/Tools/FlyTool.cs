@@ -107,7 +107,7 @@ namespace TiltBrush.LachlanSleight
             Transform rAttachPoint = InputManager.m_Instance.GetBrushControllerAttachPoint();
 
             if (InputManager.m_Instance.GetCommand(InputManager.SketchCommands.Fly) ||
-                InputManager.m_Instance.GetKeyboardShortcut(InputManager.KeyboardShortcut.Forward))
+                InputManager.m_Instance.GetKeyboardShortcut(InputManager.KeyboardShortcut.MonoCameraForward))
             {
                 Vector3 position;
                 Vector3 vMovement;
