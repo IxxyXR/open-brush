@@ -96,14 +96,18 @@ namespace TiltBrush
         {
             // Don't call base.UpdateTool() because we have a different 'stop eating input' check
             // for FreePaintTool.
-            float brushTriggerRatio = InputManager.Brush.GetTriggerRatio();
+            m_wandTriggerRatio = InputManager.Wand.GetTriggerRatio();
+            m_wandTrigger = InputManager.Wand.GetCommand(InputManager.SketchCommands.Activate);
+            m_wandTriggerDown = InputManager.Wand.GetCommandDown(InputManager.SketchCommands.Activate);
+            m_brushTriggerRatio = InputManager.Brush.GetTriggerRatio();
+            m_brushTrigger = InputManager.Brush.GetCommand(InputManager.SketchCommands.Activate);
+            m_brushTriggerDown = InputManager.Brush.GetCommandDown(InputManager.SketchCommands.Activate);
 
-            if (App.Instance.IsMonoscopicMode() && InputManager.m_Instance.GetCommand(InputManager.SketchCommands.Activate))
-            {
-                brushTriggerRatio = 1.0f;
-            }
+            m_brushUndoButton = InputManager.Brush.GetCommand(InputManager.SketchCommands.Undo);
+            m_brushUndoButtonDown = InputManager.Brush.GetCommandDown(InputManager.SketchCommands.Undo);
 
-            if (m_EatInput)
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+            if (Config.IsExperimental)
             {
                 m_brushUndoButtonUp = InputManager.Brush.GetCommandUp(InputManager.SketchCommands.Undo);
                 m_brushUndoButtonTapped = m_brushUndoButtonUp && !m_brushUndoButtonTapInvalid;
@@ -188,7 +192,8 @@ namespace TiltBrush
 #endif
 
             PointerManager.m_Instance.EnableLine(m_PaintingActive);
-            PointerManager.m_Instance.PointerPressure = brushTriggerRatio;
+            PointerManager.m_Instance.PointerPressure = m_brushTriggerRatio;
+
         }
 
         override public void LateUpdateTool()
@@ -236,10 +241,6 @@ namespace TiltBrush
 
         void PositionPointer()
         {
-            if (App.Instance.IsMonoscopicMode())
-            {
-                return;
-            }
             // Angle the pointer according to the user-defined pointer angle.
             Transform rAttachPoint = InputManager.m_Instance.GetBrushControllerAttachPoint();
             Vector3 pos = rAttachPoint.position;
