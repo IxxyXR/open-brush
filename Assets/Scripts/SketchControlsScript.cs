@@ -180,7 +180,6 @@ namespace TiltBrush
             Standard,
             Pan,
             Rotation,
-            HeadLock,
             ControllerLock,
             PushPull,
             BrushSize,
@@ -837,7 +836,6 @@ namespace TiltBrush
 
             m_InputStateConfigs[(int)InputState.Standard].m_AllowDrawing = true;
             m_InputStateConfigs[(int)InputState.Pan].m_AllowDrawing = true;
-            m_InputStateConfigs[(int)InputState.HeadLock].m_AllowDrawing = true;
             m_InputStateConfigs[(int)InputState.ControllerLock].m_AllowDrawing = true;
             m_InputStateConfigs[(int)InputState.PushPull].m_AllowDrawing = true;
 
@@ -849,7 +847,6 @@ namespace TiltBrush
 
             m_InputStateConfigs[(int)InputState.Pan].m_ShowGizmo = true;
             m_InputStateConfigs[(int)InputState.Rotation].m_ShowGizmo = true;
-            m_InputStateConfigs[(int)InputState.HeadLock].m_ShowGizmo = true;
             m_InputStateConfigs[(int)InputState.PushPull].m_ShowGizmo = true;
 
             m_CurrentGazeRay = new Ray(Vector3.zero, Vector3.forward);
@@ -889,6 +886,11 @@ namespace TiltBrush
             // This needs to run before other tools initialize, which is why it's running in OnEnable.
             // The sequence is Awake(), OnEnable(), Start().
             if (App.VrSdk.GetControllerDof() == VrSdk.DoF.Six)
+            {
+                SetInFreePaintMode(true);
+                SetInitialTool(BaseTool.ToolType.FreePaintTool);
+            }
+            else if (App.Instance.IsMonoscopicMode())
             {
                 SetInFreePaintMode(true);
                 SetInitialTool(BaseTool.ToolType.FreePaintTool);
@@ -1059,21 +1061,34 @@ namespace TiltBrush
                     else
                     {
                         //standard input, no gaze object
-                        if (m_InputStateConfigs[(int)m_CurrentInputState].m_AllowMovement)
+                        if (m_InputStateConfigs[(int)m_CurrentInputState].m_AllowMovement && !App.Instance.IsMonoscopicMode())
                         {
                             m_SketchSurfacePanel.UpdateReticleOffset(m_MouseDeltaX, m_MouseDeltaY);
                         }
 
                         switch (m_CurrentInputState)
                         {
-                            case InputState.Standard: UpdateStandardInput(); break;
-                            case InputState.Pan: UpdatePanInput(); break;
-                            case InputState.Rotation: UpdateRotationInput(); break;
-                            case InputState.HeadLock: UpdateHeadLockInput(); break;
-                            case InputState.ControllerLock: UpdateControllerLock(); break;
-                            case InputState.PushPull: UpdatePushPullInput(); break;
-                            case InputState.Save: UpdateSaveInput(); break;
-                            case InputState.Load: UpdateLoadInput(); break;
+                            case InputState.Standard:
+                                UpdateStandardInput();
+                                break;
+                            case InputState.Pan:
+                                UpdatePanInput();
+                                break;
+                            case InputState.Rotation:
+                                UpdateRotationInput();
+                                break;
+                            case InputState.ControllerLock:
+                                UpdateControllerLock();
+                                break;
+                            case InputState.PushPull:
+                                UpdatePushPullInput();
+                                break;
+                            case InputState.Save:
+                                UpdateSaveInput();
+                                break;
+                            case InputState.Load:
+                                UpdateLoadInput();
+                                break;
                         }
 
                         //keep pointer locked in the right spot, even if it's hidden
@@ -1517,7 +1532,7 @@ namespace TiltBrush
             }
 #endif
 
-            bool hasController = m_ControlsType == ControlsType.SixDofControllers;
+            bool hasController = m_ControlsType != ControlsType.ViewingOnly;
 
             // Toggle default tool.
             if (!m_PanelManager.AdvancedModeActive() &&
@@ -1546,12 +1561,6 @@ namespace TiltBrush
                     InputManager.m_Instance.GetCommand(InputManager.SketchCommands.PivotRotation))
             {
                 SwitchState(InputState.Rotation);
-            }
-            // Head lock.
-            else if (!hasController &&
-                    InputManager.m_Instance.GetCommand(InputManager.SketchCommands.LockToHead))
-            {
-                SwitchState(InputState.HeadLock);
             }
             // Push pull.
             else if (!hasController &&
@@ -1596,10 +1605,8 @@ namespace TiltBrush
                     InputManager.m_Instance.GetKeyboardShortcutDown(
                         InputManager.KeyboardShortcut.ResetScene))
                 {
-                    // TODO: Should thsi go away? Seems like the "sweetspot" may no longer be used.
                     if (App.VrSdk.GetControllerDof() == VrSdk.DoF.Two)
                     {
-                        m_PanelManager.SetSweetSpotPosition(m_CurrentGazeRay.origin);
                         ResetGrabbedPose();
                     }
                 }
@@ -3309,28 +3316,8 @@ namespace TiltBrush
                     }
                 }
 
-                if (!hasController)
-                {
-                    //lock to head if we're holding a lock button..
-                    bool bLockToHead = InputManager.m_Instance.GetCommand(InputManager.SketchCommands.LockToHead) ||
-                        InputManager.m_Instance.GetCommand(InputManager.SketchCommands.LockToController);
-
-                    if (bLockToHead)
-                    {
-                        m_PositioningPanelWithHead = true;
-                        m_PositioningPanelBaseHeadRotation = m_CurrentHeadOrientation;
-                        m_PositioningPanelOffset = currentPanel.transform.position -
-                            m_PanelManager.m_SweetSpot.transform.position;
-
-                        currentPanel.ResetPanelFlair();
-
-                        //prime all other panels for movement
-                        m_PanelManager.PrimeCollisionSimForKeyboardMouse();
-                    }
-                }
-
-                PointerManager.m_Instance.RequestPointerRendering(false);
-                currentPanel.UpdateReticleOffset(m_MouseDeltaX, m_MouseDeltaY);
+                // PointerManager.m_Instance.RequestPointerRendering(false);
+                // currentPanel.UpdateReticleOffset(m_MouseDeltaX, m_MouseDeltaY);
             }
 
             // Keep reticle locked in the right spot.
@@ -3359,8 +3346,37 @@ namespace TiltBrush
             m_CurrentGazeObject = -1;
         }
 
+        public void SetAllPanelsStatus(bool status)
+        {
+            PointerManager.m_Instance.RequestPointerRendering(true);
+        }
+
+
+        public void SyncMonoCursor(Vector3 newCursorPosition, Vector3 newRotation)
+        {
+            m_SketchSurfacePanel.transform.position = newCursorPosition;
+            m_SketchSurfacePanel.transform.localEulerAngles = newRotation;
+            PointerManager.m_Instance.MainPointer.transform.position = newCursorPosition;
+            PointerManager.m_Instance.MainPointer.transform.localEulerAngles = newRotation;
+        }
+
+        public void SyncMonoPanels(Transform cameraTransform, Vector3 newRotation, BasePanel.PanelType activePanel)
+        {
+            m_PanelManager.SetSweetSpotPosition(cameraTransform, newRotation, activePanel);
+        }
+
+        public Vector3 getSketchSurfacePos()
+        {
+            return m_SketchSurface.transform.position;
+        }
+
         void UpdatePanInput()
         {
+            if (App.Instance.IsMonoscopicMode())
+            {
+                return;
+            }
+
             if (Input.GetMouseButton(2))
             {
                 Vector3 vPanDiff = Vector3.zero;
@@ -3387,6 +3403,11 @@ namespace TiltBrush
 
         void UpdateRotationInput()
         {
+            if (App.Instance.IsMonoscopicMode())
+            {
+                return;
+            }
+
             if (InputManager.m_Instance.GetCommand(InputManager.SketchCommands.PivotRotation))
             {
                 bool bAltInputActive = InputManager.m_Instance.GetCommand(InputManager.SketchCommands.AltActivate);
@@ -3493,30 +3514,6 @@ namespace TiltBrush
             }
         }
 
-        void UpdateHeadLockInput()
-        {
-            if (InputManager.m_Instance.GetCommand(InputManager.SketchCommands.LockToHead))
-            {
-                //compute new position/orientation of sketch surface
-                Vector3 vTransformedOffset = m_CurrentHeadOrientation * m_SurfaceLockOffset;
-                Vector3 vSurfacePos = m_CurrentGazeRay.origin + vTransformedOffset;
-
-                Quaternion qDiff = m_CurrentHeadOrientation * Quaternion.Inverse(m_SurfaceLockBaseHeadRotation);
-                Quaternion qNewSurfaceRot = qDiff * m_SurfaceLockBaseSurfaceRotation;
-
-                m_SketchSurface.transform.position = vSurfacePos;
-                m_SketchSurface.transform.rotation = qNewSurfaceRot;
-            }
-            else
-            {
-                m_SurfaceForward = m_SketchSurface.transform.forward;
-                m_SurfaceRight = m_SketchSurface.transform.right;
-                m_SurfaceUp = m_SketchSurface.transform.up;
-
-                SwitchState(InputState.Standard);
-            }
-        }
-
         void UpdateControllerLock()
         {
             if (InputManager.m_Instance.GetCommand(InputManager.SketchCommands.LockToController))
@@ -3540,6 +3537,11 @@ namespace TiltBrush
 
         void UpdatePushPullInput()
         {
+            if (App.Instance.IsMonoscopicMode())
+            {
+                return;
+            }
+
             bool bRotationActive = InputManager.m_Instance.GetCommand(InputManager.SketchCommands.PivotRotation);
             bool bInputActive = InputManager.m_Instance.GetCommand(InputManager.SketchCommands.Activate);
             bool bAltInputActive = InputManager.m_Instance.GetCommand(InputManager.SketchCommands.AltActivate);
@@ -3726,12 +3728,6 @@ namespace TiltBrush
                     m_RotationCursor.transform.rotation = m_SketchSurface.transform.rotation;
                     m_RotationCursor.ClearCursorLines(m_SketchSurface.transform.position);
                     m_RotationCursor.gameObject.SetActive(bSketchSurfaceToolActive);
-                    break;
-                case InputState.HeadLock:
-                    m_SurfaceLockBaseHeadRotation = m_CurrentHeadOrientation;
-                    m_SurfaceLockBaseSurfaceRotation = m_SketchSurface.transform.rotation;
-                    m_SurfaceLockOffset = m_SketchSurface.transform.position - m_CurrentGazeRay.origin;
-                    m_SurfaceLockOffset = Quaternion.Inverse(m_SurfaceLockBaseHeadRotation) * m_SurfaceLockOffset;
                     break;
                 case InputState.ControllerLock:
                     if (bSketchSurfaceToolActive)
