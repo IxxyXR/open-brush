@@ -142,13 +142,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.xr.openvr.standalone": {
-      "version": "2.0.5",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "nuget.mono-cecil": {
       "version": "0.1.6-preview",
       "depth": 1,
