@@ -19,13 +19,10 @@ using System.Runtime.InteropServices;
 using ControllerName = TiltBrush.InputManager.ControllerName;
 using Random = UnityEngine.Random;
 
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
 using System.Linq;
 using Conway;
 using Wythoff;
 using Face = Conway.Face;
-using Random = UnityEngine.Random;
-#endif
 
 namespace TiltBrush
 {
