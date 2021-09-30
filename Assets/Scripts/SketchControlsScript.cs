@@ -148,7 +148,8 @@ namespace TiltBrush
             PolyhydraJohnsonTypesPopup = 5005,
             PolyhydraOtherTypesPopup = 5006,
             PolyhydraConwayOpTypesPopup = 5007,
-            PolyhydraConwayOpFaceSelPopup = 5008
+            PolyhydraConwayOpFaceSelPopup = 5008,
+            OpenColorOptionsPopup = 7000
         }
 
         public enum ControlsType

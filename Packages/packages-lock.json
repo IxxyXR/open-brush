@@ -4,7 +4,11 @@
       "version": "file:../../polyhydra-upm/packages/Polyhydra",
       "depth": 0,
       "source": "local",
-      "dependencies": {}
+	},
+    "com.autodesk.fbx": {
+      "version": "file:com.autodesk.fbx",
+      "depth": 0,
+      "source": "embedded",
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
