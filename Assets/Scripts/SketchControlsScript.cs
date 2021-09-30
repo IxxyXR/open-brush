@@ -156,8 +156,7 @@ namespace TiltBrush
             OpenColorOptionsPopup = 7000,
             ChangeSnapAngle = 8000,
             EditBrushOpenColorPicker = 9000,
-            EditBrushOpenTexturePicker = 9001,
-            OpenColorOptionsPopup = 7000
+            EditBrushOpenTexturePicker = 9001
         }
 
         public enum ControlsType
