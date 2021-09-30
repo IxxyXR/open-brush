@@ -140,7 +140,6 @@ namespace TiltBrush
             LoadWaitOnDownload,
             SignOutConfirm,
             ReadOnlyNotice,
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
             CustomSymmetryCommand = 5000,
             PolyhydraOpenShapeTypesPopup = 5001,
             PolyhydraOpenUniformsPopup = 5002,
@@ -150,7 +149,6 @@ namespace TiltBrush
             PolyhydraOtherTypesPopup = 5006,
             PolyhydraConwayOpTypesPopup = 5007,
             PolyhydraConwayOpFaceSelPopup = 5008
-#endif
         }
 
         public enum ControlsType
