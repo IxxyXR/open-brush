@@ -141,7 +141,6 @@ namespace TiltBrush
             LoadWaitOnDownload,
             SignOutConfirm,
             ReadOnlyNotice,
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
             CustomSymmetryCommand = 5000,
             PolyhydraOpenShapeTypesPopup = 5001,
             PolyhydraOpenUniformsPopup = 5002,
@@ -158,7 +157,7 @@ namespace TiltBrush
             ChangeSnapAngle = 8000,
             EditBrushOpenColorPicker = 9000,
             EditBrushOpenTexturePicker = 9001,
-#endif
+            OpenColorOptionsPopup = 7000
         }
 
         public enum ControlsType
