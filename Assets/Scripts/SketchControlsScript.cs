@@ -4295,21 +4295,6 @@ namespace TiltBrush
                         break;
                     }
                 case GlobalCommands.LoadNamedFile:
-                    var fileInfo = new DiskSceneFileInfo(sParam);
-                    fileInfo.ReadMetadata();
-                    if (SaveLoadScript.m_Instance.LastMetadataError != null)
-                    {
-                        ControllerConsoleScript.m_Instance.AddNewLine(
-                            string.Format("Error detected in sketch '{0}'.\nTry re-saving.",
-                                          fileInfo.HumanName));
-                        Debug.LogWarning(string.Format("Error reading metadata for {0}.\n{1}",
-                            fileInfo.FullPath, SaveLoadScript.m_Instance.LastMetadataError));
-                    }
-                    LoadSketch(fileInfo, iParam1 == (int)LoadSpeed.Quick);
-                    if (m_ControlsType != ControlsType.ViewingOnly)
-                    {
-                        EatGazeObjectInput();
-                    }
                     LoadNamed(sParam, iParam1 == (int)LoadSpeed.Quick, iParam2 != -1);
                     break;
                 case GlobalCommands.NewSketch:
