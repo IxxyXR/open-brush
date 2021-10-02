@@ -4158,7 +4158,7 @@ namespace TiltBrush
             m_SaveIconTool.ProgrammaticCaptureSaveIcon(vNewCamPos, Quaternion.identity);
         }
 
-        private void LoadSketch(SceneFileInfo fileInfo, bool quickload = false)
+        private void LoadSketch(SceneFileInfo fileInfo, bool quickload = false, bool additive = false)
         {
             BrushCatalog.m_Instance.ClearSceneBrushes();
             LightsControlScript.m_Instance.DiscoMode = false;
@@ -4168,7 +4168,7 @@ namespace TiltBrush
             m_PanelManager.ToggleSketchbookPanels(isLoadingSketch: true);
             ResetGrabbedPose(everything: true);
             PointerManager.m_Instance.EnablePointerStrokeGeneration(true);
-            if (SaveLoadScript.m_Instance.Load(fileInfo))
+            if (SaveLoadScript.m_Instance.Load(fileInfo, additive))
             {
                 SketchMemoryScript.m_Instance.SetPlaybackMode(m_SketchPlaybackMode, m_DefaultSketchLoadSpeed);
                 SketchMemoryScript.m_Instance.BeginDrawingFromMemory(bDrawFromStart: true);
@@ -4310,6 +4310,7 @@ namespace TiltBrush
                     {
                         EatGazeObjectInput();
                     }
+                    LoadNamed(sParam, iParam1 == (int)LoadSpeed.Quick, iParam2 != -1);
                     break;
                 case GlobalCommands.NewSketch:
                     NewSketch(fade: true);
@@ -4965,6 +4966,26 @@ namespace TiltBrush
                     break;
             }
         }
+
+        private void LoadNamed(string path, bool quickload, bool additive)
+        {
+            var fileInfo = new DiskSceneFileInfo(path);
+            fileInfo.ReadMetadata();
+            if (SaveLoadScript.m_Instance.LastMetadataError != null)
+            {
+                ControllerConsoleScript.m_Instance.AddNewLine(
+                    string.Format("Error detected in sketch '{0}'.\nTry re-saving.",
+                        fileInfo.HumanName));
+                Debug.LogWarning(string.Format("Error reading metadata for {0}.\n{1}",
+                    fileInfo.FullPath, SaveLoadScript.m_Instance.LastMetadataError));
+            }
+            LoadSketch(fileInfo, quickload, additive);
+            if (m_ControlsType != ControlsType.ViewingOnly)
+            {
+                EatGazeObjectInput();
+            }
+        }
+
         private void OpenUrl(string url)
         {
             if (!App.Config.IsMobileHardware)

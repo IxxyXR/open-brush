@@ -28,6 +28,8 @@ public class ApiManager : MonoBehaviour
     private FileWatcher m_FileWatcher;
     private string m_UserScriptsPath;
     private Queue m_RequestedCommandQueue = Queue.Synchronized(new Queue());
+    private Queue m_OutgoingCommandQueue = Queue.Synchronized(new Queue());
+    private List<Uri> m_OutgoingApiListeners;
     private static ApiManager m_Instance;
     private Dictionary<string, ApiEndpoint> endpoints;
     private byte[] CameraViewPng;
@@ -48,6 +50,7 @@ public class ApiManager : MonoBehaviour
     }
     [NonSerialized] public Stack<(Vector3, Quaternion)> BrushTransformStack;
     [NonSerialized] public Dictionary<string, string> CommandExamples;
+
     public string UserScriptsPath() { return m_UserScriptsPath; }
 
     void Awake()
@@ -80,8 +83,10 @@ public class ApiManager : MonoBehaviour
 
         CommandExamples = new Dictionary<string, string>
         {
-            {"draw.paths (string jsonString)", "[[0,0,0], [1,0,0], [1,1,0]],[[0,0,-1], [-1,0,-1], [-1,1,-1]]"},
-            {"draw.path (string jsonString)", "[0,0,0], [1,0,0], [1,1,0], [0,1,0]"},
+            {"draw.paths", "[[0,0,0],[1,0,0],[1,1,0]],[[0,0,-1],[-1,0,-1],[-1,1,-1]]"},
+            {"draw.path", "[0,0,0],[1,0,0],[1,1,0],[0,1,0]"},
+            {"draw.stroke", "[0,0,0,0,180,90,.75],[1,0,0,0,180,90,.75],[1,1,0,0,180,90,.75],[0,1,0,0,180,90,.75]"},
+            {"listenfor.strokes", "http://localhost:8000/"},
             {"draw.polygon", "5,1,0"},
             {"draw.text", "hello"},
             {"draw.svg", "M 184,199 116,170 53,209.6 60,136.2 4.3,88"},
@@ -93,12 +98,15 @@ public class ApiManager : MonoBehaviour
             {"color.set.html", "darkblue"},
             {"brush.size.set", ".5"},
             {"brush.size.add", ".1"},
-            {"camera.move.to", "1,1,1"},
-            {"camera.move.by", "1,1,1"},
-            {"camera.turn.y", "45"},
-            {"camera.turn.x", "45"},
-            {"camera.turn.z", "45"},
-            {"camera.lookat", "1,2,3"},
+            {"spectator.move.to", "1,1,1"},
+            {"spectator.move.by", "1,1,1"},
+            {"spectator.turn.y", "45"},
+            {"spectator.turn.x", "45"},
+            {"spectator.turn.z", "45"},
+            {"spectator.direction", "45,45,0"},
+            {"spectator.lookat", "1,2,3"},
+            {"user.move.to", "1,1,1"},
+            {"user.move.by", "1,1,1"},
             {"brush.move.to", "1,1,1"},
             {"brush.move.by", "1,1,1"},
             {"brush.move", "1"},
@@ -484,9 +492,17 @@ public class ApiManager : MonoBehaviour
             .Select(x => x.m_Description.Replace(" ", "").Replace(".", "").Replace("(", "").Replace(")", ""))
             .ToArray();
         string brushesJson = JsonConvert.SerializeObject(brushNameList);
-        string commandsJson = JsonConvert.SerializeObject(ListApiCommands());
         html = html.Replace("{{brushesJson}}", brushesJson);
+
+        string[] environmentNameList = EnvironmentCatalog.m_Instance.AllEnvironments
+            .Select(x => x.name)
+            .ToArray();
+        string environmentsJson = JsonConvert.SerializeObject(environmentNameList);
+        html = html.Replace("{{environmentsJson}}", environmentsJson);
+
+        string commandsJson = JsonConvert.SerializeObject(ListApiCommands());
         html = html.Replace("{{commandsJson}}", commandsJson);
+
         return html;
     }
 
@@ -522,6 +538,51 @@ public class ApiManager : MonoBehaviour
         return "OK";
     }
 
+    public bool HasOutgoingListeners => m_OutgoingApiListeners != null && m_OutgoingApiListeners.Count > 0;
+
+    public void EnqueueOutgoingCommands(List<KeyValuePair<string, string>> commands)
+    {
+        if (!HasOutgoingListeners) return;
+        foreach (var command in commands)
+        {
+            m_OutgoingCommandQueue.Enqueue(command);
+        }
+    }
+
+    public void AddOutgoingCommandListener(Uri uri)
+    {
+        if (m_OutgoingApiListeners == null) m_OutgoingApiListeners = new List<Uri>();
+        m_OutgoingApiListeners.Add(uri);
+    }
+
+    private void OutgoingApiCommand()
+    {
+        if (!HasOutgoingListeners) return;
+
+        KeyValuePair<string, string> command;
+        try
+        {
+            command = (KeyValuePair<string, string>)m_OutgoingCommandQueue.Dequeue();
+        }
+        catch (InvalidOperationException)
+        {
+            return;
+        }
+
+        foreach (var listenerUrl in m_OutgoingApiListeners)
+        {
+            StartCoroutine(GetRequest($"{listenerUrl}?{command.Key}={command.Value}"));
+        }
+    }
+
+    IEnumerator GetRequest(string uri)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        {
+            yield return webRequest.SendWebRequest();
+        }
+    }
+
     private bool HandleApiCommand()
     {
         KeyValuePair<string, string> command;
@@ -540,6 +601,7 @@ public class ApiManager : MonoBehaviour
     private void Update()
     {
         HandleApiCommand();
+        OutgoingApiCommand();
         UpdateCameraView();
     }
 
