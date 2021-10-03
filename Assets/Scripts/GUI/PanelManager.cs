@@ -704,7 +704,7 @@ namespace TiltBrush
                 }
             }
 
-            SetSweetSpotPosition(m_SweetSpot.transform.position);
+            // SetSweetSpotPosition(m_SweetSpot.transform.position);
             RefreshConfiguredFlag();
         }
 
@@ -858,27 +858,22 @@ namespace TiltBrush
             return m_AllPanels.Where(p => p.m_Panel.m_Fixed);
         }
 
-        public void SetSweetSpotPosition(Vector3 vSweetSpot)
+        public void SetSweetSpotPosition(Transform cameraTransform, Vector3 newRotation, BasePanel.PanelType activePanel)
         {
             // Run through each fixed panel and set their new position.
-            Vector3 vPreviousSweetSpot = m_SweetSpot.transform.position;
-            foreach (PanelData p in GetFixedPanels())
+            for (var i = 0; i < m_AllPanels.Count; i++)
             {
-                // Get previous offset vector.
-                Vector3 vPreviousOffset = p.m_Panel.transform.position - vPreviousSweetSpot;
-                vPreviousOffset.Normalize();
-
-                // Set as normal.
-                p.m_Panel.transform.forward = vPreviousOffset;
-
+                PanelData p = m_AllPanels[i];
                 // Extend to radius of sweet spot and set new position.
-                vPreviousOffset *= p.m_Panel.m_SweetSpotDistance;
-                p.m_Panel.transform.position = vSweetSpot + vPreviousOffset;
+                p.m_Panel.transform.position = cameraTransform.position + 4.0f * cameraTransform.forward + cameraTransform.up * -5.0f;
+                p.m_Panel.transform.localEulerAngles = newRotation;
+                if (p.m_Panel.Type==activePanel && p.AvailableInCurrentMode)
+                {
+                    p.m_Panel.gameObject.SetActive(true);
+                    p.m_Panel.transform.position += cameraTransform.up * 5.0f;
+                    p.m_Panel.UpdateReticleOffset(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+                }
             }
-
-            // Set sweet spot to new position.
-            m_SweetSpot.transform.position = vSweetSpot;
-            OutputWindowScript.m_Instance.UpdateBasePositionHeight(vSweetSpot.y);
         }
 
         public Vector3 GetSketchSurfaceResetPos()

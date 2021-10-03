@@ -6,6 +6,13 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.ixxy.polyhydra": {
+      "version": "https://github.com/IxxyXR/polyhydra-upm.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8fe12b34f707803b35b25e3cddf3d27ee5bbe411"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

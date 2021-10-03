@@ -35,6 +35,11 @@ namespace TiltBrush
         [SerializeField] private TextMeshPro m_TitleText;
         [SerializeField] private GameObject m_HintText;
         [SerializeField] private GrabWidgetHome m_Home;
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+        private MeshRenderer m_SymmetryGuideMeshRenderer;
+        private MeshFilter m_SymmetryGuideMeshFilter;
+        private VrUiPoly vrUiPoly;
+#endif
 
         public enum BeamDirection
         {
@@ -82,6 +87,12 @@ namespace TiltBrush
         {
             base.Awake();
 
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+            m_SymmetryGuideMeshFilter = gameObject.AddComponent<MeshFilter>();
+            m_SymmetryGuideMeshRenderer = gameObject.AddComponent<MeshRenderer>();
+            m_SymmetryGuideMeshRenderer.enabled = false;
+#endif
+
             m_AngVelDampThreshold = 600f;
 
             //initialize beams
@@ -100,10 +111,15 @@ namespace TiltBrush
             m_Home.SetFixedPosition(App.Scene.AsScene[transform].translation);
 
             m_CustomShowHide = true;
+
         }
 
         public void SetMode(PointerManager.SymmetryMode rMode)
         {
+
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+            m_SymmetryGuideMeshRenderer.enabled = false;
+#endif
             switch (rMode)
             {
                 case PointerManager.SymmetryMode.SinglePlane:
@@ -122,6 +138,24 @@ namespace TiltBrush
                             (m_GuideBeams[i].m_Direction != BeamDirection.Down));
                     }
                     break;
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+                case PointerManager.SymmetryMode.CustomSymmetryMode:
+                    if (vrUiPoly == null)
+                    {
+                        vrUiPoly = FindObjectOfType<VrUiPoly>();
+                    }
+                    m_LeftRightMesh.enabled = false;
+                    m_SymmetryGuideMeshRenderer.enabled = true;
+                    m_SymmetryGuideMeshFilter.mesh = vrUiPoly.GetComponent<MeshFilter>().mesh;
+                    m_SymmetryGuideMeshFilter.transform.localScale = Vector3.one * 2.0f;
+                    m_SymmetryGuideMeshRenderer.material = vrUiPoly.SymmetryWidgetMaterial;
+                    for (int i = 0; i < m_GuideBeams.Length; ++i)
+                    {
+                        m_GuideBeams[i].m_BeamRenderer.enabled = ((m_GuideBeams[i].m_Direction != BeamDirection.Up) &&
+                            (m_GuideBeams[i].m_Direction != BeamDirection.Down));
+                    }
+                    break;
+#endif                
             }
         }
 

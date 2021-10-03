@@ -59,7 +59,7 @@ namespace TiltBrush
 
         BaseTool.ToolType DefaultToolType()
         {
-            if (m_FreePaintMode)
+            if (m_FreePaintMode || App.Instance.IsMonoscopicMode())
             {
                 return BaseTool.ToolType.FreePaintTool;
             }
@@ -116,7 +116,7 @@ namespace TiltBrush
             BaseUpdate();
 
             //update tool rendering according to state
-            if (!m_FreePaintMode || InputManager.Brush.IsTrackedObjectValid)
+            if (!m_FreePaintMode || InputManager.Brush.IsTrackedObjectValid || App.Instance.IsMonoscopicMode())
             {
                 //show tool according to requested visibility
                 if (m_ToolHideRequested && !ActiveTool.ToolHidden())
@@ -340,6 +340,14 @@ namespace TiltBrush
                     m_Tools[iPrevIndex].EnableTool(false);
                     m_Tools[m_ActiveToolIndex].EnableTool(true);
                 }
+            }
+        }
+
+        public void EnableAllTools(bool status)
+        {
+            for (int i = 0; i < m_Tools.Length; ++i)
+            {
+                m_Tools[i].EnableTool(status);
             }
         }
 

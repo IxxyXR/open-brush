@@ -103,7 +103,12 @@ namespace TiltBrush
             LabsMobile,
             ReferenceMobile,
             CameraPath,
-            BrushLab
+            BrushLab,
+#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
+            Polyhydra = 5000,
+            Scripts = 6000,
+            EditBrush = 9000
+#endif
         }
 
         private enum FixedTransitionState
@@ -748,6 +753,12 @@ namespace TiltBrush
                 m_ReticleOffset.y = Mathf.Clamp(m_ReticleOffset.y, -m_WorkingReticleBounds.y, m_WorkingReticleBounds.y);
                 m_ReticleOffset.z = m_WorkingReticleBounds.z;
             }
+        }
+
+        public void UpdateReticlePosition(Vector3 newPosition, Vector3 newRotation)
+        {
+            transform.position = newPosition;
+            transform.localEulerAngles = newRotation;
         }
 
         //  Given a position that has been proven to be a hit point on the panel's collider and the cast

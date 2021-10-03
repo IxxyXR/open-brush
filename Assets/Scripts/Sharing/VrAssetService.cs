@@ -53,12 +53,13 @@ namespace TiltBrush
 
         const string kGltfName = "sketch.gltf";
 
-        public const string kApiHost = "https://poly.googleapis.com";
+        public const string kApiHost = "https://api.icosa.gallery";
         private const string kAssetLandingPage = "https://vr.google.com/sketches/uploads/publish/";
 
-        private const string kListAssetsUri = "/v1/assets";
-        private const string kUserAssetsUri = "/v1/users/me/assets";
-        private const string kUserLikesUri = "/v1/users/me/likedassets";
+        private const string kListAssetsUri = "/poly/assets";
+        private const string kUserAssetsUri = "/users/me/assets";
+        // TODO - liked assets endpoint
+        private const string kUserLikesUri = "/users/me/assets";
         private const string kGetVersionUri = "/$discovery/rest?version=v1";
 
         public static string kPolyApiKey => App.Config.GoogleSecrets?.ApiKey;
@@ -527,14 +528,16 @@ namespace TiltBrush
 
         private static async Task<PolyStatus> GetPolyStatus()
         {
-            return PolyStatus.Disabled;
-
+            
             // UserConfig override
             if (App.UserConfig.Flags.DisablePoly ||
                 string.IsNullOrEmpty(App.Config.GoogleSecrets?.ApiKey))
             {
                 return PolyStatus.Disabled;
             }
+            
+            // TODO Check for real
+            return PolyStatus.Ok;
 
             string uri = String.Format("{0}{1}", ApiHost, kGetVersionUri);
             try
