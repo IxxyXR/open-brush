@@ -606,16 +606,16 @@ namespace TiltBrush
                 {
                     m_RepaintStrokeParent = new BaseCommand();
                 }
-                Color strokeColor = stroke.m_Color;
+                Color newColor = stroke.m_Color;
                 if (recolor)
                 {
                     if (PointerManager.m_Instance.JitterEnabled) // Is Jitter enabled?
                     {
-                        strokeColor = PointerManager.m_Instance.GenerateJitteredColor();
+                        newColor = PointerManager.m_Instance.GenerateJitteredColor();
                     }
                     else
                     {
-                        strokeColor = PointerManager.m_Instance.PointerColor;
+                        newColor = PointerManager.m_Instance.PointerColor;
                     }
                 }
 
