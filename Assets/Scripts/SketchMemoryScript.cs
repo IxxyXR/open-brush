@@ -599,14 +599,26 @@ namespace TiltBrush
             float brushSize = PointerManager.m_Instance.MainPointer.BrushSize01;
             if ((recolor && stroke.m_Color != PointerManager.m_Instance.PointerColor) ||
                 (rebrush && stroke.m_BrushGuid != brushGuid) ||
+                (recolor && PointerManager.m_Instance.JitterEnabled) ||
                 (resize && stroke.m_BrushSize != brushSize))
             {
                 if (m_RepaintStrokeParent == null)
                 {
                     m_RepaintStrokeParent = new BaseCommand();
                 }
+                Color strokeColor = stroke.m_Color;
+                if (recolor)
+                {
+                    if (PointerManager.m_Instance.JitterEnabled) // Is Jitter enabled?
+                    {
+                        strokeColor = PointerManager.m_Instance.GenerateJitteredColor();
+                    }
+                    else
+                    {
+                        strokeColor = PointerManager.m_Instance.PointerColor;
+                    }
+                }
 
-                Color newColor = recolor ? PointerManager.m_Instance.PointerColor : stroke.m_Color;
                 Guid newGuid = rebrush ? brushGuid : stroke.m_BrushGuid;
                 float newSize = resize ? brushSize : stroke.m_BrushSize;
                 new RepaintStrokeCommand(stroke, newColor, newGuid, newSize, m_RepaintStrokeParent);
