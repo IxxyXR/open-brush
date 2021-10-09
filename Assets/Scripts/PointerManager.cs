@@ -318,6 +318,7 @@ namespace TiltBrush
         }
 
         public bool JitterEnabled => colorJitter.sqrMagnitude > 0 || sizeJitter > 0;
+        public Color LastChosenColor => m_lastChosenColor;
 
         static public void ClearPlayerPrefs()
         {

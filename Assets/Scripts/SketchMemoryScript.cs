@@ -622,7 +622,7 @@ namespace TiltBrush
 
                 Guid newGuid = rebrush ? brushGuid : stroke.m_BrushGuid;
                 float newSize = resize ? brushSize : stroke.m_BrushSize;
-                new RepaintStrokeCommand(stroke, strokeColor, newGuid, newSize, m_RepaintStrokeParent);
+                new RepaintStrokeCommand(stroke, newColor, newGuid, newSize, m_RepaintStrokeParent);
                 return true;
             }
             return false;
