@@ -600,7 +600,6 @@ namespace TiltBrush
             if ((recolor && stroke.m_Color != PointerManager.m_Instance.PointerColor) ||
                 (recolor && PointerManager.m_Instance.JitterEnabled) ||
                 (rebrush && stroke.m_BrushGuid != brushGuid) ||
-                (recolor && PointerManager.m_Instance.JitterEnabled) ||
                 (resize && stroke.m_BrushSize != brushSize))
             {
                 if (m_RepaintStrokeParent == null)
