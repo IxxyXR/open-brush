@@ -316,7 +316,7 @@ namespace TiltBrush
                 PlayerPrefs.SetFloat(PLAYER_PREFS_POINTER_ANGLE, m_FreePaintPointerAngle);
             }
         }
-		
+
         public bool JitterEnabled => colorJitter.sqrMagnitude > 0 || sizeJitter > 0;
 
         static public void ClearPlayerPrefs()
@@ -1201,24 +1201,13 @@ namespace TiltBrush
             }
             else
             {
-                float h, s, v;
-                Color.RGBToHSV(m_lastChosenColor, out h, out s, out v);
-
-                // Bypass the code in the PointerColor setter
-                ChangeAllPointerColorsDirectly(Random.ColorHSV(
-                    h - colorJitter.x, h + colorJitter.x,
-                    s - colorJitter.y, h + colorJitter.y,
-                    v - colorJitter.z, h + colorJitter.z
-                ));
+                if (JitterEnabled)
+                {
+                    // Bypass the code in the PointerColor setter
+                    // Size is jittered in PointerScript. Should we also do color there?
+                    ChangeAllPointerColorsDirectly(GenerateJitteredColor());
+                }
             }
-
-            if (JitterEnabled)
-            {
-                // Bypass the code in the PointerColor setter
-                // Size is jittered in PointerScript. Should we also do color there?
-                ChangeAllPointerColorsDirectly(GenerateJitteredColor());
-            }
-
 
             if (m_StraightEdgeEnabled)
             {
