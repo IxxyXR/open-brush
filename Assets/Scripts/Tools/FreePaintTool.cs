@@ -262,6 +262,11 @@ namespace TiltBrush
                     ApplyLazyInput(ref pos, ref rot);
                 }
             }
+
+            if (SelectionManager.m_Instance.CurrentSnapGridIndex != 0)
+            {
+                pos = SnapToGrid(pos);
+            }
 #endif
 
             PointerManager.m_Instance.SetPointerTransform(InputManager.ControllerName.Brush, pos, rot);
