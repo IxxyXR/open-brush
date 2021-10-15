@@ -7,6 +7,11 @@ namespace TiltBrush
     public partial class FreePaintTool
     {
         private bool m_GridSnapActive;
+        
+        private void ApplyGridSnap(ref Vector3 pos, ref Quaternion rot)
+        {
+            pos = SnapToGrid(pos);
+        }
 
         // based off of the MultiplyPoint3x4
         // note that positional offset (matrix[0].w, matrix[1].w, matrix[2].w) has been REVERSE and is subtracting
