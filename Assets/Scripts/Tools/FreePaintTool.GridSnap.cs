@@ -1,6 +1,4 @@
-﻿#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-using UnityEngine;
-using System.Collections.Generic;
+﻿using UnityEngine;
 
 namespace TiltBrush
 {
@@ -77,4 +75,3 @@ namespace TiltBrush
     }
 }
 
-#endif
