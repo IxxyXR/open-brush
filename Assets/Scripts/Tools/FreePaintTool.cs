@@ -17,11 +17,7 @@ using UnityEngine;
 namespace TiltBrush
 {
 
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
     public partial class FreePaintTool : BaseTool
-#else
-    public class FreePaintTool : BaseTool
-#endif
     {
         [SerializeField] private float m_AdjustSizeScalar;
 
