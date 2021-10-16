@@ -267,6 +267,12 @@ namespace TiltBrush
             {
                 pos = SnapToGrid(pos);
             }
+
+            if (PointerManager.m_Instance.positionJitter > 0)
+            {
+                pos = PointerManager.m_Instance.GenerateJitteredPosition(pos, PointerManager.m_Instance.positionJitter);
+            }
+						
 #endif
 
             PointerManager.m_Instance.SetPointerTransform(InputManager.ControllerName.Brush, pos, rot);
