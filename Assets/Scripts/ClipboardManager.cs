@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Linq;
 using UnityEngine;
 
 namespace TiltBrush
@@ -44,7 +45,7 @@ namespace TiltBrush
         }
 
         /// Copies and pastes the current selection to the current canvas.
-        public void DuplicateSelection(bool offsetDuplicate = false)
+        public void DuplicateSelection(bool offsetDuplicate = false, bool withSymmetry = false)
         {
             TrTransform xf = SelectionManager.m_Instance.SelectionTransform;
             if (offsetDuplicate)
@@ -64,7 +65,18 @@ namespace TiltBrush
             InputManager.m_Instance.TriggerHapticsPulse(controller, 3, 0.15f, 0.07f);
             AudioManager.m_Instance.PlayDuplicateSound(InputManager.m_Instance.GetControllerPosition(controller));
 
-            SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DuplicateSelectionCommand(xf));
+            if (withSymmetry)
+            {
+                var xfList = PointerManager.m_Instance.GetActivePointers()
+                    .Select(p => PointerManager.m_Instance.GetSymmetryTransformFor(p, xf));
+                SketchMemoryScript.m_Instance.PerformAndRecordCommand(
+                    new DuplicateSelectionWithMirrorCommand(xfList)
+                );
+            }
+            else
+            {
+                SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DuplicateSelectionCommand(xf));
+            }
         }
     }
 

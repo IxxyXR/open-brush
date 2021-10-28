@@ -15,6 +15,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using ControllerName = TiltBrush.InputManager.ControllerName;
 using Random = UnityEngine.Random;
@@ -66,6 +67,16 @@ namespace TiltBrush
             // The start of a straightedge stroke.
             public TrTransform m_StraightEdgeXf_CS;
             public bool m_UiEnabled;
+        }
+
+        public PointerScript GetPointer(int index)
+        {
+            return m_Pointers[index].m_Script;
+        }
+
+        public IEnumerable<PointerScript> GetActivePointers()
+        {
+            return Enumerable.Range(0, m_NumActivePointers).Select(x => GetPointer(x));
         }
 
         // ---- Private types
@@ -683,24 +694,24 @@ namespace TiltBrush
             UpdateSymmetryPointerTransforms();
         }
 
-        public void SetSymmetryMode(SymmetryMode mode, bool recordCommand = true)
+        public static int NumPointersForSymmetryMode(SymmetryMode mode)
         {
-            int active = m_NumActivePointers;
             switch (mode)
             {
-                case SymmetryMode.None:
-                    active = 1;
-                    break;
                 case SymmetryMode.SinglePlane:
-                    active = 2;
-                    break;
+                    return 2;
                 case SymmetryMode.FourAroundY:
-                    active = 4;
-                    break;
+                    return 4;
                 case SymmetryMode.DebugMultiple:
-                    active = DEBUG_MULTIPLE_NUM_POINTERS;
-                    break;
+                    return DEBUG_MULTIPLE_NUM_POINTERS;
+                default:
+                    return 1;
             }
+        }
+
+        public void SetSymmetryMode(SymmetryMode mode, bool recordCommand = true)
+        {
+            int active = NumPointersForSymmetryMode(mode);
             int maxUserPointers = m_Pointers.Length;
             if (active > maxUserPointers)
             {
@@ -760,29 +771,18 @@ namespace TiltBrush
             switch (m_CurrentSymmetryMode)
             {
                 case SymmetryMode.SinglePlane:
-                    {
-                        return m_SymmetryWidgetScript.ReflectionPlane.ReflectPoseKeepHandedness(xfMain);
-                    }
-
+                    return m_SymmetryWidgetScript.ReflectionPlane.ReflectPoseKeepHandedness(xfMain);
                 case SymmetryMode.FourAroundY:
-                    {
-                        // aboutY is an operator that rotates worldspace objects N degrees around the widget's Y
-                        TrTransform aboutY;
-                        {
-                            var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
-                            float angle = (360f * child) / m_NumActivePointers;
-                            aboutY = TrTransform.TR(Vector3.zero, Quaternion.AngleAxis(angle, Vector3.up));
-                            // convert from widget-local coords to world coords
-                            aboutY = aboutY.TransformBy(xfWidget);
-                        }
-                        return aboutY * xfMain;
-                    }
-
+                    // aboutY is an operator that rotates worldspace objects N degrees around the widget's Y
+                    var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
+                    float angle = (360f * child) / m_NumActivePointers;
+                    TrTransform aboutY = TrTransform.TR(Vector3.zero, Quaternion.AngleAxis(angle, Vector3.up));
+                    // convert from widget-local coords to world coords
+                    aboutY = aboutY.TransformBy(xfWidget);
+                    return aboutY * xfMain;
                 case SymmetryMode.DebugMultiple:
-                    {
-                        var xfLift = TrTransform.T(m_SymmetryDebugMultipleOffset * child);
-                        return xfLift * xfMain;
-                    }
+                    var xfLift = TrTransform.T(m_SymmetryDebugMultipleOffset * child);
+                    return xfLift * xfMain;
 
                 default:
                     return xfMain;
@@ -794,58 +794,48 @@ namespace TiltBrush
             switch (m_CurrentSymmetryMode)
             {
                 case SymmetryMode.SinglePlane:
-                    {
-                        Plane plane = m_SymmetryWidgetScript.ReflectionPlane;
-                        TrTransform xf0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
-                        TrTransform xf1 = plane.ReflectPoseKeepHandedness(xf0);
-                        xf1.ToTransform(m_Pointers[1].m_Script.transform);
+                    Plane plane = m_SymmetryWidgetScript.ReflectionPlane;
+                    TrTransform xf0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
+                    TrTransform xf1 = plane.ReflectPoseKeepHandedness(xf0);
+                    xf1.ToTransform(m_Pointers[1].m_Script.transform);
 
-                        // This is a hack.
-                        // In the event that the user is painting on a plane stencil and that stencil is
-                        // orthogonal to the symmetry plane, the main pointer and mirrored pointer will
-                        // have the same depth and their strokes will overlap, causing z-fighting.
-                        if (WidgetManager.m_Instance.ActiveStencil != null)
-                        {
-                            m_Pointers[1].m_Script.transform.position +=
-                                m_Pointers[1].m_Script.transform.forward * m_SymmetryPointerStencilBoost;
-                        }
-                        break;
+                    // This is a hack.
+                    // In the event that the user is painting on a plane stencil and that stencil is
+                    // orthogonal to the symmetry plane, the main pointer and mirrored pointer will
+                    // have the same depth and their strokes will overlap, causing z-fighting.
+                    if (WidgetManager.m_Instance.ActiveStencil != null)
+                    {
+                        m_Pointers[1].m_Script.transform.position +=
+                            m_Pointers[1].m_Script.transform.forward * m_SymmetryPointerStencilBoost;
                     }
+                    break;
 
                 case SymmetryMode.FourAroundY:
+                    TrTransform pointer0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
+                    // aboutY is an operator that rotates worldspace objects N degrees around the widget's Y
+                    var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
+                    float angle = 360f / m_NumActivePointers;
+                    TrTransform aboutY = TrTransform.TR(Vector3.zero, Quaternion.AngleAxis(angle, Vector3.up));
+                    // convert from widget-local coords to world coords
+                    aboutY = xfWidget * aboutY * xfWidget.inverse;
+                    TrTransform cur = TrTransform.identity;
+                    for (int i = 1; i < m_NumActivePointers; ++i)
                     {
-                        TrTransform pointer0 = TrTransform.FromTransform(m_MainPointerData.m_Script.transform);
-                        // aboutY is an operator that rotates worldspace objects N degrees around the widget's Y
-                        TrTransform aboutY;
-                        {
-                            var xfWidget = TrTransform.FromTransform(m_SymmetryWidget);
-                            float angle = 360f / m_NumActivePointers;
-                            aboutY = TrTransform.TR(Vector3.zero, Quaternion.AngleAxis(angle, Vector3.up));
-                            // convert from widget-local coords to world coords
-                            aboutY = xfWidget * aboutY * xfWidget.inverse;
-                        }
-
-                        TrTransform cur = TrTransform.identity;
-                        for (int i = 1; i < m_NumActivePointers; ++i)
-                        {
-                            cur = aboutY * cur;         // stack another rotation on top
-                            var tmp = (cur * pointer0); // Work around 2018.3.x Mono parse bug
-                            tmp.ToTransform(m_Pointers[i].m_Script.transform);
-                        }
-                        break;
+                        cur = aboutY * cur;         // stack another rotation on top
+                        var tmp = (cur * pointer0); // Work around 2018.3.x Mono parse bug
+                        tmp.ToTransform(m_Pointers[i].m_Script.transform);
                     }
+                    break;
 
                 case SymmetryMode.DebugMultiple:
+                    var initialXf = m_Pointers[0].m_Script.transform;
+                    for (int i = 1; i < m_NumActivePointers; ++i)
                     {
-                        var xf0 = m_Pointers[0].m_Script.transform;
-                        for (int i = 1; i < m_NumActivePointers; ++i)
-                        {
-                            var xf = m_Pointers[i].m_Script.transform;
-                            xf.position = xf0.position + m_SymmetryDebugMultipleOffset * i;
-                            xf.rotation = xf0.rotation;
-                        }
-                        break;
+                        var xf = m_Pointers[i].m_Script.transform;
+                        xf.position = initialXf.position + m_SymmetryDebugMultipleOffset * i;
+                        xf.rotation = initialXf.rotation;
                     }
+                    break;
             }
         }
 
