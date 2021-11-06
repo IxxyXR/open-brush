@@ -197,6 +197,19 @@ namespace TiltBrush
                 m_knots[iKnot] = cur;
                 prev = cur;
             }
+
+            Knot last = m_knots[m_knots.Count - 1]; 
+            Knot first = m_knots[0];
+            MakeFace(
+                ref first,
+                first.point.m_Pos,
+                last.point.m_Pos,
+                PressuredSize(last.smoothedPressure) * .5f,
+                first.qFrame * Vector3.up,
+                first.qFrame * Vector3.right,
+                first.qFrame * Vector3.forward,
+                0.5f
+            );
         }
 
         void MakeFace(
