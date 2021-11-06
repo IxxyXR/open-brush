@@ -63,12 +63,12 @@ namespace TiltBrush
 
         protected override void OnRedo()
         {
-            FlipSelection(Canvas, m_StrokesFlipped, m_WidgetsFlipped, m_FlipPlane_CS);
+            FlipSelection();
         }
 
         protected override void OnUndo()
         {
-            FlipSelection(Canvas, m_StrokesFlipped, m_WidgetsFlipped, m_FlipPlane_CS);
+            FlipSelection();
         }
 
         public override bool Merge(BaseCommand other)
@@ -76,13 +76,13 @@ namespace TiltBrush
             return false;
         }
 
-        public static void FlipSelection(CanvasScript canvas, List<Stroke> strokes, List<GrabWidget> widgets, Plane flipPlane)
+        private void FlipSelection()
         {
-            foreach (var stroke in strokes)
+            foreach (var stroke in m_StrokesFlipped)
             {
                 for (int i = 0; i < stroke.m_ControlPoints.Length; i++)
                 {
-                    var xf_CS = flipPlane.ReflectPoseKeepHandedness(
+                    var xf_CS = m_FlipPlane_CS.ReflectPoseKeepHandedness(
                         TrTransform.TR(stroke.m_ControlPoints[i].m_Pos,
                             stroke.m_ControlPoints[i].m_Orient));
                     stroke.m_ControlPoints[i].m_Pos = xf_CS.translation;
@@ -95,9 +95,9 @@ namespace TiltBrush
                 stroke.Recreate();
             }
 
-            foreach (var widget in widgets)
+            foreach (var widget in m_WidgetsFlipped)
             {
-                if (canvas != widget.Canvas)
+                if (Canvas != widget.Canvas)
                 {
                     // The widget API we use only operates in the space of the widget's own canvas
                     // We could get around this by transforming m_FlipPlane from the selection canvas
@@ -113,8 +113,8 @@ namespace TiltBrush
 #endif
                 }
                 widget.LocalTransform = widget.SupportsNegativeSize
-                    ? flipPlane.ToTrTransform() * widget.LocalTransform
-                    : flipPlane.ReflectPoseKeepHandedness(widget.LocalTransform);
+                    ? m_FlipPlane_CS.ToTrTransform() * widget.LocalTransform
+                    : m_FlipPlane_CS.ReflectPoseKeepHandedness(widget.LocalTransform);
             }
 
             // Update the bounds for the selection widget

@@ -13016,7 +13016,7 @@ MonoBehaviour:
   m_MaxSpinSpeed: 700
   m_SpinSpeedAcceleration: 40000
   m_SpinSpeedDecay: 2500
-  m_DuplicateHoldDuration: 0.1
+  m_DuplicateHoldDuration: 0.15
 --- !u!1 &976470539
 GameObject:
   m_ObjectHideFlags: 0
