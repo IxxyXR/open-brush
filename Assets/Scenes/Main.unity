@@ -1222,8 +1222,6 @@ MonoBehaviour:
   m_ModifyStrokeSounds:
   - {fileID: 0}
   m_ModifyStrokeMinTriggerTime: 0.1
-  m_Recolor: 1
-  m_Rebrush: 0
   m_SpinSpeedAcceleration: 40000
   m_MaxSpinSpeed: 700
   m_SpinSpeedDecay: 2500
@@ -3193,7 +3191,7 @@ MonoBehaviour:
   m_FakeCommandLineArgsInEditor: 
   m_PlatformConfig: {fileID: 11400000, guid: 0764a106823cbec4e8d75b2816f3cbd3, type: 2}
   m_IsExperimental: 1
-  m_SdkMode: 3
+  m_SdkMode: 1
   m_AutoProfile: 0
   m_AutoProfileWaitTime: 10
   Secrets: {fileID: 11400000, guid: 2f5f8e93c6bc7be49a5023148b50e7a0, type: 2}
@@ -11490,8 +11488,6 @@ MonoBehaviour:
   m_ModifyStrokeSounds:
   - {fileID: 0}
   m_ModifyStrokeMinTriggerTime: 0.1
-  m_Recolor: 1
-  m_Rebrush: 1
   m_SpinSpeedAcceleration: 0
   m_MaxSpinSpeed: 0
   m_SpinSpeedDecay: 0
@@ -21596,8 +21592,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   m_ModifyStrokeMinTriggerTime: 0.1
-  m_Recolor: 0
-  m_Rebrush: 1
   m_SpinSpeedAcceleration: 0
   m_MaxSpinSpeed: 0
   m_SpinSpeedDecay: 0
