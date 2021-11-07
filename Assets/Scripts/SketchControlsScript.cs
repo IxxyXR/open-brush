@@ -4606,9 +4606,10 @@ namespace TiltBrush
                     break;
                 case GlobalCommands.Duplicate:
                     {
-                        int selectedVerts = SelectionManager.m_Instance.NumVertsInSelection;
+                        int numCopies = PointerManager.NumPointersForSymmetryMode(PointerManager.m_Instance.CurrentSymmetryMode);
+                        int resultingVerts = SelectionManager.m_Instance.NumVertsInSelection * numCopies;
                         if (!SketchMemoryScript.m_Instance.MemoryWarningAccepted &&
-                            SketchMemoryScript.m_Instance.WillVertCountPutUsOverTheMemoryLimit(selectedVerts))
+                            SketchMemoryScript.m_Instance.WillVertCountPutUsOverTheMemoryLimit(resultingVerts))
                         {
                             AudioManager.m_Instance.PlayUploadCanceledSound(InputManager.Wand.Transform.position);
                             if (!m_PanelManager.MemoryWarningActive())
@@ -4619,7 +4620,9 @@ namespace TiltBrush
                         else
                         {
                             ClipboardManager.Instance.DuplicateSelection(
-                                offsetDuplicate: !IsUserInteractingWithSelectionWidget());
+                                offsetDuplicate: !IsUserInteractingWithSelectionWidget(),
+                                numCopies > 2
+                            );
                         }
                         EatToolScaleInput();
                         break;
