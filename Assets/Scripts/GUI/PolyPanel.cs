@@ -127,7 +127,7 @@ namespace TiltBrush
                 base.RefreshPage();
                 return;
             }
-            if (!VrAssetService.m_Instance.Available)
+            if (false) //(!VrAssetService.m_Instance.Available)
             {
                 m_OutOfDateMessage.SetActive(true);
                 RefreshPanelText();
@@ -198,8 +198,8 @@ namespace TiltBrush
                 }
             }
 
-            bool internetError =
-                App.PolyAssetCatalog.NumCloudModels(PolySetType.Featured) == 0;
+            bool internetError = false;
+            //App.PolyAssetCatalog.NumCloudModels(PolySetType.Featured) == 0;
             m_InternetError.SetActive(internetError);
 
             RefreshPanelText();

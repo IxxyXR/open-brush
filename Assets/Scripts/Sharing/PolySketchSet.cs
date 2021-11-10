@@ -386,7 +386,7 @@ namespace TiltBrush
 
             bool changed = false;
             int pagesFetched = 0;
-            while (lister == null || lister.HasMore || assetIds.Count == 0)
+            while (lister == null || lister.HasMore || assetIds.Count == 0 || pagesFetched != 0)
             {
                 if (sketches.Count >= 180)
                 {

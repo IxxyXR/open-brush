@@ -54,6 +54,7 @@ namespace TiltBrush
         const string kGltfName = "sketch.gltf";
 
         public const string kApiHost = "https://poly.googleapis.com";
+        // public const string kApiHost = "https://api.icosa.gallery";
         private const string kAssetLandingPage = "https://vr.google.com/sketches/uploads/publish/";
 
         private const string kListAssetsUri = "/v1/assets";

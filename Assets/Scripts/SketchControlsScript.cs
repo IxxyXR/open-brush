@@ -4211,13 +4211,18 @@ namespace TiltBrush
                     }
                 case GlobalCommands.Load:
                     {
+
+                        bool additive = false;
+                        SketchbookPanel sketchBook = (SketchbookPanel)m_PanelManager.GetSketchBookPanel();
+                        if (sketchBook != null) additive = sketchBook.MergeSceneIsChecked;
+
                         var index = iParam1;
                         var sketchSetType = (SketchSetType)iParam2;
                         SketchSet sketchSet = SketchCatalog.m_Instance.GetSet(sketchSetType);
                         SceneFileInfo rInfo = sketchSet.GetSketchSceneFileInfo(index);
                         if (rInfo != null)
                         {
-                            LoadSketch(rInfo);
+                            LoadSketch(rInfo, false, additive);
                             if (m_ControlsType != ControlsType.ViewingOnly)
                             {
                                 EatGazeObjectInput();
@@ -4686,6 +4691,8 @@ namespace TiltBrush
                     break;
                 case GlobalCommands.LoadConfirmComplex:
                     {
+                        SketchbookPanel sketchBookPanel = (SketchbookPanel)PanelManager.m_Instance.GetSketchBookPanel();
+
                         var index = iParam1;
                         var sketchSetType = (SketchSetType)iParam2;
                         bool loadSketch = true;
@@ -4700,6 +4707,12 @@ namespace TiltBrush
                                 SketchSet sketchSet = SketchCatalog.m_Instance.GetSet(sketchSetType);
                                 SceneFileInfo sfi = sketchSet.GetSketchSceneFileInfo(index);
                                 int tris = sfi.TriangleCount ?? -1;
+                                if (sketchBookPanel.MergeSceneIsChecked)
+                                {
+                                    // TODO Handle additive load
+                                    // Can't figure out easy way to find the number of tris in current sketch
+                                    // tris += ???
+                                }
 
                                 // Show "this is bad" popup if we're over the triangle limit.
                                 if (tris > QualityControls.m_Instance.AppQualityLevels.MaxPolySketchTriangles)

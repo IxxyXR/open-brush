@@ -693,6 +693,26 @@ namespace TiltBrush
             m_RedoStack.Clear();
         }
 
+        public void Uncreate1()
+        {
+            foreach (var item in m_MemoryList)
+            {
+                //skip batched strokes here because they'll all get dumped in ResetPools()
+                if (item.m_Type != Stroke.Type.BatchedBrushStroke)
+                {
+                    item.DestroyStroke();
+                }
+            }
+
+        }
+
+        public void Uncreate2()
+        {
+            foreach (var canvas in App.Scene.AllCanvases)
+            {
+                canvas.BatchManager.ResetPools();
+            }
+        }
         public void ClearMemory()
         {
             if (m_ScenePlayback != null)
@@ -706,14 +726,7 @@ namespace TiltBrush
             }
             SelectionManager.m_Instance.ForgetStrokesInSelectionCanvas();
             ClearRedo();
-            foreach (var item in m_MemoryList)
-            {
-                //skip batched strokes here because they'll all get dumped in ResetPools()
-                if (item.m_Type != Stroke.Type.BatchedBrushStroke)
-                {
-                    item.DestroyStroke();
-                }
-            }
+            Uncreate1();
             m_OperationStack.Clear();
             if (OperationStackChanged != null) { OperationStackChanged(); }
             m_LastOperationStackCount = 0;
@@ -721,10 +734,7 @@ namespace TiltBrush
             App.GroupManager.ResetGroups();
             SelectionManager.m_Instance.OnFinishReset();
             m_CurrentNodeByTime = null;
-            foreach (var canvas in App.Scene.AllCanvases)
-            {
-                canvas.BatchManager.ResetPools();
-            }
+            Uncreate2();
             TiltMeterScript.m_Instance.ResetMeter();
             App.Instance.CurrentSketchTime = 0;
             App.Instance.AutosaveRestoreFileExists = false;

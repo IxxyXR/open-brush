@@ -267,6 +267,19 @@ namespace TiltBrush
                 SketchMemoryScript.m_Instance.ClearMemory();
             }
 
+            // WIP - Not even sure if we need this
+            // as I haven't replicated the bug in additive loading
+            // if (bAdditive)
+            // {
+            //     SketchMemoryScript.m_Instance.Uncreate1();
+            //     SketchMemoryScript.m_Instance.Uncreate2();
+            // }
+            // else
+            // {
+            //     //clean up old draw'ring
+            //     SketchMemoryScript.m_Instance.ClearMemory();
+            // }
+
 #if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
             if (Config.IsExperimental)
             {

@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace TiltBrush
@@ -59,7 +60,11 @@ namespace TiltBrush
                 }
             }
 
-            Future<JObject> f = new Future<JObject>(() => JObject.Parse(request.Result));
+            string dummyResult = request.Result;
+            Debug.Log(request.Result);
+            Debug.Log($"{uri}");
+
+            Future<JObject> f = new Future<JObject>(() => JObject.Parse(dummyResult));
             JObject json;
             while (!f.TryGetResult(out json)) { yield return null; }
 
