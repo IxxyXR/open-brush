@@ -104,9 +104,7 @@ namespace TiltBrush
             ReferenceMobile,
             CameraPath,
             BrushLab,
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
             Polyhydra = 5000
-#endif
         }
 
         private enum FixedTransitionState
@@ -694,7 +692,7 @@ namespace TiltBrush
 
         public void InvalidateIfActivePopup(PopUpWindow activePopup)
         {
-            // If this popup isn't the active one, don't bother. 
+            // If this popup isn't the active one, don't bother.
             if (activePopup == m_ActivePopUp)
             {
                 m_ActivePopUp = null;
