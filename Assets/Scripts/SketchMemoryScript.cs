@@ -652,12 +652,12 @@ namespace TiltBrush
             return false;
         }
 
-        public bool MemorizeStrokeRepaint(GameObject rObject, bool recolor, bool rebrush, bool resize, bool jitter = false)
+        public bool MemorizeStrokeRepaint(GameObject rObject, bool recolor, bool rebrush, bool resize, bool jitter=false, bool force=false)
         {
             var brush = rObject.GetComponent<BaseBrushScript>();
             if (brush)
             {
-                MemorizeStrokeRepaint(brush.Stroke, recolor, rebrush, resize, jitter);
+                MemorizeStrokeRepaint(brush.Stroke, recolor, rebrush, resize, jitter, force);
                 return true;
             }
             return false;

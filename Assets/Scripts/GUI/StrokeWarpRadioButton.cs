@@ -12,29 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace TiltBrush
 {
-    
-
     // TODO Refactor RadioButton, ToggleButton and OptionButton so that 
     // ToggleButton carries less baggage that it doesn't need from OptionButton.
-    public class ToggleButton : OptionButton
+    public class StrokeWarpRadioButton : RadioButton
     {
-        public bool m_IsToggledOn;
-        public UnityEvent m_OnToggle;
-        
-        protected override bool IsButtonActive()
-        {
-            return m_IsToggledOn;
-        }
 
-        override protected void OnButtonPressed()
-        {
-            m_IsToggledOn = !m_IsToggledOn;
-            m_OnToggle.Invoke();
-        }
+        public StrokeWarpTool.WarpTypes WarpType;
+
+        // override protected void OnButtonPressed()
+        // {
+        //     base.OnButtonPressed();
+        // }
     }
 } // namespace TiltBrush

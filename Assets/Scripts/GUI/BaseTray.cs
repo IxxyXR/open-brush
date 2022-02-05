@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System.Collections;
+using pxr;
 using UnityEngine;
 
 namespace TiltBrush
@@ -126,9 +127,9 @@ namespace TiltBrush
 
         protected virtual void OnToolChanged()
         {
-            bool isSelectionTool = SketchSurfacePanel.m_Instance.GetCurrentToolType() ==
+            bool toolMatchesTray = SketchSurfacePanel.m_Instance.GetCurrentToolType() ==
                 m_ShowOnToolType;
-            if (isSelectionTool != m_AnimateIn)
+            if (toolMatchesTray != m_AnimateIn)
             {
                 if (m_AnimationCoroutine != null)
                 {

@@ -12,20 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace TiltBrush
 {
-    
-
     // TODO Refactor RadioButton, ToggleButton and OptionButton so that 
     // ToggleButton carries less baggage that it doesn't need from OptionButton.
-    public class ToggleButton : OptionButton
+    public class RadioButton : OptionButton
     {
         public bool m_IsToggledOn;
         public UnityEvent m_OnToggle;
-        
+
+        private RadioButton[] m_SiblingRadioButtons;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            m_SiblingRadioButtons = transform.parent.GetComponentsInChildren<RadioButton>();
+        }
+
         protected override bool IsButtonActive()
         {
             return m_IsToggledOn;
@@ -33,7 +40,12 @@ namespace TiltBrush
 
         override protected void OnButtonPressed()
         {
-            m_IsToggledOn = !m_IsToggledOn;
+            foreach (var sibling in m_SiblingRadioButtons)
+            {
+                sibling.m_IsToggledOn = false;
+                sibling.UpdateVisuals();
+            }
+            m_IsToggledOn = true;
             m_OnToggle.Invoke();
         }
     }

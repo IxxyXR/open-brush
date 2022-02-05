@@ -1,4 +1,4 @@
-// Copyright 2022 The Open Brush Authors
+﻿// Copyright 2022 The Open Brush Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,29 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace TiltBrush
 {
-    
-
-    // TODO Refactor RadioButton, ToggleButton and OptionButton so that 
-    // ToggleButton carries less baggage that it doesn't need from OptionButton.
-    public class ToggleButton : OptionButton
+    public class StrokeWarpTray : BaseTray
     {
-        public bool m_IsToggledOn;
-        public UnityEvent m_OnToggle;
+        private StrokeWarpTool m_warpTool;
         
-        protected override bool IsButtonActive()
+        private void SetWarpFlags(StrokeWarpTool.WarpTypes warpType)
         {
-            return m_IsToggledOn;
+            if (m_warpTool == null)
+            {
+                m_warpTool = SketchControlsScript.m_Instance.GetComponentInChildren<StrokeWarpTool>();
+            }
+            m_warpTool.CurrentWarpType = warpType;
         }
 
-        override protected void OnButtonPressed()
+        public void ButtonToggled(StrokeWarpRadioButton button)
         {
-            m_IsToggledOn = !m_IsToggledOn;
-            m_OnToggle.Invoke();
+            SetWarpFlags(button.WarpType);
         }
+
     }
+
 } // namespace TiltBrush
