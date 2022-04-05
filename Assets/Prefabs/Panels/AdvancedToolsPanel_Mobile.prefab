@@ -2181,6 +2181,11 @@ PrefabInstance:
     - target: {fileID: 6610468352840375919, guid: 3a7c3a09a58b6db43aab80957cc81fc9,
         type: 3}
       propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6610468352840375919, guid: 3a7c3a09a58b6db43aab80957cc81fc9,
+        type: 3}
+      propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6610468352840375919, guid: 3a7c3a09a58b6db43aab80957cc81fc9,
@@ -2251,6 +2256,10 @@ PrefabInstance:
     - target: {fileID: 1503094713155990, guid: f18f4d6ac4e4e174a882c97332da8767, type: 3}
       propertyPath: m_Name
       value: SelectionTray_Mobile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4073457010706892, guid: f18f4d6ac4e4e174a882c97332da8767, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4073457010706892, guid: f18f4d6ac4e4e174a882c97332da8767, type: 3}
       propertyPath: m_RootOrder
