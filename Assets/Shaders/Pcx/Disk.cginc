@@ -80,7 +80,8 @@ void Geometry(point Varyings input[1], inout TriangleStream<Varyings> outStream)
     // Determine the number of slices based on the radius of the
     // point on the screen.
     float radius = extent.y / origin.w * _ScreenParams.y;
-    uint slices = min((radius + 1) / 5, 4) + 2;
+    // uint slices = min((radius + 1) / 5, 4) + 2;
+    uint slices = 2;
 
     // Slightly enlarge quad points to compensate area reduction.
     // Hopefully this line would be complied without branch.
