@@ -48,7 +48,9 @@ namespace TiltBrush
             CameraPathTool,
             FlyTool,
             SnipTool = 11000,
-            StrokeWarpTool = 11001
+            JoinTool = 11001,
+            StrokeWarpTool = 11002
+
         }
         public ToolType m_Type;
 
