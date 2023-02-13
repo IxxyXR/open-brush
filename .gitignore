@@ -99,6 +99,9 @@
 /Assets/Pimax
 /Assets/Pimax.meta
 
+# Pico Integration
+Packages/com.unity.xr.picoxr
+
 # Cache files
 *.cache
 Assets/MixCast*
