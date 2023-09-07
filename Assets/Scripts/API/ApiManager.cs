@@ -25,6 +25,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using WebSocketServer;
 
 namespace TiltBrush
 {
@@ -51,10 +52,10 @@ namespace TiltBrush
         private bool cameraViewRequested;
         private bool cameraViewGenerated;
 
-        [NonSerialized] public Vector3 BrushOrigin = new Vector3(0, 13, 3);
+        [NonSerialized] public Vector3 BrushOrigin = new(0, 13, 3); // Good origin for monoscopic
         [NonSerialized] public Quaternion BrushInitialRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
-        [NonSerialized] public Vector3 BrushPosition = new Vector3(0, 13, 3); // Good origin for monoscopic
-        [NonSerialized] public Quaternion BrushRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
+        [NonSerialized] public Vector3 BrushPosition;
+        [NonSerialized] public Quaternion BrushRotation;
         public bool ForcePaintingOn = false;
         private Dictionary<string, string> m_UserScripts;
         private Dictionary<string, string> m_ExampleScripts;
@@ -84,6 +85,7 @@ namespace TiltBrush
             PopulateExampleScripts();
             PopulateUserScripts();
             BrushTransformStack = new Stack<(Vector3, Quaternion)>();
+            ResetBrushTransform();
             if (!Directory.Exists(m_UserScriptsPath))
             {
                 Directory.CreateDirectory(m_UserScriptsPath);
@@ -97,66 +99,72 @@ namespace TiltBrush
                 // m_FileWatcher.FileDeleted += OnScriptsDirectoryChanged; TODO
                 m_FileWatcher.EnableRaisingEvents = true;
             }
-
-            CommandExamples = new Dictionary<string, string>
+            if (CommandExamples == null)
             {
-                { "draw.paths", "[[0,0,0],[1,0,0],[1,1,0]],[[0,0,-1],[-1,0,-1],[-1,1,-1]]" },
-                { "draw.path", "[0,0,0],[1,0,0],[1,1,0],[0,1,0]" },
-                { "draw.stroke", "[0,0,0,0,180,90,.75],[1,0,0,0,180,90,.75],[1,1,0,0,180,90,.75],[0,1,0,0,180,90,.75]" },
-                { "listenfor.strokes", "http://localhost:8000/" },
-                { "draw.polygon", "5,1,0" },
-                { "draw.text", "hello" },
-                { "draw.svg", "M 184,199 116,170 53,209.6 60,136.2 4.3,88" },
-                { "draw.camerapath", "0" },
-                { "brush.type", "ink" },
-                { "color.add.hsv", "0.1,0.2,0.3" },
-                { "color.add.rgb", "0.1,0.2,0.3" },
-                { "color.set.rgb", "0.1,0.2,0.3" },
-                { "color.set.hsv", "0.1,0.2,0.3" },
-                { "color.set.html", "darkblue" },
-                { "brush.size.set", ".5" },
-                { "brush.size.add", ".1" },
-                { "spectator.move.to", "1,1,1" },
-                { "spectator.move.by", "1,1,1" },
-                { "spectator.turn.y", "45" },
-                { "spectator.turn.x", "45" },
-                { "spectator.turn.z", "45" },
-                { "spectator.direction", "45,45,0" },
-                { "spectator.look.at", "1,2,3" },
-                { "spectator.mode", "circular" },
-                { "spectator.show", "panels" },
-                { "spectator.hide", "widgets" },
-                { "user.move.to", "1,1,1" },
-                { "user.move.by", "1,1,1" },
-                { "brush.move.to", "1,1,1" },
-                { "brush.move.by", "1,1,1" },
-                { "brush.move", "1" },
-                { "brush.draw", "1" },
-                { "brush.turn.y", "45" },
-                { "brush.turn.x", "45" },
-                { "brush.turn.z", "45" },
-                { "brush.look.at", "1,1,1" },
-                { "stroke.delete", "0" },
-                { "stroke.select", "0" },
-                { "strokes.select", "0,3" },
-                { "selection.trim", "2" },
-                { "selection.points.addnoise", "x,0.5" },
-                { "selection.points.quantize", "0.1" },
-                { "strokes.join", "0,2" },
-                { "stroke.add", "0" },
-                { "load.user", "0" },
-                { "load.curated", "0" },
-                { "load.liked", "0" },
-                { "load.drive", "0" },
-                { "load.named", "Untitled_0.tilt" },
-                { "showfolder.sketch", "0" },
-                { "import.model", "Andy\\Andy.obj" },
-                { "import.image", "TiltBrushLogo.png" },
-                { "import.video", "animated-logo.mp4" }
-            };
-
+                CommandExamples = new Dictionary<string, string>();
+            }
+            CommandExamples["draw.paths"] = "[[0,0,0],[1,0,0],[1,1,0]],[[0,0,-1],[-1,0,-1],[-1,1,-1]]";
+            CommandExamples["draw.path"] = "[0,0,0],[1,0,0],[1,1,0],[0,1,0]";
+            CommandExamples["draw.stroke"] = "[0,0,0,0,180,90,.75],[1,0,0,0,180,90,.75],[1,1,0,0,180,90,.75],[0,1,0,0,180,90,.75]";
+            CommandExamples["listenfor.strokes"] = "http://localhost:8000/";
+            CommandExamples["draw.polygon"] = "5,1,0";
+            CommandExamples["draw.text"] = "hello";
+            CommandExamples["draw.svg"] = "M 184,199 116,170 53,209.6 60,136.2 4.3,88";
+            CommandExamples["draw.camerapath"] = "0";
+            CommandExamples["brush.type"] = "ink";
+            CommandExamples["color.add.hsv"] = "0.1,0.2,0.3";
+            CommandExamples["color.add.rgb"] = "0.1,0.2,0.3";
+            CommandExamples["color.set.rgb"] = "0.1,0.2,0.3";
+            CommandExamples["color.set.hsv"] = "0.1,0.2,0.3";
+            CommandExamples["color.set.html"] = "darkblue";
+            CommandExamples["brush.size.set"] = ".5";
+            CommandExamples["brush.size.add"] = ".1";
+            CommandExamples["spectator.move.to"] = "1,1,1";
+            CommandExamples["spectator.move.by"] = "1,1,1";
+            CommandExamples["spectator.turn.y"] = "45";
+            CommandExamples["spectator.turn.x"] = "45";
+            CommandExamples["spectator.turn.z"] = "45";
+            CommandExamples["spectator.direction"] = "45,45,0";
+            CommandExamples["spectator.look.at"] = "1,2,3";
+            CommandExamples["spectator.mode"] = "circular";
+            CommandExamples["spectator.show"] = "panels";
+            CommandExamples["spectator.hide"] = "widgets";
+            CommandExamples["user.move.to"] = "1,1,1";
+            CommandExamples["user.move.by"] = "1,1,1";
+            CommandExamples["brush.move.to"] = "1,1,1";
+            CommandExamples["brush.move.by"] = "1,1,1";
+            CommandExamples["brush.move"] = "1";
+            CommandExamples["brush.draw"] = "1";
+            CommandExamples["brush.turn.y"] = "45";
+            CommandExamples["brush.turn.x"] = "45";
+            CommandExamples["brush.turn.z"] = "45";
+            CommandExamples["brush.look.at"] = "1,1,1";
+            CommandExamples["stroke.delete"] = "0";
+            CommandExamples["stroke.select"] = "0";
+            CommandExamples["strokes.select"] = "0,3";
+            CommandExamples["selection.trim"] = "2";
+            CommandExamples["selection.points.addnoise"] = "x,0.5";
+            CommandExamples["selection.points.quantize"] = "0.1";
+            CommandExamples["strokes.join"] = "0,2";
+            CommandExamples["stroke.add"] = "0";
+            CommandExamples["load.user"] = "0";
+            CommandExamples["load.curated"] = "0";
+            CommandExamples["load.liked"] = "0";
+            CommandExamples["load.drive"] = "0";
+            CommandExamples["load.named"] = "Untitled_0.tilt";
+            CommandExamples["showfolder.sketch"] = "0";
+            CommandExamples["import.model"] = "Andy\\Andy.obj";
+            CommandExamples["import.image"] = "TiltBrushLogo.png";
+            CommandExamples["import.video"] = "animated-logo.mp4";
             App.Instance.StateChanged += RunStartupScript;
 
+        }
+
+        public void ResetBrushTransform()
+        {
+            // Resets the "turtle" transform back to it's original values
+            BrushPosition = BrushOrigin;
+            BrushRotation = BrushInitialRotation;
         }
 
         public void RunStartupScript(App.AppState oldState, App.AppState newState)
@@ -196,6 +204,8 @@ namespace TiltBrush
 
         private EnqueuedApiCommand EnqueueCommand(string commandString)
         {
+            if (string.IsNullOrWhiteSpace(commandString)) return null;
+            if (commandString.StartsWith("//")) return null;
             string[] commandPair = commandString.Split(new[] { '=' }, 2);
             if (commandPair.Length < 1) return null;
             string parameters;
@@ -402,7 +412,10 @@ namespace TiltBrush
                 var parameters = endpoint.DecodeParams(command.Parameters);
                 return endpoint.Invoke(parameters)?.ToString();
             }
-            Debug.LogError($"Invalid API command: {command.Command}");
+            if (!command.Command.StartsWith("//"))
+            {
+                Debug.LogError($"Invalid API command: {command.Command}");
+            }
             return null;
         }
 
@@ -510,16 +523,25 @@ namespace TiltBrush
 
         private string ScriptTemplateSubstitution(string html)
         {
+
+            // TODO Document these
+
             string[] brushNameList = BrushCatalog.m_Instance.AllBrushes
-                .Where(x => x.m_Description != "")
+                .Where(x => x.Description != "")
                 .Where(x => x.m_SupersededBy == null)
-                .Select(x => x.m_Description.Replace(" ", "").Replace(".", "").Replace("(", "").Replace(")", ""))
+                .Select(x => x.Description.Replace(" ", "").Replace(".", "").Replace("(", "").Replace(")", ""))
                 .ToArray();
             string brushesJson = JsonConvert.SerializeObject(brushNameList);
             html = html.Replace("{{brushesJson}}", brushesJson);
 
+            string pointFamilies = JsonConvert.SerializeObject(Enum.GetNames(typeof(SymmetryGroup.R)));
+            html = html.Replace("{{pointFamiliesJson}}", pointFamilies);
+
+            string wallpaperGroups = JsonConvert.SerializeObject(Enum.GetNames(typeof(PointSymmetry.Family)));
+            html = html.Replace("{{wallpaperGroupsJson}}", wallpaperGroups);
+
             string[] environmentNameList = EnvironmentCatalog.m_Instance.AllEnvironments
-                .Select(x => x.m_Description.Replace(" ", ""))
+                .Select(x => x.Description.Replace(" ", ""))
                 .ToArray();
             string environmentsJson = JsonConvert.SerializeObject(environmentNameList);
             html = html.Replace("{{environmentsJson}}", environmentsJson);
@@ -528,6 +550,14 @@ namespace TiltBrush
             html = html.Replace("{{commandsJson}}", commandsJson);
 
             return html;
+        }
+
+        public void ReceiveWebSocketMessage(WebSocketMessage message)
+        {
+            foreach (var cmd in message.data.Split("&"))
+            {
+                EnqueueCommand(cmd);
+            }
         }
 
         string ApiCommandCallback(HttpListenerRequest request)
@@ -810,7 +840,9 @@ namespace TiltBrush
             else
             {
                 TrTransform xfSpawn = new TrTransform();
-                CreateWidgetCommand createCommand = new CreateWidgetCommand(WidgetManager.m_Instance.ModelWidgetPrefab, xfSpawn);
+                CreateWidgetCommand createCommand = new CreateWidgetCommand(
+                    WidgetManager.m_Instance.ModelWidgetPrefab, xfSpawn, Quaternion.identity, true
+                );
                 SketchMemoryScript.m_Instance.PerformAndRecordCommand(createCommand);
                 ModelWidget modelWidget = createCommand.Widget as ModelWidget;
                 modelWidget.Model = model;

@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
 using TMPro;
 
 namespace TiltBrush
@@ -104,9 +105,12 @@ namespace TiltBrush
             ReferenceMobile,
             CameraPath,
             BrushLab,
+            WebcamPanel = 5200,
             Scripts = 6000,
+            SnapSettings = 8000,
             StencilSettings = 20200,
-            LayersPanel = 15000
+            LayersPanel = 15000,
+            TransformPanel = 12000,
         }
 
         private enum FixedTransitionState
@@ -128,6 +132,24 @@ namespace TiltBrush
 
         [SerializeField] protected PopupMapKey[] m_PanelPopUpMap;
         [SerializeField] protected string m_PanelDescription;
+        [SerializeField] protected LocalizedString m_LocalizedPanelDescription;
+
+        public string PanelDescription
+        {
+            get
+            {
+                try
+                {
+                    var locString = m_LocalizedPanelDescription.GetLocalizedString();
+                    return locString;
+                }
+                catch
+                {
+                    return m_PanelDescription;
+                }
+            }
+        }
+
         [SerializeField] protected GameObject m_PanelDescriptionPrefab;
 
         [SerializeField] protected Vector3 m_PanelDescriptionOffset;
@@ -279,6 +301,7 @@ namespace TiltBrush
         private bool m_PanelInitializationStarted;
         private bool m_PanelInitializationFinished;
         private float m_PanelDescriptionCounter;
+        public Action m_OverrideControllerMaterial;
 
         // Accessors/properties
 
@@ -428,6 +451,15 @@ namespace TiltBrush
         virtual public void AssignControllerMaterials(InputManager.ControllerName controller)
         {
             m_UIComponentManager.AssignControllerMaterials(controller);
+
+            // Allows components to override the regular controller material
+            // without worrying about execution order etc
+            if (m_OverrideControllerMaterial != null)
+            {
+                m_OverrideControllerMaterial();
+                // Clear afterwards. This needs to be set every frame
+                m_OverrideControllerMaterial = null;
+            }
         }
 
         /// This function is used to determine the value to be passed in to the controller pad mesh's
@@ -489,7 +521,7 @@ namespace TiltBrush
                 m_PanelDescriptionTextMeshPro = m_PanelDescriptionObject.GetComponent<TextMeshPro>();
                 if (m_PanelDescriptionTextMeshPro)
                 {
-                    m_PanelDescriptionTextMeshPro.text = m_PanelDescription;
+                    m_PanelDescriptionTextMeshPro.text = PanelDescription;
                     m_PanelDescriptionTextMeshPro.color = m_PanelDescriptionColor;
                 }
             }

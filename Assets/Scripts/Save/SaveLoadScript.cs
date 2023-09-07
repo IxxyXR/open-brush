@@ -38,15 +38,15 @@ namespace TiltBrush
 
         public static SaveLoadScript m_Instance;
 
-        public static IEnumerable<DiskSceneFileInfo> IterScenes(DirectoryInfo di)
+        public static IEnumerable<DiskSceneFileInfo> IterScenes(DirectoryInfo di, bool makeReadOnly = false)
         {
             foreach (var sub in di.GetFiles("*" + TILT_SUFFIX))
             {
-                yield return new DiskSceneFileInfo(sub.FullName);
+                yield return new DiskSceneFileInfo(sub.FullName, readOnly: makeReadOnly);
             }
             foreach (var sub in di.GetDirectories("*" + TILT_SUFFIX))
             {
-                yield return new DiskSceneFileInfo(sub.FullName);
+                yield return new DiskSceneFileInfo(sub.FullName, readOnly: makeReadOnly);
             }
         }
 
@@ -651,6 +651,11 @@ namespace TiltBrush
                             environment, forceTransition: true,
                             keepSceneTransform: true, hasCustomLights: jsonData.Lights != null
                         );
+                        // This will have been overwritten by Set
+                        if (jsonData.Environment != null && jsonData.Environment.Skybox != null)
+                        {
+                            SceneSettings.m_Instance.LoadCustomSkybox(jsonData.Environment.Skybox);
+                        }
                     }
                     else
                     {
@@ -665,12 +670,10 @@ namespace TiltBrush
                     if (jsonData.CanvasTransformInSceneSpace != TrTransform.identity)
                     {
                         Debug.LogWarning("This file has an unsupported, experimental Canvas Transform specified.");
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
                         if (Config.IsExperimental)
                         {
                             Coords.CanvasLocalPose = jsonData.CanvasTransformInSceneSpace;
                         }
-#endif
                     }
                     LastThumbnail_SS = App.Scene.Pose.inverse *
                         jsonData.ThumbnailCameraTransformInRoomSpace;

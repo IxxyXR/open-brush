@@ -95,7 +95,28 @@ namespace TiltBrush
                         Debug.Assert(false, "Empty ImageWidgets");
                         continue;
                     }
-                    var material = CreateImageQuadMaterial(ri);
+
+                    DynamicExportableMaterial material;
+                    if (ri.FileName.EndsWith(".svg"))
+                    {
+                        byte[] bytes = ri.FullSize.EncodeToPNG();
+                        if (temporaryDirectory == null)
+                        {
+                            temporaryDirectory = Application.temporaryCachePath;
+                        }
+                        if (!Directory.Exists(temporaryDirectory))
+                        {
+                            Directory.CreateDirectory(temporaryDirectory);
+                        }
+                        string texturePath = $"{temporaryDirectory}/{Path.GetFileName(ri.FileName)}.png";
+                        File.WriteAllBytes(texturePath, bytes);
+                        var newRi = new ReferenceImage(texturePath);
+                        material = CreateImageQuadMaterial(newRi);
+                    }
+                    else
+                    {
+                        material = CreateImageQuadMaterial(ri);
+                    }
                     foreach ((ImageWidget image, int idx) in group.WithIndex())
                     {
                         payload.imageQuads.Add(BuildImageQuadPayload(payload, image, material, idx));
@@ -171,7 +192,7 @@ namespace TiltBrush
         {
             var settings = SceneSettings.m_Instance;
             payload.env.guid = settings.GetDesiredPreset().m_Guid;
-            payload.env.description = settings.GetDesiredPreset().m_Description;
+            payload.env.description = settings.GetDesiredPreset().Description;
             if (includeSkyCubemap)
             {
                 // Most of the environment payload is very small data but if the skybox cubemap is included
@@ -250,7 +271,7 @@ namespace TiltBrush
 
         static void BuildBrushMeshesFromExportCanvas(SceneStatePayload payload)
         {
-            foreach (var exportGroup in ExportUtils.ExportMainCanvas().SplitByGroup())
+            foreach (var exportGroup in ExportAllCanvasesIgnoreLayers().SplitByGroup())
             {
                 payload.groups.Add(BuildGroupPayload(payload, exportGroup));
             }
@@ -268,7 +289,13 @@ namespace TiltBrush
             foreach (ExportUtils.ExportBrush brush in exportGroup.SplitByBrush())
             {
                 var desc = brush.m_desc;
-                foreach (var (batch, batchIndex) in brush.ToGeometryBatches().WithIndex())
+                // Values are 2 ^ 16 - 2 or 2 ^ 31 - 2
+                // The actual upper limit is 2 ^ 32 - 2 but we can't use uint as lots of code uses int
+                // Also 2 billion verts is realistically more than enough for any practical purpose
+                // TODO: Why is the non-large-mesh limit different to MAX_VERTS_SOFT
+                // and why is MAX_VERTS_SOFT set so low?
+                int vertexLimit = App.UserConfig.Flags.LargeMeshSupport ? 2147483646 : 65534;
+                foreach (var (batch, batchIndex) in brush.ToGeometryBatches(vertexLimit).WithIndex())
                 {
                     GeometryPool geometry = batch.pool;
                     List<Stroke> strokes = batch.strokes;

@@ -15,6 +15,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace TiltBrush.Layers
 {
@@ -23,12 +24,14 @@ namespace TiltBrush.Layers
         public delegate void OnActiveSceneChanged(GameObject widget);
         public static event OnActiveSceneChanged onActiveSceneChanged;
 
+        [SerializeField] private LocalizedString m_MainLayerName;
+        [SerializeField] private LocalizedString m_AdditionalLayerName;
+
         public List<GameObject> m_Widgets;
         private List<CanvasScript> m_Canvases;
 
         private void Start()
         {
-            m_Canvases = new List<CanvasScript>();
             ResetUI();
         }
 
@@ -46,12 +49,23 @@ namespace TiltBrush.Layers
                 }
                 widget.SetActive(true);
                 var canvas = canvases[i];
-                if (i == 0) widget.GetComponentInChildren<DeleteLayerButton>()?.gameObject.SetActive(false);
-                if (i == 0) widget.GetComponentInChildren<SquashLayerButton>()?.gameObject.SetActive(false);
+                widget.GetComponentInChildren<TMPro.TextMeshPro>().text = canvas.name;
+                if (i == 0)
+                {
+                    widget.GetComponentInChildren<TMPro.TextMeshPro>().text = $"{m_MainLayerName.GetLocalizedString()}";
+                    widget.GetComponentInChildren<DeleteLayerButton>()?.gameObject.SetActive(false);
+                    widget.GetComponentInChildren<LayerPopupButton>()?.gameObject.SetActive(false);
+                    widget.GetComponentInChildren<SquashLayerButton>()?.gameObject.SetActive(false);
+                    widget.GetComponentInChildren<RenameLayerButton>()?.gameObject.SetActive(false);
+                }
                 widget.GetComponentInChildren<FocusLayerButton>().SetButtonActivation(canvas == App.ActiveCanvas);
-                widget.GetComponentInChildren<TMPro.TextMeshPro>().text = (i == 0) ? "Main Layer" : $"Layer {i}";
+                widget.GetComponentInChildren<FocusLayerButton>().SetButtonActivation(canvas == App.ActiveCanvas);
                 // Active button means hidden layer
                 widget.GetComponentInChildren<ToggleVisibilityLayerButton>().SetButtonActivation(!canvas.isActiveAndEnabled);
+                foreach (var btn in widget.GetComponentsInChildren<OptionButton>())
+                {
+                    btn.m_CommandParam = i;
+                }
                 m_Canvases.Add(canvas);
             }
         }
@@ -75,27 +89,26 @@ namespace TiltBrush.Layers
             App.Scene.LayerCanvasesUpdate -= OnLayerCanvasesUpdate;
         }
 
-        public void DeleteLayer(GameObject widget)
+        public void DeleteLayer(int index)
         {
-            if (GetCanvasFromWidget(widget) == App.Scene.MainCanvas) return; // Don't delete the main canvas
-            var layer = GetCanvasFromWidget(widget);
-            SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DeleteLayerCommand(layer));
+            var canvas = m_Canvases[index];
+            if (canvas == App.Scene.MainCanvas) return; // Don't delete the main canvas
+            SketchMemoryScript.m_Instance.PerformAndRecordCommand(new DeleteLayerCommand(canvas));
         }
 
-        public void SquashLayer(GameObject widget)
+        public void SquashLayer(int index)
         {
-            var canvas = GetCanvasFromWidget(widget);
-            var index = m_Widgets.IndexOf(widget);
+            var canvas = m_Canvases[index];
             var prevCanvas = m_Canvases[Mathf.Max(index - 1, 0)];
             SketchMemoryScript.m_Instance.PerformAndRecordCommand(
                 new SquashLayerCommand(canvas, prevCanvas)
             );
         }
 
-        public void ClearLayerContents(GameObject widget)
+        public void ClearLayerContents(int index)
         {
-            CanvasScript canvas = GetCanvasFromWidget(widget);
-            SketchMemoryScript.m_Instance.PerformAndRecordCommand(new ClearLayerCommand(canvas.BatchManager));
+            var canvas = m_Canvases[index];
+            SketchMemoryScript.m_Instance.PerformAndRecordCommand(new ClearLayerCommand(canvas));
         }
 
         public void AddLayer()

@@ -1,11 +1,11 @@
 # Open Brush - Tilt Brush Evolved
 
 [![Support us on Open Collective!](https://img.shields.io/opencollective/all/icosa?logo=open-collective&label=Support%20us%20on%20Open%20Collective%21)](https://opencollective.com/icosa)
-[![All GitHub releases](https://img.shields.io/github/downloads/icosa-gallery/open-brush/total?label=GitHub%20downloads)](https://github.com/icosa-gallery/open-brush/releases/latest)
-[![Twitter](https://img.shields.io/badge/follow-%40IcosaGallery-blue.svg?style=flat&logo=twitter)](https://twitter.com/IcosaGallery)
+[![All GitHub releases](https://img.shields.io/github/downloads/icosa-foundation/open-brush/total?label=GitHub%20downloads)](https://github.com/icosa-foundation/open-brush/releases/latest)
+[![Twitter](https://img.shields.io/badge/follow-%40openbrushapp-blue.svg?style=flat&logo=twitter)](https://twitter.com/openbrushapp)
 [![Discord](https://discordapp.com/api/guilds/783806589991780412/embed.png?style=shield)](https://discord.gg/W7NCEYnEfy)
-![Current Version](https://img.shields.io/github/v/release/icosa-gallery/open-brush)
-![Prerelease Version](https://img.shields.io/github/v/release/icosa-gallery/open-brush?include_prereleases&label=prerelease)
+![Current Version](https://img.shields.io/github/v/release/icosa-foundation/open-brush)
+![Prerelease Version](https://img.shields.io/github/v/release/icosa-foundation/open-brush?include_prereleases&label=prerelease)
 
 [![Open Brush Banner](open-brush.png)](https://openbrush.app)
 
@@ -17,7 +17,7 @@ As the original repo is archived we cannot submit PRs, so feel free to submit th
 
 [User Guide](https://docs.openbrush.app/)  
 [Developer Notes](https://docs.openbrush.app/developer-notes)  
-[Roadmap](https://github.com/orgs/icosa-gallery/projects/1)  
+[Roadmap](https://github.com/orgs/icosa-foundation/projects/1)  
 [Please join the Icosa Discord and get involved!](https://discord.com/invite/W7NCEYnEfy)  
 [List of tutorials, write-ups and other things from the community](https://docs.google.com/document/d/1gjoYp4y-1qlE3a7fvXVxGR3ioj3nMfgprmTHQ-bpq0k/)  
 **[Support us on Open Collective!](https://opencollective.com/icosa)**  
@@ -31,7 +31,7 @@ As the original repo is archived we cannot submit PRs, so feel free to submit th
 - [Viveport Desktop](https://www.viveport.com/f1f3d00b-cf8a-443f-825e-4fea2dd3b005)
 - [itch.io](https://openbrush.itch.io/openbrush)
 ### GitHub
-- [Formal GitHub Releases](https://github.com/icosa-gallery/open-brush/releases/latest)
+- [Formal GitHub Releases](https://github.com/icosa-foundation/open-brush/releases/latest)
 - [Bleeding Edge GitHub Releases](#bleeding-edge-releases)
 
 
@@ -43,13 +43,13 @@ As the original repo is archived we cannot submit PRs, so feel free to submit th
 
 ## Bleeding Edge Releases
 
-Instead of waiting for a formal release, you can download a ZIP from Github containing an automatically built release for either Windows (SteamVR) or Oculus Quest / Quest 2 from the [Github releases page](https://github.com/icosa-gallery/open-brush/releases). Versions of the form "vX.Y.0" are official releases, whereas versions that do not end in .0 are made available for testing purposes only, with no guarantees as to their quality. Additionally, these releases are marked as "pre-release". However, if you'd like to test a recent change prior to the official release, you can use these either in place of or in parallel with the formal Open Brush releases.
+Instead of waiting for a formal release, you can download a ZIP from Github containing an automatically built release for either Windows (SteamVR) or Oculus Quest / Quest 2 from the [Github releases page](https://github.com/icosa-foundation/open-brush/releases). Versions of the form "vX.Y.0" are official releases, whereas versions that do not end in .0 are made available for testing purposes only, with no guarantees as to their quality. Additionally, these releases are marked as "pre-release". However, if you'd like to test a recent change prior to the official release, you can use these either in place of or in parallel with the formal Open Brush releases.
 
 These builds share a save location with the official Open Brush release, but can be installed alongside the formal version. The Oculus build, like all sideloaded content, will be listed in "Unknown Sources", and will have the word "Github" appended to the name (with a different package name as well) to differentiate it from the official release).
 
 Note that the "experimental" builds contain experimental brushes, and sketches created using the experimental brushes may appear differently when loaded in the official build of Open Brush!
 
-In addition, there is also a version created for  Windows Monoscopic that is listed as an "Artifact" of the Github Actions, however, this is intended only for developers, and should not be used by general users. You can find it by browsing to the [commit list](https://github.com/icosa-gallery/open-brush/commits/main), and then clicking on the green check mark below the title (next to the XXX committed XXX ago), and scroll to the build you want, and click on **Details**. Then, towards the upper right corner, click on **Artifacts** and click on the name of the build. Unzip the downloaded file, and either run the executable (Desktop OpenXR/Monoscopic) or install the apk (Android Oculus) using `adb install com.Icosa.OpenBrush-github.apk`. 
+In addition, there is also a version created for  Windows Monoscopic that is listed as an "Artifact" of the Github Actions, however, this is intended only for developers, and should not be used by general users. You can find it by browsing to the [commit list](https://github.com/icosa-foundation/open-brush/commits/main), and then clicking on the green check mark below the title (next to the XXX committed XXX ago), and scroll to the build you want, and click on **Details**. Then, towards the upper right corner, click on **Artifacts** and click on the name of the build. Unzip the downloaded file, and either run the executable (Desktop OpenXR/Monoscopic) or install the apk (Android Oculus) using `adb install com.Icosa.OpenBrush-github.apk`. 
 
 ## Important note from the original Tilt Brush README
 
@@ -70,7 +70,7 @@ Get the Open Brush open-source application running on your own devices.
 
 ### Prerequisites
 
-*   [Unity 2021.3.9f1](unityhub://2019.4.25f1/01a0494af254)
+*   [Unity 2021.3.16f1](unityhub://2021.3.16f1/4016570cf34f)
 *   [Python 3](https://www.python.org/downloads/) (Optional —
     needed only if you wish to run the scripts in the `Support/bin` directory)
     Tested with Python 3.8.
@@ -207,26 +207,11 @@ Follow these steps to store the Google API Key and credential data:
 
 ## Enabling native Oculus support
 
-Note: _Tilt Brush_ is a Google trademark. If you intend to publish a cloned
-version of the application, you are required to
-choose a different name to distinguish it from
-the official version.
-
-Open Brush targets SteamVR instead of Oculus by default. Follow these steps to
-enable native Oculus support:
-
-1.  Enable the Oculus desktop package in the Package Manager.
-1.  Install the
-    [Oculus Unity Integration](https://developer.oculus.com/downloads/package/unity-integration-archive/41.0/).
-
-**Note:** The above link goes to version 41.0. You only need to include the `Platform` and `VR` subdirectories when you import.
-
-1.  If you see a dialog about upgrading the Unity Oculus plugin, click
-    **Accept**.
-1.  In the **Standalone** tab of the Player settings, go to **Other Settings**
-    and define `OCULUS_SUPPORTED` in **Scripting Define Symbols**. Add it to the
-    end of the list and use a semicolon to separate it from the previous define
-    commands.
+Open Brush targets OpenXR instead of Oculus by default. Follow these steps to enable native Oculus support:
+.
+1.  In the **Standalone** and **Android** tabs of the Player settings, go to **Other Settings** > **Scripting Define Symbols**.
+1. Click the + button to create a new entry.
+1. Add `OCULUS_SUPPORTED` and press **Apply**.
 
 ### Building your app for Oculus Quest
 
@@ -235,17 +220,20 @@ Follow these steps to build your app for Oculus Quest:
 1.  Set up your machine for
     [Oculus Quest Development](https://developer.oculus.com/documentation/unity/book-unity-gsg/?device=QUEST).
 1.  Make sure the following are set in Unity:
-    *   **Open Brush** > **Build** > **SDK: OVR**
+    *   **Open Brush** > **Build** > **Plugin: Oculus**
     *   **Open Brush** > **Build** > **Platform: Android**
-    *   **Open Brush** > **Build** > **Runtime: Mono**
+    *   **Open Brush** > **Build** > **Runtime: IL2CPP**
 1.  Navigate to **Open Brush** > **Build** > **Do Build**.
 1.  Find the generated executable. It will most likely be somewhere under
     `../Builds/OculusMobile_Release_OpenBrush/`.
 1.  Run `adb install com.Icosa.OpenBrush.apk`.
 
-**Note:** Add your new scene files' names to the list **scenes** defined in the **DoBuild** method (string[] scenes = {...} ) in `BuildTiltBrush.cs` under  `../Assets/Editor/` before building. If you didn't, your app won't be built with those scenes even if they are put on `Scenes In Build` in `Build Settings`.
-
 ### Publishing to Oculus stores
+
+Note: _Tilt Brush_ is a Google trademark. If you intend to publish a cloned
+version of the application, you are required to
+choose a different name to distinguish it from
+the official version.
 
 Follow these steps to publish to Oculus stores:
 
@@ -300,6 +288,10 @@ menu command. \
 You may want to have a pared-down version of the intro sketch for the mobile
 version of the app. Stroke simplification is located in the **Settings** menu
 inside Open Brush.
+
+## New Scenes
+
+By default, your app will only build the scenes defined in the **DoBuild** method (string[] scenes = {...} ) in `BuildTiltBrush.cs` under  `Assets/Editor/`. Make sure to add your custom scenes to this array if you want to see them in app.
 
 ## Sketchfab support
 
@@ -356,44 +348,25 @@ Follow these steps to restore the path:
 
 Experimental mode is where features live before they are ready to be released in
 a production build. This mode enables the experimental brushes and experimental
-panel while disabling the intro sequence.
+panel while disabling the intro sequence. Experimental mode can be enabled from
+the settings panel, and requires a restart.
 
 **New features and brushes that you find in experimental mode may not work as
 expected.** Sketches that use experimental features and brushes won't work on
-Icosa or Sketchfab, and may break if loaded into production versions of Tilt
+Icosa or Sketchfab, and may break if loaded into production versions of Open
 Brush.
-
-### Turning on experimental mode
-
-Follow these steps to turn on experimental mode:
-
-1.  Find the Config object in the main scene by going to **App** > **Config**.
-1.  Turn on the **Is Experimental** flag.
-
-The Open Brush build system will then set up the experimental flag as needed
-when you make a build.
 
 ### Making your code experimental
 
 Code in experimental mode is usually surrounded by the following block:
 
 ```
-# if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
-
     if (Config.IsExperimental) {
       // Experimental code goes here
     }
-
-# endif
 ```
-
-In the editor, all you need to enable experimental mode is to turn on the
-experimental flag. The `EXPERIMENTAL_ENABLED` scripting definition needs to be
-set, or the code will not be compiled into the build at all. This prevents
-unfinished features from being accessed by people who hack or decompile the
-executable.
 
 ### Experimental brushes
 
 Experimental brushes and environments are located in the `Assets/Resources/X`
-folder. They are not included in non-experimental builds.
+folder. They are not visible in non-experimental mode.

@@ -131,10 +131,11 @@ namespace TiltBrush
                     {
                         ActiveCanvasChanged?.Invoke(prev, m_ActiveCanvas);
                         // This will be incredibly irritating, but until we have some other feedback...
-                        OutputWindowScript.m_Instance.CreateInfoCardAtController(
-                            InputManager.ControllerName.Brush,
-                            string.Format("Canvas is now {0}", ActiveCanvas.gameObject.name),
-                            fPopScalar: 0.5f, false);
+                        // TODO:Mike - replace this popup (console?)
+                        // OutputWindowScript.m_Instance.CreateInfoCardAtController(
+                        //     InputManager.ControllerName.Brush,
+                        //     string.Format("Canvas is now {0}", ActiveCanvas.gameObject.name),
+                        //     fPopScalar: 0.5f, false);
                     }
                 }
             }
@@ -318,21 +319,19 @@ namespace TiltBrush
         public CanvasScript GetOrCreateLayer(int layerIndex)
         {
             // Layers are numbered 0=Main then 1, 2, 3
-            // Subtract one so we can use them as indices into m_LayerCanvases
-            // which only stores extra layers
-            layerIndex -= 1;
-            for (int i = m_LayerCanvases.Count; i < layerIndex; i++)
-            {
-                AddLayerNow();
-            }
+            if (layerIndex == 0)
+                return App.Scene.MainCanvas;
 
-            if (layerIndex == -1) return App.Scene.MainCanvas;
-            return m_LayerCanvases[layerIndex];
+            for (var i = m_LayerCanvases.Count; i < layerIndex; ++i)
+                AddLayerNow();
+
+            // Subtract one to use it as index into m_LayerCanvases, which only stores extra layers
+            return m_LayerCanvases[layerIndex - 1];
         }
 
         public void ClearLayerContents(CanvasScript canvas)
         {
-            SketchMemoryScript.m_Instance.PerformAndRecordCommand(new ClearLayerCommand(canvas.BatchManager));
+            SketchMemoryScript.m_Instance.PerformAndRecordCommand(new ClearLayerCommand(canvas));
             App.Scene.LayerCanvasesUpdate?.Invoke();
         }
 
@@ -345,6 +344,13 @@ namespace TiltBrush
         {
             if (layer == MainCanvas) return;
             m_DeletedLayers.Add(GetIndexOfCanvas(layer) - 1);
+            App.Scene.LayerCanvasesUpdate?.Invoke();
+        }
+
+        public void RenameLayer(CanvasScript layer, string newName)
+        {
+            if (layer == MainCanvas) return;
+            layer.gameObject.name = newName;
             App.Scene.LayerCanvasesUpdate?.Invoke();
         }
 

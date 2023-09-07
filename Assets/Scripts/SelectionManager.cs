@@ -83,6 +83,16 @@ namespace TiltBrush
 
         private bool m_bSelectionWidgetNeedsUpdate;
 
+        [NonSerialized] public bool m_LockTranslationX = false;
+        [NonSerialized] public bool m_LockTranslationY = false;
+        [NonSerialized] public bool m_LockTranslationZ = false;
+        [NonSerialized] public bool m_LockRotationX = false;
+        [NonSerialized] public bool m_LockRotationY = false;
+        [NonSerialized] public bool m_LockRotationZ = false;
+        [NonSerialized] public bool m_EnableSnapTranslationX = true;
+        [NonSerialized] public bool m_EnableSnapTranslationY = true;
+        [NonSerialized] public bool m_EnableSnapTranslationZ = true;
+
         /// Returns true when SelectedStrokes is not empty.
         public bool HasSelection
         {
@@ -424,7 +434,6 @@ namespace TiltBrush
         {
             bool showSelection = ShouldShowSelectedStrokes;
 
-#if (UNITY_EDITOR || EXPERIMENTAL_ENABLED)
             if (Config.IsExperimental)
             {
                 // Strokes of type BrushStroke currently only exist in experimental builds.
@@ -437,7 +446,6 @@ namespace TiltBrush
                     }
                 }
             }
-#endif
             App.Scene.SelectionCanvas.BatchManager.SetVisibility(showSelection);
 
             m_SelectionWidget.gameObject.SetActive(showSelection);
@@ -662,8 +670,26 @@ namespace TiltBrush
                     Debug.LogWarning("Attempted to deselect stroke that is not selected.");
                     continue;
                 }
-                var canvas = targetCanvas == null ? stroke.m_PreviousCanvas : targetCanvas;
-                stroke.SetParentKeepWorldPosition(canvas, SelectionTransform);
+                CanvasScript destinationCanvas;
+
+                // Deselected strokes are placed on (in order of preference):
+                // 1. Supplied targetCanvas
+                // 2. Their stored m_PreviousCanvas
+                // 3. The active canvas
+                if (IsValidDestination(targetCanvas))
+                {
+                    destinationCanvas = targetCanvas;
+                }
+                else if (IsValidDestination(stroke.m_PreviousCanvas))
+                {
+                    destinationCanvas = stroke.m_PreviousCanvas;
+                }
+                else
+                {
+                    destinationCanvas = App.Scene.ActiveCanvas;
+                }
+
+                stroke.SetParentKeepWorldPosition(destinationCanvas, SelectionTransform);
                 m_SelectedStrokes.Remove(stroke);
 
                 var groupStrokes = m_GroupToSelectedStrokes[stroke.Group];
@@ -679,6 +705,8 @@ namespace TiltBrush
                 SelectionTransform = TrTransform.identity;
             }
         }
+
+        private bool IsValidDestination(CanvasScript layer) => layer != null && !App.Scene.IsLayerDeleted(layer);
 
         public void SelectWidgets(IEnumerable<GrabWidget> widgets)
         {
@@ -700,7 +728,7 @@ namespace TiltBrush
                 Debug.LogWarning("Attempted to select widget that is already selected.");
                 return;
             }
-            widget.m_previousCanvas = widget.Canvas;
+            widget.m_PreviousCanvas = widget.Canvas;
             widget.SetCanvas(App.Scene.SelectionCanvas);
             HierarchyUtils.RecursivelySetLayer(widget.transform,
                 App.Scene.SelectionCanvas.gameObject.layer);
@@ -727,8 +755,24 @@ namespace TiltBrush
                     continue;
                 }
 
-                var canvas = targetCanvas == null ? widget.m_previousCanvas : targetCanvas;
-                widget.SetCanvas(canvas);
+                CanvasScript destinationCanvas;
+                // Deselected widgets  are placed on (in order of preference):
+                // 1. Supplied targetCanvas
+                // 2. Their stored m_PreviousCanvas
+                // 3. The active canvas
+                if (IsValidDestination(targetCanvas))
+                {
+                    destinationCanvas = targetCanvas;
+                }
+                else if (IsValidDestination(widget.m_PreviousCanvas))
+                {
+                    destinationCanvas = widget.m_PreviousCanvas;
+                }
+                else
+                {
+                    destinationCanvas = App.Scene.ActiveCanvas;
+                }
+                widget.SetCanvas(destinationCanvas);
                 widget.RestoreGameObjectLayer(App.ActiveCanvas.gameObject.layer);
                 widget.gameObject.SetActive(true);
                 m_SelectedWidgets.Remove(widget);
@@ -965,10 +1009,32 @@ namespace TiltBrush
             );
         }
 
+        public void SetSnappingAngle(string angleAsString)
+        {
+            int requestedIndex = m_AngleSnaps.Select(x => x.ToString()).ToList().FindIndex(x => x == angleAsString);
+            if (requestedIndex < 0)
+            {
+                Debug.LogWarning($"SetSnappingAngle received an invalid angle of {angleAsString}. Valid values: {string.Join(",", m_AngleSnaps)}");
+                return;
+            }
+            SetSnappingAngle(requestedIndex);
+        }
+
         public void SetSnappingAngle(int snapIndex)
         {
             m_CurrentSnapAngleIndex = snapIndex;
             m_snappingAngle = m_AngleSnaps[snapIndex];
+        }
+
+        public void SetSnappingGridSize(string gridSizeAsString)
+        {
+            int requestedIndex = m_GridSnaps.Select(x => x.ToString()).ToList().FindIndex(x => x == gridSizeAsString);
+            if (requestedIndex < 0)
+            {
+                Debug.LogWarning($"SetSnappingGridSize received an invalid angle of {gridSizeAsString}. Valid values: {string.Join(",", m_GridSnaps)}");
+                return;
+            }
+            SetSnappingGridSize(requestedIndex);
         }
 
         public void SetSnappingGridSize(int snapIndex)
@@ -989,6 +1055,62 @@ namespace TiltBrush
                 m_SnapGridVisualization.enabled = false;
             }
         }
+
+        public Quaternion QuantizeAngle(Quaternion rotation)
+        {
+            var snapAngle = SnappingAngle;
+            if (snapAngle == 0) return rotation;
+            float round(float val) { return Mathf.Round(val / snapAngle) * snapAngle; }
+            Vector3 euler = rotation.eulerAngles;
+            euler = new Vector3(round(euler.x), round(euler.y), round(euler.z));
+            return Quaternion.Euler(euler);
+        }
+
+        public float ScalarSnap(float val)
+        {
+            if (SnappingGridSize == 0) return val;
+            return Mathf.Round(val / SnappingGridSize) * SnappingGridSize;
+        }
+
+        // All transforms are in canvas space
+        public Vector3 SnapToGrid_CS(Vector3 position)
+        {
+            float gridSize = SnappingGridSize;
+            if (gridSize == 0) return position;
+            float round(float val) { return Mathf.Round(val / gridSize) * gridSize; }
+            Vector3 roundedCanvasPos = new Vector3(
+                m_EnableSnapTranslationX ? round(position.x) : position.x,
+                m_EnableSnapTranslationY ? round(position.y) : position.y,
+                m_EnableSnapTranslationZ ? round(position.z) : position.z
+            );
+            return roundedCanvasPos;
+        }
+
+        // Input is in global space, the snapping is done in canvas space
+        // And the result is returned in global space
+        public Vector3 SnapToGrid_GS(Vector3 position)
+        {
+            float gridSize = SnappingGridSize;
+            if (gridSize == 0) return position;
+            Vector3 localCanvasPos = App.ActiveCanvas.transform.worldToLocalMatrix.MultiplyPoint3x4(position);
+            float round(float val) { return Mathf.Round(val / gridSize) * gridSize; }
+            Vector3 roundedCanvasPos = new Vector3(
+                m_EnableSnapTranslationX ? round(localCanvasPos.x) : localCanvasPos.x,
+                m_EnableSnapTranslationY ? round(localCanvasPos.y) : localCanvasPos.y,
+                m_EnableSnapTranslationZ ? round(localCanvasPos.z) : localCanvasPos.z
+            );
+            return App.ActiveCanvas.transform.localToWorldMatrix.MultiplyPoint3x4(roundedCanvasPos);
+        }
+
+        // Used by align/distribute etc
+        // Controls which widget types should be affected
+        // Currently it's "any subclass of MediaWidget or StencilWidget"
+        public List<GrabWidget> GetValidSelectedWidgets() => SelectedWidgets
+            .Where(widget =>
+                widget.GetType().IsSubclassOf(typeof(MediaWidget)) ||
+                widget.GetType().IsSubclassOf(typeof(StencilWidget))
+            )
+            .ToList();
     }
 
 } // namespace TiltBrush
