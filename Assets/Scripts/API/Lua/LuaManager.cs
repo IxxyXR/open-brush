@@ -171,6 +171,7 @@ namespace TiltBrush
 
             // Allow includes from Scripts/LuaModules
             Script.DefaultOptions.ScriptLoader = new OpenBrushScriptLoader();
+            Script.GlobalOptions.Platform = new StandardPlatformAccessor();
             ((ScriptLoaderBase)Script.DefaultOptions.ScriptLoader).ModulePaths = new[]
             {
                 Path.Join(LuaModulesPath, "?.lua")
