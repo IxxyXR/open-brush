@@ -138,6 +138,7 @@ namespace TiltBrush
         protected List<Quaternion> m_ValidSnapRotations_SS;
         protected int m_PrevValidSnapRotationIndex;
         protected Transform m_SnapGhost;
+        public Transform SnapGhost => m_SnapGhost;
         protected bool m_bWasSnapping = false;
         protected bool m_CustomShowHide = false;
 
@@ -1265,6 +1266,10 @@ namespace TiltBrush
                 // Calculate the nearest snap angle
                 var rot_CS = xf_GS.rotation * App.Scene.Pose.rotation.TrueInverse();
                 Quaternion nearestSnapRotation_CS = SelectionManager.m_Instance.QuantizeAngle(rot_CS);
+                // TODO From stash
+                var outXf_CS = App.Scene.Pose.inverse * xf_GS;
+                // var rot_CS = outXf_CS.rotation;
+                // Quaternion nearestSnapRotation_CS = QuantizeAngle(rot_CS);
 
                 // Decide whether to snap to the old or the new snap angle
                 float snapAngle = SelectionManager.m_Instance.SnappingAngle;
@@ -1279,9 +1284,10 @@ namespace TiltBrush
                     }
                 }
 
+                outXf_CS.rotation = m_PrevSnapRotation;
+
                 // Apply the resulting change in rotation to the original transform
-                var rotationDelta = m_PrevSnapRotation * Quaternion.Inverse(rot_CS);
-                outXf_GS.rotation = rotationDelta * outXf_GS.rotation;
+                outXf_GS = App.ActiveCanvas.Pose * outXf_CS;
 
                 Quaternion qDelta = outXf_GS.rotation * Quaternion.Inverse(xf_GS.rotation);
                 Vector3 grabSpot = InputManager.m_Instance.GetControllerPosition(m_InteractingController);
@@ -1841,6 +1847,7 @@ namespace TiltBrush
             if (m_AllowSnapping)
             {
                 WidgetManager.m_Instance.SetHomeOwner(transform);
+                m_SnapGhost.gameObject.SetActive(true);
             }
 
             if (m_RecordMovements)

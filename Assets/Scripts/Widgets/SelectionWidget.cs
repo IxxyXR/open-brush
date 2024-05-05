@@ -35,6 +35,7 @@ namespace TiltBrush
         private Dictionary<InputManager.ControllerName, float> m_LastIntersectionResult;
         private int m_IntersectionFrame;
         private Vector2 m_SizeRange;
+        private Transform m_SubSnapGhost;
 
         public override bool AllowDormancy
         {
@@ -57,6 +58,7 @@ namespace TiltBrush
             m_LastIntersectionResult[InputManager.ControllerName.Wand] = -1;
             m_CustomShowHide = true;
             ResetSizeRange();
+            m_SnapGhost = m_SnapGhostPrefab;
             InitSnapGhost(m_SnapGhostPrefab, App.Scene.SelectionCanvas.transform);
         }
 
@@ -311,10 +313,41 @@ namespace TiltBrush
                 m_Pin.WobblePin(m_InteractingController);
             }
 
-            if (m_SnapGhost && m_AllowSnapping)
+            if (m_AllowSnapping)
             {
-                m_SnapGhost.gameObject.SetActive(true);
-                m_SnapGhost.localScale = m_SelectionBounds_CS.Value.size;
+                // For consistency - in simple cases like a single stroke or widget selected, use that as the snap ghost directly
+                // For multiple selections use a bounding cuboid
+                // Otherwise it's confusing for the user that the behaviour of the Selection Tool is different to selecting widgets directly.
+                Transform ghostPrefab;
+                int numStrokes = SelectionManager.m_Instance.SelectedStrokes.Count();
+                int numWidgets = SelectionManager.m_Instance.SelectedWidgets.Count();
+                if (numStrokes == 0 && numWidgets == 1)
+                {
+                    GrabWidget widget = SelectionManager.m_Instance.SelectedWidgets.ToList()[0];
+                    TrTransform widgetTr = widget.LocalTransform;
+                    m_SubSnapGhost = Instantiate(widget.SnapGhost, m_SnapGhost);
+                    m_SnapGhost.gameObject.SetActive(true);
+                    m_SubSnapGhost.localPosition = widgetTr.translation;
+                    m_SubSnapGhost.localRotation = widgetTr.rotation;
+                    m_SubSnapGhost.localScale = widget.transform.localScale;
+                    m_SubSnapGhost.gameObject.SetActive(true);
+                }
+                else if (numStrokes == 1 && numWidgets == 0)
+                {
+                    Transform strokeTr = SelectionManager.m_Instance.SelectedStrokes.ToList()[0].StrokeTransform;
+                    ghostPrefab = strokeTr;
+                    if (m_SnapGhost == null) InitSnapGhost(ghostPrefab, App.Scene.SelectionCanvas.transform);
+                    m_SnapGhost.transform.localPosition = strokeTr.localPosition;
+                    m_SnapGhost.transform.localRotation = strokeTr.localRotation;
+                    m_SnapGhost.transform.localScale = strokeTr.localScale;
+                }
+                else
+                {
+                    ghostPrefab = m_SnapGhostPrefab;
+                    m_SnapGhost.localScale = m_SelectionBounds_CS.Value.size;
+                    InitSnapGhost(ghostPrefab, App.Scene.SelectionCanvas.transform);
+                    m_SnapGhost.gameObject.SetActive(true);
+                }
             }
         }
 
